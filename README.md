@@ -2,4 +2,5 @@
 
 <h2>Will be using pygame to create a playable monopoly game with python</h2>
 <p align="left">Game, pygame, same lang? </p>
+![] (https://github.com/JACK0000011/CSP1123-Mini-IT-Project-TT4L-Group-8/blob/main/CJ.gif)
 
