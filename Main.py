@@ -8,28 +8,30 @@ clock=pygame.time.Clock()
 fps = 60
 
 #differentiate different size for game window 
-screen_width=1280
-screen_height=720
-
+screen_width=800
+screen_height=800
+screen = pygame.display.set_mode((screen_width,screen_height))
 # full_screen = pygame.display.set_mode((full_screen_W,fill_screen_H))
-pygame.display.set_caption("Monopoly , please press F4 to switch to full screen mode")
+pygame.display.set_caption("Monopoly")
 
 #image setting
 background = pygame.image.load("pictures/blue.jpg")
+
+#drawing grids for maps
+def drawing_grid(tile_size):
+    tile_size = 50*2
+    for line in range (0,8):
+        pygame.draw.line (screen,(255,255,255),(0,line*tile_size),(screen_width,line*tile_size))
+        pygame.draw.line(screen,(255,255,255),(line*tile_size,0),(line*tile_size,screen_height))
 
 
 #main run for game
 run = True
 while run:
     clock.tick(fps)
-    screen = pygame.display.set_mode((screen_width,screen_height),pygame.RESIZABLE)
     pygame.display.flip()
+    drawing_grid(100)
     for event in pygame.event.get():
-        if event.type == pygame.K_F4:
-            print("fullscreen")
-            screen_width = 1920
-            screen_height = 1080
-
         if event.type == pygame.QUIT:
             run = False  
 
