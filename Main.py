@@ -7,6 +7,11 @@ pygame.mixer.init()
 clock=pygame.time.Clock()
 fps = 60
 
+# add background music
+BGM=pygame.mixer.Sound('Sound/BGM.mp3')
+BGM.set_volume(1.5)
+BGM.play()
+
 #differentiate different size for game window 
 screen_width=800
 screen_height=800
