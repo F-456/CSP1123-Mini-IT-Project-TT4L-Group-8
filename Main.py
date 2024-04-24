@@ -20,7 +20,19 @@ grey = 179, 179, 179
 
 
 class Display():
+
+
+class Display:
+    text_font = pygame.font.SysFont(
+        "Arial", 25, bold=False, italic=True)
+    smaller_font = pygame.font.SysFont("freesansbold.ttf", 25)
+    Specia_font = pygame.font.SysFont("Arial", 25, bold=False, italic=False)
+
+    def text_properties(text, font, text_col, x, y):
+        img = font.render(text, True, text_col)
+        screen.blit(img, (x, y))
     # drawing grids for maps
+
     def drawing_grid(tile_size):
         tile_size = 50*2
         for line in range(0, 8):
@@ -53,20 +65,7 @@ class Map:
             col_count = 0
             for tile in row:
                 if tile == 11:
-                    img = pygame.transform.scale(klcc, (tile_size, tile_size))
-                    img_rect = img.get_rect()
-                    img_rect.x = col_count * tile_size
-                    img_rect.y = row_count * tile_size
-                    tile = (img, img_rect)
-                    self.tile_list.append(tile)
-                if tile == 21:
-                    img = pygame.transform.scale(
-                        merdeka_118, (tile_size, tile_size))
-                    img_rect = img.get_rect()
-                    img_rect.x = col_count * tile_size
-                    img_rect.y = row_count * tile_size
-                    tile = (img, img_rect)
-                    self.tile_list.append(tile)
+                    pass
                 col_count += 1
             row_count += 1
 
@@ -123,6 +122,19 @@ while run:
                      button_y, button_width, button_height))
     button_surface = button_font.render(button_text, True, button_text_color)
     screen.blit(button_surface, (button_x + 20, button_y + 10))
+
+    # displaying text for all the tiles
+    Display.text_properties("Go", Display.text_font, (white), 20, 20)
+    Display.text_properties(
+        "Collect xxx ", Display.smaller_font, (white), 10, 50)
+    Display.text_properties("KLCC", Display.text_font, (white), 20, 120)
+    Display.text_properties("$", Display.smaller_font, (white), 20, 150)
+    Display.text_properties("M .118", Display.text_font, (white), 20, 220)
+    Display.text_properties("$", Display.smaller_font, (white), 20, 250)
+    Display.text_properties("KL.Tower", Display.text_font, (white), 16, 320)
+    Display.text_properties("$", Display.smaller_font, (white), 20, 350)
+    Display.text_properties("?", Display.Specia_font, (white), 40, 420)
+    Display.text_properties("Chance", Display.Specia_font, (white), 20, 450)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
