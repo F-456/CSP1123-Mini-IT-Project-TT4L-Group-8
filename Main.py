@@ -20,9 +20,6 @@ grey = 179, 179, 179
 
 
 class Display():
-
-
-class Display:
     text_font = pygame.font.SysFont(
         "Arial", 25, bold=False, italic=True)
     smaller_font = pygame.font.SysFont("freesansbold.ttf", 25)
