@@ -1,4 +1,5 @@
 import pygame
+import sys
 from pygame import *
 pygame.init()
 # initiate pygame music features
@@ -17,6 +18,11 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 tile_size = 100
 white = 255, 255, 255
 grey = 179, 179, 179
+
+# add background music
+pygame.mixer.music.load('Sound/BGM.mp3')
+pygame.mixer.music.set_volume(0.5)
+pygame.mixer.music.play(-1)
 
 
 class Display():
@@ -49,6 +55,39 @@ class Display():
         # minus the screen width to horizontal align the middle rect
         rect_colour = grey
         pygame.draw.rect(screen, (rect_colour), Middle_rect)
+
+class Button():
+    def __init__(self, image_on, image_off,  x_pos, y_pos):
+        self.image_on = image_on
+        self.image_off = image_off
+        self.x_pos = x_pos
+        self.y_pos = y_pos
+        self.rect = self.image_on.get_rect(center=(self.x_pos, self.y_pos))
+        self.is_music_on = True
+
+    def update(self):
+        if self.is_music_on:
+            screen.blit(self.image_on, self.rect)
+        else:
+            screen.blit(self.image_off, self.rect)
+
+    def checkForInput(self, position):
+        if self.rect.collidepoint(position):
+            self.toggleMusicState() 
+
+    def toggleMusicState(self):
+        if self.is_music_on:
+            pygame.mixer.music.pause()
+        else:
+            pygame.mixer.music.unpause()
+        self.is_music_on = not self.is_music_on 
+
+# Load button images
+button_surface_on = pygame.image.load('pic/musicon.png')
+button_surface_off = pygame.image.load('pic/musicoff.png')
+button_surface_on = pygame.transform.scale(button_surface_on, (40, 40))
+button_surface_off = pygame.transform.scale(button_surface_off, (40, 40))
+button = Button(button_surface_on, button_surface_off, 650 ,680)
 
 
 class Map:
@@ -87,23 +126,6 @@ map_data = [
 
 map = Map(map_data)
 
-
-# add background music
-pygame.mixer.music.load('Sound/BGM.mp3')
-pygame.mixer.music.set_volume(0.5)
-pygame.mixer.music.play(-1)
-
-# Define button parameters
-button_width = 200
-button_height = 50
-button_x = (screen_width - button_width) // 2
-button_y = screen_height - 150
-button_color = (0, 255, 0)
-button_text_color = (255, 255, 255)
-button_font = pygame.font.Font(None, 36)
-button_text = "Pause Music"
-music_paused = False
-
 # main run for game
 run = True
 while run:
@@ -113,12 +135,6 @@ while run:
 
     Display.middle()
     Display.drawing_grid(100)
-
-    # Draw the music control button
-    pygame.draw.rect(screen, button_color, (button_x,
-                     button_y, button_width, button_height))
-    button_surface = button_font.render(button_text, True, button_text_color)
-    screen.blit(button_surface, (button_x + 20, button_y + 10))
 
     # displaying text for all the tiles
     Display.text_properties("Go", Display.text_font, (white), 20, 20)
@@ -135,20 +151,12 @@ while run:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            run = False
+            pygame.quit()
+            sys.exit()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+             button.checkForInput(pygame.mouse.get_pos())
 
-        # control for music
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            mouse_x, mouse_y = pygame.mouse.get_pos()
-            if button_x <= mouse_x <= button_x + button_width and button_y <= mouse_y <= button_y + button_height:
-                if music_paused:
-                    pygame.mixer.music.unpause()
-                    button_text = "Pause Music"
-                    music_paused = False
-                else:
-                    pygame.mixer.music.pause()
-                    button_text = "Play Music"
-                    music_paused = True
+    button.update()
 
     pygame.display.update()
 pygame.quit()
