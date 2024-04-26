@@ -1,53 +1,71 @@
-import random
+import pygame, sys
+from pygame.locals import *
+pygame.init()
+# initiate pygame music features
+pygame.mixer.init()
+clock = pygame.time.Clock()
+fps = 60
 
-# print('\u25CF \u250C \u2500 \u2502 \u2510 \u2514 \u2518')
-# ● ┌ ─ │ ┐ └ ┘
+# differentiate different size for game window
+screen_width = 1000
+screen_height = 800
 
-# '┌─────────┐'
-# '│         │'
-# '│         │'
-# '│         │'
-# '└─────────┘'
+pygame.display.set_caption("Monopoly")
+screen = pygame.display.set_mode((screen_width, screen_height))
 
-dice_face = {
-    1: ('┌─────────┐',
-        '│         │',
-        '│    ●    │',
-        '│         │',
-        '└─────────┘'),
 
-    2: ('┌─────────┐',
-        '│  ●      │',
-        '│         │',
-        '│      ●  │',
-        '└─────────┘'),
+class Dice(pygame.sprite.Sprite):
+    def __init__(self, pos_x, pos_y):
+        super().__init__()
+        self.sprites = []
+        self.animating = False
+        self.sprites.append(pygame.image.load('dice1.png'))
+        self.sprites.append(pygame.image.load('dice2.png'))
+        self.sprites.append(pygame.image.load('dice3.png'))
+        self.sprites.append(pygame.image.load('dice4.png'))
+        self.sprites.append(pygame.image.load('dice5.png'))
+        self.sprites.append(pygame.image.load('dice6.png'))
+        self.current_sprite = 0
+        self.image = self.sprites[self.current_sprite]
 
-    3: ('┌─────────┐',
-        '│  ●      │',
-        '│    ●    │',
-        '│      ●  │',
-        '└─────────┘'),
+        self.rect = self.image.get_rect()
+        self.rect.topleft = [pos_x, pos_y]
+    
+    def animate(self):
+        self.animating = True
 
-    4: ('┌─────────┐',
-        '│  ●   ●  │',
-        '│         │',
-        '│  ●   ●  │',
-        '└─────────┘'),
+    def update(self):
+        if self.animating == True:
+            self.current_sprite += 0.4
 
-    5: ('┌─────────┐',
-        '│  ●   ●  │',
-        '│    ●    │',
-        '│  ●   ●  │',
-        '└─────────┘'),
+        if self.current_sprite >= len(self.sprites):
+            self.current_sprite = 0 
+            self.animating = False
 
-    6: ('┌─────────┐',
-        '│  ●   ●  │',
-        '│  ●   ●  │',
-        '│  ●   ●  │',
-        '└─────────┘'),
-}
+        self.image = self.sprites[int(self.current_sprite)]
 
-num = random.randint(1, 6)
 
-for dice in dice_face[num]:
-    print(dice)
+# create the sprites and groups
+moving_sprites = pygame.sprite.Group()
+dice = Dice(450, 350)
+moving_sprites.add(dice)
+
+run = True
+while run:
+    clock.tick(fps)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
+            sys.exit()
+        if event.type == pygame.KEYDOWN:
+            dice.animate()
+
+    screen.fill((0, 0, 0))
+    moving_sprites.draw(screen)
+    moving_sprites.update()
+    pygame.display.flip()
+    clock.tick(60)
+
+
+    pygame.display.update()
+pygame.quit()
