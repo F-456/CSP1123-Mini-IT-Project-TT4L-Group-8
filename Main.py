@@ -8,7 +8,7 @@ clock = pygame.time.Clock()
 fps = 60
 
 # differentiate different size for game window
-screen_width = 800
+screen_width = 1000
 screen_height = 800
 
 pygame.display.set_caption("Monopoly")
@@ -139,6 +139,28 @@ class Display:
         screen.blit(Display.Ramly_t, (120, 20))
         screen.blit(Display.money_t, (120, 50))
 
+        # drawing grids for maps
+
+    def drawing_grid(tile_size):
+        tile_size = 50*2
+        for line in range(0, 10):
+            pygame.draw.line(screen, (white), (0, line*tile_size),
+                             (screen_width, line*tile_size))  # horizontal line
+
+            pygame.draw.line(screen, (white), (line*tile_size, 0),
+                             (line*tile_size, screen_height))  # vertical line
+
+    def middle():
+        rect_length = 800
+        rect_height = 600
+        # align the main rect in the middle of screen
+        rect_x = (screen_width - rect_length)/2
+        rect_y = (screen_height - rect_height)/2
+        Middle_rect = pygame.Rect(rect_x, rect_y, rect_length, rect_height)
+        # minus the screen width to horizontal align the middle rect
+        rect_colour = grey
+        pygame.draw.rect(screen, (rect_colour), Middle_rect)
+
 
 # add background music
 pygame.mixer.music.load('Sound/BGM.mp3')
@@ -157,38 +179,6 @@ while fade_in_progress:
             pygame.mixer.music.set_volume(new_volume)
         else:
             fade_in_progress = False
-
-
-class Display():
-    text_font = pygame.font.SysFont(
-        "Arial", 25, bold=False, italic=True)
-    smaller_font = pygame.font.SysFont("freesansbold.ttf", 25)
-    Specia_font = pygame.font.SysFont("Arial", 25, bold=False, italic=False)
-
-    def text_properties(text, font, text_col, x, y):
-        img = font.render(text, True, text_col)
-        screen.blit(img, (x, y))
-    # drawing grids for maps
-
-    def drawing_grid(tile_size):
-        tile_size = 50*2
-        for line in range(0, 8):
-            pygame.draw.line(screen, (white), (0, line*tile_size),
-                             (screen_width, line*tile_size))  # horizontal line
-
-            pygame.draw.line(screen, (white), (line*tile_size, 0),
-                             (line*tile_size, screen_height))  # vertical line
-
-    def middle():
-        rect_length = 600
-        rect_height = 600
-        # align the main rect in the middle of screen
-        rect_x = (screen_width - rect_length)/2
-        rect_y = (screen_height - rect_height)/2
-        Middle_rect = pygame.Rect(rect_x, rect_y, rect_length, rect_height)
-        # minus the screen width to horizontal align the middle rect
-        rect_colour = grey
-        pygame.draw.rect(screen, (rect_colour), Middle_rect)
 
 
 class Button():
