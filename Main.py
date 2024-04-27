@@ -22,8 +22,20 @@ grey = 179, 179, 179
 # add background music
 pygame.mixer.music.load('Sound/BGM.mp3')
 pygame.mixer.music.set_volume(0.5)
-pygame.mixer.music.play(-1)
+pygame.mixer.music.play(loops=-1, fade_ms= 5000)
 
+# Variable to track fade-in progress
+fade_in_progress = True
+
+# Check if the fade-in effect is complete
+while fade_in_progress:
+    if pygame.mixer.music.get_busy():
+        current_volume = pygame.mixer.music.get_volume()
+        if current_volume < 0.1:
+            new_volume = min(current_volume + 0.01, 0.1)
+            pygame.mixer.music.set_volume(new_volume)
+        else:
+            fade_in_progress = False
 
 class Display():
     text_font = pygame.font.SysFont(
