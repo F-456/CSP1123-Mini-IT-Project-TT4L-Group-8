@@ -17,6 +17,7 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 # universal settings
 tile_size = 100
 white = 255, 255, 255
+black = 0, 0, 0
 grey = 179, 179, 179
 
 
@@ -64,10 +65,10 @@ class Display:
     jonker_1 = smaller_font.render("Jonker", True, (white))
     jonker_2 = smaller_font.render("Street", True, (white))
     stadthuys_t = smaller_font.render("redhouse", True, (white))
-    astro_t = text_font.render("Astro", True, (white))
-    rtm_t = text_font.render("RTM", True, (white))
-    seven_t = text_font.render("7-11", True, (white))
-    Ramly_t = smaller_font.render("B.Ramly", True, (white))
+    astro_t = text_font.render("Astro", True, (black))
+    rtm_t = text_font.render("RTM", True, (black))
+    seven_t = text_font.render("7-11", True, (black))
+    Ramly_t = smaller_font.render("B.Ramly", True, (black))
 
     def showing_text():
         screen.blit(Display.klcc_t, (20, 120))
@@ -219,15 +220,71 @@ button = Button(button_surface_on, button_surface_off, 650, 680)
 class Map:
     def __init__(self, data):
         self.tile_list = []
-        klcc = pygame.image.load('pic/klcc.png')
-        merdeka_118 = pygame.image.load('pic/merdeka.png')
+        white_box = pygame.image.load("pic/white box.png")
+        yellow_box = pygame.image.load("pic/light yellow.png")
+        green_box = pygame.image.load("pic/lightgreen.png")
+        blue_box = pygame.image.load("pic/lightblue.png")
+        purple_box = pygame.image.load("pic/lightpurple.png")
+        red_box = pygame.image.load("pic/lightred.png")
 
         row_count = 0
         for row in data:
             col_count = 0
             for tile in row:
-                if tile == 11:
-                    pass
+                if tile == 2:
+                    img = pygame.transform.scale(
+                        white_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 4:
+                    img = pygame.transform.scale(
+                        yellow_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 5:
+                    img = pygame.transform.scale(
+                        green_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 6:
+                    img = pygame.transform.scale(
+                        blue_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 7:
+                    img = pygame.transform.scale(
+                        purple_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                if tile == 8:
+                    img = pygame.transform.scale(
+                        red_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
                 col_count += 1
             row_count += 1
 
@@ -240,14 +297,14 @@ class Map:
 
 # maps for monopoly
 map_data = [
-    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    [32, 12, 13, 14, 15, 16, 17, 18, 19, 11],
-    [31, 22, 23, 24, 25, 26, 27, 28, 29, 12],
-    [30, 32, 33, 34, 35, 36, 37, 38, 39, 13],
+    [1, 2, 2, 2, 2, 3, 4, 4, 4, 10],
+    [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
+    [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
+    [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
     [29, 42, 43, 44, 45, 46, 47, 48, 49, 14],
-    [28, 52, 53, 54, 55, 56, 57, 58, 59, 15],
-    [27, 62, 63, 64, 65, 66, 67, 68, 69, 16],
-    [26, 25, 24, 23, 22, 21, 20, 19, 18, 17],
+    [7, 52, 53, 54, 55, 56, 57, 58, 59, 6],
+    [7, 62, 63, 64, 65, 66, 67, 68, 69, 6],
+    [26, 7, 7, 7, 7, 21, 6, 6, 6, 17],
 ]
 
 map = Map(map_data)
@@ -260,7 +317,7 @@ while run:
     map.draw()
 
     Display.middle()
-    Display.drawing_grid(100)
+    # Display.drawing_grid(100)
 
     # displaying text for all the tiles
     Display.showing_text()
