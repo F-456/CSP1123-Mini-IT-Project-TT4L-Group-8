@@ -397,19 +397,6 @@ while run:
     # displaying text for all the tiles
     Display.showing_text()
 
-    # displaying text for all the tiles
-    Display.text_properties("Go", Display.text_font, (white), 20, 20)
-    Display.text_properties(
-        "Collect xxx ", Display.smaller_font, (white), 10, 50)
-    Display.text_properties("KLCC", Display.text_font, (white), 20, 120)
-    Display.text_properties("$", Display.smaller_font, (white), 20, 150)
-    Display.text_properties("M .118", Display.text_font, (white), 20, 220)
-    Display.text_properties("$", Display.smaller_font, (white), 20, 250)
-    Display.text_properties("KL.Tower", Display.text_font, (white), 16, 320)
-    Display.text_properties("$", Display.smaller_font, (white), 20, 350)
-    Display.text_properties("?", Display.Specia_font, (white), 40, 420)
-    Display.text_properties("Chance", Display.Specia_font, (white), 20, 450)
-
 
 
     for player in players:
