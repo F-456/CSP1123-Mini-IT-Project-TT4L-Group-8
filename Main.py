@@ -8,7 +8,6 @@ clock = pygame.time.Clock()
 fps = 60
 
 # differentiate different size for game window
-screen_width = 800
 screen_width = 1000
 screen_height = 800
 
@@ -158,7 +157,6 @@ class Display:
                              (line*tile_size, screen_height))  # vertical line
 
     def middle():
-        rect_length = 600
         rect_length = 800
         rect_height = 600
         # align the main rect in the middle of screen
@@ -407,11 +405,8 @@ while run:
     # displaying text for all the tiles
     Display.showing_text()
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> main
     for player in players:
         player.draw()
 
