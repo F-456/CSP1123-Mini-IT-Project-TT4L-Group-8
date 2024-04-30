@@ -1,4 +1,5 @@
-import pygame, sys
+import pygame
+import sys
 from pygame.locals import *
 pygame.init()
 # initiate pygame music features
@@ -19,18 +20,18 @@ class Dice(pygame.sprite.Sprite):
         super().__init__()
         self.sprites = []
         self.animating = False
-        self.sprites.append(pygame.image.load('dice1.png'))
-        self.sprites.append(pygame.image.load('dice2.png'))
-        self.sprites.append(pygame.image.load('dice3.png'))
-        self.sprites.append(pygame.image.load('dice4.png'))
-        self.sprites.append(pygame.image.load('dice5.png'))
-        self.sprites.append(pygame.image.load('dice6.png'))
+        self.sprites.append(pygame.image.load('pic/dice1.png'))
+        self.sprites.append(pygame.image.load('pic/dice2.png'))
+        self.sprites.append(pygame.image.load('pic/dice3.png'))
+        self.sprites.append(pygame.image.load('pic/dice4.png'))
+        self.sprites.append(pygame.image.load('pic/dice5.png'))
+        self.sprites.append(pygame.image.load('pic/dice6.png'))
         self.current_sprite = 0
         self.image = self.sprites[self.current_sprite]
 
         self.rect = self.image.get_rect()
         self.rect.topleft = [pos_x, pos_y]
-    
+
     def animate(self):
         self.animating = True
 
@@ -39,7 +40,7 @@ class Dice(pygame.sprite.Sprite):
             self.current_sprite += 0.4
 
         if self.current_sprite >= len(self.sprites):
-            self.current_sprite = 0 
+            self.current_sprite = 0
             self.animating = False
 
         self.image = self.sprites[int(self.current_sprite)]
@@ -65,7 +66,6 @@ while run:
     moving_sprites.update()
     pygame.display.flip()
     clock.tick(60)
-
 
     pygame.display.update()
 pygame.quit()

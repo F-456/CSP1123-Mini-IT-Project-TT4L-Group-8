@@ -8,7 +8,7 @@ clock = pygame.time.Clock()
 fps = 60
 
 # differentiate different size for game window
-screen_width = 800
+screen_width = 1000
 screen_height = 800
 
 pygame.display.set_caption("Monopoly")
@@ -24,6 +24,7 @@ grey = 179, 179, 179
 pygame.mixer.music.load('Sound/BGM.mp3')
 pygame.mixer.music.set_volume(0.5)
 pygame.mixer.music.play(-1)
+
 
 class Display:
     text_font = pygame.font.Font(
@@ -156,7 +157,7 @@ class Display:
                              (line*tile_size, screen_height))  # vertical line
 
     def middle():
-        rect_length = 600
+        rect_length = 800
         rect_height = 600
         # align the main rect in the middle of screen
         rect_x = (screen_width - rect_length)/2
@@ -165,6 +166,7 @@ class Display:
         # minus the screen width to horizontal align the middle rect
         rect_colour = grey
         pygame.draw.rect(screen, (rect_colour), Middle_rect)
+
 
 class Button():
     def __init__(self, image_on, image_off,  x_pos, y_pos):
@@ -183,21 +185,22 @@ class Button():
 
     def checkForInput(self, position):
         if self.rect.collidepoint(position):
-            self.toggleMusicState() 
+            self.toggleMusicState()
 
     def toggleMusicState(self):
         if self.is_music_on:
             pygame.mixer.music.pause()
         else:
             pygame.mixer.music.unpause()
-        self.is_music_on = not self.is_music_on 
+        self.is_music_on = not self.is_music_on
+
 
 # Load button images
 button_surface_on = pygame.image.load('pic/musicon.png')
 button_surface_off = pygame.image.load('pic/musicoff.png')
 button_surface_on = pygame.transform.scale(button_surface_on, (40, 40))
 button_surface_off = pygame.transform.scale(button_surface_off, (40, 40))
-button = Button(button_surface_on, button_surface_off, 650 ,680)
+button = Button(button_surface_on, button_surface_off, 650, 680)
 
 
 # add background music
@@ -331,14 +334,15 @@ class Map:
 
         # loading image for the maps
 
+
 class Player:
-    def __init__(self, color, shape, row, col, scale_factor = 0.5):
+    def __init__(self, color, shape, row, col, scale_factor=0.5):
         self.color = color
         self.shape = shape
         self.row = row
         self.col = col
         self.scale_factor = scale_factor
-    
+
     def draw(self):
         x = self.col * tile_size + tile_size//4
         y = self.row * tile_size + tile_size//4
@@ -348,27 +352,31 @@ class Player:
             pygame.draw.circle(screen, self.color, (x, y), radius)
         elif self.shape == 'square':
             side_length = int(tile_size//2 * self.scale_factor)
-            pygame.draw.rect(screen, self.color, (x, y, side_length, side_length))
+            pygame.draw.rect(screen, self.color,
+                             (x, y, side_length, side_length))
         elif self.shape == 'triangle':
             half_size = int(tile_size//2 * self.scale_factor)
-            pygame.draw.polygon(screen, self.color, [(x + half_size, y), 
-                                                     (x, y + half_size), 
+            pygame.draw.polygon(screen, self.color, [(x + half_size, y),
+                                                     (x, y + half_size),
                                                      (x + tile_size * self.scale_factor, y + half_size)])
         elif self.shape == 'star':
             star_size = int(tile_size//2 * self.scale_factor)
-            pygame.draw.polygon(screen, self.color, [(x + star_size//2, y),                
-                                                      (x + star_size, y + star_size),
-                                                      (x, y + star_size//3),
-                                                      (x + star_size, y + star_size//3),
-                                                      (x, y + star_size),
-                                                      (x+ star_size//2, y)])
+            pygame.draw.polygon(screen, self.color, [(x + star_size//2, y),
+                                                     (x + star_size,
+                                                      y + star_size),
+                                                     (x, y + star_size//3),
+                                                     (x + star_size,
+                                                      y + star_size//3),
+                                                     (x, y + star_size),
+                                                     (x + star_size//2, y)])
 
-player1 = Player((255,0,0),'circle', 0, 0, scale_factor= 0.5)
-player2 = Player((0,255,0),'square', 0, 0, scale_factor= 0.5)
-player3 = Player((0,0,255),'triangle', 0, 0, scale_factor= 0.5) 
-player4 = Player((255,255,0),'star', 0, 0, scale_factor= 0.5)
 
-players = [player1, player2, player3 ,player4]
+player1 = Player((255, 0, 0), 'circle', 0, 0, scale_factor=0.5)
+player2 = Player((0, 255, 0), 'square', 0, 0, scale_factor=0.5)
+player3 = Player((0, 0, 255), 'triangle', 0, 0, scale_factor=0.5)
+player4 = Player((255, 255, 0), 'star', 0, 0, scale_factor=0.5)
+
+players = [player1, player2, player3, player4]
 
 # maps for monopoly
 map_data = [
@@ -376,7 +384,7 @@ map_data = [
     [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
     [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
     [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
-    [29, 42, 43, 44, 45, 46, 47, 48, 49, 14],
+    [29, 0, 0, 0, 0, 0, 0, 0, 0, 14],
     [7, 52, 53, 54, 55, 56, 57, 58, 59, 6],
     [7, 62, 63, 64, 65, 66, 67, 68, 69, 6],
     [26, 7, 7, 7, 7, 21, 6, 6, 6, 17],
@@ -397,7 +405,18 @@ while run:
     # displaying text for all the tiles
     Display.showing_text()
 
-
+    # displaying text for all the tiles
+    Display.text_properties("Go", Display.text_font, (white), 20, 20)
+    Display.text_properties(
+        "Collect xxx ", Display.smaller_font, (white), 10, 50)
+    Display.text_properties("KLCC", Display.text_font, (white), 20, 120)
+    Display.text_properties("$", Display.smaller_font, (white), 20, 150)
+    Display.text_properties("M .118", Display.text_font, (white), 20, 220)
+    Display.text_properties("$", Display.smaller_font, (white), 20, 250)
+    Display.text_properties("KL.Tower", Display.text_font, (white), 16, 320)
+    Display.text_properties("$", Display.smaller_font, (white), 20, 350)
+    Display.text_properties("?", Display.Specia_font, (white), 40, 420)
+    Display.text_properties("Chance", Display.Specia_font, (white), 20, 450)
 
     for player in players:
         player.draw()
