@@ -404,7 +404,7 @@ while run:
 
     # displaying text for all the tiles
     Display.showing_text()
-
+    Display.drawing_grid(100)
     for player in players:
         player.draw()
 
