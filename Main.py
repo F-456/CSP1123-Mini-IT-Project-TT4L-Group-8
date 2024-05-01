@@ -20,21 +20,50 @@ white = 255, 255, 255
 black = 0, 0, 0
 grey = 179, 179, 179
 
-# add background music
-pygame.mixer.music.load('Sound/BGM.mp3')
-pygame.mixer.music.set_volume(0.5)
-pygame.mixer.music.play(-1)
+class Property:
+    def __init__(self, name, price, rent):
+        self.name = name
+        self.price = price
+        self.rent = rent
+        self.owner = None
 
+# Define property
+property = [
+    Property("Ramly Burger",500,10),
+    Property("99 Minimarket",600,20),
+    Property("Radio Televisyen Malaysia",700,35),
+    Property("Astro",750,40),
+    Property("Redhouse Melaka",800,50),
+    Property("A'Famosa",900,55),
+    Property("Jonker Street",1000,65),
+    Property("Telekom Malaysia",1200,80),
+    Property("Sky Bridge Langkawi",1200,85),
+    Property("Penang Hill",1400,100),
+    Property("George Town Penang",1500,110),
+    Property("Chew Jetty",1600,120),
+    Property("Cyberjaya",1800,140),
+    Property("KL Central",2000,160),
+    Property("Tenaga National Berhad",2000,160),
+    Property("Cameroon Highland",2200,180),
+    Property("Genting Highland",2200,180),
+    Property("Putrajaya",2400,200),
+    Property("KLIA",2400,200),
+    Property("Lot10, Bukit Bintang",2500,220),
+    Property("Pavilion Bukit Bintang",2800,240),
+    Property("KL Tower",3000,275),
+    Property("Merdeka 118",3500,350),
+    Property("KLCC",4000,500)
+]
 
+Pricelist = [ 500, 600, 700, 750, 800, 900, 1000, 1200, 1200, 1400, 1500, 1600, 1800, 2000, 2000, 2200, 2200, 2400, 2400, 2500, 2800, 3000, 3500, 4000 ]
 class Display:
-    text_font = pygame.font.Font(
-        "HelveticaNeue.ttf", 25)
+    text_font = pygame.font.Font("HelveticaNeue.ttf", 25)
     smaller_font = pygame.font.Font("HelveticaNeue.ttf", 20)
     Specia_font = pygame.font.SysFont(
         "ComicSansMS.ttf", 25, bold=False, italic=False)
     # text used in all the tile
     Go_t = text_font.render("Go", True, (white))
-    collect_t = smaller_font.render("Collect...", True, (white))
+    collect_t = smaller_font.render("Pass & Go", True, (white))
     klcc_t = text_font.render("KLCC", True, (white))
     money_t = smaller_font.render("$", True, (white))
     M118_t = text_font.render("M.118", True, (white))
@@ -74,10 +103,13 @@ class Display:
     rtm_t = text_font.render("RTM", True, (black))
     seven_t = text_font.render("7-11", True, (black))
     Ramly_t = smaller_font.render("B.Ramly", True, (black))
+    price_t = smaller_font.render(f"{Pricelist}", True, (white))
+    print(Pricelist)
 
     def showing_text():
         screen.blit(Display.klcc_t, (20, 120))
         screen.blit(Display.Go_t, (20, 20))
+        screen.blit(Display.price_t, (20, 20))
         screen.blit(Display.collect_t, (20, 50))
         screen.blit(Display.money_t, (20, 150))
         screen.blit(Display.M118_t, (20, 220))
@@ -93,7 +125,7 @@ class Display:
         screen.blit(Display.jail_t, (20, 720))
         screen.blit(Display.klia_t, (120, 720))
         screen.blit(Display.money_t, (120, 750))
-        screen.blit(Display.cyber_t, (210, 720))
+        screen.blit(Display.putra_t, (210, 720))
         screen.blit(Display.money_t, (220, 750))
         screen.blit(Display.genting_t, (305, 720))
         screen.blit(Display.money_t, (320, 750))
@@ -105,7 +137,7 @@ class Display:
         screen.blit(Display.money_t, (620, 750))
         screen.blit(Display.klsen_t, (710, 720))
         screen.blit(Display.money_t, (720, 750))
-        screen.blit(Display.putra_t, (810, 720))
+        screen.blit(Display.cyber_t, (810, 720))
         screen.blit(Display.money_t, (820, 750))
         screen.blit(Display.Gojail1_t, (920, 720))
         screen.blit(Display.GOjail2_t, (930, 750))
@@ -166,41 +198,6 @@ class Display:
         # minus the screen width to horizontal align the middle rect
         rect_colour = grey
         pygame.draw.rect(screen, (rect_colour), Middle_rect)
-
-
-class Button():
-    def __init__(self, image_on, image_off,  x_pos, y_pos):
-        self.image_on = image_on
-        self.image_off = image_off
-        self.x_pos = x_pos
-        self.y_pos = y_pos
-        self.rect = self.image_on.get_rect(center=(self.x_pos, self.y_pos))
-        self.is_music_on = True
-
-    def update(self):
-        if self.is_music_on:
-            screen.blit(self.image_on, self.rect)
-        else:
-            screen.blit(self.image_off, self.rect)
-
-    def checkForInput(self, position):
-        if self.rect.collidepoint(position):
-            self.toggleMusicState()
-
-    def toggleMusicState(self):
-        if self.is_music_on:
-            pygame.mixer.music.pause()
-        else:
-            pygame.mixer.music.unpause()
-        self.is_music_on = not self.is_music_on
-
-
-# Load button images
-button_surface_on = pygame.image.load('pic/musicon.png')
-button_surface_off = pygame.image.load('pic/musicoff.png')
-button_surface_on = pygame.transform.scale(button_surface_on, (40, 40))
-button_surface_off = pygame.transform.scale(button_surface_off, (40, 40))
-button = Button(button_surface_on, button_surface_off, 650, 680)
 
 
 # add background music
@@ -335,56 +332,13 @@ class Map:
         # loading image for the maps
 
 
-class Player:
-    def __init__(self, color, shape, row, col, scale_factor=0.5):
-        self.color = color
-        self.shape = shape
-        self.row = row
-        self.col = col
-        self.scale_factor = scale_factor
-
-    def draw(self):
-        x = self.col * tile_size + tile_size//4
-        y = self.row * tile_size + tile_size//4
-
-        if self.shape == 'circle':
-            radius = int(tile_size//4 * self.scale_factor)
-            pygame.draw.circle(screen, self.color, (x, y), radius)
-        elif self.shape == 'square':
-            side_length = int(tile_size//2 * self.scale_factor)
-            pygame.draw.rect(screen, self.color,
-                             (x, y, side_length, side_length))
-        elif self.shape == 'triangle':
-            half_size = int(tile_size//2 * self.scale_factor)
-            pygame.draw.polygon(screen, self.color, [(x + half_size, y),
-                                                     (x, y + half_size),
-                                                     (x + tile_size * self.scale_factor, y + half_size)])
-        elif self.shape == 'star':
-            star_size = int(tile_size//2 * self.scale_factor)
-            pygame.draw.polygon(screen, self.color, [(x + star_size//2, y),
-                                                     (x + star_size,
-                                                      y + star_size),
-                                                     (x, y + star_size//3),
-                                                     (x + star_size,
-                                                      y + star_size//3),
-                                                     (x, y + star_size),
-                                                     (x + star_size//2, y)])
-
-
-player1 = Player((255, 0, 0), 'circle', 0, 0, scale_factor=0.5)
-player2 = Player((0, 255, 0), 'square', 0, 0, scale_factor=0.5)
-player3 = Player((0, 0, 255), 'triangle', 0, 0, scale_factor=0.5)
-player4 = Player((255, 255, 0), 'star', 0, 0, scale_factor=0.5)
-
-players = [player1, player2, player3, player4]
-
 # maps for monopoly
 map_data = [
     [1, 2, 2, 2, 2, 3, 4, 4, 4, 10],
     [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
     [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
     [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
-    [29, 0, 0, 0, 0, 0, 0, 0, 0, 14],
+    [29, 42, 43, 44, 45, 46, 47, 48, 49, 14],
     [7, 52, 53, 54, 55, 56, 57, 58, 59, 6],
     [7, 62, 63, 64, 65, 66, 67, 68, 69, 6],
     [26, 7, 7, 7, 7, 21, 6, 6, 6, 17],
@@ -404,9 +358,6 @@ while run:
 
     # displaying text for all the tiles
     Display.showing_text()
-    Display.drawing_grid(100)
-    for player in players:
-        player.draw()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
