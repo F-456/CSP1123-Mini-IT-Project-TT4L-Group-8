@@ -110,13 +110,13 @@ class Display:
     rtm_t = text_font.render("RTM", True, (black))
     seven_t = text_font.render("7-11", True, (black))
     Ramly_t = smaller_font.render("B.Ramly", True, (black))
-    price_t = smaller_font.render(f"{Pricelist}", True, (white))
-    print(Pricelist)
+    # price_t = smaller_font.render(f"{Pricelist}", True, (white))
+    # print(Pricelist)
 
     def showing_text():
         screen.blit(Display.klcc_t, (20, 120))
         screen.blit(Display.Go_t, (20, 20))
-        screen.blit(Display.price_t, (20, 20))
+        # screen.blit(Display.price_t, (20, 20))
         screen.blit(Display.collect_t, (20, 50))
         screen.blit(Display.money_t, (20, 150))
         screen.blit(Display.M118_t, (20, 220))
@@ -208,6 +208,8 @@ class Display:
 
 
 class Button():
+    menu = True
+
     def __init__(self, image_on, image_off,  x_pos, y_pos):
         self.image_on = image_on
         self.image_off = image_off
@@ -231,6 +233,11 @@ class Button():
             dice_num = random.randint(1, 6)
             print(dice_num)
 
+    def check_play(self, position):
+        if self.rect.collidepoint(position):
+            Button.menu = False
+            print("Play")
+
     def toggleMusicState(self):
         if self.is_music_on:
             pygame.mixer.music.pause()
@@ -243,11 +250,14 @@ class Button():
 button_surface_on = pygame.image.load('pic/musicon.png')
 button_surface_off = pygame.image.load('pic/musicoff.png')
 button_roll = pygame.image.load('pic/Roll.png')
+button_play = pygame.image.load('pic/play.png')
 button_surface_on = pygame.transform.scale(button_surface_on, (40, 40))
 button_surface_off = pygame.transform.scale(button_surface_off, (40, 40))
 button_roll = pygame.transform.scale(button_roll, (80, 80))
+button_play = pygame.transform.scale(button_play, (450, 170))
 button_music = Button(button_surface_on, button_surface_off, 650, 680)
 button_roll = Button(button_roll, button_roll, 800, 650)
+button_play = Button(button_play, button_play, 500, 400)
 
 
 # add background music
@@ -401,32 +411,45 @@ class economic:
     print(player_dict_m)
 
 
-# Maps control for monopoly
-map_data = [
-    [1, 2, 2, 2, 2, 3, 4, 4, 4, 10],
-    [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
-    [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
-    [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
-    [29, 42, 43, 44, 45, 46, 47, 48, 49, 14],
-    [7, 52, 53, 54, 55, 56, 57, 58, 59, 6],
-    [7, 62, 63, 64, 65, 66, 67, 68, 69, 6],
-    [26, 7, 7, 7, 7, 21, 6, 6, 6, 17],
-]
+class starting_menu:
+    title_font = pygame.font.Font("HelveticaNeue.ttf", 150)
+    start_title = title_font.render("Pynopoly", True, (white))
+
+    def title():
+        screen.blit(starting_menu.start_title, (200, 100))
+
+    # Maps control for monopoly
+map_data = [[1, 2, 2, 2, 2, 3, 4, 4, 4, 10],
+            [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
+            [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
+            [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
+            [29, 42, 43, 44, 45, 46, 47, 48, 49, 14],
+            [7, 52, 53, 54, 55, 56, 57, 58, 59, 6],
+            [7, 62, 63, 64, 65, 66, 67, 68, 69, 6],
+            [26, 7, 7, 7, 7, 21, 6, 6, 6, 17],]
 
 
 map = Map(map_data)
 # main run for game
 run = True
+
 while run:
     clock.tick(fps)
     screen.fill((0, 0, 0))
-    map.draw()
+    button_play.update()
+    starting_menu.title()
 
-    Display.middle()
-    # Display.drawing_grid(100)
+    if not Button.menu:
+        map.draw()
+        Display.middle()
+        Display.showing_text()
+        button_music.update()
+        button_roll.update()
+        # Display.drawing_grid(100)
+    else:
+        pass
 
-    # displaying text for all the tiles
-    Display.showing_text()
+        # displaying text for all the tiles
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -435,9 +458,7 @@ while run:
         if event.type == pygame.MOUSEBUTTONDOWN:
             button_music.checkmusic(pygame.mouse.get_pos())
             button_roll.checkroll(pygame.mouse.get_pos())
-
-    button_music.update()
-    button_roll.update()
+            button_play.check_play(pygame.mouse.get_pos())
 
     pygame.display.update()
 pygame.quit()
