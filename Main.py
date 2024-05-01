@@ -1,6 +1,8 @@
 import pygame
 import sys
 from pygame import *
+from math import *
+import random
 pygame.init()
 # initiate pygame music features
 pygame.mixer.init()
@@ -20,6 +22,7 @@ white = 255, 255, 255
 black = 0, 0, 0
 grey = 179, 179, 179
 
+
 class Property:
     def __init__(self, name, price, rent):
         self.name = name
@@ -27,35 +30,39 @@ class Property:
         self.rent = rent
         self.owner = None
 
+
 # Define property
 property = [
-    Property("Ramly Burger",500,10),
-    Property("99 Minimarket",600,20),
-    Property("Radio Televisyen Malaysia",700,35),
-    Property("Astro",750,40),
-    Property("Redhouse Melaka",800,50),
-    Property("A'Famosa",900,55),
-    Property("Jonker Street",1000,65),
-    Property("Telekom Malaysia",1200,80),
-    Property("Sky Bridge Langkawi",1200,85),
-    Property("Penang Hill",1400,100),
-    Property("George Town Penang",1500,110),
-    Property("Chew Jetty",1600,120),
-    Property("Cyberjaya",1800,140),
-    Property("KL Central",2000,160),
-    Property("Tenaga National Berhad",2000,160),
-    Property("Cameroon Highland",2200,180),
-    Property("Genting Highland",2200,180),
-    Property("Putrajaya",2400,200),
-    Property("KLIA",2400,200),
-    Property("Lot10, Bukit Bintang",2500,220),
-    Property("Pavilion Bukit Bintang",2800,240),
-    Property("KL Tower",3000,275),
-    Property("Merdeka 118",3500,350),
-    Property("KLCC",4000,500)
+    Property("Ramly Burger", 500, 10),
+    Property("99 Minimarket", 600, 20),
+    Property("Radio Televisyen Malaysia", 700, 35),
+    Property("Astro", 750, 40),
+    Property("Redhouse Melaka", 800, 50),
+    Property("A'Famosa", 900, 55),
+    Property("Jonker Street", 1000, 65),
+    Property("Telekom Malaysia", 1200, 80),
+    Property("Sky Bridge Langkawi", 1200, 85),
+    Property("Penang Hill", 1400, 100),
+    Property("George Town Penang", 1500, 110),
+    Property("Chew Jetty", 1600, 120),
+    Property("Cyberjaya", 1800, 140),
+    Property("KL Central", 2000, 160),
+    Property("Tenaga National Berhad", 2000, 160),
+    Property("Cameroon Highland", 2200, 180),
+    Property("Genting Highland", 2200, 180),
+    Property("Putrajaya", 2400, 200),
+    Property("KLIA", 2400, 200),
+    Property("Lot10, Bukit Bintang", 2500, 220),
+    Property("Pavilion Bukit Bintang", 2800, 240),
+    Property("KL Tower", 3000, 275),
+    Property("Merdeka 118", 3500, 350),
+    Property("KLCC", 4000, 500)
 ]
 
-Pricelist = [ 500, 600, 700, 750, 800, 900, 1000, 1200, 1200, 1400, 1500, 1600, 1800, 2000, 2000, 2200, 2200, 2400, 2400, 2500, 2800, 3000, 3500, 4000 ]
+Pricelist = [500, 600, 700, 750, 800, 900, 1000, 1200, 1200, 1400, 1500, 1600,
+             1800, 2000, 2000, 2200, 2200, 2400, 2400, 2500, 2800, 3000, 3500, 4000]
+
+
 class Display:
     text_font = pygame.font.Font("HelveticaNeue.ttf", 25)
     smaller_font = pygame.font.Font("HelveticaNeue.ttf", 20)
@@ -93,12 +100,12 @@ class Display:
     Tm_t = text_font.render("TM", True, (white))
     free_t = smaller_font.render("Free", True, (white))
     park_t = smaller_font.render("Parking", True, (white))
-    hill_1 = smaller_font.render("Penang", True, (white))
-    hill_2 = smaller_font.render("Hill", True, (white))
-    famosa_1 = smaller_font.render("A.Famosa", True, (white))
-    jonker_1 = smaller_font.render("Jonker", True, (white))
-    jonker_2 = smaller_font.render("Street", True, (white))
-    stadthuys_t = smaller_font.render("redhouse", True, (white))
+    hill_1 = smaller_font.render("Penang", True, (grey))
+    hill_2 = smaller_font.render("Hill", True, (grey))
+    famosa_1 = smaller_font.render("A.Famosa", True, (grey))
+    jonker_1 = smaller_font.render("Jonker", True, (grey))
+    jonker_2 = smaller_font.render("Street", True, (grey))
+    stadthuys_t = smaller_font.render("redhouse", True, (grey))
     astro_t = text_font.render("Astro", True, (black))
     rtm_t = text_font.render("RTM", True, (black))
     seven_t = text_font.render("7-11", True, (black))
@@ -200,6 +207,49 @@ class Display:
         pygame.draw.rect(screen, (rect_colour), Middle_rect)
 
 
+class Button():
+    def __init__(self, image_on, image_off,  x_pos, y_pos):
+        self.image_on = image_on
+        self.image_off = image_off
+        self.x_pos = x_pos
+        self.y_pos = y_pos
+        self.rect = self.image_on.get_rect(center=(self.x_pos, self.y_pos))
+        self.is_music_on = True
+
+    def update(self):
+        if self.is_music_on:
+            screen.blit(self.image_on, self.rect)
+        else:
+            screen.blit(self.image_off, self.rect)
+
+    def checkmusic(self, position):
+        if self.rect.collidepoint(position):
+            self.toggleMusicState()
+
+    def checkroll(self, position):
+        if self.rect.collidepoint(position):
+            dice_num = random.randint(1, 6)
+            print(dice_num)
+
+    def toggleMusicState(self):
+        if self.is_music_on:
+            pygame.mixer.music.pause()
+        else:
+            pygame.mixer.music.unpause()
+        self.is_music_on = not self.is_music_on
+
+
+# Load button images
+button_surface_on = pygame.image.load('pic/musicon.png')
+button_surface_off = pygame.image.load('pic/musicoff.png')
+button_roll = pygame.image.load('pic/Roll.png')
+button_surface_on = pygame.transform.scale(button_surface_on, (40, 40))
+button_surface_off = pygame.transform.scale(button_surface_off, (40, 40))
+button_roll = pygame.transform.scale(button_roll, (80, 80))
+button_music = Button(button_surface_on, button_surface_off, 650, 680)
+button_roll = Button(button_roll, button_roll, 800, 650)
+
+
 # add background music
 pygame.mixer.music.load('Sound/BGM.mp3')
 pygame.mixer.music.set_volume(0.5)
@@ -217,41 +267,6 @@ while fade_in_progress:
             pygame.mixer.music.set_volume(new_volume)
         else:
             fade_in_progress = False
-
-
-class Button():
-    def __init__(self, image_on, image_off,  x_pos, y_pos):
-        self.image_on = image_on
-        self.image_off = image_off
-        self.x_pos = x_pos
-        self.y_pos = y_pos
-        self.rect = self.image_on.get_rect(center=(self.x_pos, self.y_pos))
-        self.is_music_on = True
-
-    def update(self):
-        if self.is_music_on:
-            screen.blit(self.image_on, self.rect)
-        else:
-            screen.blit(self.image_off, self.rect)
-
-    def checkForInput(self, position):
-        if self.rect.collidepoint(position):
-            self.toggleMusicState()
-
-    def toggleMusicState(self):
-        if self.is_music_on:
-            pygame.mixer.music.pause()
-        else:
-            pygame.mixer.music.unpause()
-        self.is_music_on = not self.is_music_on
-
-
-# Load button images
-button_surface_on = pygame.image.load('pic/musicon.png')
-button_surface_off = pygame.image.load('pic/musicoff.png')
-button_surface_on = pygame.transform.scale(button_surface_on, (40, 40))
-button_surface_off = pygame.transform.scale(button_surface_off, (40, 40))
-button = Button(button_surface_on, button_surface_off, 650, 680)
 
 
 class Map:
@@ -332,7 +347,61 @@ class Map:
         # loading image for the maps
 
 
-# maps for monopoly
+class Player:
+    def __init__(self, color, shape, row, col, scale_factor=0.5):
+        self.color = color
+        self.shape = shape
+        self.row = row
+        self.col = col
+        self.scale_factor = scale_factor
+
+    def draw(self):
+        x = self.col * tile_size + tile_size//4
+        y = self.row * tile_size + tile_size//4
+
+        if self.shape == 'circle':
+            radius = int(tile_size//4 * self.scale_factor)
+            pygame.draw.circle(screen, self.color, (x, y), radius)
+        elif self.shape == 'square':
+            side_length = int(tile_size//2 * self.scale_factor)
+            pygame.draw.rect(screen, self.color,
+                             (x, y, side_length, side_length))
+        elif self.shape == 'triangle':
+            half_size = int(tile_size//2 * self.scale_factor)
+            pygame.draw.polygon(screen, self.color, [(x + half_size, y),
+                                                     (x, y + half_size),
+                                                     (x + tile_size * self.scale_factor, y + half_size)])
+        elif self.shape == 'star':
+            star_size = int(tile_size//2 * self.scale_factor)
+            pygame.draw.polygon(screen, self.color, [(x + star_size//2, y),
+                                                     (x + star_size,
+                                                      y + star_size),
+                                                     (x, y + star_size//3),
+                                                     (x + star_size,
+                                                      y + star_size//3),
+                                                     (x, y + star_size),
+                                                     (x + star_size//2, y)])
+
+
+player1 = Player((255, 0, 0), 'circle', 0, 0, scale_factor=0.5)
+player2 = Player((0, 255, 0), 'square', 0, 0, scale_factor=0.5)
+player3 = Player((0, 0, 255), 'triangle', 0, 0, scale_factor=0.5)
+player4 = Player((255, 255, 0), 'star', 0, 0, scale_factor=0.5)
+
+players = [player1, player2, player3, player4]
+
+
+class economic:
+    initial_money = int(1000)
+    num_players = 4
+    player_dict_m = {}
+    for i in range(1, num_players+1):
+        player_dict_m[f"p{i}_money"] = initial_money
+
+    print(player_dict_m)
+
+
+# Maps control for monopoly
 map_data = [
     [1, 2, 2, 2, 2, 3, 4, 4, 4, 10],
     [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
@@ -344,8 +413,8 @@ map_data = [
     [26, 7, 7, 7, 7, 21, 6, 6, 6, 17],
 ]
 
-map = Map(map_data)
 
+map = Map(map_data)
 # main run for game
 run = True
 while run:
@@ -364,9 +433,11 @@ while run:
             pygame.quit()
             sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
-            button.checkForInput(pygame.mouse.get_pos())
+            button_music.checkmusic(pygame.mouse.get_pos())
+            button_roll.checkroll(pygame.mouse.get_pos())
 
-    button.update()
+    button_music.update()
+    button_roll.update()
 
     pygame.display.update()
 pygame.quit()
