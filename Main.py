@@ -3,6 +3,7 @@ import sys
 from pygame import *
 from math import *
 import random
+import time
 pygame.init()
 # initiate pygame music features
 pygame.mixer.init()
@@ -71,49 +72,49 @@ class Display:
     # text used in all the tile
     Go_t = text_font.render("Go", True, (white))
     collect_t = smaller_font.render("Pass & Go", True, (white))
-    klcc_t = text_font.render("KLCC", True, (white))
-    money_t = smaller_font.render("$", True, (white))
-    M118_t = text_font.render("M.118", True, (white))
-    kl_t = text_font.render("kl.tower", True, (white))
+    klcc_t = text_font.render("KLCC", True, (black))
+    money_t = smaller_font.render("$", True, (black))
+    M118_t = text_font.render("M.118", True, (black))
+    kl_t = text_font.render("kl.tower", True, (black))
     Q_t = text_font.render("?", True, (white))
     chance_t = smaller_font.render("Chance", True, (white))
-    Pavilion_t = text_font.render("Pavilion", True, (white))
-    Lot10_t = text_font.render("Lot10", True, (white))
+    Pavilion_t = text_font.render("Pavilion", True, (black))
+    Lot10_t = text_font.render("Lot10", True, (black))
     jail_t = text_font.render("Jail", True, (white))
-    klia_t = text_font.render("KLIA", True, (white))
-    cyber_t = smaller_font.render("Cyberjaya", True, (white))
-    genting_t = smaller_font.render("G.highland", True, (white))
-    cameroon_t = smaller_font.render("C.highland", True, (white))
+    klia_t = text_font.render("KLIA", True, (black))
+    cyber_t = smaller_font.render("Cyberjaya", True, (black))
+    genting_t = smaller_font.render("G.highland", True, (black))
+    cameroon_t = smaller_font.render("C.highland", True, (black))
     income_t = smaller_font.render("Income", True, (white))
     tax_t = smaller_font.render("tax", True, (white))
-    tnb_t = text_font.render("TNB", True, (white))
-    klsen_t = smaller_font.render("KL.central", True, (white))
-    putra_t = smaller_font.render("Putrajaya", True, (white))
+    tnb_t = text_font.render("TNB", True, (black))
+    klsen_t = smaller_font.render("KL.central", True, (black))
+    putra_t = smaller_font.render("Putrajaya", True, (black))
     Gojail1_t = smaller_font.render("Go to", True, (white))
     GOjail2_t = smaller_font.render("Jail", True, (white))
-    chew1_t = smaller_font.render("Chew", True, (white))
-    chew2_t = smaller_font.render("Jetty", True, (white))
-    George1_t = smaller_font.render("Goerge", True, (white))
-    George2_t = smaller_font.render("Town", True, (white))
-    sky_t = smaller_font.render("Sky", True, (white))
-    bridge_t = smaller_font.render("Bridge", True, (white))
-    Tm_t = text_font.render("TM", True, (white))
+    chew1_t = smaller_font.render("Chew", True, (black))
+    chew2_t = smaller_font.render("Jetty", True, (black))
+    George1_t = smaller_font.render("Goerge", True, (black))
+    George2_t = smaller_font.render("Town", True, (black))
+    sky_t = smaller_font.render("Sky", True, (black))
+    bridge_t = smaller_font.render("Bridge", True, (black))
+    Tm_t = text_font.render("TM", True, (black))
     free_t = smaller_font.render("Free", True, (white))
     park_t = smaller_font.render("Parking", True, (white))
-    hill_1 = smaller_font.render("Penang", True, (grey))
-    hill_2 = smaller_font.render("Hill", True, (grey))
-    famosa_1 = smaller_font.render("A.Famosa", True, (grey))
-    jonker_1 = smaller_font.render("Jonker", True, (grey))
-    jonker_2 = smaller_font.render("Street", True, (grey))
-    stadthuys_t = smaller_font.render("redhouse", True, (grey))
+    hill_1 = smaller_font.render("Penang", True, (black))
+    hill_2 = smaller_font.render("Hill", True, (black))
+    famosa_1 = smaller_font.render("A.Famosa", True, (black))
+    jonker_1 = smaller_font.render("Jonker", True, (black))
+    jonker_2 = smaller_font.render("Street", True, (black))
+    stadthuys_t = smaller_font.render("redhouse", True, (black))
     astro_t = text_font.render("Astro", True, (black))
     rtm_t = text_font.render("RTM", True, (black))
     seven_t = text_font.render("7-11", True, (black))
     Ramly_t = smaller_font.render("B.Ramly", True, (black))
-    # price_t = smaller_font.render(f"{Pricelist}", True, (white))
+    # price_t = smaller_font.render(f"{Pricelist}", True, (black))
     # print(Pricelist)
 
-    def showing_text():
+    def showing_properties_name():
         screen.blit(Display.klcc_t, (20, 120))
         screen.blit(Display.Go_t, (20, 20))
         # screen.blit(Display.price_t, (20, 20))
@@ -207,8 +208,15 @@ class Display:
         pygame.draw.rect(screen, (rect_colour), Middle_rect)
 
 
+# general value for dice_num
+dice_num = 0
+dice_con = False
+dice_rolled = 0
+
+
 class Button():
     menu = True
+    rolling_con = False
 
     def __init__(self, image_on, image_off,  x_pos, y_pos):
         self.image_on = image_on
@@ -230,13 +238,11 @@ class Button():
 
     def checkroll(self, position):
         if self.rect.collidepoint(position):
-            dice_num = random.randint(1, 6)
-            print(dice_num)
+            Button.rolling_con = True
 
     def check_play(self, position):
         if self.rect.collidepoint(position):
             Button.menu = False
-            print("Play")
 
     def toggleMusicState(self):
         if self.is_music_on:
@@ -246,19 +252,29 @@ class Button():
         self.is_music_on = not self.is_music_on
 
 
+def rand_a_dice():
+    global dice_con, dice_rolled
+    dice_rolled += 1
+    if not dice_con:
+        dice_con = True
+    return dice_rolled and dice_con == True
+
+
 # Load button images
 button_surface_on = pygame.image.load('pic/musicon.png')
 button_surface_off = pygame.image.load('pic/musicoff.png')
 button_roll = pygame.image.load('pic/Roll.png')
 button_play = pygame.image.load('pic/play.png')
+button_buy = pygame.image.load('pic/buy.png')
 button_surface_on = pygame.transform.scale(button_surface_on, (40, 40))
 button_surface_off = pygame.transform.scale(button_surface_off, (40, 40))
 button_roll = pygame.transform.scale(button_roll, (80, 80))
 button_play = pygame.transform.scale(button_play, (450, 170))
+button_buy = pygame.transform.scale(button_buy, (100, 100))
 button_music = Button(button_surface_on, button_surface_off, 650, 680)
 button_roll = Button(button_roll, button_roll, 800, 650)
 button_play = Button(button_play, button_play, 500, 400)
-
+button_buy = Button(button_buy, button_buy, 800, 500)
 
 # add background music
 pygame.mixer.music.load('Sound/BGM.mp3')
@@ -357,6 +373,15 @@ class Map:
         # loading image for the maps
 
 
+# Global player position
+player1_pos = 0
+player2_pos = 0
+player3_pos = 0
+player4_pos = 0
+# player sequence
+player_sequence = 1
+
+
 class Player:
     def __init__(self, color, shape, row, col, scale_factor=0.5):
         self.color = color
@@ -364,6 +389,7 @@ class Player:
         self.row = row
         self.col = col
         self.scale_factor = scale_factor
+        self.dice_num = dice_num
 
     def draw(self):
         x = self.col * tile_size + tile_size//4
@@ -392,12 +418,68 @@ class Player:
                                                      (x, y + star_size),
                                                      (x + star_size//2, y)])
 
+    def player_movement(dice_num):
+        global dice_rolled, player1_pos, player2_pos, player3_pos, player4_pos, player_sequence
+        if dice_con and dice_rolled >= 1 and player_sequence == 1:
+            dice_rolled -= 1
+            print(f"dice is {dice_num}")
+            player_sequence += 1
+            player1_pos = player1_pos + dice_num
+            if player1_pos < 32:
+                print(f"Player 1 is now at:{player1_pos}")
+            elif player1_pos == 32:
+                player1_pos = 0
+                print(f"Player 1 is now at: {player1_pos}")
+            else:
+                player1_pos -= 32
+                print(f"Player 1 is now at: {player1_pos}")
+
+        elif dice_con and dice_rolled >= 1 and player_sequence == 2:
+            dice_rolled -= 1
+            print(f"dice is {dice_num}")
+            player_sequence += 1
+            player2_pos = player2_pos + dice_num
+            if player2_pos < 32:
+                print(f"Player 2 is now at:{player2_pos}")
+            elif player2_pos == 32:
+                player2_pos = 0
+                print(f"Player 2 is now at: {player2_pos}")
+            else:
+                player2_pos -= 32
+                print(f"Player 2 is now at: {player2_pos}")
+        elif dice_con and dice_rolled >= 1 and player_sequence == 3:
+            dice_rolled -= 1
+            print(f"dice is {dice_num}")
+            player_sequence += 1
+            player3_pos = player3_pos + dice_num
+            if player3_pos < 32:
+                print(f"Player 3 is now at:{player3_pos}")
+            elif player3_pos == 32:
+                player3_pos = 0
+                print(f"Player 3 is now at: {player3_pos}")
+            else:
+                player3_pos -= 32
+                print(f"Player 3 is now at: {player3_pos}")
+
+        elif dice_con and dice_rolled >= 1 and player_sequence == 4:
+            dice_rolled -= 1
+            print(f"dice is {dice_num}")
+            player_sequence -= 3
+            player4_pos = player4_pos + dice_num
+            if player4_pos < 32:
+                print(f"Player 4 is now at:{player4_pos}")
+            elif player4_pos == 32:
+                player4_pos = 0
+                print(f"Player 4 is now at: {player4_pos}")
+            else:
+                player4_pos -= 32
+                print(f"Player 4 is now at: {player4_pos}")
+
 
 player1 = Player((255, 0, 0), 'circle', 0, 0, scale_factor=0.5)
 player2 = Player((0, 255, 0), 'square', 0, 0, scale_factor=0.5)
 player3 = Player((0, 0, 255), 'triangle', 0, 0, scale_factor=0.5)
 player4 = Player((255, 255, 0), 'star', 0, 0, scale_factor=0.5)
-
 players = [player1, player2, player3, player4]
 
 
@@ -423,9 +505,9 @@ map_data = [[1, 2, 2, 2, 2, 3, 4, 4, 4, 10],
             [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
             [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
             [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
-            [29, 42, 43, 44, 45, 46, 47, 48, 49, 14],
-            [7, 52, 53, 54, 55, 56, 57, 58, 59, 6],
-            [7, 62, 63, 64, 65, 66, 67, 68, 69, 6],
+            [29, 0, 0, 0, 0, 0, 0, 0, 0, 14],
+            [7, 0, 0, 0, 0, 0, 0, 0, 0, 6],
+            [7, 0, 0, 0, 0, 0, 0, 0, 0, 6],
             [26, 7, 7, 7, 7, 21, 6, 6, 6, 17],]
 
 
@@ -442,9 +524,10 @@ while run:
     if not Button.menu:
         map.draw()
         Display.middle()
-        Display.showing_text()
+        Display.showing_properties_name()
         button_music.update()
         button_roll.update()
+        button_buy.update()
         # Display.drawing_grid(100)
     else:
         pass
@@ -459,6 +542,13 @@ while run:
             button_music.checkmusic(pygame.mouse.get_pos())
             button_roll.checkroll(pygame.mouse.get_pos())
             button_play.check_play(pygame.mouse.get_pos())
+        # if roll dice randomize a num
+            if Button.rolling_con:
+                rand_a_dice()
+                Player.player_movement(random.randint(1, 6))
+                Button.rolling_con = False
+            else:
+                pass
 
     pygame.display.update()
 pygame.quit()
