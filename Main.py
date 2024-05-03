@@ -42,7 +42,7 @@ property = [
     Property("A'Famosa", 900, 55),
     Property("Jonker Street", 1000, 65),
     Property("Telekom Malaysia", 1200, 80),
-    Property("Sky Bridge Langkawi", 1200, 85),
+    Property("Sky Bridge Langkawi", 1300, 85),
     Property("Penang Hill", 1400, 100),
     Property("George Town Penang", 1500, 110),
     Property("Chew Jetty", 1600, 120),
@@ -59,9 +59,6 @@ property = [
     Property("Merdeka 118", 3500, 350),
     Property("KLCC", 4000, 500)
 ]
-
-Pricelist = [500, 600, 700, 750, 800, 900, 1000, 1200, 1200, 1400, 1500, 1600,
-             1800, 2000, 2000, 2200, 2200, 2400, 2400, 2500, 2800, 3000, 3500, 4000]
 
 
 class Display:
@@ -109,7 +106,7 @@ class Display:
     stadthuys_t = smaller_font.render("redhouse", True, (black))
     astro_t = text_font.render("Astro", True, (black))
     rtm_t = text_font.render("RTM", True, (black))
-    seven_t = text_font.render("7-11", True, (black))
+    seven_t = text_font.render("99", True, (black))
     Ramly_t = smaller_font.render("B.Ramly", True, (black))
     # price_t = smaller_font.render(f"{Pricelist}", True, (black))
     # print(Pricelist)
@@ -208,15 +205,17 @@ class Display:
         pygame.draw.rect(screen, (rect_colour), Middle_rect)
 
 
-# general value for dice_num
+# general value for button
 dice_num = 0
 dice_con = False
-dice_rolled = 0
+dice_rolled = False
+buy_clicked = False
 
 
 class Button():
     menu = True
     rolling_con = False
+    is_buying_properties = False
 
     def __init__(self, image_on, image_off,  x_pos, y_pos):
         self.image_on = image_on
@@ -244,6 +243,10 @@ class Button():
         if self.rect.collidepoint(position):
             Button.menu = False
 
+    def check_buy(self, position):
+        if self.rect.collidepoint(position):
+            Button.is_buying_properties = True
+
     def toggleMusicState(self):
         if self.is_music_on:
             pygame.mixer.music.pause()
@@ -254,7 +257,7 @@ class Button():
 
 def rand_a_dice():
     global dice_con, dice_rolled
-    dice_rolled += 1
+    dice_rolled = True
     if not dice_con:
         dice_con = True
     return dice_rolled and dice_con == True
@@ -379,7 +382,7 @@ player2_pos = 0
 player3_pos = 0
 player4_pos = 0
 # player sequence
-player_sequence = 1
+player_sequence = 0
 
 
 class Player:
@@ -420,10 +423,10 @@ class Player:
 
     def player_movement(dice_num):
         global dice_rolled, player1_pos, player2_pos, player3_pos, player4_pos, player_sequence
-        if dice_con and dice_rolled >= 1 and player_sequence == 1:
-            dice_rolled -= 1
+        player_sequence += 1
+        if dice_con and dice_rolled and player_sequence == 1:
+            dice_rolled = False
             print(f"dice is {dice_num}")
-            player_sequence += 1
             player1_pos = player1_pos + dice_num
             if player1_pos < 32:
                 print(f"Player 1 is now at:{player1_pos}")
@@ -434,10 +437,9 @@ class Player:
                 player1_pos -= 32
                 print(f"Player 1 is now at: {player1_pos}")
 
-        elif dice_con and dice_rolled >= 1 and player_sequence == 2:
-            dice_rolled -= 1
+        elif dice_con and dice_rolled and player_sequence == 2:
+            dice_rolled = False
             print(f"dice is {dice_num}")
-            player_sequence += 1
             player2_pos = player2_pos + dice_num
             if player2_pos < 32:
                 print(f"Player 2 is now at:{player2_pos}")
@@ -447,10 +449,9 @@ class Player:
             else:
                 player2_pos -= 32
                 print(f"Player 2 is now at: {player2_pos}")
-        elif dice_con and dice_rolled >= 1 and player_sequence == 3:
-            dice_rolled -= 1
+        elif dice_con and dice_rolled and player_sequence == 3:
+            dice_rolled = False
             print(f"dice is {dice_num}")
-            player_sequence += 1
             player3_pos = player3_pos + dice_num
             if player3_pos < 32:
                 print(f"Player 3 is now at:{player3_pos}")
@@ -461,10 +462,10 @@ class Player:
                 player3_pos -= 32
                 print(f"Player 3 is now at: {player3_pos}")
 
-        elif dice_con and dice_rolled >= 1 and player_sequence == 4:
-            dice_rolled -= 1
+        elif dice_con and dice_rolled and player_sequence == 4:
+            dice_rolled = False
             print(f"dice is {dice_num}")
-            player_sequence -= 3
+
             player4_pos = player4_pos + dice_num
             if player4_pos < 32:
                 print(f"Player 4 is now at:{player4_pos}")
@@ -475,6 +476,10 @@ class Player:
                 player4_pos -= 32
                 print(f"Player 4 is now at: {player4_pos}")
 
+        elif player_sequence == 5:
+            print('next_round')
+            player_sequence -= 5
+
 
 player1 = Player((255, 0, 0), 'circle', 0, 0, scale_factor=0.5)
 player2 = Player((0, 255, 0), 'square', 0, 0, scale_factor=0.5)
@@ -483,12 +488,142 @@ player4 = Player((255, 255, 0), 'star', 0, 0, scale_factor=0.5)
 players = [player1, player2, player3, player4]
 
 
+# settings for the property
+price = 0
+Pricelist = [0, 500, 600, 700, 750, 0, 800, 900, 1000, 0, 1200, 1200, 1400, 0, 1500,  1600,
+             1800, 0, 2000, 2000, 2200, 0, 2200, 2400, 2400, 0, 2500, 2800, 0, 3000, 3500, 4000]
+b_property = str()
+
+Property_with_price = {
+    "Ramly Burger": 500,
+    "99 Minimarket": 600,
+    "Radio Televisyen Malaysia": 700,
+    "Astro": 750,
+    "Redhouse Melaka": 800,
+    "A'Famosa": 900,
+    "Jonker Street": 1000,
+    "Telekom Malaysia": 1200,
+    "Sky Bridge Langkawi": 1300,
+    "Penang Hill": 1400,
+    "George Town Penang": 1500,
+    "Chew Jetty": 1600,
+    "Cyberjaya": 1800,
+    "KL Central": 2000,
+    "Tenaga National Berhad": 2000,
+    "Cameroon Highland": 2200,
+    "Genting Highland": 2200,
+    "Putrajaya": 2400,
+    "KLIA": 2400,
+    "Lot10, Bukit Bintang": 2500,
+    "Pavilion Bukit Bintang": 2800,
+    "KL Tower": 3000,
+    "Merdeka 118": 3500,
+    "KLCC": 4000
+}
+
+# setting for player
+initial_money = int(15000)
+player_dict_m = {'p1_money': initial_money, 'p2_money': initial_money,
+                 'p3_money': initial_money, 'p4_money': initial_money}
+p1_list_p = []
+p2_list_p = []
+p3_list_p = []
+p4_list_p = []
+player1_broke = False
+player2_broke = False
+player3_broke = False
+player4_broke = False
+
+
 class economic:
-    initial_money = int(1000)
-    num_players = 4
-    player_dict_m = {}
-    for i in range(1, num_players+1):
-        player_dict_m[f"p{i}_money"] = initial_money
+    # checking for validity in buying property
+    # player will not be able to click buy button if tile is not available to sell
+
+    def check_buying_valid():
+        if player_sequence == 1 and player1_pos not in [0, 5, 9, 13, 16, 20, 25, 28]:
+            button_buy.update()
+
+        elif player_sequence == 2 and player2_pos not in [0, 5, 9, 13, 16, 20, 25, 28]:
+            button_buy.update()
+
+        elif player_sequence == 3 and player3_pos not in [0, 5, 9, 13, 16, 20, 25, 28]:
+            button_buy.update()
+
+        elif player_sequence == 4 and player4_pos not in [0, 5, 9, 13, 16, 20, 25, 28]:
+            button_buy.update()
+
+        else:
+            pass
+
+    def buying_property():
+
+        if player_sequence == 1 and player1_broke == False:
+            price = Pricelist[player1_pos]
+            print(f"price ={price}")
+            before_buy_p1 = player_dict_m['p1_money']
+            player_dict_m['p1_money'] = before_buy_p1 - price
+            after_buy_p1 = player_dict_m['p1_money']
+            print(f'Player1 now have {after_buy_p1}$')
+
+        elif player_sequence == 2 and player2_broke == False:
+            price = Pricelist[player2_pos]
+            print(f"price ={price}")
+            before_buy_p2 = player_dict_m['p2_money']
+            player_dict_m['p2_money'] = before_buy_p2 - price
+            after_buy_p2 = player_dict_m['p2_money']
+            print(f'Player2 now have {after_buy_p2}$')
+
+        elif player_sequence == 3 and player3_broke == False:
+            price = Pricelist[player3_pos]
+            print(f"price ={price}")
+            before_buy_p3 = player_dict_m['p3_money']
+            player_dict_m['p3_money'] = before_buy_p3 - price
+            after_buy_p3 = player_dict_m['p3_money']
+            print(f'Player3 now have {after_buy_p3}$')
+
+        elif player_sequence == 4 and player4_broke == False:
+            price = Pricelist[player4_pos]
+            print(f"price ={price}")
+            before_buy_p4 = player_dict_m['p4_money']
+            player_dict_m['p4_money'] = before_buy_p4 - price
+            after_buy_p4 = player_dict_m['p4_money']
+            print(f'Player4 now have {after_buy_p4}$')
+
+        else:
+            price = 0
+            pass
+
+        economic.owning_property(price)
+
+    def owning_property(price):
+        if player_sequence == 1 and Pricelist[player1_pos] != 0:
+            b_property = [
+                i for i in Property_with_price if Property_with_price[i] == price]
+
+            p1_list_p.append(b_property)
+            print(f'player 1 now have {p1_list_p}')
+            Pricelist[player1_pos] = 0
+        elif player_sequence == 2 and Pricelist[player2_pos] != 0:
+            b_property = [
+                i for i in Property_with_price if Property_with_price[i] == price]
+
+            p2_list_p.append(b_property)
+            print(f'player 2 now have {p2_list_p}')
+            Pricelist[player2_pos] = 0
+        elif player_sequence == 3 and Pricelist[player3_pos] != 0:
+            b_property = [
+                i for i in Property_with_price if Property_with_price[i] == price]
+
+            p3_list_p.append(b_property)
+            print(f'player 3 now have {p3_list_p}')
+            Pricelist[player3_pos] = 0
+        elif player_sequence == 4 and Pricelist[player4_pos] != 0:
+            b_property = [
+                i for i in Property_with_price if Property_with_price[i] == price]
+
+            p4_list_p.append(b_property)
+            print(f'player 4 now have {p4_list_p}')
+            Pricelist[player4_pos] = 0
 
     print(player_dict_m)
 
@@ -527,12 +662,11 @@ while run:
         Display.showing_properties_name()
         button_music.update()
         button_roll.update()
-        button_buy.update()
+        economic.check_buying_valid()
+
         # Display.drawing_grid(100)
     else:
         pass
-
-        # displaying text for all the tiles
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -542,11 +676,19 @@ while run:
             button_music.checkmusic(pygame.mouse.get_pos())
             button_roll.checkroll(pygame.mouse.get_pos())
             button_play.check_play(pygame.mouse.get_pos())
+            button_buy.check_buy(pygame.mouse.get_pos())
         # if roll dice randomize a num
             if Button.rolling_con:
                 rand_a_dice()
                 Player.player_movement(random.randint(1, 6))
                 Button.rolling_con = False
+                buy_clicked = False
+
+            elif Button.is_buying_properties and not buy_clicked:
+                economic.buying_property()
+
+                buy_clicked = True
+                Button.is_buying_properties == False
             else:
                 pass
 
