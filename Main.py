@@ -68,12 +68,6 @@ property = [
     Property("KLCC", 4000, 500)
 ]
 
-<<<<<<< HEAD
-=======
-# Pricelist = [500, 600, 700, 750, 800, 900, 1000, 1200, 1200, 1400, 1500, 1600,
-#              1800, 2000, 2000, 2200, 2200, 2400, 2400, 2500, 2800, 3000, 3500, 4000]
-
->>>>>>> Zheng-Hao
 
 class Display:
     text_font = pygame.font.Font("HelveticaNeue.ttf", 25)
@@ -122,11 +116,7 @@ class Display:
     rtm_t = text_font.render("RTM", True, (black))
     seven_t = text_font.render("99", True, (black))
     Ramly_t = smaller_font.render("B.Ramly", True, (black))
-<<<<<<< HEAD
-    # price_t = smaller_font.render(f"{Pricelist}", True, (black))
-=======
     # price_t = smaller_font.render(f"{Pricelist}", True, (white))
->>>>>>> Zheng-Hao
     # print(Pricelist)
 
     def showing_properties_name():
