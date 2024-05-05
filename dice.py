@@ -1,4 +1,5 @@
 import pygame
+import random
 import sys
 from pygame.locals import *
 pygame.init()
@@ -11,7 +12,7 @@ fps = 60
 screen_width = 1000
 screen_height = 800
 
-pygame.display.set_caption("Monopoly")
+pygame.display.set_caption("Dice")
 screen = pygame.display.set_mode((screen_width, screen_height))
 
 
@@ -32,18 +33,26 @@ class Dice(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = [pos_x, pos_y]
 
+        self.animation_speed = 1
+        self.animation_count = 0 
+        self.animation_max_count = 20
+
     def animate(self):
         self.animating = True
 
     def update(self):
         if self.animating == True:
-            self.current_sprite += 0.4
+            self.animation_count += self.animation_speed
 
-        if self.current_sprite >= len(self.sprites):
-            self.current_sprite = 0
-            self.animating = False
-
-        self.image = self.sprites[int(self.current_sprite)]
+            if self.animation_count >= self.animation_max_count:
+                self.current_sprite = random.randint(0, 5)
+                self.image = self.sprites[self.current_sprite]
+                self.animation = 0
+                self.animation_max_count -= self.animation_speed
+                
+                if self.animation_max_count <= 0:
+                    self.animating = False
+                    self.animation_max_count = 20
 
 
 # create the sprites and groups
