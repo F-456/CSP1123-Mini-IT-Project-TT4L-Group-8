@@ -23,6 +23,36 @@ white = 255, 255, 255
 black = 0, 0, 0
 grey = 179, 179, 179
 
+text_font = pygame.font.Font("HelveticaNeue.ttf", 20)
+smaller_font = pygame.font.Font("HelveticaNeue.ttf", 20)
+Specia_font = pygame.font.SysFont("ComicSansMS.ttf", 25, bold=False, italic=False)
+
+    # Maps control for monopoly
+map_data = [[1, 2, 2, 2, 2, 3, 4, 4, 4, 10],
+            [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
+            [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
+            [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
+            [29, 0, 0, 0, 0, 0, 0, 0, 0, 14],
+            [7, 0, 0, 0, 0, 0, 0, 0, 0, 6],
+            [7, 0, 0, 0, 0, 0, 0, 0, 0, 6],
+            [26, 7, 7, 7, 7, 21, 6, 6, 6, 17],
+]
+
+block_desctiptions = {
+    8 : "KLCC"
+}
+
+
+def display_descriptions(description):
+    # Clear the screen
+    font = pygame.font.Font(None, 36)
+    # Display the description
+    text_surface = font.render(description, True, white)
+    screen.blit(text_surface, (200, 240))
+
+    # Update the display
+    pygame.display.flip()
+
 
 class Property:
     def __init__(self, name, price, base_rent):
@@ -68,29 +98,17 @@ property = [
     Property("KLCC", 4000, 500)
 ]
 
-<<<<<<< HEAD
-=======
-# Pricelist = [500, 600, 700, 750, 800, 900, 1000, 1200, 1200, 1400, 1500, 1600,
-#              1800, 2000, 2000, 2200, 2200, 2400, 2400, 2500, 2800, 3000, 3500, 4000]
-
->>>>>>> Zheng-Hao
 
 class Display:
-    text_font = pygame.font.Font("HelveticaNeue.ttf", 25)
+    text_font = pygame.font.Font("HelveticaNeue.ttf", 20)
     smaller_font = pygame.font.Font("HelveticaNeue.ttf", 20)
-    Specia_font = pygame.font.SysFont(
-        "ComicSansMS.ttf", 25, bold=False, italic=False)
+    Specia_font = pygame.font.SysFont("ComicSansMS.ttf", 25, bold=False, italic=False)
     # text used in all the tile
     Go_t = text_font.render("Go", True, (white))
     collect_t = smaller_font.render("Pass & Go", True, (white))
-    klcc_t = text_font.render("KLCC", True, (black))
     money_t = smaller_font.render("$", True, (black))
-    M118_t = text_font.render("M.118", True, (black))
-    kl_t = text_font.render("kl.tower", True, (black))
     Q_t = text_font.render("?", True, (white))
     chance_t = smaller_font.render("Chance", True, (white))
-    Pavilion_t = text_font.render("Pavilion", True, (black))
-    Lot10_t = text_font.render("Lot10", True, (black))
     jail_t = text_font.render("Jail", True, (white))
     klia_t = text_font.render("KLIA", True, (black))
     cyber_t = smaller_font.render("Cyberjaya", True, (black))
@@ -122,30 +140,38 @@ class Display:
     rtm_t = text_font.render("RTM", True, (black))
     seven_t = text_font.render("99", True, (black))
     Ramly_t = smaller_font.render("B.Ramly", True, (black))
-<<<<<<< HEAD
-    # price_t = smaller_font.render(f"{Pricelist}", True, (black))
-=======
     # price_t = smaller_font.render(f"{Pricelist}", True, (white))
->>>>>>> Zheng-Hao
     # print(Pricelist)
 
+    def rotate_text(text, angle):
+        return pygame.transform.rotate(text, angle)
+    
+    def render_rotate_text(font, text, color, angle):
+        rotated_text = Display.rotate_text(font.render(text, True, color),angle)
+        return rotated_text
+
     def showing_properties_name():
-        screen.blit(Display.klcc_t, (20, 120))
         screen.blit(Display.Go_t, (20, 20))
-        # screen.blit(Display.price_t, (20, 20))
         screen.blit(Display.collect_t, (20, 50))
-        screen.blit(Display.money_t, (20, 150))
-        screen.blit(Display.M118_t, (20, 220))
-        screen.blit(Display.money_t, (20, 250))
-        screen.blit(Display.kl_t, (16, 320))
-        screen.blit(Display.money_t, (20, 350))
         screen.blit(Display.Q_t, (40, 420))
         screen.blit(Display.chance_t, (20, 450))
-        screen.blit(Display.Pavilion_t, (10, 520))
-        screen.blit(Display.money_t, (20, 550))
-        screen.blit(Display.Lot10_t, (20, 620))
-        screen.blit(Display.money_t, (20, 650))
         screen.blit(Display.jail_t, (20, 720))
+        screen.blit(Display.income_t, (520, 720))
+        screen.blit(Display.tax_t, (520, 750))
+        screen.blit(Display.Q_t, (950, 420))
+        screen.blit(Display.chance_t, (920, 450))
+        screen.blit(Display.income_t, (520, 20))
+        screen.blit(Display.tax_t, (520, 50))
+        klcc_rotated = Display.render_rotate_text(Display.text_font, "KLCC", (black), 270)
+        screen.blit(klcc_rotated, (55, 120))
+        merdeka118_rotated = Display.render_rotate_text(Display.text_font, "M.118", (black), 270)
+        screen.blit(merdeka118_rotated, (55, 220))
+        kl_tower_rotated = Display.render_rotate_text(Display.text_font, "KL.Tower", (black), 270)
+        screen.blit(kl_tower_rotated, (55, 310))
+        pavilion_rotated = Display.render_rotate_text(Display.text_font, "Pavilion", (black), 270)
+        screen.blit(pavilion_rotated, (55, 520))
+        lot10_rotated = Display.render_rotate_text(Display.text_font, "Lot 10", (black), 270)
+        screen.blit(lot10_rotated, (55, 620))
         screen.blit(Display.klia_t, (120, 720))
         screen.blit(Display.money_t, (120, 750))
         screen.blit(Display.putra_t, (210, 720))
@@ -154,34 +180,22 @@ class Display:
         screen.blit(Display.money_t, (320, 750))
         screen.blit(Display.cameroon_t, (405, 720))
         screen.blit(Display.money_t, (420, 750))
-        screen.blit(Display.income_t, (520, 720))
-        screen.blit(Display.tax_t, (520, 750))
         screen.blit(Display.tnb_t, (620, 720))
         screen.blit(Display.money_t, (620, 750))
         screen.blit(Display.klsen_t, (710, 720))
         screen.blit(Display.money_t, (720, 750))
         screen.blit(Display.cyber_t, (810, 720))
         screen.blit(Display.money_t, (820, 750))
-        screen.blit(Display.Gojail1_t, (920, 720))
-        screen.blit(Display.GOjail2_t, (930, 750))
-        screen.blit(Display.chew1_t, (920, 610))
-        screen.blit(Display.chew2_t, (920, 630))
-        screen.blit(Display.money_t, (920, 650))
-        screen.blit(Display.George1_t, (920, 510))
-        screen.blit(Display.George2_t, (920, 530))
-        screen.blit(Display.money_t, (920, 550))
-        screen.blit(Display.Q_t, (950, 420))
-        screen.blit(Display.chance_t, (920, 450))
-        screen.blit(Display.hill_1, (920, 310))
-        screen.blit(Display.hill_2, (920, 330))
-        screen.blit(Display.money_t, (920, 350))
-        screen.blit(Display.sky_t, (920, 210))
-        screen.blit(Display.bridge_t, (920, 230))
-        screen.blit(Display.money_t, (920, 250))
-        screen.blit(Display.Tm_t, (920, 120))
-        screen.blit(Display.money_t, (920, 150))
-        screen.blit(Display.free_t, (920, 20))
-        screen.blit(Display.park_t, (920, 50))
+        chewjetty_rotated = Display.render_rotate_text(Display.text_font, "C.Jetty", (black), 90)
+        screen.blit(chewjetty_rotated, (920, 620))
+        gtown_rotated = Display.render_rotate_text(Display.text_font, "G.Town", (black), 90)
+        screen.blit(gtown_rotated, (920, 520))
+        PenangHill_rotated = Display.render_rotate_text(Display.text_font, "P.Hill", (black), 90)
+        screen.blit(PenangHill_rotated, (920, 320))
+        sky_b_rotated = Display.render_rotate_text(Display.text_font, "Sky.B", (black), 90)
+        screen.blit(sky_b_rotated, (920, 220))
+        tm_rotated = Display.render_rotate_text(Display.text_font, "TM", (black), 90)
+        screen.blit(tm_rotated, (920, 120))
         screen.blit(Display.famosa_1, (710, 20))
         screen.blit(Display.money_t, (720, 50))
         screen.blit(Display.jonker_1, (820, 10))
@@ -189,8 +203,6 @@ class Display:
         screen.blit(Display.money_t, (820, 50))
         screen.blit(Display.stadthuys_t, (610, 20))
         screen.blit(Display.money_t, (620, 50))
-        screen.blit(Display.income_t, (520, 20))
-        screen.blit(Display.tax_t, (520, 50))
         screen.blit(Display.astro_t, (420, 20))
         screen.blit(Display.money_t, (420, 50))
         screen.blit(Display.rtm_t, (320, 20))
@@ -292,7 +304,7 @@ button_surface_off = pygame.transform.scale(button_surface_off, (40, 40))
 button_roll = pygame.transform.scale(button_roll, (80, 80))
 button_play = pygame.transform.scale(button_play, (450, 170))
 button_buy = pygame.transform.scale(button_buy, (100, 100))
-button_music = Button(button_surface_on, button_surface_off, 650, 680)
+button_music = Button(button_surface_on, button_surface_off, 880, 120)
 button_roll = Button(button_roll, button_roll, 800, 650)
 button_play = Button(button_play, button_play, 500, 400)
 button_buy = Button(button_buy, button_buy, 800, 500)
@@ -325,6 +337,8 @@ class Map:
         blue_box = pygame.image.load("pic/lightblue.png")
         purple_box = pygame.image.load("pic/lightpurple.png")
         red_box = pygame.image.load("pic/lightred.png")
+        go_to_jail = pygame.image.load("pic/gotojail.webp")
+        free_parking = pygame.image.load("pic/freeparking.png")
 
         row_count = 0
         for row in data:
@@ -375,9 +389,27 @@ class Map:
                     tile = (img, img_rect)
                     self.tile_list.append(tile)
 
-                if tile == 8:
+                elif tile == 8:
                     img = pygame.transform.scale(
                         red_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 10:
+                    img = pygame.transform.scale(
+                        free_parking, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 17:
+                    img = pygame.transform.scale(
+                        go_to_jail, (tile_size, tile_size))
                     img_rect = img.get_rect()
                     img_rect.x = col_count * tile_size
                     img_rect.y = row_count * tile_size
@@ -653,17 +685,6 @@ class starting_menu:
     def title():
         screen.blit(starting_menu.start_title, (200, 100))
 
-    # Maps control for monopoly
-map_data = [[1, 2, 2, 2, 2, 3, 4, 4, 4, 10],
-            [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
-            [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
-            [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
-            [29, 0, 0, 0, 0, 0, 0, 0, 0, 14],
-            [7, 0, 0, 0, 0, 0, 0, 0, 0, 6],
-            [7, 0, 0, 0, 0, 0, 0, 0, 0, 6],
-            [26, 7, 7, 7, 7, 21, 6, 6, 6, 17],]
-
-
 map = Map(map_data)
 # main run for game
 run = True
@@ -695,6 +716,14 @@ while run:
             button_roll.checkroll(pygame.mouse.get_pos())
             button_play.check_play(pygame.mouse.get_pos())
             button_buy.check_buy(pygame.mouse.get_pos())
+            if event.button == 1:  # Left mouse button
+                x, y = pygame.mouse.get_pos()
+                block_x, block_y = x // 100, y // 100
+                block = map_data[block_y][block_x]
+                if block in block_desctiptions:
+                    description = block_desctiptions[block]
+                    display_descriptions(description)
+
         # if roll dice randomize a num
             if Button.rolling_con:
                 rand_a_dice()
