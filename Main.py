@@ -19,6 +19,8 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 
 # universal settings
 tile_size = 100
+num_row = 8
+num_col = 10
 white = 255, 255, 255
 black = 0, 0, 0
 grey = 179, 179, 179
@@ -385,6 +387,47 @@ player4_pos = 0
 player_sequence = 0
 
 
+class Dice(pygame.sprite.Sprite):
+    def __init__(self, pos_x, pos_y):
+        super().__init__()
+        self.sprites = []
+        self.animating = False
+        self.num_frames = 6  # number of frames in animation sequence
+        for i in range(1, 7):
+            self.sprites.append(pygame.image.load(f'pic/dice{i}.png'))
+        self.current_sprite = 0
+        self.image = self.sprites[self.current_sprite]
+        self.rect = self.image.get_rect()
+        self.rect.topleft = [pos_x, pos_y]
+        self.animation_speed = 3
+        self.animation_count = 0
+        self.animation_max_count = 20
+
+    def animate(self, dice_num):
+        self.animating = True
+        # Calculate the frame index corresponding to the roll value
+        frame_index = min(dice_num - 1, self.num_frames - 1)
+        # Update the current sprite to the frame corresponding to the roll
+        self.current_sprite = frame_index
+        self.image = self.sprites[self.current_sprite]
+
+    def update(self):
+        if self.animating:
+            self.animation_count += self.animation_speed
+            if self.animation_count >= self.animation_max_count:
+                # Stop the animation when it reaches the target frame
+                self.animating = False
+                self.animation_max_count = 20  # Reset max count for future animations
+
+
+# Create the sprite groups
+moving_sprites = pygame.sprite.Group()
+
+# Create the Dice sprite
+dice = Dice(450, 350)
+moving_sprites.add(dice)
+
+
 class Player:
     def __init__(self, color, shape, row, col, scale_factor=0.5):
         self.color = color
@@ -420,6 +463,22 @@ class Player:
                                                       y + star_size//3),
                                                      (x, y + star_size),
                                                      (x + star_size//2, y)])
+
+    def move(self, steps):
+        # Move the player along the perimeter of the grid
+        for _ in range(steps):
+            if self.row == 0 and self.col < num_col - 1:
+                self.col += 1
+            elif self.row < num_row - 1 and self.col == num_col - 1:
+                self.row += 1
+            elif self.row == num_row - 1 and self.col > 0:
+                self.col -= 1
+            elif self.row > 0 and self.col == 0:
+                self.row -= 1
+
+            # If the player reaches the starting position, stop
+            if self.row == 0 and self.col == 0:
+                break
 
     def player_movement(dice_num):
         global dice_rolled, player1_pos, player2_pos, player3_pos, player4_pos, player_sequence
@@ -479,6 +538,9 @@ class Player:
         elif player_sequence == 5:
             print('next_round')
             player_sequence -= 5
+
+
+active_player_index = 0
 
 
 player1 = Player((255, 0, 0), 'circle', 0, 0, scale_factor=0.5)
@@ -635,6 +697,7 @@ class starting_menu:
     def title():
         screen.blit(starting_menu.start_title, (200, 100))
 
+
     # Maps control for monopoly
 map_data = [[1, 2, 2, 2, 2, 3, 4, 4, 4, 10],
             [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
@@ -663,6 +726,11 @@ while run:
         button_music.update()
         button_roll.update()
         economic.check_buying_valid()
+        moving_sprites.draw(screen)
+        moving_sprites.update()
+
+        for player in players:
+            player.draw()
 
         # Display.drawing_grid(100)
     else:
@@ -680,9 +748,17 @@ while run:
         # if roll dice randomize a num
             if Button.rolling_con:
                 rand_a_dice()
-                Player.player_movement(random.randint(1, 6))
+                dice_num = (random.randint(1, 6))
+                Player.player_movement(dice_num)
+                # Move the active player based on the dice roll
+                players[active_player_index].move(dice_num)
+                # Move to the next player
+                active_player_index = (active_player_index + 1) % len(players)
                 Button.rolling_con = False
                 buy_clicked = False
+                if player_sequence != 5:
+                    # dice animating
+                    dice.animate(dice_num)
 
             elif Button.is_buying_properties and not buy_clicked:
                 economic.buying_property()
