@@ -1,6 +1,9 @@
 import pygame
 import sys
 from pygame import *
+from math import *
+import random
+import time
 pygame.init()
 # initiate pygame music features
 pygame.mixer.init()
@@ -16,117 +19,199 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 
 # universal settings
 tile_size = 100
+num_row = 8
+num_col = 10
 white = 255, 255, 255
 black = 0, 0, 0
 grey = 179, 179, 179
 
-# add background music
-pygame.mixer.music.load('Sound/BGM.mp3')
-pygame.mixer.music.set_volume(0.5)
-pygame.mixer.music.play(-1)
+text_font = pygame.font.Font("HelveticaNeue.ttf", 20)
+smaller_font = pygame.font.Font("HelveticaNeue.ttf", 20)
+Specia_font = pygame.font.SysFont(
+    "ComicSansMS.ttf", 25, bold=False, italic=False)
+
+# Maps control for monopoly
+map_data = [[1, 2, 2, 2, 2, 3, 4, 4, 4, 10],
+            [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
+            [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
+            [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
+            [29, 0, 0, 0, 0, 0, 0, 0, 0, 14],
+            [7, 0, 0, 0, 0, 0, 0, 0, 0, 6],
+            [7, 0, 0, 0, 0, 0, 0, 0, 0, 6],
+            [26, 7, 7, 7, 7, 21, 6, 6, 6, 17],
+            ]
+
+block_desctiptions = {
+    8: "KLCC"
+}
+
+
+def display_descriptions(description):
+    # Clear the screen
+    font = pygame.font.Font(None, 36)
+    # Display the description
+    text_surface = font.render(description, True, white)
+    screen.blit(text_surface, (200, 240))
+
+    # Update the display
+    pygame.display.flip()
+
+
+class Property:
+    def __init__(self, name, price, base_rent):
+        self.name = name
+        self.price = price
+        self.base_rent = base_rent
+        self.owner = None
+
+    def calculate_rent(self):
+        if self.owner:
+            owned_properties = sum(
+                1 for prop in property if prop.owner == self.owner)
+            rent = self.base_rent * (2 ** (owned_properties - 1))
+            return rent
+        else:
+            return 0
+
+
+# Define property
+property = [
+    Property("Ramly Burger", 500, 10),
+    Property("99 Minimarket", 600, 20),
+    Property("Radio Televisyen Malaysia", 700, 35),
+    Property("Astro", 750, 40),
+    Property("Redhouse Melaka", 800, 50),
+    Property("A'Famosa", 900, 55),
+    Property("Jonker Street", 1000, 65),
+    Property("Telekom Malaysia", 1200, 80),
+    Property("Sky Bridge Langkawi", 1300, 85),
+    Property("Penang Hill", 1400, 100),
+    Property("George Town Penang", 1500, 110),
+    Property("Chew Jetty", 1600, 120),
+    Property("Cyberjaya", 1800, 140),
+    Property("KL Central", 2000, 160),
+    Property("Tenaga National Berhad", 2000, 160),
+    Property("Cameroon Highland", 2200, 180),
+    Property("Genting Highland", 2200, 180),
+    Property("Putrajaya", 2400, 200),
+    Property("KLIA", 2400, 200),
+    Property("Lot10, Bukit Bintang", 2500, 220),
+    Property("Pavilion Bukit Bintang", 2800, 240),
+    Property("KL Tower", 3000, 275),
+    Property("Merdeka 118", 3500, 350),
+    Property("KLCC", 4000, 500)
+]
 
 
 class Display:
-    text_font = pygame.font.Font(
-        "HelveticaNeue.ttf", 25)
+    text_font = pygame.font.Font("HelveticaNeue.ttf", 20)
     smaller_font = pygame.font.Font("HelveticaNeue.ttf", 20)
     Specia_font = pygame.font.SysFont(
         "ComicSansMS.ttf", 25, bold=False, italic=False)
     # text used in all the tile
     Go_t = text_font.render("Go", True, (white))
-    collect_t = smaller_font.render("Collect...", True, (white))
-    klcc_t = text_font.render("KLCC", True, (white))
-    money_t = smaller_font.render("$", True, (white))
-    M118_t = text_font.render("M.118", True, (white))
-    kl_t = text_font.render("kl.tower", True, (white))
+    collect_t = smaller_font.render("Pass & Go", True, (white))
+    money_t = smaller_font.render("$", True, (black))
     Q_t = text_font.render("?", True, (white))
     chance_t = smaller_font.render("Chance", True, (white))
-    Pavilion_t = text_font.render("Pavilion", True, (white))
-    Lot10_t = text_font.render("Lot10", True, (white))
     jail_t = text_font.render("Jail", True, (white))
-    klia_t = text_font.render("KLIA", True, (white))
-    cyber_t = smaller_font.render("Cyberjaya", True, (white))
-    genting_t = smaller_font.render("G.highland", True, (white))
-    cameroon_t = smaller_font.render("C.highland", True, (white))
+    klia_t = text_font.render("KLIA", True, (black))
+    cyber_t = smaller_font.render("Cyberjaya", True, (black))
+    genting_t = smaller_font.render("G.highland", True, (black))
+    cameroon_t = smaller_font.render("C.highland", True, (black))
     income_t = smaller_font.render("Income", True, (white))
     tax_t = smaller_font.render("tax", True, (white))
-    tnb_t = text_font.render("TNB", True, (white))
-    klsen_t = smaller_font.render("KL.central", True, (white))
-    putra_t = smaller_font.render("Putrajaya", True, (white))
+    tnb_t = text_font.render("TNB", True, (black))
+    klsen_t = smaller_font.render("KL.central", True, (black))
+    putra_t = smaller_font.render("Putrajaya", True, (black))
     Gojail1_t = smaller_font.render("Go to", True, (white))
     GOjail2_t = smaller_font.render("Jail", True, (white))
-    chew1_t = smaller_font.render("Chew", True, (white))
-    chew2_t = smaller_font.render("Jetty", True, (white))
-    George1_t = smaller_font.render("Goerge", True, (white))
-    George2_t = smaller_font.render("Town", True, (white))
-    sky_t = smaller_font.render("Sky", True, (white))
-    bridge_t = smaller_font.render("Bridge", True, (white))
-    Tm_t = text_font.render("TM", True, (white))
+    chew1_t = smaller_font.render("Chew", True, (black))
+    chew2_t = smaller_font.render("Jetty", True, (black))
+    George1_t = smaller_font.render("Goerge", True, (black))
+    George2_t = smaller_font.render("Town", True, (black))
+    sky_t = smaller_font.render("Sky", True, (black))
+    bridge_t = smaller_font.render("Bridge", True, (black))
+    Tm_t = text_font.render("TM", True, (black))
     free_t = smaller_font.render("Free", True, (white))
     park_t = smaller_font.render("Parking", True, (white))
-    hill_1 = smaller_font.render("Penang", True, (white))
-    hill_2 = smaller_font.render("Hill", True, (white))
-    famosa_1 = smaller_font.render("A.Famosa", True, (white))
-    jonker_1 = smaller_font.render("Jonker", True, (white))
-    jonker_2 = smaller_font.render("Street", True, (white))
-    stadthuys_t = smaller_font.render("redhouse", True, (white))
+    hill_1 = smaller_font.render("Penang", True, (black))
+    hill_2 = smaller_font.render("Hill", True, (black))
+    famosa_1 = smaller_font.render("A.Famosa", True, (black))
+    jonker_1 = smaller_font.render("Jonker", True, (black))
+    jonker_2 = smaller_font.render("Street", True, (black))
+    stadthuys_t = smaller_font.render("redhouse", True, (black))
     astro_t = text_font.render("Astro", True, (black))
     rtm_t = text_font.render("RTM", True, (black))
-    seven_t = text_font.render("7-11", True, (black))
+    seven_t = text_font.render("99", True, (black))
     Ramly_t = smaller_font.render("B.Ramly", True, (black))
+    # price_t = smaller_font.render(f"{Pricelist}", True, (white))
+    # print(Pricelist)
 
-    def showing_text():
-        screen.blit(Display.klcc_t, (20, 120))
+    def rotate_text(text, angle):
+        return pygame.transform.rotate(text, angle)
+
+    def render_rotate_text(font, text, color, angle):
+        rotated_text = Display.rotate_text(
+            font.render(text, True, color), angle)
+        return rotated_text
+
+    def showing_properties_name():
         screen.blit(Display.Go_t, (20, 20))
         screen.blit(Display.collect_t, (20, 50))
-        screen.blit(Display.money_t, (20, 150))
-        screen.blit(Display.M118_t, (20, 220))
-        screen.blit(Display.money_t, (20, 250))
-        screen.blit(Display.kl_t, (16, 320))
-        screen.blit(Display.money_t, (20, 350))
         screen.blit(Display.Q_t, (40, 420))
         screen.blit(Display.chance_t, (20, 450))
-        screen.blit(Display.Pavilion_t, (10, 520))
-        screen.blit(Display.money_t, (20, 550))
-        screen.blit(Display.Lot10_t, (20, 620))
-        screen.blit(Display.money_t, (20, 650))
         screen.blit(Display.jail_t, (20, 720))
+        screen.blit(Display.income_t, (520, 720))
+        screen.blit(Display.tax_t, (520, 750))
+        screen.blit(Display.Q_t, (950, 420))
+        screen.blit(Display.chance_t, (920, 450))
+        screen.blit(Display.income_t, (520, 20))
+        screen.blit(Display.tax_t, (520, 50))
+        klcc_rotated = Display.render_rotate_text(
+            Display.text_font, "KLCC", (black), 270)
+        screen.blit(klcc_rotated, (55, 120))
+        merdeka118_rotated = Display.render_rotate_text(
+            Display.text_font, "M.118", (black), 270)
+        screen.blit(merdeka118_rotated, (55, 220))
+        kl_tower_rotated = Display.render_rotate_text(
+            Display.text_font, "KL.Tower", (black), 270)
+        screen.blit(kl_tower_rotated, (55, 310))
+        pavilion_rotated = Display.render_rotate_text(
+            Display.text_font, "Pavilion", (black), 270)
+        screen.blit(pavilion_rotated, (55, 520))
+        lot10_rotated = Display.render_rotate_text(
+            Display.text_font, "Lot 10", (black), 270)
+        screen.blit(lot10_rotated, (55, 620))
         screen.blit(Display.klia_t, (120, 720))
         screen.blit(Display.money_t, (120, 750))
-        screen.blit(Display.cyber_t, (210, 720))
+        screen.blit(Display.putra_t, (210, 720))
         screen.blit(Display.money_t, (220, 750))
         screen.blit(Display.genting_t, (305, 720))
         screen.blit(Display.money_t, (320, 750))
         screen.blit(Display.cameroon_t, (405, 720))
         screen.blit(Display.money_t, (420, 750))
-        screen.blit(Display.income_t, (520, 720))
-        screen.blit(Display.tax_t, (520, 750))
         screen.blit(Display.tnb_t, (620, 720))
         screen.blit(Display.money_t, (620, 750))
         screen.blit(Display.klsen_t, (710, 720))
         screen.blit(Display.money_t, (720, 750))
-        screen.blit(Display.putra_t, (810, 720))
+        screen.blit(Display.cyber_t, (810, 720))
         screen.blit(Display.money_t, (820, 750))
-        screen.blit(Display.Gojail1_t, (920, 720))
-        screen.blit(Display.GOjail2_t, (930, 750))
-        screen.blit(Display.chew1_t, (920, 610))
-        screen.blit(Display.chew2_t, (920, 630))
-        screen.blit(Display.money_t, (920, 650))
-        screen.blit(Display.George1_t, (920, 510))
-        screen.blit(Display.George2_t, (920, 530))
-        screen.blit(Display.money_t, (920, 550))
-        screen.blit(Display.Q_t, (950, 420))
-        screen.blit(Display.chance_t, (920, 450))
-        screen.blit(Display.hill_1, (920, 310))
-        screen.blit(Display.hill_2, (920, 330))
-        screen.blit(Display.money_t, (920, 350))
-        screen.blit(Display.sky_t, (920, 210))
-        screen.blit(Display.bridge_t, (920, 230))
-        screen.blit(Display.money_t, (920, 250))
-        screen.blit(Display.Tm_t, (920, 120))
-        screen.blit(Display.money_t, (920, 150))
-        screen.blit(Display.free_t, (920, 20))
-        screen.blit(Display.park_t, (920, 50))
+        chewjetty_rotated = Display.render_rotate_text(
+            Display.text_font, "C.Jetty", (black), 90)
+        screen.blit(chewjetty_rotated, (920, 620))
+        gtown_rotated = Display.render_rotate_text(
+            Display.text_font, "G.Town", (black), 90)
+        screen.blit(gtown_rotated, (920, 520))
+        PenangHill_rotated = Display.render_rotate_text(
+            Display.text_font, "P.Hill", (black), 90)
+        screen.blit(PenangHill_rotated, (920, 320))
+        sky_b_rotated = Display.render_rotate_text(
+            Display.text_font, "Sky.B", (black), 90)
+        screen.blit(sky_b_rotated, (920, 220))
+        tm_rotated = Display.render_rotate_text(
+            Display.text_font, "TM", (black), 90)
+        screen.blit(tm_rotated, (920, 120))
         screen.blit(Display.famosa_1, (710, 20))
         screen.blit(Display.money_t, (720, 50))
         screen.blit(Display.jonker_1, (820, 10))
@@ -134,8 +219,6 @@ class Display:
         screen.blit(Display.money_t, (820, 50))
         screen.blit(Display.stadthuys_t, (610, 20))
         screen.blit(Display.money_t, (620, 50))
-        screen.blit(Display.income_t, (520, 20))
-        screen.blit(Display.tax_t, (520, 50))
         screen.blit(Display.astro_t, (420, 20))
         screen.blit(Display.money_t, (420, 50))
         screen.blit(Display.rtm_t, (320, 20))
@@ -168,7 +251,18 @@ class Display:
         pygame.draw.rect(screen, (rect_colour), Middle_rect)
 
 
+# general value for button
+dice_num = 0
+dice_con = False
+dice_rolled = False
+buy_clicked = False
+
+
 class Button():
+    menu = True
+    rolling_con = False
+    is_buying_properties = False
+
     def __init__(self, image_on, image_off,  x_pos, y_pos):
         self.image_on = image_on
         self.image_off = image_off
@@ -183,9 +277,21 @@ class Button():
         else:
             screen.blit(self.image_off, self.rect)
 
-    def checkForInput(self, position):
+    def checkmusic(self, position):
         if self.rect.collidepoint(position):
             self.toggleMusicState()
+
+    def checkroll(self, position):
+        if self.rect.collidepoint(position):
+            Button.rolling_con = True
+
+    def check_play(self, position):
+        if self.rect.collidepoint(position):
+            Button.menu = False
+
+    def check_buy(self, position):
+        if self.rect.collidepoint(position):
+            Button.is_buying_properties = True
 
     def toggleMusicState(self):
         if self.is_music_on:
@@ -195,13 +301,29 @@ class Button():
         self.is_music_on = not self.is_music_on
 
 
+def rand_a_dice():
+    global dice_con, dice_rolled
+    dice_rolled = True
+    if not dice_con:
+        dice_con = True
+    return dice_rolled and dice_con == True
+
+
 # Load button images
 button_surface_on = pygame.image.load('pic/musicon.png')
 button_surface_off = pygame.image.load('pic/musicoff.png')
+button_roll = pygame.image.load('pic/Roll.png')
+button_play = pygame.image.load('pic/play.png')
+button_buy = pygame.image.load('pic/buy.png')
 button_surface_on = pygame.transform.scale(button_surface_on, (40, 40))
 button_surface_off = pygame.transform.scale(button_surface_off, (40, 40))
-button = Button(button_surface_on, button_surface_off, 650, 680)
-
+button_roll = pygame.transform.scale(button_roll, (80, 80))
+button_play = pygame.transform.scale(button_play, (450, 170))
+button_buy = pygame.transform.scale(button_buy, (100, 100))
+button_music = Button(button_surface_on, button_surface_off, 880, 120)
+button_roll = Button(button_roll, button_roll, 800, 650)
+button_play = Button(button_play, button_play, 500, 400)
+button_buy = Button(button_buy, button_buy, 800, 500)
 
 # add background music
 pygame.mixer.music.load('Sound/BGM.mp3')
@@ -222,41 +344,6 @@ while fade_in_progress:
             fade_in_progress = False
 
 
-class Button():
-    def __init__(self, image_on, image_off,  x_pos, y_pos):
-        self.image_on = image_on
-        self.image_off = image_off
-        self.x_pos = x_pos
-        self.y_pos = y_pos
-        self.rect = self.image_on.get_rect(center=(self.x_pos, self.y_pos))
-        self.is_music_on = True
-
-    def update(self):
-        if self.is_music_on:
-            screen.blit(self.image_on, self.rect)
-        else:
-            screen.blit(self.image_off, self.rect)
-
-    def checkForInput(self, position):
-        if self.rect.collidepoint(position):
-            self.toggleMusicState()
-
-    def toggleMusicState(self):
-        if self.is_music_on:
-            pygame.mixer.music.pause()
-        else:
-            pygame.mixer.music.unpause()
-        self.is_music_on = not self.is_music_on
-
-
-# Load button images
-button_surface_on = pygame.image.load('pic/musicon.png')
-button_surface_off = pygame.image.load('pic/musicoff.png')
-button_surface_on = pygame.transform.scale(button_surface_on, (40, 40))
-button_surface_off = pygame.transform.scale(button_surface_off, (40, 40))
-button = Button(button_surface_on, button_surface_off, 650, 680)
-
-
 class Map:
     def __init__(self, data):
         self.tile_list = []
@@ -266,6 +353,8 @@ class Map:
         blue_box = pygame.image.load("pic/lightblue.png")
         purple_box = pygame.image.load("pic/lightpurple.png")
         red_box = pygame.image.load("pic/lightred.png")
+        go_to_jail = pygame.image.load("pic/gotojail.webp")
+        free_parking = pygame.image.load("pic/freeparking.png")
 
         row_count = 0
         for row in data:
@@ -316,9 +405,27 @@ class Map:
                     tile = (img, img_rect)
                     self.tile_list.append(tile)
 
-                if tile == 8:
+                elif tile == 8:
                     img = pygame.transform.scale(
                         red_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 10:
+                    img = pygame.transform.scale(
+                        free_parking, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 17:
+                    img = pygame.transform.scale(
+                        go_to_jail, (tile_size, tile_size))
                     img_rect = img.get_rect()
                     img_rect.x = col_count * tile_size
                     img_rect.y = row_count * tile_size
@@ -335,6 +442,56 @@ class Map:
         # loading image for the maps
 
 
+# Global player position
+player1_pos = 0
+player2_pos = 0
+player3_pos = 0
+player4_pos = 0
+# player sequence
+player_sequence = 0
+
+
+class Dice(pygame.sprite.Sprite):
+    def __init__(self, pos_x, pos_y):
+        super().__init__()
+        self.sprites = []
+        self.animating = False
+        self.num_frames = 6  # number of frames in animation sequence
+        for i in range(1, 7):
+            self.sprites.append(pygame.image.load(f'pic/dice{i}.png'))
+        self.current_sprite = 0
+        self.image = self.sprites[self.current_sprite]
+        self.rect = self.image.get_rect()
+        self.rect.topleft = [pos_x, pos_y]
+        self.animation_speed = 3
+        self.animation_count = 0
+        self.animation_max_count = 20
+
+    def animate(self, dice_num):
+        self.animating = True
+        # Calculate the frame index corresponding to the roll value
+        frame_index = min(dice_num - 1, self.num_frames - 1)
+        # Update the current sprite to the frame corresponding to the roll
+        self.current_sprite = frame_index
+        self.image = self.sprites[self.current_sprite]
+
+    def update(self):
+        if self.animating:
+            self.animation_count += self.animation_speed
+            if self.animation_count >= self.animation_max_count:
+                # Stop the animation when it reaches the target frame
+                self.animating = False
+                self.animation_max_count = 20  # Reset max count for future animations
+
+
+# Create the sprite groups
+moving_sprites = pygame.sprite.Group()
+
+# Create the Dice sprite
+dice = Dice(450, 350)
+moving_sprites.add(dice)
+
+
 class Player:
     def __init__(self, color, shape, row, col, scale_factor=0.5):
         self.color = color
@@ -342,6 +499,7 @@ class Player:
         self.row = row
         self.col = col
         self.scale_factor = scale_factor
+        self.dice_num = dice_num
 
     def draw(self):
         x = self.col * tile_size + tile_size//4
@@ -370,65 +528,317 @@ class Player:
                                                      (x, y + star_size),
                                                      (x + star_size//2, y)])
 
+    def move(self, steps):
+        # Move the player along the perimeter of the grid
+        for _ in range(steps):
+            if self.row == 0 and self.col < num_col - 1:
+                self.col += 1
+            elif self.row < num_row - 1 and self.col == num_col - 1:
+                self.row += 1
+            elif self.row == num_row - 1 and self.col > 0:
+                self.col -= 1
+            elif self.row > 0 and self.col == 0:
+                self.row -= 1
+
+            # If the player reaches the starting position, stop
+            if self.row == 0 and self.col == 0:
+                break
+
+    def player_movement(dice_num):
+        global dice_rolled, player1_pos, player2_pos, player3_pos, player4_pos, player_sequence
+        player_sequence += 1
+        if dice_con and dice_rolled and player_sequence == 1:
+            dice_rolled = False
+            print(f"dice is {dice_num}")
+            player1_pos = player1_pos + dice_num
+            if player1_pos < 32:
+                print(f"Player 1 is now at:{player1_pos}")
+            elif player1_pos == 32:
+                player1_pos = 0
+                print(f"Player 1 is now at: {player1_pos}")
+            else:
+                player1_pos -= 32
+                print(f"Player 1 is now at: {player1_pos}")
+
+        elif dice_con and dice_rolled and player_sequence == 2:
+            dice_rolled = False
+            print(f"dice is {dice_num}")
+            player2_pos = player2_pos + dice_num
+            if player2_pos < 32:
+                print(f"Player 2 is now at:{player2_pos}")
+            elif player2_pos == 32:
+                player2_pos = 0
+                print(f"Player 2 is now at: {player2_pos}")
+            else:
+                player2_pos -= 32
+                print(f"Player 2 is now at: {player2_pos}")
+        elif dice_con and dice_rolled and player_sequence == 3:
+            dice_rolled = False
+            print(f"dice is {dice_num}")
+            player3_pos = player3_pos + dice_num
+            if player3_pos < 32:
+                print(f"Player 3 is now at:{player3_pos}")
+            elif player3_pos == 32:
+                player3_pos = 0
+                print(f"Player 3 is now at: {player3_pos}")
+            else:
+                player3_pos -= 32
+                print(f"Player 3 is now at: {player3_pos}")
+
+        elif dice_con and dice_rolled and player_sequence == 4:
+            dice_rolled = False
+            print(f"dice is {dice_num}")
+
+            player4_pos = player4_pos + dice_num
+            if player4_pos < 32:
+                print(f"Player 4 is now at:{player4_pos}")
+            elif player4_pos == 32:
+                player4_pos = 0
+                print(f"Player 4 is now at: {player4_pos}")
+            else:
+                player4_pos -= 32
+                print(f"Player 4 is now at: {player4_pos}")
+
+        elif player_sequence == 5:
+            print('next_round')
+            player_sequence -= 5
+
+
+active_player_index = 0
+
 
 player1 = Player((255, 0, 0), 'circle', 0, 0, scale_factor=0.5)
 player2 = Player((0, 255, 0), 'square', 0, 0, scale_factor=0.5)
 player3 = Player((0, 0, 255), 'triangle', 0, 0, scale_factor=0.5)
 player4 = Player((255, 255, 0), 'star', 0, 0, scale_factor=0.5)
-
 players = [player1, player2, player3, player4]
 
-# maps for monopoly
-map_data = [
-    [1, 2, 2, 2, 2, 3, 4, 4, 4, 10],
-    [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
-    [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
-    [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
-    [29, 0, 0, 0, 0, 0, 0, 0, 0, 14],
-    [7, 52, 53, 54, 55, 56, 57, 58, 59, 6],
-    [7, 62, 63, 64, 65, 66, 67, 68, 69, 6],
-    [26, 7, 7, 7, 7, 21, 6, 6, 6, 17],
-]
+
+# settings for the property
+price = 0
+Pricelist = [0, 500, 600, 700, 750, 0, 800, 900, 1000, 0, 1200, 1200, 1400, 0, 1500,  1600,
+             1800, 0, 2000, 2000, 2200, 0, 2200, 2400, 2400, 0, 2500, 2800, 0, 3000, 3500, 4000]
+b_property = str()
+
+Property_with_price = {
+    "Ramly Burger": 500,
+    "99 Minimarket": 600,
+    "Radio Televisyen Malaysia": 700,
+    "Astro": 750,
+    "Redhouse Melaka": 800,
+    "A'Famosa": 900,
+    "Jonker Street": 1000,
+    "Telekom Malaysia": 1200,
+    "Sky Bridge Langkawi": 1300,
+    "Penang Hill": 1400,
+    "George Town Penang": 1500,
+    "Chew Jetty": 1600,
+    "Cyberjaya": 1800,
+    "KL Central": 2000,
+    "Tenaga National Berhad": 2000,
+    "Cameroon Highland": 2200,
+    "Genting Highland": 2200,
+    "Putrajaya": 2400,
+    "KLIA": 2400,
+    "Lot10, Bukit Bintang": 2500,
+    "Pavilion Bukit Bintang": 2800,
+    "KL Tower": 3000,
+    "Merdeka 118": 3500,
+    "KLCC": 4000
+}
+
+# setting for player
+initial_money = int(15000)
+player_dict_m = {'p1_money': initial_money, 'p2_money': initial_money,
+                 'p3_money': initial_money, 'p4_money': initial_money}
+p1_list_p = []
+p2_list_p = []
+p3_list_p = []
+p4_list_p = []
+player1_broke = False
+player2_broke = False
+player3_broke = False
+player4_broke = False
+
+
+class economic:
+    # checking for validity in buying property
+    # player will not be able to click buy button if tile is not available to sell
+
+    def check_buying_valid():
+        if player_sequence == 1 and player1_pos not in [0, 5, 9, 13, 16, 20, 25, 28]:
+            button_buy.update()
+
+        elif player_sequence == 2 and player2_pos not in [0, 5, 9, 13, 16, 20, 25, 28]:
+            button_buy.update()
+
+        elif player_sequence == 3 and player3_pos not in [0, 5, 9, 13, 16, 20, 25, 28]:
+            button_buy.update()
+
+        elif player_sequence == 4 and player4_pos not in [0, 5, 9, 13, 16, 20, 25, 28]:
+            button_buy.update()
+
+        else:
+            pass
+
+    def buying_property():
+
+        if player_sequence == 1 and player1_broke == False:
+            price = Pricelist[player1_pos]
+            print(f"price ={price}")
+            before_buy_p1 = player_dict_m['p1_money']
+            player_dict_m['p1_money'] = before_buy_p1 - price
+            after_buy_p1 = player_dict_m['p1_money']
+            print(f'Player1 now have {after_buy_p1}$')
+
+        elif player_sequence == 2 and player2_broke == False:
+            price = Pricelist[player2_pos]
+            print(f"price ={price}")
+            before_buy_p2 = player_dict_m['p2_money']
+            player_dict_m['p2_money'] = before_buy_p2 - price
+            after_buy_p2 = player_dict_m['p2_money']
+            print(f'Player2 now have {after_buy_p2}$')
+
+        elif player_sequence == 3 and player3_broke == False:
+            price = Pricelist[player3_pos]
+            print(f"price ={price}")
+            before_buy_p3 = player_dict_m['p3_money']
+            player_dict_m['p3_money'] = before_buy_p3 - price
+            after_buy_p3 = player_dict_m['p3_money']
+            print(f'Player3 now have {after_buy_p3}$')
+
+        elif player_sequence == 4 and player4_broke == False:
+            price = Pricelist[player4_pos]
+            print(f"price ={price}")
+            before_buy_p4 = player_dict_m['p4_money']
+            player_dict_m['p4_money'] = before_buy_p4 - price
+            after_buy_p4 = player_dict_m['p4_money']
+            print(f'Player4 now have {after_buy_p4}$')
+
+        else:
+            price = 0
+            pass
+
+        economic.owning_property(price)
+
+    def owning_property(price):
+        if player_sequence == 1 and Pricelist[player1_pos] != 0:
+            b_property = [
+                i for i in Property_with_price if Property_with_price[i] == price]
+
+            p1_list_p.append(b_property)
+            print(f'player 1 now have {p1_list_p}')
+            Pricelist[player1_pos] = 0
+        elif player_sequence == 2 and Pricelist[player2_pos] != 0:
+            b_property = [
+                i for i in Property_with_price if Property_with_price[i] == price]
+
+            p2_list_p.append(b_property)
+            print(f'player 2 now have {p2_list_p}')
+            Pricelist[player2_pos] = 0
+        elif player_sequence == 3 and Pricelist[player3_pos] != 0:
+            b_property = [
+                i for i in Property_with_price if Property_with_price[i] == price]
+
+            p3_list_p.append(b_property)
+            print(f'player 3 now have {p3_list_p}')
+            Pricelist[player3_pos] = 0
+        elif player_sequence == 4 and Pricelist[player4_pos] != 0:
+            b_property = [
+                i for i in Property_with_price if Property_with_price[i] == price]
+
+            p4_list_p.append(b_property)
+            print(f'player 4 now have {p4_list_p}')
+            Pricelist[player4_pos] = 0
+
+    print(player_dict_m)
+
+
+class starting_menu:
+    title_font = pygame.font.Font("HelveticaNeue.ttf", 150)
+    start_title = title_font.render("Pynopoly", True, (white))
+
+    def title():
+        screen.blit(starting_menu.start_title, (200, 100))
+
+
+    # Maps control for monopoly
+map_data = [[1, 2, 2, 2, 2, 3, 4, 4, 4, 10],
+            [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
+            [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
+            [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
+            [29, 0, 0, 0, 0, 0, 0, 0, 0, 14],
+            [7, 0, 0, 0, 0, 0, 0, 0, 0, 6],
+            [7, 0, 0, 0, 0, 0, 0, 0, 0, 6],
+            [26, 7, 7, 7, 7, 21, 6, 6, 6, 17],]
+
 
 map = Map(map_data)
-
 # main run for game
 run = True
+
 while run:
     clock.tick(fps)
     screen.fill((0, 0, 0))
-    map.draw()
+    button_play.update()
+    starting_menu.title()
 
-    Display.middle()
-    # Display.drawing_grid(100)
+    if not Button.menu:
+        map.draw()
+        Display.middle()
+        Display.showing_properties_name()
+        button_music.update()
+        button_roll.update()
+        economic.check_buying_valid()
+        moving_sprites.draw(screen)
+        moving_sprites.update()
 
-    # displaying text for all the tiles
-    Display.showing_text()
+        for player in players:
+            player.draw()
 
-    # displaying text for all the tiles
-    Display.text_properties("Go", Display.text_font, (white), 20, 20)
-    Display.text_properties(
-        "Collect xxx ", Display.smaller_font, (white), 10, 50)
-    Display.text_properties("KLCC", Display.text_font, (white), 20, 120)
-    Display.text_properties("$", Display.smaller_font, (white), 20, 150)
-    Display.text_properties("M .118", Display.text_font, (white), 20, 220)
-    Display.text_properties("$", Display.smaller_font, (white), 20, 250)
-    Display.text_properties("KL.Tower", Display.text_font, (white), 16, 320)
-    Display.text_properties("$", Display.smaller_font, (white), 20, 350)
-    Display.text_properties("?", Display.Specia_font, (white), 40, 420)
-    Display.text_properties("Chance", Display.Specia_font, (white), 20, 450)
-
-    for player in players:
-        player.draw()
+        # Display.drawing_grid(100)
+    else:
+        pass
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
-            button.checkForInput(pygame.mouse.get_pos())
+            button_music.checkmusic(pygame.mouse.get_pos())
+            button_roll.checkroll(pygame.mouse.get_pos())
+            button_play.check_play(pygame.mouse.get_pos())
+            button_buy.check_buy(pygame.mouse.get_pos())
+            if event.button == 1:  # Left mouse button
+                x, y = pygame.mouse.get_pos()
+                block_x, block_y = x // 100, y // 100
+                block = map_data[block_y][block_x]
+                if block in block_desctiptions:
+                    description = block_desctiptions[block]
+                    display_descriptions(description)
 
-    button.update()
+        # if roll dice randomize a num
+            if Button.rolling_con:
+                rand_a_dice()
+                dice_num = (random.randint(1, 6))
+                Player.player_movement(dice_num)
+                # Move the active player based on the dice roll
+                players[active_player_index].move(dice_num)
+                # Move to the next player
+                active_player_index = (active_player_index + 1) % len(players)
+                Button.rolling_con = False
+                buy_clicked = False
+                if player_sequence != 5:
+                    # dice animating
+                    dice.animate(dice_num)
+
+            elif Button.is_buying_properties and not buy_clicked:
+                economic.buying_property()
+
+                buy_clicked = True
+                Button.is_buying_properties == False
+            else:
+                pass
 
     pygame.display.update()
 pygame.quit()
