@@ -342,8 +342,8 @@ class Dice(pygame.sprite.Sprite):
         super().__init__()
         self.sprites = []
         self.animating = False
-        self.num_frames = 5  # number of frames in animation sequence
-        for i in range(1, 6):
+        self.num_frames = 6  # number of frames in animation sequence
+        for i in range(1, 7):
             self.sprites.append(pygame.image.load(f'pic/dice{i}.png'))
         self.current_sprite = 0
         self.image = self.sprites[self.current_sprite]
@@ -476,7 +476,7 @@ while run:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 # Roll the dice
-                roll = random.randint(1, 5)  # Simulate a dice roll
+                roll = random.randint(1, 6)  # Simulate a dice roll
                 print("Dice roll:", roll)
                 dice.animate(roll)
                 # Move the active player based on the dice roll
