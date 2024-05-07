@@ -31,28 +31,49 @@ Specia_font = pygame.font.SysFont(
     "ComicSansMS.ttf", 25, bold=False, italic=False)
 
 # Maps control for monopoly
-map_data = [[1, 2, 2, 2, 2, 3, 4, 4, 4, 10],
-            [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
-            [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
-            [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
+map_data = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            [32, 0, 0, 0, 0, 0, 0, 0, 0, 11],
+            [31, 0, 0, 0, 0, 0, 0, 0, 0, 12],
+            [30, 0, 0, 0, 0, 0, 0, 0, 0, 13],
             [29, 0, 0, 0, 0, 0, 0, 0, 0, 14],
-            [7, 0, 0, 0, 0, 0, 0, 0, 0, 6],
-            [7, 0, 0, 0, 0, 0, 0, 0, 0, 6],
-            [26, 7, 7, 7, 7, 21, 6, 6, 6, 17],
+            [28, 0, 0, 0, 0, 0, 0, 0, 0, 15],
+            [27, 0, 0, 0, 0, 0, 0, 0, 0, 16],
+            [26, 25, 24, 23, 22, 21, 20, 19, 18, 17],
             ]
 
 block_desctiptions = {
-    8: "KLCC"
+    2:"'Ramly burger', the most famous burger chain store in Malaysia",
+    3:"'99 speedmarket', you can buy everything you want from here",
+    4:"'Radio Televisyen Malaysia',",
+    5:"'Astro'",
+    7:"'Redhouse, Melaka'",
+    8:"'A'Famosa, Melaka'",
+    9:"'Jonker Street, Melaka'",
+    11:"'TM unifi'",
+    12:"'Sky Bridge, Penang'",
+    13:"'Penang Hill'",
+    15:"'George Town, Penang'",
+    16:"'Chew Jetty, Penang'",
+    18:"'Cyberjaya’",
+    19:"'KL central'",
+    20:"‘Tenaga National Berhad'",
+    22:"'Cameroon Highland'",
+    23:"'Genting Highland'",
+    24:"'Putrajaya'",
+    25:"'KLIA'",
+    27:"'Lot10'",
+    28:"'Pavilion, Bukit Bintang'",
+    30:"'KL Tower'",
+    31:"'Merdeka 118'",
+    32: "'KLCC'"
 }
 
-
 def display_descriptions(description):
-    # Clear the screen
-    font = pygame.font.Font(None, 36)
+    global player1_pos, player2_pos, player3_pos, player4_pos
     # Display the description
+    font = pygame.font.Font(None, 36)
     text_surface = font.render(description, True, white)
     screen.blit(text_surface, (200, 240))
-
     # Update the display
     pygame.display.flip()
 
@@ -369,9 +390,18 @@ class Map:
                     tile = (img, img_rect)
                     self.tile_list.append(tile)
 
+                elif tile == 3:
+                    img = pygame.transform.scale(
+                        white_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
                 elif tile == 4:
                     img = pygame.transform.scale(
-                        yellow_box, (tile_size, tile_size))
+                        white_box, (tile_size, tile_size))
                     img_rect = img.get_rect()
                     img_rect.x = col_count * tile_size
                     img_rect.y = row_count * tile_size
@@ -380,16 +410,7 @@ class Map:
 
                 elif tile == 5:
                     img = pygame.transform.scale(
-                        green_box, (tile_size, tile_size))
-                    img_rect = img.get_rect()
-                    img_rect.x = col_count * tile_size
-                    img_rect.y = row_count * tile_size
-                    tile = (img, img_rect)
-                    self.tile_list.append(tile)
-
-                elif tile == 6:
-                    img = pygame.transform.scale(
-                        blue_box, (tile_size, tile_size))
+                        white_box, (tile_size, tile_size))
                     img_rect = img.get_rect()
                     img_rect.x = col_count * tile_size
                     img_rect.y = row_count * tile_size
@@ -398,6 +419,105 @@ class Map:
 
                 elif tile == 7:
                     img = pygame.transform.scale(
+                        yellow_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+    
+                elif tile == 8:
+                    img = pygame.transform.scale(
+                        yellow_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 9:
+                    img = pygame.transform.scale(
+                        yellow_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 11:
+                    img = pygame.transform.scale(
+                        green_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 12:
+                    img = pygame.transform.scale(
+                        green_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 13:
+                    img = pygame.transform.scale(
+                        green_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 15:
+                    img = pygame.transform.scale(
+                        blue_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 16:
+                    img = pygame.transform.scale(
+                        blue_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 18:
+                    img = pygame.transform.scale(
+                        blue_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 19:
+                    img = pygame.transform.scale(
+                        blue_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 20:
+                    img = pygame.transform.scale(
+                        blue_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 22:
+                    img = pygame.transform.scale(
                         purple_box, (tile_size, tile_size))
                     img_rect = img.get_rect()
                     img_rect.x = col_count * tile_size
@@ -405,7 +525,70 @@ class Map:
                     tile = (img, img_rect)
                     self.tile_list.append(tile)
 
-                elif tile == 8:
+                elif tile == 23:
+                    img = pygame.transform.scale(
+                        purple_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 24:
+                    img = pygame.transform.scale(
+                        purple_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 25:
+                    img = pygame.transform.scale(
+                        purple_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 27:
+                    img = pygame.transform.scale(
+                        purple_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 28:
+                    img = pygame.transform.scale(
+                        purple_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)                
+  
+                elif tile == 30:
+                    img = pygame.transform.scale(
+                        red_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 31:
+                    img = pygame.transform.scale(
+                        red_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 32:
                     img = pygame.transform.scale(
                         red_box, (tile_size, tile_size))
                     img_rect = img.get_rect()
@@ -488,7 +671,7 @@ class Dice(pygame.sprite.Sprite):
 moving_sprites = pygame.sprite.Group()
 
 # Create the Dice sprite
-dice = Dice(450, 350)
+dice = Dice(750, 350)
 moving_sprites.add(dice)
 
 
@@ -660,7 +843,7 @@ player2_broke = False
 player3_broke = False
 player4_broke = False
 
-
+print(block_desctiptions[player1_pos])
 class economic:
     # checking for validity in buying property
     # player will not be able to click buy button if tile is not available to sell
@@ -761,21 +944,23 @@ class starting_menu:
     def title():
         screen.blit(starting_menu.start_title, (200, 100))
 
-
-    # Maps control for monopoly
-map_data = [[1, 2, 2, 2, 2, 3, 4, 4, 4, 10],
-            [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
-            [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
-            [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
-            [29, 0, 0, 0, 0, 0, 0, 0, 0, 14],
-            [7, 0, 0, 0, 0, 0, 0, 0, 0, 6],
-            [7, 0, 0, 0, 0, 0, 0, 0, 0, 6],
-            [26, 7, 7, 7, 7, 21, 6, 6, 6, 17],]
-
-
 map = Map(map_data)
 # main run for game
 run = True
+
+button_functions = [button_music.checkmusic, button_roll.checkroll, button_play.check_play, button_buy.check_buy]
+
+def handle_button_events(pos):
+        for button_function in button_functions:
+            button_function(pos)
+
+def display_description_block(pos):
+    x, y = pos
+    block_x, block_y = x // 100, y // 100
+    block = map_data[block_y][block_x]
+    if block in block_desctiptions:
+        description = block_desctiptions[block]
+        display_descriptions(description)
 
 while run:
     clock.tick(fps)
@@ -805,17 +990,8 @@ while run:
             pygame.quit()
             sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
-            button_music.checkmusic(pygame.mouse.get_pos())
-            button_roll.checkroll(pygame.mouse.get_pos())
-            button_play.check_play(pygame.mouse.get_pos())
-            button_buy.check_buy(pygame.mouse.get_pos())
-            if event.button == 1:  # Left mouse button
-                x, y = pygame.mouse.get_pos()
-                block_x, block_y = x // 100, y // 100
-                block = map_data[block_y][block_x]
-                if block in block_desctiptions:
-                    description = block_desctiptions[block]
-                    display_descriptions(description)
+            handle_button_events(pygame.mouse.get_pos())
+            display_description_block(pygame.mouse.get_pos())
 
         # if roll dice randomize a num
             if Button.rolling_con:
