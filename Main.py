@@ -92,9 +92,9 @@ property = [
     Property("KL Central", 2000, 160),
     Property("Tenaga National Berhad", 2000, 160),
     Property("Cameroon Highland", 2200, 180),
-    Property("Genting Highland", 2200, 180),
+    Property("Genting Highland", 2300, 180),
     Property("Putrajaya", 2400, 200),
-    Property("KLIA", 2400, 200),
+    Property("KLIA", 2500, 200),
     Property("Lot10, Bukit Bintang", 2500, 220),
     Property("Pavilion Bukit Bintang", 2800, 240),
     Property("KL Tower", 3000, 275),
@@ -255,6 +255,7 @@ class Display:
 dice_num = 0
 dice_con = False
 dice_rolled = False
+changing_round = False
 buy_clicked = False
 
 
@@ -545,12 +546,13 @@ class Player:
                 break
 
     def player_movement(dice_num):
-        global dice_rolled, player1_pos, player2_pos, player3_pos, player4_pos, player_sequence
+        global dice_rolled,  player1_pos, player2_pos, player3_pos, player4_pos, player_sequence, changing_round
         player_sequence += 1
         if dice_con and dice_rolled and player_sequence == 1:
             dice_rolled = False
             print(f"dice is {dice_num}")
             player1_pos = player1_pos + dice_num
+            changing_round = False
             if player1_pos < 32:
                 print(f"Player 1 is now at:{player1_pos}")
             elif player1_pos == 32:
@@ -600,6 +602,8 @@ class Player:
                 print(f"Player 4 is now at: {player4_pos}")
 
         elif player_sequence == 5:
+            changing_round = True
+            print(f"{changing_round}")
             print('next_round')
             player_sequence -= 5
 
@@ -617,7 +621,7 @@ players = [player1, player2, player3, player4]
 # settings for the property
 price = 0
 Pricelist = [0, 500, 600, 700, 750, 0, 800, 900, 1000, 0, 1200, 1200, 1400, 0, 1500,  1600,
-             1800, 0, 2000, 2000, 2200, 0, 2200, 2400, 2400, 0, 2500, 2800, 0, 3000, 3500, 4000]
+             0, 1800, 2000, 2100, 2200, 0, 2200, 2300, 2400, 2500, 0, 2600, 2800, 0, 3000, 3500, 4000]
 b_property = str()
 
 Property_with_price = {
@@ -635,12 +639,12 @@ Property_with_price = {
     "Chew Jetty": 1600,
     "Cyberjaya": 1800,
     "KL Central": 2000,
-    "Tenaga National Berhad": 2000,
+    "Tenaga National Berhad": 2100,
     "Cameroon Highland": 2200,
-    "Genting Highland": 2200,
+    "Genting Highland": 2300,
     "Putrajaya": 2400,
-    "KLIA": 2400,
-    "Lot10, Bukit Bintang": 2500,
+    "KLIA": 2500,
+    "Lot10, Bukit Bintang": 2600,
     "Pavilion Bukit Bintang": 2800,
     "KL Tower": 3000,
     "Merdeka 118": 3500,
@@ -761,7 +765,6 @@ class starting_menu:
     def title():
         screen.blit(starting_menu.start_title, (200, 100))
 
-
     # Maps control for monopoly
 map_data = [[1, 2, 2, 2, 2, 3, 4, 4, 4, 10],
             [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
@@ -821,16 +824,18 @@ while run:
             if Button.rolling_con:
                 rand_a_dice()
                 dice_num = (random.randint(1, 6))
-                Player.player_movement(dice_num)
-                # Move the active player based on the dice roll
-                players[active_player_index].move(dice_num)
-                # Move to the next player
-                active_player_index = (active_player_index + 1) % len(players)
+
                 Button.rolling_con = False
                 buy_clicked = False
-                if player_sequence != 5:
-                    # dice animating
-                    dice.animate(dice_num)
+                # dice animating
+                dice.animate(dice_num)
+                Player.player_movement(dice_num)
+                if player_sequence != 5 and not changing_round:
+                    # Move the active player based on the dice roll
+                    players[active_player_index].move(dice_num)
+                    # Move to the next player
+                    active_player_index = (
+                        active_player_index + 1) % len(players)
 
             elif Button.is_buying_properties and not buy_clicked:
                 economic.buying_property()
