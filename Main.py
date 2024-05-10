@@ -124,31 +124,33 @@ class Property:
 # Define property
 property = [
     Property("Ramly Burger", 500, 10),
-    Property("99 Minimarket", 600, 20),
-    Property("Radio Televisyen Malaysia", 700, 35),
-    Property("Astro", 750, 40),
-    Property("Redhouse Melaka", 800, 50),
-    Property("A'Famosa", 900, 55),
-    Property("Jonker Street", 1000, 65),
-    Property("Telekom Malaysia", 1200, 80),
-    Property("Sky Bridge Langkawi", 1300, 85),
-    Property("Penang Hill", 1400, 100),
-    Property("George Town Penang", 1500, 110),
-    Property("Chew Jetty", 1600, 120),
-    Property("Cyberjaya", 1800, 140),
-    Property("KL Central", 2000, 160),
-    Property("Tenaga National Berhad", 2000, 160),
-    Property("Cameroon Highland", 2200, 180),
+    Property("99 Speedmarket", 600, 20),
+    Property("Aeon Big", 700, 35),
+    Property("TNB", 2100, 40),
+    Property("Batu Caves", 800, 50),
+    Property("Pulau Langkawi", 900, 55),
+    Property("Cameron Highland", 1000, 65),
+    Property("Gunung Mulu", 1200, 80),
+    Property("Mount Kinabalu", 1300, 85),
+    Property("Johor Bahru", 1400, 100),
+    Property("George Town", 1500, 110),
+    Property("Melaka", 1600, 120),
+    Property("KL Sentral", 1800, 140),
+    Property("Port Dickson", 2000, 160),
+    Property("MMU Cyberjaya", 2000, 160),
+    Property("Indah water", 2150, 180),
     Property("Genting Highland", 2200, 180),
     Property("Putrajaya", 2400, 200),
-    Property("KLIA", 2400, 200),
-    Property("Lot10, Bukit Bintang", 2500, 220),
-    Property("Pavilion Bukit Bintang", 2800, 240),
+    Property("KLIA", 2500, 220),
+    Property("TRX", 2600, 230),
+    Property("Pavilion KL", 2800, 240),
     Property("KL Tower", 3000, 275),
     Property("Merdeka 118", 3500, 350),
     Property("KLCC", 4000, 500)
 ]
 
+Pricelist = [0, 500, 600, 700, 0, 2100, 800, 900, 1000, 0, 1200, 1300, 0, 1400, 1500, 1600,
+             0, 1800, 1900, 2000, 0, 2150, 2200, 2400, 2500, 0, 2600, 2800, 0, 3000, 3500, 4000]
 
 class Display:
     text_font = pygame.font.Font("HelveticaNeue.ttf", 18)
@@ -186,6 +188,21 @@ class Display:
     ninenine_t = text_font.render("99", True, (black))
     speedmarket_t = text_font.render("Market", True, (black))
     Ramly_t = smaller_font.render("B.Ramly", True, (black))
+    price1_t = text_font.render("$ 500", True, (black))
+    price2_t = text_font.render("$ 600", True, (black))
+    price3_t = text_font.render("$ 700", True, (black))
+    price4_t = text_font.render("$ 2100", True, (black))
+    price5_t = text_font.render("$ 800", True, (black))
+    price6_t = text_font.render("$ 900", True, (black))
+    price7_t = text_font.render("$ 1000", True, (black))
+    price8_t = text_font.render("$ 1800", True, (black))
+    price9_t = text_font.render("$ 1900", True, (black))
+    price10_t = text_font.render("$ 2000", True, (black))
+    price11_t = text_font.render("$ 2150", True, (black))
+    price12_t = text_font.render("$ 2200", True, (black))
+    price13_t = text_font.render("$ 2400", True, (black))
+    price14_t = text_font.render("$ 2500", True, (black))
+    
     # price_t = smaller_font.render(f"{Pricelist}", True, (white))
     # print(Pricelist)
 
@@ -211,71 +228,115 @@ class Display:
         screen.blit(Display.tax_t, (420, 50))
         klcc_rotated = Display.render_rotate_text(
             Display.text_font, "KLCC", (black), 270)
-        screen.blit(klcc_rotated, (60, 120))
+        screen.blit(klcc_rotated, (60, 125))
+        klcc_price_rotated = Display.render_rotate_text(
+            Display.text_font, "$ 4000", (black), 270)
+        screen.blit(klcc_price_rotated, (20, 120))
         merdeka_rotated = Display.render_rotate_text(
             Display.text_font, "Merdeka", (black), 270)
         screen.blit(merdeka_rotated, (70, 215))
         m118_rotated = Display.render_rotate_text(
             Display.text_font, "118", (black), 270)
         screen.blit(m118_rotated, (50, 230))
+        merdeka118_price_rotated = Display.render_rotate_text(
+            Display.text_font, "$ 3500", (black), 270)
+        screen.blit(merdeka118_price_rotated, (20, 220))
         kl_tower_rotated = Display.render_rotate_text(
             Display.text_font, "KL.Tower", (black), 270)
         screen.blit(kl_tower_rotated, (60, 310))
+        kltower_price_rotated = Display.render_rotate_text(
+            Display.text_font, "$ 3000", (black), 270)
+        screen.blit(kltower_price_rotated, (20, 320))
         pavilion_rotated = Display.render_rotate_text(
             Display.text_font, "Pavilion", (black), 270)
         screen.blit(pavilion_rotated, (60, 515))
+        pavilion_price_rotated = Display.render_rotate_text(
+            Display.text_font, "$ 2800", (black), 270)
+        screen.blit(pavilion_price_rotated, (20, 520))
         trx_rotated = Display.render_rotate_text(
             Display.text_font, "TRX", (black), 270)
         screen.blit(trx_rotated, (60, 625))
+        trx_price_rotated = Display.render_rotate_text(
+            Display.text_font, "$ 2600", (black), 270)
+        screen.blit(trx_price_rotated, (20, 620))
         screen.blit(Display.klia_t, (132, 720))
+        screen.blit(Display.price14_t, (123, 760))
         screen.blit(Display.putra_t, (212, 720))
+        screen.blit(Display.price13_t, (223, 760))
         screen.blit(Display.genting_t, (320, 710))
         screen.blit(Display.highland_t, (315, 730))
+        screen.blit(Display.price12_t, (323, 760))
         screen.blit(Display.indah_t, (425, 710))
         screen.blit(Display.water_t, (425, 730))
+        screen.blit(Display.price11_t, (423, 760))
         screen.blit(Display.mmu_t, (630, 710))
         screen.blit(Display.cyber_t, (610, 730))
+        screen.blit(Display.price10_t, (623, 760))
         screen.blit(Display.port_t, (733, 710))
         screen.blit(Display.dickson_t, (720, 730))
+        screen.blit(Display.price9_t, (723, 760))
         screen.blit(Display.kl_t, (840, 710))
         screen.blit(Display.sen_t, (820, 730))
+        screen.blit(Display.price8_t, (823, 760))
         melaka_rotated = Display.render_rotate_text(
             Display.text_font, "Melaka", (black), 90)
         screen.blit(melaka_rotated, (920, 620))
+        melaka_price_rotated = Display.render_rotate_text(
+            Display.text_font, "$ 1600", (black), 90)
+        screen.blit(melaka_price_rotated, (960, 622))
         gtown1_rotated = Display.render_rotate_text(
             Display.text_font, "George", (black), 90)
         screen.blit(gtown1_rotated, (910, 520))
         gtown2_rotated = Display.render_rotate_text(
             Display.text_font, "Town", (black), 90)
         screen.blit(gtown2_rotated, (930, 530))
+        gtown_price_rotated = Display.render_rotate_text(
+            Display.text_font, "$ 1500", (black), 90)
+        screen.blit(gtown_price_rotated, (960, 522))
         johot_rotated = Display.render_rotate_text(
             Display.text_font, "Johor", (black), 90)
         screen.blit(johot_rotated, (910, 425))
         bahru_rotated = Display.render_rotate_text(
             Display.text_font, "Bahru", (black), 90)
         screen.blit(bahru_rotated, (930, 425))
+        jb_price_rotated = Display.render_rotate_text(
+            Display.text_font, "$ 1400", (black), 90)
+        screen.blit(jb_price_rotated, (960, 422))
         mount_rotated = Display.render_rotate_text(
             Display.text_font, "Mount", (black), 90)
         screen.blit(mount_rotated, (910, 220))
         kinabalu_rotated = Display.render_rotate_text(
             Display.text_font, "Kinabalu", (black), 90)
         screen.blit(kinabalu_rotated, (930, 213))
+        mk_price_rotated = Display.render_rotate_text(
+            Display.text_font, "$ 1300", (black), 90)
+        screen.blit(mk_price_rotated, (960, 222))
         gunung_rotated = Display.render_rotate_text(
             Display.text_font, "Gunung", (black), 90)
         screen.blit(gunung_rotated, (910, 120))
         mulu_rotated = Display.render_rotate_text(
             Display.text_font, "Mulu", (black), 90)
+        gm_price_rotated = Display.render_rotate_text(
+            Display.text_font, "$ 1200", (black), 90)
+        screen.blit(gm_price_rotated, (960, 122))
         screen.blit(mulu_rotated, (930, 130))
         screen.blit(Display.cameron_t, (815, 10))
         screen.blit(Display.highland_t, (815, 30))
+        screen.blit(Display.price7_t, (823, 60))
         screen.blit(Display.pulau_t, (725, 10))
         screen.blit(Display.langkawi_t, (715, 30))
+        screen.blit(Display.price6_t, (727, 60))
         screen.blit(Display.batu_caves_t, (604, 20))
+        screen.blit(Display.price5_t, (627, 60))
         screen.blit(Display.tnb_t, (530, 20))
+        screen.blit(Display.price4_t, (523, 60))
         screen.blit(Display.aeon_t, (323, 20))
+        screen.blit(Display.price3_t, (327, 60))
         screen.blit(Display.ninenine_t, (240, 10))
         screen.blit(Display.speedmarket_t, (222, 30))
+        screen.blit(Display.price2_t, (227, 60))
         screen.blit(Display.Ramly_t, (120, 20))
+        screen.blit(Display.price1_t, (127, 60))
 
         # drawing grids for maps
 
@@ -826,35 +887,35 @@ players = [player1, player2, player3, player4]
 
 # settings for the property
 price = 0
-Pricelist = [0, 500, 600, 700, 750, 0, 800, 900, 1000, 0, 1200, 1200, 1400, 0, 1500,  1600,
-             1800, 0, 2000, 2000, 2200, 0, 2200, 2400, 2400, 0, 2500, 2800, 0, 3000, 3500, 4000]
+Pricelist = [0, 500, 600, 700, 0, 2100, 800, 900, 1000, 0, 1200, 1300, 0, 1400, 1500, 1600,
+             0, 1800, 1900, 2000, 0, 2150, 2200, 2400, 2500, 0, 2600, 2800, 0, 3000, 3500, 4000]
 b_property = str()
 
 Property_with_price = {
-    "Ramly Burger": 500,
-    "99 Minimarket": 600,
-    "Radio Televisyen Malaysia": 700,
-    "Astro": 750,
-    "Redhouse Melaka": 800,
-    "A'Famosa": 900,
-    "Jonker Street": 1000,
-    "Telekom Malaysia": 1200,
-    "Sky Bridge Langkawi": 1300,
-    "Penang Hill": 1400,
-    "George Town Penang": 1500,
-    "Chew Jetty": 1600,
-    "Cyberjaya": 1800,
-    "KL Central": 2000,
-    "Tenaga National Berhad": 2000,
-    "Cameroon Highland": 2200,
-    "Genting Highland": 2200,
-    "Putrajaya": 2400,
-    "KLIA": 2400,
-    "Lot10, Bukit Bintang": 2500,
-    "Pavilion Bukit Bintang": 2800,
-    "KL Tower": 3000,
-    "Merdeka 118": 3500,
-    "KLCC": 4000
+"Ramly Burger": 500,
+"99 Speedmarket": 600,
+"Aeon Big": 700,
+"TNB": 2100,
+"Batu Caves": 800,
+"Pulau Langkawi": 900,
+"Cameron Highland": 1000,
+"Gunung Mulu": 1200,
+"Mount Kinabalu": 1300,
+"Johor Bahru": 1400,
+"George Town": 1500,
+"Melaka": 1600,
+"KL Sentral": 1800,
+"Port Dickson": 1900,
+"MMU Cyberjaya": 2000,
+"Indah water": 2150,
+"Genting Highland": 2200,
+"Putrajaya": 2400,
+"KLIA": 2500,
+"TRX": 2600,
+"Pavilion KL": 2800,
+"KL Tower": 3000,
+"Merdeka 118": 3500,
+"KLCC": 4000
 }
 
 # setting for player
