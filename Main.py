@@ -44,38 +44,64 @@ map_data = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 block_desctiptions = {
     2:"'Ramly burger', the most famous burger chain store in Malaysia",
     3:"'99 speedmarket', you can buy everything you want from here",
-    4:"'Radio Televisyen Malaysia',",
-    5:"'Astro'",
-    7:"'Redhouse, Melaka'",
-    8:"'A'Famosa, Melaka'",
-    9:"'Jonker Street, Melaka'",
-    11:"'TM unifi'",
-    12:"'Sky Bridge, Penang'",
-    13:"'Penang Hill'",
-    15:"'George Town, Penang'",
-    16:"'Chew Jetty, Penang'",
-    18:"'Cyberjaya’",
-    19:"'KL central'",
-    20:"‘Tenaga National Berhad'",
-    22:"'Cameroon Highland'",
+    4:"'Aeon Big'",
+    6:"'Tenaga National Berhad(TNB)'",
+    7:"'Batu Caves'",
+    8:"'Pulau Langkawi'",
+    9:"'Cameroon Highland'",
+    11:"'Gunung Mulu'",
+    12:"'Mount Kinabalu'",
+    14:"'Johor Bahru'",
+    15:"'George Town'",
+    16:"'Melaka historical city'",
+    18:"'KL Central’",
+    19:"'Port Dickson'",
+    20:"'MMU Cyberjaya'",
+    22:"'Indah Water'",
     23:"'Genting Highland'",
     24:"'Putrajaya'",
     25:"'KLIA'",
-    27:"'Lot10'",
-    28:"'Pavilion, Bukit Bintang'",
+    27:"'TRX'",
+    28:"'Pavilion, KL'",
     30:"'KL Tower'",
     31:"'Merdeka 118'",
-    32: "'KLCC'"
+    32:"'KLCC'"
 }
 
 def display_descriptions(description):
-    global player1_pos, player2_pos, player3_pos, player4_pos
-    # Display the description
+    max_width = 400
+    max_height = 300
+
+    # Create a surface to render text
+    description_surface = pygame.Surface((max_width, max_height))
+    description_surface.fill(black)
+
     font = pygame.font.Font(None, 36)
-    text_surface = font.render(description, True, white)
-    screen.blit(text_surface, (200, 240))
-    # Update the display
+    text_lines = wrap_text(description, font, max_width)
+    y_offset = 0
+    for line in text_lines:
+        text_surface = font.render(line, True, white)
+        description_surface.blit(text_surface, (0, y_offset))
+        y_offset += font.get_height()
+
+    screen.blit(description_surface, (180, 150))
     pygame.display.flip()
+
+def wrap_text(text, font, max_width):
+    words = text.split(' ')
+    lines = []
+    current_line = ''
+    for word in words:
+        test_line = current_line + word + ' '
+        test_line_surface = font.render(test_line, True, white)
+        if test_line_surface.get_width() <= max_width:
+            current_line = test_line
+        else:
+            lines.append(current_line)
+            current_line = word + ' '
+    if current_line:
+        lines.append(current_line)
+    return lines
 
 
 class Property:
@@ -125,8 +151,8 @@ property = [
 
 
 class Display:
-    text_font = pygame.font.Font("HelveticaNeue.ttf", 20)
-    smaller_font = pygame.font.Font("HelveticaNeue.ttf", 20)
+    text_font = pygame.font.Font("HelveticaNeue.ttf", 18)
+    smaller_font = pygame.font.Font("HelveticaNeue.ttf", 18)
     Specia_font = pygame.font.SysFont(
         "ComicSansMS.ttf", 25, bold=False, italic=False)
     # text used in all the tile
@@ -135,36 +161,30 @@ class Display:
     money_t = smaller_font.render("$", True, (black))
     Q_t = text_font.render("?", True, (white))
     chance_t = smaller_font.render("Chance", True, (white))
-    jail_t = text_font.render("Jail", True, (white))
-    klia_t = text_font.render("KLIA", True, (black))
-    cyber_t = smaller_font.render("Cyberjaya", True, (black))
-    genting_t = smaller_font.render("G.highland", True, (black))
-    cameroon_t = smaller_font.render("C.highland", True, (black))
     income_t = smaller_font.render("Income", True, (white))
     tax_t = smaller_font.render("tax", True, (white))
-    tnb_t = text_font.render("TNB", True, (black))
-    klsen_t = smaller_font.render("KL.central", True, (black))
+    jail_t = text_font.render("Jail", True, (white))
+    klia_t = text_font.render("KLIA", True, (black))
+    indah_t = smaller_font.render("Indah", True, (black))
+    water_t = smaller_font.render("Water", True, (black))
+    mmu_t = smaller_font.render("MMU", True, (black))
+    cyber_t = smaller_font.render("Cyberjaya", True, (black))
+    genting_t = smaller_font.render("Genting", True, (black))
+    port_t = text_font.render("Port", True, (black))
+    dickson_t = text_font.render("Dickson", True, (black))
+    sen_t = smaller_font.render("Sentral", True, (black))
     putra_t = smaller_font.render("Putrajaya", True, (black))
-    Gojail1_t = smaller_font.render("Go to", True, (white))
-    GOjail2_t = smaller_font.render("Jail", True, (white))
-    chew1_t = smaller_font.render("Chew", True, (black))
-    chew2_t = smaller_font.render("Jetty", True, (black))
-    George1_t = smaller_font.render("Goerge", True, (black))
-    George2_t = smaller_font.render("Town", True, (black))
-    sky_t = smaller_font.render("Sky", True, (black))
-    bridge_t = smaller_font.render("Bridge", True, (black))
-    Tm_t = text_font.render("TM", True, (black))
-    free_t = smaller_font.render("Free", True, (white))
-    park_t = smaller_font.render("Parking", True, (white))
-    hill_1 = smaller_font.render("Penang", True, (black))
-    hill_2 = smaller_font.render("Hill", True, (black))
-    famosa_1 = smaller_font.render("A.Famosa", True, (black))
-    jonker_1 = smaller_font.render("Jonker", True, (black))
-    jonker_2 = smaller_font.render("Street", True, (black))
-    stadthuys_t = smaller_font.render("redhouse", True, (black))
-    astro_t = text_font.render("Astro", True, (black))
-    rtm_t = text_font.render("RTM", True, (black))
-    seven_t = text_font.render("99", True, (black))
+    putra_t = smaller_font.render("Putrajaya", True, (black))
+    kl_t = smaller_font.render("KL", True, (black))
+    cameron_t = smaller_font.render("Cameron", True, (black))
+    highland_t = smaller_font.render("Highland", True, (black))
+    pulau_t = smaller_font.render("Pulau", True, (black))
+    langkawi_t = smaller_font.render("Langkawi", True, (black))
+    batu_caves_t = text_font.render("Batu Caves", True, (black))
+    tnb_t = text_font.render("TNB", True, (black))
+    aeon_t = text_font.render("AEON", True, (black))
+    ninenine_t = text_font.render("99", True, (black))
+    speedmarket_t = text_font.render("Market", True, (black))
     Ramly_t = smaller_font.render("B.Ramly", True, (black))
     # price_t = smaller_font.render(f"{Pricelist}", True, (white))
     # print(Pricelist)
@@ -185,69 +205,77 @@ class Display:
         screen.blit(Display.jail_t, (20, 720))
         screen.blit(Display.income_t, (520, 720))
         screen.blit(Display.tax_t, (520, 750))
-        screen.blit(Display.Q_t, (950, 420))
-        screen.blit(Display.chance_t, (920, 450))
-        screen.blit(Display.income_t, (520, 20))
-        screen.blit(Display.tax_t, (520, 50))
+        screen.blit(Display.Q_t, (950, 320))
+        screen.blit(Display.chance_t, (920, 350))
+        screen.blit(Display.income_t, (420, 20))
+        screen.blit(Display.tax_t, (420, 50))
         klcc_rotated = Display.render_rotate_text(
             Display.text_font, "KLCC", (black), 270)
-        screen.blit(klcc_rotated, (55, 120))
-        merdeka118_rotated = Display.render_rotate_text(
-            Display.text_font, "M.118", (black), 270)
-        screen.blit(merdeka118_rotated, (55, 220))
+        screen.blit(klcc_rotated, (60, 120))
+        merdeka_rotated = Display.render_rotate_text(
+            Display.text_font, "Merdeka", (black), 270)
+        screen.blit(merdeka_rotated, (70, 215))
+        m118_rotated = Display.render_rotate_text(
+            Display.text_font, "118", (black), 270)
+        screen.blit(m118_rotated, (50, 230))
         kl_tower_rotated = Display.render_rotate_text(
             Display.text_font, "KL.Tower", (black), 270)
-        screen.blit(kl_tower_rotated, (55, 310))
+        screen.blit(kl_tower_rotated, (60, 310))
         pavilion_rotated = Display.render_rotate_text(
             Display.text_font, "Pavilion", (black), 270)
-        screen.blit(pavilion_rotated, (55, 520))
-        lot10_rotated = Display.render_rotate_text(
-            Display.text_font, "Lot 10", (black), 270)
-        screen.blit(lot10_rotated, (55, 620))
-        screen.blit(Display.klia_t, (120, 720))
-        screen.blit(Display.money_t, (120, 750))
-        screen.blit(Display.putra_t, (210, 720))
-        screen.blit(Display.money_t, (220, 750))
-        screen.blit(Display.genting_t, (305, 720))
-        screen.blit(Display.money_t, (320, 750))
-        screen.blit(Display.cameroon_t, (405, 720))
-        screen.blit(Display.money_t, (420, 750))
-        screen.blit(Display.tnb_t, (620, 720))
-        screen.blit(Display.money_t, (620, 750))
-        screen.blit(Display.klsen_t, (710, 720))
-        screen.blit(Display.money_t, (720, 750))
-        screen.blit(Display.cyber_t, (810, 720))
-        screen.blit(Display.money_t, (820, 750))
-        chewjetty_rotated = Display.render_rotate_text(
-            Display.text_font, "C.Jetty", (black), 90)
-        screen.blit(chewjetty_rotated, (920, 620))
-        gtown_rotated = Display.render_rotate_text(
-            Display.text_font, "G.Town", (black), 90)
-        screen.blit(gtown_rotated, (920, 520))
-        PenangHill_rotated = Display.render_rotate_text(
-            Display.text_font, "P.Hill", (black), 90)
-        screen.blit(PenangHill_rotated, (920, 320))
-        sky_b_rotated = Display.render_rotate_text(
-            Display.text_font, "Sky.B", (black), 90)
-        screen.blit(sky_b_rotated, (920, 220))
-        tm_rotated = Display.render_rotate_text(
-            Display.text_font, "TM", (black), 90)
-        screen.blit(tm_rotated, (920, 120))
-        screen.blit(Display.famosa_1, (710, 20))
-        screen.blit(Display.money_t, (720, 50))
-        screen.blit(Display.jonker_1, (820, 10))
-        screen.blit(Display.jonker_2, (820, 30))
-        screen.blit(Display.money_t, (820, 50))
-        screen.blit(Display.stadthuys_t, (610, 20))
-        screen.blit(Display.money_t, (620, 50))
-        screen.blit(Display.astro_t, (420, 20))
-        screen.blit(Display.money_t, (420, 50))
-        screen.blit(Display.rtm_t, (320, 20))
-        screen.blit(Display.money_t, (320, 50))
-        screen.blit(Display.seven_t, (220, 20))
-        screen.blit(Display.money_t, (220, 50))
+        screen.blit(pavilion_rotated, (60, 515))
+        trx_rotated = Display.render_rotate_text(
+            Display.text_font, "TRX", (black), 270)
+        screen.blit(trx_rotated, (60, 625))
+        screen.blit(Display.klia_t, (132, 720))
+        screen.blit(Display.putra_t, (212, 720))
+        screen.blit(Display.genting_t, (320, 710))
+        screen.blit(Display.highland_t, (315, 730))
+        screen.blit(Display.indah_t, (425, 710))
+        screen.blit(Display.water_t, (425, 730))
+        screen.blit(Display.mmu_t, (630, 710))
+        screen.blit(Display.cyber_t, (610, 730))
+        screen.blit(Display.port_t, (733, 710))
+        screen.blit(Display.dickson_t, (720, 730))
+        screen.blit(Display.kl_t, (840, 710))
+        screen.blit(Display.sen_t, (820, 730))
+        melaka_rotated = Display.render_rotate_text(
+            Display.text_font, "Melaka", (black), 90)
+        screen.blit(melaka_rotated, (920, 620))
+        gtown1_rotated = Display.render_rotate_text(
+            Display.text_font, "George", (black), 90)
+        screen.blit(gtown1_rotated, (910, 520))
+        gtown2_rotated = Display.render_rotate_text(
+            Display.text_font, "Town", (black), 90)
+        screen.blit(gtown2_rotated, (930, 530))
+        johot_rotated = Display.render_rotate_text(
+            Display.text_font, "Johor", (black), 90)
+        screen.blit(johot_rotated, (910, 425))
+        bahru_rotated = Display.render_rotate_text(
+            Display.text_font, "Bahru", (black), 90)
+        screen.blit(bahru_rotated, (930, 425))
+        mount_rotated = Display.render_rotate_text(
+            Display.text_font, "Mount", (black), 90)
+        screen.blit(mount_rotated, (910, 220))
+        kinabalu_rotated = Display.render_rotate_text(
+            Display.text_font, "Kinabalu", (black), 90)
+        screen.blit(kinabalu_rotated, (930, 213))
+        gunung_rotated = Display.render_rotate_text(
+            Display.text_font, "Gunung", (black), 90)
+        screen.blit(gunung_rotated, (910, 120))
+        mulu_rotated = Display.render_rotate_text(
+            Display.text_font, "Mulu", (black), 90)
+        screen.blit(mulu_rotated, (930, 130))
+        screen.blit(Display.cameron_t, (815, 10))
+        screen.blit(Display.highland_t, (815, 30))
+        screen.blit(Display.pulau_t, (725, 10))
+        screen.blit(Display.langkawi_t, (715, 30))
+        screen.blit(Display.batu_caves_t, (604, 20))
+        screen.blit(Display.tnb_t, (530, 20))
+        screen.blit(Display.aeon_t, (323, 20))
+        screen.blit(Display.ninenine_t, (240, 10))
+        screen.blit(Display.speedmarket_t, (222, 30))
         screen.blit(Display.Ramly_t, (120, 20))
-        screen.blit(Display.money_t, (120, 50))
 
         # drawing grids for maps
 
@@ -408,9 +436,9 @@ class Map:
                     tile = (img, img_rect)
                     self.tile_list.append(tile)
 
-                elif tile == 5:
+                elif tile == 6:
                     img = pygame.transform.scale(
-                        white_box, (tile_size, tile_size))
+                        yellow_box, (tile_size, tile_size))
                     img_rect = img.get_rect()
                     img_rect.x = col_count * tile_size
                     img_rect.y = row_count * tile_size
@@ -446,7 +474,7 @@ class Map:
 
                 elif tile == 11:
                     img = pygame.transform.scale(
-                        green_box, (tile_size, tile_size))
+                        yellow_box, (tile_size, tile_size))
                     img_rect = img.get_rect()
                     img_rect.x = col_count * tile_size
                     img_rect.y = row_count * tile_size
@@ -455,16 +483,16 @@ class Map:
 
                 elif tile == 12:
                     img = pygame.transform.scale(
-                        green_box, (tile_size, tile_size))
+                        yellow_box, (tile_size, tile_size))
                     img_rect = img.get_rect()
                     img_rect.x = col_count * tile_size
                     img_rect.y = row_count * tile_size
                     tile = (img, img_rect)
                     self.tile_list.append(tile)
 
-                elif tile == 13:
+                elif tile == 14:
                     img = pygame.transform.scale(
-                        green_box, (tile_size, tile_size))
+                        blue_box, (tile_size, tile_size))
                     img_rect = img.get_rect()
                     img_rect.x = col_count * tile_size
                     img_rect.y = row_count * tile_size
@@ -784,9 +812,8 @@ class Player:
 
         elif player_sequence == 5:
             print('next_round')
-            player_sequence -= 5
-
-
+            player_sequence -= 5        
+    
 active_player_index = 0
 
 
@@ -843,22 +870,21 @@ player2_broke = False
 player3_broke = False
 player4_broke = False
 
-print(block_desctiptions[player1_pos])
 class economic:
     # checking for validity in buying property
     # player will not be able to click buy button if tile is not available to sell
 
     def check_buying_valid():
-        if player_sequence == 1 and player1_pos not in [0, 5, 9, 13, 16, 20, 25, 28]:
+        if player_sequence == 1 and player1_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
             button_buy.update()
 
-        elif player_sequence == 2 and player2_pos not in [0, 5, 9, 13, 16, 20, 25, 28]:
+        elif player_sequence == 2 and player2_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
             button_buy.update()
 
-        elif player_sequence == 3 and player3_pos not in [0, 5, 9, 13, 16, 20, 25, 28]:
+        elif player_sequence == 3 and player3_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
             button_buy.update()
 
-        elif player_sequence == 4 and player4_pos not in [0, 5, 9, 13, 16, 20, 25, 28]:
+        elif player_sequence == 4 and player4_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
             button_buy.update()
 
         else:
@@ -954,13 +980,21 @@ def handle_button_events(pos):
         for button_function in button_functions:
             button_function(pos)
 
+show_description = False
+description = ""
+description_display_duration = 20
+description_display_timer = 0
+
+# Modify the display_description_block function
 def display_description_block(pos):
+    global show_description, description, description_display_timer
     x, y = pos
     block_x, block_y = x // 100, y // 100
     block = map_data[block_y][block_x]
     if block in block_desctiptions:
         description = block_desctiptions[block]
-        display_descriptions(description)
+        show_description = True
+        description_display_timer = time.time()
 
 while run:
     clock.tick(fps)
@@ -977,6 +1011,11 @@ while run:
         economic.check_buying_valid()
         moving_sprites.draw(screen)
         moving_sprites.update()
+
+        if show_description and time.time() - description_display_timer < description_display_duration:
+            display_descriptions(description)
+        else:
+            show_description = False
 
         for player in players:
             player.draw()
