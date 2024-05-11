@@ -75,13 +75,13 @@ def display_descriptions(description):
 
     # Create a surface to render text
     description_surface = pygame.Surface((max_width, max_height))
-    description_surface.fill(black)
+    description_surface.fill(grey)
 
     font = pygame.font.Font(None, 36)
     text_lines = wrap_text(description, font, max_width)
     y_offset = 0
     for line in text_lines:
-        text_surface = font.render(line, True, white)
+        text_surface = font.render(line, True, black)
         description_surface.blit(text_surface, (0, y_offset))
         y_offset += font.get_height()
 
@@ -164,11 +164,6 @@ class Display:
     Go_t = text_font.render("Go", True, (white))
     collect_t = smaller_font.render("Pass & Go", True, (white))
     money_t = smaller_font.render("$", True, (black))
-    Q_t = text_font.render("?", True, (white))
-    chance_t = smaller_font.render("Chance", True, (white))
-    income_t = smaller_font.render("Income", True, (white))
-    tax_t = smaller_font.render("tax", True, (white))
-    jail_t = text_font.render("Jail", True, (white))
     klia_t = text_font.render("KLIA", True, (black))
     indah_t = smaller_font.render("Indah", True, (black))
     water_t = smaller_font.render("Water", True, (black))
@@ -220,15 +215,6 @@ class Display:
     def showing_properties_name():
         screen.blit(Display.Go_t, (20, 20))
         screen.blit(Display.collect_t, (20, 50))
-        screen.blit(Display.Q_t, (40, 420))
-        screen.blit(Display.chance_t, (20, 450))
-        screen.blit(Display.jail_t, (20, 720))
-        screen.blit(Display.income_t, (520, 720))
-        screen.blit(Display.tax_t, (520, 750))
-        screen.blit(Display.Q_t, (950, 320))
-        screen.blit(Display.chance_t, (920, 350))
-        screen.blit(Display.income_t, (420, 20))
-        screen.blit(Display.tax_t, (420, 50))
         klcc_rotated = Display.render_rotate_text(
             Display.text_font, "KLCC", (black), 270)
         screen.blit(klcc_rotated, (60, 125))
@@ -374,6 +360,7 @@ buy_clicked = False
 
 class Button():
     menu = True
+    loading = True
     rolling_con = False
     is_buying_properties = False
 
@@ -403,6 +390,10 @@ class Button():
         if self.rect.collidepoint(position):
             Button.menu = False
 
+    def checkload_finish(self, position):
+        if self.rect.collidepoint(position):
+            Button.loading = False
+
     def check_buy(self, position):
         if self.rect.collidepoint(position):
             Button.is_buying_properties = True
@@ -428,16 +419,24 @@ button_surface_on = pygame.image.load('pic/musicon.png')
 button_surface_off = pygame.image.load('pic/musicoff.png')
 button_roll = pygame.image.load('pic/Roll.png')
 button_play = pygame.image.load('pic/play.png')
+button_exit = pygame.image.load('pic/exit.png')
+button_next = pygame.image.load('pic/next.png')
 button_buy = pygame.image.load('pic/buy.png')
+# adjust size
 button_surface_on = pygame.transform.scale(button_surface_on, (40, 40))
 button_surface_off = pygame.transform.scale(button_surface_off, (40, 40))
 button_roll = pygame.transform.scale(button_roll, (80, 80))
-button_play = pygame.transform.scale(button_play, (450, 170))
-button_buy = pygame.transform.scale(button_buy, (100, 100))
+button_play = pygame.transform.scale(button_play, (240, 200))
+button_exit = pygame.transform.scale(button_exit, (240, 200))
+button_next = pygame.transform.scale(button_next, (120, 100))
+button_buy = pygame.transform.scale(button_buy, (120, 100))
+# adjust location
 button_music = Button(button_surface_on, button_surface_off, 880, 120)
 button_roll = Button(button_roll, button_roll, 800, 650)
-button_play = Button(button_play, button_play, 500, 400)
-button_buy = Button(button_buy, button_buy, 800, 500)
+button_play = Button(button_play, button_play, 700, 600)
+button_exit = Button(button_exit, button_exit, 300, 600)
+button_next = Button(button_next, button_next, 800, 600)
+button_buy = Button(button_buy, button_buy, 800, 550)
 
 # add background music
 pygame.mixer.music.load('Sound/BGM.mp3')
@@ -469,6 +468,9 @@ class Map:
         red_box = pygame.image.load("pic/lightred.png")
         go_to_jail = pygame.image.load("pic/gotojail.webp")
         free_parking = pygame.image.load("pic/freeparking.png")
+        tax = pygame.image.load("pic/LHDN.png")
+        injail = pygame.image.load("pic/injail.png")
+        chance = pygame.image.load("pic/chance.png")
 
         row_count = 0
         for row in data:
@@ -495,6 +497,14 @@ class Map:
                 elif tile == 4:
                     img = pygame.transform.scale(
                         white_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+                elif tile == 5 or tile == 21:
+                    img = pygame.transform.scale(
+                        tax, (tile_size, tile_size))
                     img_rect = img.get_rect()
                     img_rect.x = col_count * tile_size
                     img_rect.y = row_count * tile_size
@@ -549,6 +559,15 @@ class Map:
                 elif tile == 12:
                     img = pygame.transform.scale(
                         yellow_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 13:
+                    img = pygame.transform.scale(
+                        chance, (tile_size, tile_size))
                     img_rect = img.get_rect()
                     img_rect.x = col_count * tile_size
                     img_rect.y = row_count * tile_size
@@ -645,6 +664,15 @@ class Map:
                     tile = (img, img_rect)
                     self.tile_list.append(tile)
 
+                elif tile == 26:
+                    img = pygame.transform.scale(
+                        injail, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
                 elif tile == 27:
                     img = pygame.transform.scale(
                         purple_box, (tile_size, tile_size))
@@ -657,6 +685,15 @@ class Map:
                 elif tile == 28:
                     img = pygame.transform.scale(
                         purple_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 29:
+                    img = pygame.transform.scale(
+                        chance, (tile_size, tile_size))
                     img_rect = img.get_rect()
                     img_rect.x = col_count * tile_size
                     img_rect.y = row_count * tile_size
@@ -823,6 +860,7 @@ class Player:
     def player_movement(dice_num):
         global dice_rolled,  player1_pos, player2_pos, player3_pos, player4_pos, player_sequence, changing_round
         player_sequence += 1
+        round_num = 1
         if dice_con and dice_rolled and player_sequence == 1:
             dice_rolled = False
             print(f"dice is {dice_num}")
@@ -878,8 +916,9 @@ class Player:
 
         elif player_sequence == 5:
             changing_round = True
-            print(f"{changing_round}")
-            print('next_round')
+            round_num += 1
+            print(f"changing round = {changing_round}")
+            print(f'{round_num} round started')
             player_sequence -= 5
 
 
@@ -1034,19 +1073,112 @@ class economic:
 
 
 class starting_menu:
+    counter1 = 0
+    counter2 = 0
+    counter3 = 0
+    counter4 = 0
+    counter5 = 0
+    speed = 6
+    text_done = False
+    active_rules = 0
     title_font = pygame.font.Font("HelveticaNeue.ttf", 150)
+    loading_font = pygame.font.Font("HelveticaNeue.ttf", 60)
+    rule_font = pygame.font.Font("HelveticaNeue.ttf", 35)
     start_title = title_font.render("Pynopoly", True, (white))
+    loading_title = loading_font.render("Loading...", True, (white))
+    rules_1 = "This is a monopoly game"
+    snip_rule1 = rule_font.render(
+        'HelveticaNeue.ttf', True, white)
+    rules_2 = "Game is played by 4 players"
+    snip_rule2 = rule_font.render(
+        'HelveticaNeue.ttf', True, white)
+    rules_3 = "You'll need to expand and monopolized the whole game"
+    snip_rule3 = rule_font.render(
+        'HelveticaNeue.ttf', True, white)
+    rules_4 = "If a player reach other's property, rent will be paid"
+    snip_rule4 = rule_font.render(
+        'HelveticaNeue.ttf', True, white)
+    rules_5 = "The last player is winner"
+    snip_rule5 = rule_font.render(
+        'HelveticaNeue.ttf', True, white)
+    rule_continue = rule_font.render(
+        "Press the button to continue", True, (white))
 
     def title():
         screen.blit(starting_menu.start_title, (200, 100))
 
+    def loading_screen():
+        screen.blit(starting_menu.loading_title, (700, 700))
+
+    def showing_rule():
+        rule_num = 1
+        # using function to modify typewritter displaying effect
+        if rule_num == 1:
+            if starting_menu.counter1 < starting_menu.speed * len(starting_menu.rules_1):
+                starting_menu.counter1 += 1
+            elif starting_menu.counter1 >= starting_menu.speed * len(starting_menu.rules_1):
+                starting_menu.text_done = True
+            snip_rule1 = starting_menu.rule_font.render(
+                starting_menu.rules_1[0:starting_menu.counter1//starting_menu.speed], True, 'white')
+            screen.blit(snip_rule1, (100, 100))
+            if starting_menu.text_done:
+                starting_menu.text_done = False
+                rule_num += 1
+
+        if rule_num == 2:
+            if starting_menu.counter2 < starting_menu.speed * len(starting_menu.rules_2):
+                starting_menu.counter2 += 1
+            elif starting_menu.counter2 >= starting_menu.speed * len(starting_menu.rules_2):
+                starting_menu.text_done = True
+            snip_rule2 = starting_menu.rule_font.render(
+                starting_menu.rules_2[0:starting_menu.counter2//starting_menu.speed], True, 'white')
+            screen.blit(snip_rule2, (100, 160))
+            if starting_menu.text_done:
+                starting_menu.text_done = False
+                rule_num += 1
+        if rule_num == 3:
+            if starting_menu.counter3 < starting_menu.speed * len(starting_menu.rules_3):
+                starting_menu.counter3 += 1
+            elif starting_menu.counter3 >= starting_menu.speed * len(starting_menu.rules_3):
+                starting_menu.text_done = True
+            snip_rule3 = starting_menu.rule_font.render(
+                starting_menu.rules_3[0:starting_menu.counter3//starting_menu.speed], True, 'white')
+            screen.blit(snip_rule3, (100, 220))
+            if starting_menu.text_done:
+                starting_menu.text_done = False
+                rule_num += 1
+        if rule_num == 4:
+            if starting_menu.counter4 < starting_menu.speed * len(starting_menu.rules_4):
+                starting_menu.counter4 += 1
+            elif starting_menu.counter4 >= starting_menu.speed * len(starting_menu.rules_4):
+                starting_menu.text_done = True
+            snip_rule4 = starting_menu.rule_font.render(
+                starting_menu.rules_4[0:starting_menu.counter4//starting_menu.speed], True, 'white')
+            screen.blit(snip_rule4, (100, 280))
+            if starting_menu.text_done:
+                starting_menu.text_done = False
+                rule_num += 1
+
+        if rule_num == 5:
+            if starting_menu.counter5 < starting_menu.speed * len(starting_menu.rules_5):
+                starting_menu.counter5 += 1
+            elif starting_menu.counter5 >= starting_menu.speed * len(starting_menu.rules_5):
+                starting_menu.text_done = True
+            snip_rule5 = starting_menu.rule_font.render(
+                starting_menu.rules_5[0:starting_menu.counter5//starting_menu.speed], True, 'white')
+            screen.blit(snip_rule5, (100, 340))
+            if starting_menu.text_done:
+                starting_menu.text_done = False
+                rule_num += 1
+        if rule_num == 6:
+            screen.blit(starting_menu.rule_continue, (100, 400))
+
 
 map = Map(map_data)
-# main run for game
-run = True
+
 
 button_functions = [button_music.checkmusic, button_roll.checkroll,
-                    button_play.check_play, button_buy.check_buy]
+                    button_play.check_play, button_buy.check_buy, button_next.checkload_finish]
 
 
 def handle_button_events(pos):
@@ -1073,13 +1205,24 @@ def display_description_block(pos):
         description_display_timer = time.time()
 
 
+run = True
+# main loop for python
 while run:
     clock.tick(fps)
     screen.fill((0, 0, 0))
-    button_play.update()
-    starting_menu.title()
 
-    if not Button.menu:
+    if Button.menu:
+        button_play.update()
+        button_exit.update()
+        starting_menu.title()
+
+    if not Button.menu and Button.loading:
+        button_next.update()
+        starting_menu.loading_screen()
+        starting_menu.showing_rule()
+
+    if not Button.menu and not Button.loading:
+        # starting_menu.loading_screen()
         map.draw()
         Display.middle()
         Display.showing_properties_name()
