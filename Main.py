@@ -917,7 +917,6 @@ while run:
                 if block in block_desctiptions:
                     description = block_desctiptions[block]
                     display_descriptions(description)
-
         # if roll dice randomize a num
             if Button.rolling_con:
                 rand_a_dice()
