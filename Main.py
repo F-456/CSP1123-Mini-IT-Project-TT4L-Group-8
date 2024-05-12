@@ -42,40 +42,68 @@ map_data = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
             ]
 
 block_desctiptions = {
-    2:"'Ramly burger', the most famous burger chain store in Malaysia",
-    3:"'99 speedmarket', you can buy everything you want from here",
-    4:"'Radio Televisyen Malaysia',",
-    5:"'Astro'",
-    7:"'Redhouse, Melaka'",
-    8:"'A'Famosa, Melaka'",
-    9:"'Jonker Street, Melaka'",
-    11:"'TM unifi'",
-    12:"'Sky Bridge, Penang'",
-    13:"'Penang Hill'",
-    15:"'George Town, Penang'",
-    16:"'Chew Jetty, Penang'",
-    18:"'Cyberjaya’",
-    19:"'KL central'",
-    20:"‘Tenaga National Berhad'",
-    22:"'Cameroon Highland'",
-    23:"'Genting Highland'",
-    24:"'Putrajaya'",
-    25:"'KLIA'",
-    27:"'Lot10'",
-    28:"'Pavilion, Bukit Bintang'",
-    30:"'KL Tower'",
-    31:"'Merdeka 118'",
+    2: "'Ramly burger', the most famous burger chain store in Malaysia",
+    3: "'99 speedmarket', you can buy everything you want from here",
+    4: "'Aeon Big'",
+    6: "'Tenaga National Berhad(TNB)'",
+    7: "'Batu Caves'",
+    8: "'Pulau Langkawi'",
+    9: "'Cameroon Highland'",
+    11: "'Gunung Mulu'",
+    12: "'Mount Kinabalu'",
+    14: "'Johor Bahru'",
+    15: "'George Town'",
+    16: "'Melaka historical city'",
+    18: "'KL Central’",
+    19: "'Port Dickson'",
+    20: "'MMU Cyberjaya'",
+    22: "'Indah Water'",
+    23: "'Genting Highland'",
+    24: "'Putrajaya'",
+    25: "'KLIA'",
+    27: "'TRX'",
+    28: "'Pavilion, KL'",
+    30: "'KL Tower'",
+    31: "'Merdeka 118'",
     32: "'KLCC'"
 }
 
+
 def display_descriptions(description):
-    global player1_pos, player2_pos, player3_pos, player4_pos
-    # Display the description
+    max_width = 400
+    max_height = 300
+
+    # Create a surface to render text
+    description_surface = pygame.Surface((max_width, max_height))
+    description_surface.fill(grey)
+
     font = pygame.font.Font(None, 36)
-    text_surface = font.render(description, True, white)
-    screen.blit(text_surface, (200, 240))
-    # Update the display
+    text_lines = wrap_text(description, font, max_width)
+    y_offset = 0
+    for line in text_lines:
+        text_surface = font.render(line, True, black)
+        description_surface.blit(text_surface, (0, y_offset))
+        y_offset += font.get_height()
+
+    screen.blit(description_surface, (180, 150))
     pygame.display.flip()
+
+
+def wrap_text(text, font, max_width):
+    words = text.split(' ')
+    lines = []
+    current_line = ''
+    for word in words:
+        test_line = current_line + word + ' '
+        test_line_surface = font.render(test_line, True, white)
+        if test_line_surface.get_width() <= max_width:
+            current_line = test_line
+        else:
+            lines.append(current_line)
+            current_line = word + ' '
+    if current_line:
+        lines.append(current_line)
+    return lines
 
 
 class Property:
@@ -89,34 +117,37 @@ class Property:
 # Define property
 property = [
     Property("Ramly Burger", 500, 10),
-    Property("99 Minimarket", 600, 20),
-    Property("Radio Televisyen Malaysia", 700, 35),
-    Property("Astro", 750, 40),
-    Property("Redhouse Melaka", 800, 50),
-    Property("A'Famosa", 900, 55),
-    Property("Jonker Street", 1000, 65),
-    Property("Telekom Malaysia", 1200, 80),
-    Property("Sky Bridge Langkawi", 1300, 85),
-    Property("Penang Hill", 1400, 100),
-    Property("George Town Penang", 1500, 110),
-    Property("Chew Jetty", 1600, 120),
-    Property("Cyberjaya", 1800, 140),
-    Property("KL Central", 2000, 160),
-    Property("Tenaga National Berhad", 2000, 160),
-    Property("Cameroon Highland", 2200, 180),
+    Property("99 Speedmarket", 600, 20),
+    Property("Aeon Big", 700, 35),
+    Property("TNB", 2100, 40),
+    Property("Batu Caves", 800, 50),
+    Property("Pulau Langkawi", 900, 55),
+    Property("Cameron Highland", 1000, 65),
+    Property("Gunung Mulu", 1200, 80),
+    Property("Mount Kinabalu", 1300, 85),
+    Property("Johor Bahru", 1400, 100),
+    Property("George Town", 1500, 110),
+    Property("Melaka", 1600, 120),
+    Property("KL Sentral", 1800, 140),
+    Property("Port Dickson", 2000, 160),
+    Property("MMU Cyberjaya", 2000, 160),
+    Property("Indah water", 2150, 180),
     Property("Genting Highland", 2200, 180),
     Property("Putrajaya", 2400, 200),
-    Property("KLIA", 2400, 200),
-    Property("Lot10, Bukit Bintang", 2500, 220),
-    Property("Pavilion Bukit Bintang", 2800, 240),
+    Property("KLIA", 2500, 220),
+    Property("TRX", 2600, 230),
+    Property("Pavilion KL", 2800, 240),
     Property("KL Tower", 3000, 275),
     Property("Merdeka 118", 3500, 350),
     Property("KLCC", 4000, 500)
 ]
 
+Pricelist = [0, 500, 600, 700, 0, 2100, 800, 900, 1000, 0, 1200, 1300, 0, 1400, 1500, 1600,
+             0, 1800, 1900, 2000, 0, 2150, 2200, 2400, 2500, 0, 2600, 2800, 0, 3000, 3500, 4000]
+
 
 class Display:
-    text_font = pygame.font.Font("HelveticaNeue.ttf", 25)
+    text_font = pygame.font.Font("HelveticaNeue.ttf", 20)
     smaller_font = pygame.font.Font("HelveticaNeue.ttf", 20)
     Specia_font = pygame.font.SysFont(
         "ComicSansMS.ttf", 25, bold=False, italic=False)
@@ -125,44 +156,32 @@ class Display:
     collect_t = smaller_font.render("Pass & Go", True, (white))
     klcc_t = text_font.render("KLCC", True, (black))
     money_t = smaller_font.render("$", True, (black))
-    M118_t = text_font.render("M.118", True, (black))
-    kl_t = text_font.render("kl.tower", True, (black))
     Q_t = text_font.render("?", True, (white))
     chance_t = smaller_font.render("Chance", True, (white))
-    Pavilion_t = text_font.render("Pavilion", True, (black))
-    Lot10_t = text_font.render("Lot10", True, (black))
     jail_t = text_font.render("Jail", True, (white))
     klia_t = text_font.render("KLIA", True, (black))
+    indah_t = smaller_font.render("Indah", True, (black))
+    water_t = smaller_font.render("Water", True, (black))
+    mmu_t = smaller_font.render("MMU", True, (black))
     cyber_t = smaller_font.render("Cyberjaya", True, (black))
-    genting_t = smaller_font.render("G.highland", True, (black))
-    cameroon_t = smaller_font.render("C.highland", True, (black))
-    income_t = smaller_font.render("Income", True, (white))
-    tax_t = smaller_font.render("tax", True, (white))
-    tnb_t = text_font.render("TNB", True, (black))
-    klsen_t = smaller_font.render("KL.central", True, (black))
+    genting_t = smaller_font.render("Genting", True, (black))
+    port_t = text_font.render("Port", True, (black))
+    dickson_t = text_font.render("Dickson", True, (black))
+    sen_t = smaller_font.render("Sentral", True, (black))
     putra_t = smaller_font.render("Putrajaya", True, (black))
-    Gojail1_t = smaller_font.render("Go to", True, (white))
-    GOjail2_t = smaller_font.render("Jail", True, (white))
-    chew1_t = smaller_font.render("Chew", True, (black))
-    chew2_t = smaller_font.render("Jetty", True, (black))
-    George1_t = smaller_font.render("Goerge", True, (black))
-    George2_t = smaller_font.render("Town", True, (black))
-    sky_t = smaller_font.render("Sky", True, (black))
-    bridge_t = smaller_font.render("Bridge", True, (black))
-    Tm_t = text_font.render("TM", True, (black))
-    free_t = smaller_font.render("Free", True, (white))
-    park_t = smaller_font.render("Parking", True, (white))
-    hill_1 = smaller_font.render("Penang", True, (black))
-    hill_2 = smaller_font.render("Hill", True, (black))
-    famosa_1 = smaller_font.render("A.Famosa", True, (black))
-    jonker_1 = smaller_font.render("Jonker", True, (black))
-    jonker_2 = smaller_font.render("Street", True, (black))
-    stadthuys_t = smaller_font.render("redhouse", True, (black))
-    astro_t = text_font.render("Astro", True, (black))
-    rtm_t = text_font.render("RTM", True, (black))
-    seven_t = text_font.render("99", True, (black))
+    putra_t = smaller_font.render("Putrajaya", True, (black))
+    kl_t = smaller_font.render("KL", True, (black))
+    cameron_t = smaller_font.render("Cameron", True, (black))
+    highland_t = smaller_font.render("Highland", True, (black))
+    pulau_t = smaller_font.render("Pulau", True, (black))
+    langkawi_t = smaller_font.render("Langkawi", True, (black))
+    batu_caves_t = text_font.render("Batu Caves", True, (black))
+    tnb_t = text_font.render("TNB", True, (black))
+    aeon_t = text_font.render("AEON", True, (black))
+    ninenine_t = text_font.render("99", True, (black))
+    speedmarket_t = text_font.render("Market", True, (black))
     Ramly_t = smaller_font.render("B.Ramly", True, (black))
-    # price_t = smaller_font.render(f"{Pricelist}", True, (black))
+    # price_t = smaller_font.render(f"{Pricelist}", True, (white))
     # print(Pricelist)
 
     def showing_properties_name():
@@ -170,18 +189,30 @@ class Display:
         screen.blit(Display.Go_t, (20, 20))
         # screen.blit(Display.price_t, (20, 20))
         screen.blit(Display.collect_t, (20, 50))
-        screen.blit(Display.money_t, (20, 150))
-        screen.blit(Display.M118_t, (20, 220))
-        screen.blit(Display.money_t, (20, 250))
-        screen.blit(Display.kl_t, (16, 320))
-        screen.blit(Display.money_t, (20, 350))
         screen.blit(Display.Q_t, (40, 420))
         screen.blit(Display.chance_t, (20, 450))
-        screen.blit(Display.Pavilion_t, (10, 520))
-        screen.blit(Display.money_t, (20, 550))
-        screen.blit(Display.Lot10_t, (20, 620))
-        screen.blit(Display.money_t, (20, 650))
         screen.blit(Display.jail_t, (20, 720))
+        screen.blit(Display.income_t, (520, 720))
+        screen.blit(Display.tax_t, (520, 750))
+        screen.blit(Display.Q_t, (950, 420))
+        screen.blit(Display.chance_t, (920, 450))
+        screen.blit(Display.income_t, (520, 20))
+        screen.blit(Display.tax_t, (520, 50))
+        klcc_rotated = Display.render_rotate_text(
+            Display.text_font, "KLCC", (black), 270)
+        screen.blit(klcc_rotated, (55, 120))
+        merdeka118_rotated = Display.render_rotate_text(
+            Display.text_font, "M.118", (black), 270)
+        screen.blit(merdeka118_rotated, (55, 220))
+        kl_tower_rotated = Display.render_rotate_text(
+            Display.text_font, "KL.Tower", (black), 270)
+        screen.blit(kl_tower_rotated, (55, 310))
+        pavilion_rotated = Display.render_rotate_text(
+            Display.text_font, "Pavilion", (black), 270)
+        screen.blit(pavilion_rotated, (55, 520))
+        lot10_rotated = Display.render_rotate_text(
+            Display.text_font, "Lot 10", (black), 270)
+        screen.blit(lot10_rotated, (55, 620))
         screen.blit(Display.klia_t, (120, 720))
         screen.blit(Display.money_t, (120, 750))
         screen.blit(Display.putra_t, (210, 720))
@@ -190,34 +221,27 @@ class Display:
         screen.blit(Display.money_t, (320, 750))
         screen.blit(Display.cameroon_t, (405, 720))
         screen.blit(Display.money_t, (420, 750))
-        screen.blit(Display.income_t, (520, 720))
-        screen.blit(Display.tax_t, (520, 750))
         screen.blit(Display.tnb_t, (620, 720))
         screen.blit(Display.money_t, (620, 750))
         screen.blit(Display.klsen_t, (710, 720))
         screen.blit(Display.money_t, (720, 750))
         screen.blit(Display.cyber_t, (810, 720))
         screen.blit(Display.money_t, (820, 750))
-        screen.blit(Display.Gojail1_t, (920, 720))
-        screen.blit(Display.GOjail2_t, (930, 750))
-        screen.blit(Display.chew1_t, (920, 610))
-        screen.blit(Display.chew2_t, (920, 630))
-        screen.blit(Display.money_t, (920, 650))
-        screen.blit(Display.George1_t, (920, 510))
-        screen.blit(Display.George2_t, (920, 530))
-        screen.blit(Display.money_t, (920, 550))
-        screen.blit(Display.Q_t, (950, 420))
-        screen.blit(Display.chance_t, (920, 450))
-        screen.blit(Display.hill_1, (920, 310))
-        screen.blit(Display.hill_2, (920, 330))
-        screen.blit(Display.money_t, (920, 350))
-        screen.blit(Display.sky_t, (920, 210))
-        screen.blit(Display.bridge_t, (920, 230))
-        screen.blit(Display.money_t, (920, 250))
-        screen.blit(Display.Tm_t, (920, 120))
-        screen.blit(Display.money_t, (920, 150))
-        screen.blit(Display.free_t, (920, 20))
-        screen.blit(Display.park_t, (920, 50))
+        chewjetty_rotated = Display.render_rotate_text(
+            Display.text_font, "C.Jetty", (black), 90)
+        screen.blit(chewjetty_rotated, (920, 620))
+        gtown_rotated = Display.render_rotate_text(
+            Display.text_font, "G.Town", (black), 90)
+        screen.blit(gtown_rotated, (920, 520))
+        PenangHill_rotated = Display.render_rotate_text(
+            Display.text_font, "P.Hill", (black), 90)
+        screen.blit(PenangHill_rotated, (920, 320))
+        sky_b_rotated = Display.render_rotate_text(
+            Display.text_font, "Sky.B", (black), 90)
+        screen.blit(sky_b_rotated, (920, 220))
+        tm_rotated = Display.render_rotate_text(
+            Display.text_font, "TM", (black), 90)
+        screen.blit(tm_rotated, (920, 120))
         screen.blit(Display.famosa_1, (710, 20))
         screen.blit(Display.money_t, (720, 50))
         screen.blit(Display.jonker_1, (820, 10))
@@ -225,8 +249,6 @@ class Display:
         screen.blit(Display.money_t, (820, 50))
         screen.blit(Display.stadthuys_t, (610, 20))
         screen.blit(Display.money_t, (620, 50))
-        screen.blit(Display.income_t, (520, 20))
-        screen.blit(Display.tax_t, (520, 50))
         screen.blit(Display.astro_t, (420, 20))
         screen.blit(Display.money_t, (420, 50))
         screen.blit(Display.rtm_t, (320, 20))
@@ -234,7 +256,7 @@ class Display:
         screen.blit(Display.seven_t, (220, 20))
         screen.blit(Display.money_t, (220, 50))
         screen.blit(Display.Ramly_t, (120, 20))
-        screen.blit(Display.money_t, (120, 50))
+        screen.blit(Display.price1_t, (127, 60))
 
         # drawing grids for maps
 
@@ -263,11 +285,13 @@ class Display:
 dice_num = 0
 dice_con = False
 dice_rolled = False
+changing_round = False
 buy_clicked = False
 
 
 class Button():
     menu = True
+    loading = True
     rolling_con = False
     is_buying_properties = False
 
@@ -297,6 +321,10 @@ class Button():
         if self.rect.collidepoint(position):
             Button.menu = False
 
+    def checkload_finish(self, position):
+        if self.rect.collidepoint(position):
+            Button.loading = False
+
     def check_buy(self, position):
         if self.rect.collidepoint(position):
             Button.is_buying_properties = True
@@ -322,16 +350,21 @@ button_surface_on = pygame.image.load('pic/musicon.png')
 button_surface_off = pygame.image.load('pic/musicoff.png')
 button_roll = pygame.image.load('pic/Roll.png')
 button_play = pygame.image.load('pic/play.png')
+button_exit = pygame.image.load('pic/exit.png')
+button_next = pygame.image.load('pic/next.png')
 button_buy = pygame.image.load('pic/buy.png')
+# adjust size
 button_surface_on = pygame.transform.scale(button_surface_on, (40, 40))
 button_surface_off = pygame.transform.scale(button_surface_off, (40, 40))
 button_roll = pygame.transform.scale(button_roll, (80, 80))
 button_play = pygame.transform.scale(button_play, (450, 170))
 button_buy = pygame.transform.scale(button_buy, (100, 100))
-button_music = Button(button_surface_on, button_surface_off, 650, 680)
+button_music = Button(button_surface_on, button_surface_off, 880, 120)
 button_roll = Button(button_roll, button_roll, 800, 650)
-button_play = Button(button_play, button_play, 500, 400)
-button_buy = Button(button_buy, button_buy, 800, 500)
+button_play = Button(button_play, button_play, 700, 600)
+button_exit = Button(button_exit, button_exit, 300, 600)
+button_next = Button(button_next, button_next, 800, 600)
+button_buy = Button(button_buy, button_buy, 800, 550)
 
 # add background music
 pygame.mixer.music.load('Sound/BGM.mp3')
@@ -361,6 +394,8 @@ class Map:
         blue_box = pygame.image.load("pic/lightblue.png")
         purple_box = pygame.image.load("pic/lightpurple.png")
         red_box = pygame.image.load("pic/lightred.png")
+        go_to_jail = pygame.image.load("pic/gotojail.webp")
+        free_parking = pygame.image.load("pic/freeparking.png")
 
         row_count = 0
         for row in data:
@@ -392,10 +427,18 @@ class Map:
                     img_rect.y = row_count * tile_size
                     tile = (img, img_rect)
                     self.tile_list.append(tile)
-
-                elif tile == 5:
+                elif tile == 5 or tile == 21:
                     img = pygame.transform.scale(
-                        white_box, (tile_size, tile_size))
+                        tax, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 6:
+                    img = pygame.transform.scale(
+                        yellow_box, (tile_size, tile_size))
                     img_rect = img.get_rect()
                     img_rect.x = col_count * tile_size
                     img_rect.y = row_count * tile_size
@@ -410,7 +453,7 @@ class Map:
                     img_rect.y = row_count * tile_size
                     tile = (img, img_rect)
                     self.tile_list.append(tile)
-    
+
                 elif tile == 8:
                     img = pygame.transform.scale(
                         yellow_box, (tile_size, tile_size))
@@ -431,7 +474,7 @@ class Map:
 
                 elif tile == 11:
                     img = pygame.transform.scale(
-                        green_box, (tile_size, tile_size))
+                        yellow_box, (tile_size, tile_size))
                     img_rect = img.get_rect()
                     img_rect.x = col_count * tile_size
                     img_rect.y = row_count * tile_size
@@ -440,7 +483,7 @@ class Map:
 
                 elif tile == 12:
                     img = pygame.transform.scale(
-                        green_box, (tile_size, tile_size))
+                        yellow_box, (tile_size, tile_size))
                     img_rect = img.get_rect()
                     img_rect.x = col_count * tile_size
                     img_rect.y = row_count * tile_size
@@ -449,7 +492,16 @@ class Map:
 
                 elif tile == 13:
                     img = pygame.transform.scale(
-                        green_box, (tile_size, tile_size))
+                        chance, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 14:
+                    img = pygame.transform.scale(
+                        blue_box, (tile_size, tile_size))
                     img_rect = img.get_rect()
                     img_rect.x = col_count * tile_size
                     img_rect.y = row_count * tile_size
@@ -510,7 +562,52 @@ class Map:
                     tile = (img, img_rect)
                     self.tile_list.append(tile)
 
-                elif tile == 8:
+                elif tile == 23:
+                    img = pygame.transform.scale(
+                        purple_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 24:
+                    img = pygame.transform.scale(
+                        purple_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 25:
+                    img = pygame.transform.scale(
+                        purple_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 27:
+                    img = pygame.transform.scale(
+                        purple_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 28:
+                    img = pygame.transform.scale(
+                        purple_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)                
+  
+                elif tile == 30:
                     img = pygame.transform.scale(
                         red_box, (tile_size, tile_size))
                     img_rect = img.get_rect()
@@ -632,12 +729,14 @@ class Player:
                 break
 
     def player_movement(dice_num):
-        global dice_rolled, player1_pos, player2_pos, player3_pos, player4_pos, player_sequence
+        global dice_rolled,  player1_pos, player2_pos, player3_pos, player4_pos, player_sequence, changing_round
         player_sequence += 1
+        round_num = 1
         if dice_con and dice_rolled and player_sequence == 1:
             dice_rolled = False
             print(f"dice is {dice_num}")
             player1_pos = player1_pos + dice_num
+            changing_round = False
             if player1_pos < 32:
                 print(f"Player 1 is now at:{player1_pos}")
             elif player1_pos == 32:
@@ -687,7 +786,10 @@ class Player:
                 print(f"Player 4 is now at: {player4_pos}")
 
         elif player_sequence == 5:
-            print('next_round')
+            changing_round = True
+            round_num += 1
+            print(f"changing round = {changing_round}")
+            print(f'{round_num} round started')
             player_sequence -= 5
 
 
@@ -703,32 +805,32 @@ players = [player1, player2, player3, player4]
 
 # settings for the property
 price = 0
-Pricelist = [0, 500, 600, 700, 750, 0, 800, 900, 1000, 0, 1200, 1200, 1400, 0, 1500,  1600,
-             1800, 0, 2000, 2000, 2200, 0, 2200, 2400, 2400, 0, 2500, 2800, 0, 3000, 3500, 4000]
+Pricelist = [0, 500, 600, 700, 0, 2100, 800, 900, 1000, 0, 1200, 1300, 0, 1400, 1500, 1600,
+             0, 1800, 1900, 2000, 0, 2150, 2200, 2400, 2500, 0, 2600, 2800, 0, 3000, 3500, 4000]
 b_property = str()
 
 Property_with_price = {
     "Ramly Burger": 500,
-    "99 Minimarket": 600,
-    "Radio Televisyen Malaysia": 700,
-    "Astro": 750,
-    "Redhouse Melaka": 800,
-    "A'Famosa": 900,
-    "Jonker Street": 1000,
-    "Telekom Malaysia": 1200,
-    "Sky Bridge Langkawi": 1300,
-    "Penang Hill": 1400,
-    "George Town Penang": 1500,
-    "Chew Jetty": 1600,
-    "Cyberjaya": 1800,
-    "KL Central": 2000,
-    "Tenaga National Berhad": 2000,
-    "Cameroon Highland": 2200,
+    "99 Speedmarket": 600,
+    "Aeon Big": 700,
+    "TNB": 2100,
+    "Batu Caves": 800,
+    "Pulau Langkawi": 900,
+    "Cameron Highland": 1000,
+    "Gunung Mulu": 1200,
+    "Mount Kinabalu": 1300,
+    "Johor Bahru": 1400,
+    "George Town": 1500,
+    "Melaka": 1600,
+    "KL Sentral": 1800,
+    "Port Dickson": 1900,
+    "MMU Cyberjaya": 2000,
+    "Indah water": 2150,
     "Genting Highland": 2200,
     "Putrajaya": 2400,
-    "KLIA": 2400,
-    "Lot10, Bukit Bintang": 2500,
-    "Pavilion Bukit Bintang": 2800,
+    "KLIA": 2500,
+    "TRX": 2600,
+    "Pavilion KL": 2800,
     "KL Tower": 3000,
     "Merdeka 118": 3500,
     "KLCC": 4000
@@ -747,22 +849,22 @@ player2_broke = False
 player3_broke = False
 player4_broke = False
 
-print(block_desctiptions[player1_pos])
+
 class economic:
     # checking for validity in buying property
     # player will not be able to click buy button if tile is not available to sell
 
     def check_buying_valid():
-        if player_sequence == 1 and player1_pos not in [0, 5, 9, 13, 16, 20, 25, 28]:
+        if player_sequence == 1 and player1_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
             button_buy.update()
 
-        elif player_sequence == 2 and player2_pos not in [0, 5, 9, 13, 16, 20, 25, 28]:
+        elif player_sequence == 2 and player2_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
             button_buy.update()
 
-        elif player_sequence == 3 and player3_pos not in [0, 5, 9, 13, 16, 20, 25, 28]:
+        elif player_sequence == 3 and player3_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
             button_buy.update()
 
-        elif player_sequence == 4 and player4_pos not in [0, 5, 9, 13, 16, 20, 25, 28]:
+        elif player_sequence == 4 and player4_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
             button_buy.update()
 
         else:
@@ -842,49 +944,89 @@ class economic:
 
 
 class starting_menu:
+    counter1 = 0
+    counter2 = 0
+    counter3 = 0
+    counter4 = 0
+    counter5 = 0
+    speed = 6
+    text_done = False
+    active_rules = 0
     title_font = pygame.font.Font("HelveticaNeue.ttf", 150)
+    loading_font = pygame.font.Font("HelveticaNeue.ttf", 60)
+    rule_font = pygame.font.Font("HelveticaNeue.ttf", 35)
     start_title = title_font.render("Pynopoly", True, (white))
+    loading_title = loading_font.render("Loading...", True, (white))
+    rules_1 = "This is a monopoly game"
+    snip_rule1 = rule_font.render(
+        'HelveticaNeue.ttf', True, white)
+    rules_2 = "Game is played by 4 players"
+    snip_rule2 = rule_font.render(
+        'HelveticaNeue.ttf', True, white)
+    rules_3 = "You'll need to expand and monopolized the whole game"
+    snip_rule3 = rule_font.render(
+        'HelveticaNeue.ttf', True, white)
+    rules_4 = "If a player reach other's property, rent will be paid"
+    snip_rule4 = rule_font.render(
+        'HelveticaNeue.ttf', True, white)
+    rules_5 = "The last player is winner"
+    snip_rule5 = rule_font.render(
+        'HelveticaNeue.ttf', True, white)
+    rule_continue = rule_font.render(
+        "Press the button to continue", True, (white))
 
     def title():
         screen.blit(starting_menu.start_title, (200, 100))
 
-
-    # Maps control for monopoly
-map_data = [[1, 2, 2, 2, 2, 3, 4, 4, 4, 10],
-            [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
-            [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
-            [8, 0, 0, 0, 0, 0, 0, 0, 0, 5],
-            [29, 0, 0, 0, 0, 0, 0, 0, 0, 14],
-            [7, 0, 0, 0, 0, 0, 0, 0, 0, 6],
-            [7, 0, 0, 0, 0, 0, 0, 0, 0, 6],
-            [26, 7, 7, 7, 7, 21, 6, 6, 6, 17],]
-
-
 map = Map(map_data)
-# main run for game
-run = True
 
-button_functions = [button_music.checkmusic, button_roll.checkroll, button_play.check_play, button_buy.check_buy]
+
+button_functions = [button_music.checkmusic, button_roll.checkroll,
+                    button_play.check_play, button_buy.check_buy, button_next.checkload_finish]
+
 
 def handle_button_events(pos):
-        for button_function in button_functions:
-            button_function(pos)
+    for button_function in button_functions:
+        button_function(pos)
+
+
+show_description = False
+description = ""
+description_display_duration = 20
+description_display_timer = 0
+
+# Modify the display_description_block function
+
 
 def display_description_block(pos):
+    global show_description, description, description_display_timer
     x, y = pos
     block_x, block_y = x // 100, y // 100
     block = map_data[block_y][block_x]
     if block in block_desctiptions:
         description = block_desctiptions[block]
-        display_descriptions(description)
+        show_description = True
+        description_display_timer = time.time()
 
+
+run = True
+# main loop for python
 while run:
     clock.tick(fps)
     screen.fill((0, 0, 0))
-    button_play.update()
-    starting_menu.title()
 
-    if not Button.menu:
+    if Button.menu:
+        button_play.update()
+        button_exit.update()
+        starting_menu.title()
+
+    if not Button.menu and Button.loading:
+        button_next.update()
+        starting_menu.loading_screen()
+        starting_menu.showing_rule()
+
+    if not Button.menu and not Button.loading:
+        # starting_menu.loading_screen()
         map.draw()
         Display.middle()
         Display.showing_properties_name()
@@ -893,6 +1035,11 @@ while run:
         economic.check_buying_valid()
         moving_sprites.draw(screen)
         moving_sprites.update()
+
+        if show_description and time.time() - description_display_timer < description_display_duration:
+            display_descriptions(description)
+        else:
+            show_description = False
 
         for player in players:
             player.draw()
@@ -921,16 +1068,18 @@ while run:
             if Button.rolling_con:
                 rand_a_dice()
                 dice_num = (random.randint(1, 6))
-                Player.player_movement(dice_num)
-                # Move the active player based on the dice roll
-                players[active_player_index].move(dice_num)
-                # Move to the next player
-                active_player_index = (active_player_index + 1) % len(players)
+
                 Button.rolling_con = False
                 buy_clicked = False
-                if player_sequence != 5:
-                    # dice animating
-                    dice.animate(dice_num)
+                # dice animating
+                dice.animate(dice_num)
+                Player.player_movement(dice_num)
+                if player_sequence != 5 and not changing_round:
+                    # Move the active player based on the dice roll
+                    players[active_player_index].move(dice_num)
+                    # Move to the next player
+                    active_player_index = (
+                        active_player_index + 1) % len(players)
 
             elif Button.is_buying_properties and not buy_clicked:
                 economic.buying_property()
