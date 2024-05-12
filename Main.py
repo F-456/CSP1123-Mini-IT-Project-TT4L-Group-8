@@ -19,6 +19,7 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 
 # universal settings
 tile_size = 100
+round_num = 1
 num_row = 8
 num_col = 10
 white = 255, 255, 255
@@ -360,6 +361,7 @@ buy_clicked = False
 
 class Button():
     menu = True
+    exit_game = False
     loading = True
     rolling_con = False
     is_buying_properties = False
@@ -393,6 +395,10 @@ class Button():
     def checkload_finish(self, position):
         if self.rect.collidepoint(position):
             Button.loading = False
+
+    def check_exit(self, position):
+        if self.rect.collidepoint(position):
+            Button.exit_game = True
 
     def check_buy(self, position):
         if self.rect.collidepoint(position):
@@ -858,9 +864,9 @@ class Player:
                 break
 
     def player_movement(dice_num):
-        global dice_rolled,  player1_pos, player2_pos, player3_pos, player4_pos, player_sequence, changing_round
+        global dice_rolled,  player1_pos, player2_pos, player3_pos, player4_pos, player_sequence, changing_round, round_num
         player_sequence += 1
-        round_num = 1
+
         if dice_con and dice_rolled and player_sequence == 1:
             dice_rolled = False
             print(f"dice is {dice_num}")
@@ -917,7 +923,6 @@ class Player:
         elif player_sequence == 5:
             changing_round = True
             round_num += 1
-            print(f"changing round = {changing_round}")
             print(f'{round_num} round started')
             player_sequence -= 5
 
@@ -1178,7 +1183,7 @@ map = Map(map_data)
 
 
 button_functions = [button_music.checkmusic, button_roll.checkroll,
-                    button_play.check_play, button_buy.check_buy, button_next.checkload_finish]
+                    button_play.check_play, button_buy.check_buy, button_next.checkload_finish, button_exit.check_exit]
 
 
 def handle_button_events(pos):
@@ -1210,6 +1215,9 @@ run = True
 while run:
     clock.tick(fps)
     screen.fill((0, 0, 0))
+
+    if Button.exit_game:
+        run = False
 
     if Button.menu:
         button_play.update()
