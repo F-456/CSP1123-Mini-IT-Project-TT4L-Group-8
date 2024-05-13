@@ -44,40 +44,40 @@ map_data = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 block_desctiptions = {
     2: "'Ramly burger', the most famous burger chain store in Malaysia",
     3: "'99 speedmarket', you can buy everything you want from here",
-    4: "'Aeon Big'",
-    6: "'Tenaga National Berhad(TNB)'",
-    7: "'Batu Caves'",
-    8: "'Pulau Langkawi'",
-    9: "'Cameroon Highland'",
-    11: "'Gunung Mulu'",
-    12: "'Mount Kinabalu'",
-    14: "'Johor Bahru'",
-    15: "'George Town'",
-    16: "'Melaka historical city'",
-    18: "'KL Central’",
-    19: "'Port Dickson'",
-    20: "'MMU Cyberjaya'",
-    22: "'Indah Water'",
-    23: "'Genting Highland'",
-    24: "'Putrajaya'",
-    25: "'KLIA'",
-    27: "'TRX'",
-    28: "'Pavilion, KL'",
-    30: "'KL Tower'",
-    31: "'Merdeka 118'",
-    32: "'KLCC'"
+    4: "'Aeon Big' is a supermarket. When ur state got the aeon supermarket, ur state will be certified as 'developed state'.(JKJK)",
+    6: "'Tenaga National Berhad(TNB)', is the Malaysian multinational electricity company and is the only electric utility company in Peninsular Malaysia and also the largest publicly listed power company in Southeast Asia with MYR 182.60 billion worth of assets.",
+    7: "'Batu Caves' is a mogote (a type of karst landform) that has a series of caves and cave temples in Gombak, Selangor, Malaysia. The cave complex is one of the most popular Hindu shrines outside India, and is dedicated to Murugan. It is the focal point of the Tamil festival of Thaipusam in Malaysia.",
+    8: "'Pulau Langkawi' is a duty-free island and an archipelago of 99 islands located some 30 km off the coast of northwestern Malaysia and a few kilometres south of Ko Tarutao, adjacent to the Thai border.",
+    9: "'Cameroon Highland'is a district in Pahang, Malaysia, occupying an area of 712.18 square kilometres. Developed in the 1930s, the tableland is one of the oldest tourist spots in Malaysia.",
+    11: "'Gunung Mulu National Park' is in Miri Division, Sarawak, Malaysia. It is a UNESCO World Heritage Site that encompasses caves and karst formations in a mountainous equatorial rainforest setting",
+    12: "'Mount Kinabalu' is the highest mountain in Borneo and Malaysia. With an elevation of 4,095 metres (13,435 ft), it is the third-highest peak of an island on Earth, the 28th highest peak in Southeast Asia, and 20th most prominent mountain in the world.",
+    14: "'Johor Bahru' colloquially referred to as JB, and the capital city of the state of Johor, Malaysia (the second-largest district in the country, by population). It is the second-largest national GDP-contributor among the major cities in Malaysia, and forms a part of Iskandar Malaysia, the nation's largest special economic zone, by investment value.",
+    15: "'George Town' is the capital of the Malaysian state of Penang. Malaysia's second largest metropolitan area with a population of 2.84 million and the second highest contributor to the country's GDP. The city proper spans an area of 306 km2 (118 sq mi) encompassing Penang Island and surrounding islets.",
+    16: "'Malacca (Malay: Melaka)', officially the Historic State of Malacca, is a state in Malaysia located in the southern region of the Malay Peninsula, facing the Strait of Malacca. Its capital is Malacca City, which has been listed as a UNESCO World Heritage Site since 7 July 2008.",
+    18: "'Kuala Lumpur Sentral Station (KL Sentral)' is a transit-oriented development that houses the main railway station of Kuala Lumpur, the capital of Malaysia. Opened on 16 April 2001, KL Sentral replaced the old Kuala Lumpur railway station as the city's main intercity railway station. KL Sentral is the largest railway station in Malaysia, and also in Southeast Asia from 2001 to 2021",
+    19: "'Port Dickson' colloquially referred to as PD is a beach resort in Port Dickson District, Negeri Sembilan, Malaysia. It is the second largest urban area in Negeri Sembilan after Seremban, its state capital.",
+    20: "'MMU Cyberjaya' GOAT!! The BEST university you can find in MALAYSIA, the lecturers are also the best, especially MR Willie Poh.(PLS rate excellent for us)",
+    22: "'Indah Water Konsortium Sdn. Bhd' is a Malaysian national wastewater and sanitation company, It is a government-owned company under the Minister of Finance Incorporated, which has the task of developing and maintaining a modern and efficient sewerage system for West Malaysia",
+    23: "'Genting Highlands' is a hill station located in the state of Pahang, at 1800 metres elevation. It was established in 1965 by the late Malaysian businessman Lim Goh Tong. The primary tourist attraction is Resorts World Genting, a hill resort where casinos and theme parks are situated and where gambling is permitted. Many of Pahang's skyscrapers can be found here.",
+    24: "'Putrajaya' is the administrative centre of Malaysia. The seat of the federal government of Malaysia was moved in 1999 from Kuala Lumpur to Putrajaya because of overcrowding and congestion in Kuala Lumpur, whilst the seat of the judiciary of Malaysia was later moved to Putrajaya in 2003",
+    25: "'Kuala Lumpur International Airport (KLIA)' is the main international airport serving Kuala Lumpur, the capital of Malaysia. It is located in the Sepang District of Selangor. KLIA is the largest and busiest airport in Malaysia. In 2023, it handled 47,224,000 passengers, 660,040 tonnes of cargo and 319,026 aircraft movements. It is the world's 35th-busiest airport by total passenger traffic.",
+    27: "'Tun Razak Exchange(TRX)' is a 70-acre development by Ministry of Finance Malaysia (MOF) in the heart of Kuala Lumpur for international finance and business. The development was named the second Prime Minister of Malaysia, Tun Abdul Razak Hussein. TRX is a strategic enabler of the Malaysian government's Economic Transformation Programme (ETP).",
+    28: "'Pavilion, KL' is a premier shopping destination in the heart of Bukit Bintang, Malaysia. It offers luxury retail, diverse dining options, and stunning architecture highlighted by the iconic Crystal Fountain. ",
+    30: "'The Kuala Lumpur Tower(KL Tower)' is a 6-storey, 421-metre-tall (1,381 ft) telecommunication tower in Kuala Lumpur, Malaysia. It is the world's seventh-tallest tower. The rest of the tower below has a stairwell and an elevator to reach the upper area, which also contains a revolving restaurant, providing diners with a panoramic view of the city.",
+    31: "'Merdeka 118' is a 118-story megatall skyscraper in Kuala Lumpur, Malaysia. At 678.9 m (2,227 ft) tall, it is the second-tallest building and structure in the world, only behind the Burj Khalifa at 828 m (2,717 ft).",
+    32: "'Petronas Twin Towers or KLCC Twin Towers' are an interlinked pair of 88-story supertall skyscrapers in Kuala Lumpur, Malaysia, standing at 451.9 metres (1,483 feet). From 1998 to 2004, they were officially designated as the tallest buildings in the world until completion of the Taipei 101, tallest twin skyscrapers and remained the tallest buildings in Malaysia until 2019."
 }
 
 
 def display_descriptions(description):
-    max_width = 400
-    max_height = 300
+    max_width = 500
+    max_height = 400
 
     # Create a surface to render text
     description_surface = pygame.Surface((max_width, max_height))
     description_surface.fill(grey)
 
-    font = pygame.font.Font(None, 36)
+    font = pygame.font.Font("HelveticaNeue.ttf", 24)
     text_lines = wrap_text(description, font, max_width)
     y_offset = 0
     for line in text_lines:
@@ -244,7 +244,7 @@ class Display:
         screen.blit(pavilion_price_rotated, (20, 520))
         trx_rotated = Display.render_rotate_text(
             Display.text_font, "TRX", (black), 270)
-        screen.blit(trx_rotated, (60, 625))
+        screen.blit(trx_rotated, (60, 630))
         trx_price_rotated = Display.render_rotate_text(
             Display.text_font, "$ 2600", (black), 270)
         screen.blit(trx_price_rotated, (20, 620))
