@@ -19,6 +19,7 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 
 # universal settings
 tile_size = 100
+round_num = 1
 num_row = 8
 num_col = 10
 white = 255, 255, 255
@@ -360,6 +361,7 @@ buy_clicked = False
 
 class Button():
     menu = True
+    exit_game = False
     loading = True
     rolling_con = False
     is_buying_properties = False
@@ -394,6 +396,10 @@ class Button():
         if self.rect.collidepoint(position):
             Button.loading = False
 
+    def check_exit(self, position):
+        if self.rect.collidepoint(position):
+            Button.exit_game = True
+
     def check_buy(self, position):
         if self.rect.collidepoint(position):
             Button.is_buying_properties = True
@@ -404,14 +410,6 @@ class Button():
         else:
             pygame.mixer.music.unpause()
         self.is_music_on = not self.is_music_on
-
-
-def rand_a_dice():
-    global dice_con, dice_rolled
-    dice_rolled = True
-    if not dice_con:
-        dice_con = True
-    return dice_rolled and dice_con == True
 
 
 # Load button images
@@ -780,6 +778,13 @@ class Dice(pygame.sprite.Sprite):
         self.animation_count = 0
         self.animation_max_count = 20
 
+    def rand_a_dice():
+        global dice_con, dice_rolled
+        dice_rolled = True
+        if not dice_con:
+            dice_con = True
+        return dice_rolled and dice_con == True
+
     def animate(self, dice_num):
         self.animating = True
         # Calculate the frame index corresponding to the roll value
@@ -854,13 +859,13 @@ class Player:
                 self.row -= 1
 
             # If the player reaches the starting position, stop
-            if self.row == 0 and self.col == 0:
-                break
+            # if self.row == 0 and self.col == 0:
+            #     break
 
     def player_movement(dice_num):
-        global dice_rolled,  player1_pos, player2_pos, player3_pos, player4_pos, player_sequence, changing_round
+        global dice_rolled,  player1_pos, player2_pos, player3_pos, player4_pos, player_sequence, changing_round, round_num
         player_sequence += 1
-        round_num = 1
+
         if dice_con and dice_rolled and player_sequence == 1:
             dice_rolled = False
             print(f"dice is {dice_num}")
@@ -875,7 +880,7 @@ class Player:
                 player1_pos -= 32
                 print(f"Player 1 is now at: {player1_pos}")
 
-        elif dice_con and dice_rolled and player_sequence == 2:
+        if dice_con and dice_rolled and player_sequence == 2:
             dice_rolled = False
             print(f"dice is {dice_num}")
             player2_pos = player2_pos + dice_num
@@ -887,7 +892,7 @@ class Player:
             else:
                 player2_pos -= 32
                 print(f"Player 2 is now at: {player2_pos}")
-        elif dice_con and dice_rolled and player_sequence == 3:
+        if dice_con and dice_rolled and player_sequence == 3:
             dice_rolled = False
             print(f"dice is {dice_num}")
             player3_pos = player3_pos + dice_num
@@ -900,7 +905,7 @@ class Player:
                 player3_pos -= 32
                 print(f"Player 3 is now at: {player3_pos}")
 
-        elif dice_con and dice_rolled and player_sequence == 4:
+        if dice_con and dice_rolled and player_sequence == 4:
             dice_rolled = False
             print(f"dice is {dice_num}")
 
@@ -917,7 +922,6 @@ class Player:
         elif player_sequence == 5:
             changing_round = True
             round_num += 1
-            print(f"changing round = {changing_round}")
             print(f'{round_num} round started')
             player_sequence -= 5
 
@@ -980,6 +984,14 @@ player4_broke = False
 
 
 class economic:
+    eco_dis1 = str()
+    eco_dis2 = str()
+    eco_dis3 = str()
+    eco_dis4 = str()
+    leco_dis1 = str()
+    leco_dis2 = str()
+    leco_dis3 = str()
+    leco_dis4 = str()
     # checking for validity in buying property
     # player will not be able to click buy button if tile is not available to sell
 
@@ -1043,32 +1055,70 @@ class economic:
         if player_sequence == 1 and Pricelist[player1_pos] != 0:
             b_property = [
                 i for i in Property_with_price if Property_with_price[i] == price]
-
+            b_property = ', '.join(b_property)
             p1_list_p.append(b_property)
-            print(f'player 1 now have {p1_list_p}')
+            economic.eco_dis1 = (f'Player 1 paid {price} for {b_property} ')
+            economic.leco_dis1 = (f'own {p1_list_p}')
+            print(economic.eco_dis1)
             Pricelist[player1_pos] = 0
         elif player_sequence == 2 and Pricelist[player2_pos] != 0:
             b_property = [
                 i for i in Property_with_price if Property_with_price[i] == price]
-
+            b_property = ', '.join(b_property)
             p2_list_p.append(b_property)
-            print(f'player 2 now have {p2_list_p}')
+            economic.eco_dis2 = (f'player 2 paid {price} for {b_property} ')
+            economic.leco_dis2 = (f'own {p2_list_p}')
             Pricelist[player2_pos] = 0
         elif player_sequence == 3 and Pricelist[player3_pos] != 0:
             b_property = [
                 i for i in Property_with_price if Property_with_price[i] == price]
-
+            b_property = ', '.join(b_property)
             p3_list_p.append(b_property)
-            print(f'player 3 now have {p3_list_p}')
+            economic.eco_dis3 = (f'player 3 paid {price} for {b_property} ')
+            economic.leco_dis3 = (f'own {p3_list_p}')
+            print(economic.eco_dis3)
             Pricelist[player3_pos] = 0
         elif player_sequence == 4 and Pricelist[player4_pos] != 0:
             b_property = [
                 i for i in Property_with_price if Property_with_price[i] == price]
-
+            b_property = ', '.join(b_property)
             p4_list_p.append(b_property)
-            print(f'player 4 now have {p4_list_p}')
+            economic.eco_dis4 = (f'player 4 paid {price} for {b_property} ')
+            economic.leco_dis4 = (f'and now own {p4_list_p}')
+            print(economic.eco_dis4)
             Pricelist[player4_pos] = 0
 
+    def update_eco():
+        global player_sequence
+        title_font = pygame.font.Font("HelveticaNeue.ttf", 18)
+        dis_eco1 = economic.eco_dis1
+        dis_eco2 = economic.eco_dis2
+        dis_eco3 = economic.eco_dis3
+        dis_eco4 = economic.eco_dis4
+        ldis_eco1 = economic.leco_dis1
+        ldis_eco2 = economic.leco_dis2
+        ldis_eco3 = economic.leco_dis3
+        ldis_eco4 = economic.leco_dis4
+        dis_eco1 = title_font.render(f"{dis_eco1}", True, black)
+        ldis_eco1 = title_font.render(f"{ldis_eco1}", True, black)
+        dis_eco2 = title_font.render(f"{dis_eco2}", True, black)
+        ldis_eco2 = title_font.render(f"{ldis_eco2}", True, black)
+        dis_eco3 = title_font.render(f"{dis_eco3}", True, black)
+        ldis_eco3 = title_font.render(f"{ldis_eco3}", True, black)
+        dis_eco4 = title_font.render(f"{dis_eco4}", True, black)
+        ldis_eco4 = title_font.render(f"{ldis_eco4}", True, black)
+        if player_sequence == 1:
+            screen.blit(dis_eco1, (120, 630))
+            screen.blit(ldis_eco1, (120, 650))
+        elif player_sequence == 2:
+            screen.blit(dis_eco2, (120, 630))
+            screen.blit(ldis_eco2, (120, 650))
+        elif player_sequence == 3:
+            screen.blit(dis_eco3, (120, 630))
+            screen.blit(ldis_eco3, (120, 650))
+        elif player_sequence == 4:
+            screen.blit(dis_eco4, (120, 630))
+            screen.blit(ldis_eco4, (120, 650))
     print(player_dict_m)
 
 
@@ -1078,7 +1128,7 @@ class starting_menu:
     counter3 = 0
     counter4 = 0
     counter5 = 0
-    speed = 6
+    speed = 3
     text_done = False
     active_rules = 0
     title_font = pygame.font.Font("HelveticaNeue.ttf", 150)
@@ -1178,7 +1228,7 @@ map = Map(map_data)
 
 
 button_functions = [button_music.checkmusic, button_roll.checkroll,
-                    button_play.check_play, button_buy.check_buy, button_next.checkload_finish]
+                    button_play.check_play, button_buy.check_buy, button_next.checkload_finish, button_exit.check_exit]
 
 
 def handle_button_events(pos):
@@ -1211,6 +1261,9 @@ while run:
     clock.tick(fps)
     screen.fill((0, 0, 0))
 
+    if Button.exit_game:
+        run = False
+
     if Button.menu:
         button_play.update()
         button_exit.update()
@@ -1226,6 +1279,7 @@ while run:
         map.draw()
         Display.middle()
         Display.showing_properties_name()
+        economic.update_eco()
         button_music.update()
         button_roll.update()
         economic.check_buying_valid()
@@ -1254,14 +1308,16 @@ while run:
 
         # if roll dice randomize a num
             if Button.rolling_con:
-                rand_a_dice()
-                dice_num = (random.randint(1, 6))
+                Dice.rand_a_dice()
 
-                Button.rolling_con = False
-                buy_clicked = False
+                dice_num = (random.randint(1, 6))
                 # dice animating
                 dice.animate(dice_num)
                 Player.player_movement(dice_num)
+
+                Button.rolling_con = False
+                buy_clicked = False
+
                 if player_sequence != 5 and not changing_round:
                     # Move the active player based on the dice roll
                     players[active_player_index].move(dice_num)
