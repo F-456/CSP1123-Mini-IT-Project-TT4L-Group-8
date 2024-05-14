@@ -860,8 +860,8 @@ class Player:
                 self.row -= 1
 
             # If the player reaches the starting position, stop
-            if self.row == 0 and self.col == 0:
-                break
+            # if self.row == 0 and self.col == 0:
+            #     break
 
     def player_movement(dice_num):
         global dice_rolled,  player1_pos, player2_pos, player3_pos, player4_pos, player_sequence, changing_round, round_num
@@ -881,7 +881,7 @@ class Player:
                 player1_pos -= 32
                 print(f"Player 1 is now at: {player1_pos}")
 
-        elif dice_con and dice_rolled and player_sequence == 2:
+        if dice_con and dice_rolled and player_sequence == 2:
             dice_rolled = False
             print(f"dice is {dice_num}")
             player2_pos = player2_pos + dice_num
@@ -893,7 +893,7 @@ class Player:
             else:
                 player2_pos -= 32
                 print(f"Player 2 is now at: {player2_pos}")
-        elif dice_con and dice_rolled and player_sequence == 3:
+        if dice_con and dice_rolled and player_sequence == 3:
             dice_rolled = False
             print(f"dice is {dice_num}")
             player3_pos = player3_pos + dice_num
@@ -906,7 +906,7 @@ class Player:
                 player3_pos -= 32
                 print(f"Player 3 is now at: {player3_pos}")
 
-        elif dice_con and dice_rolled and player_sequence == 4:
+        if dice_con and dice_rolled and player_sequence == 4:
             dice_rolled = False
             print(f"dice is {dice_num}")
 
@@ -1264,12 +1264,13 @@ while run:
             if Button.rolling_con:
                 rand_a_dice()
                 dice_num = (random.randint(1, 6))
-
-                Button.rolling_con = False
-                buy_clicked = False
                 # dice animating
                 dice.animate(dice_num)
                 Player.player_movement(dice_num)
+
+                Button.rolling_con = False
+                buy_clicked = False
+
                 if player_sequence != 5 and not changing_round:
                     # Move the active player based on the dice roll
                     players[active_player_index].move(dice_num)
