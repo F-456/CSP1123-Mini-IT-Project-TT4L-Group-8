@@ -992,6 +992,10 @@ class economic:
     leco_dis2 = str()
     leco_dis3 = str()
     leco_dis4 = str()
+    L_eco_dis1 = str()
+    L_eco_dis2 = str()
+    L_eco_dis3 = str()
+    L_eco_dis4 = str()
     # checking for validity in buying property
     # player will not be able to click buy button if tile is not available to sell
 
@@ -1052,13 +1056,21 @@ class economic:
         economic.owning_property(price)
 
     def owning_property(price):
+        middle = 0
         if player_sequence == 1 and Pricelist[player1_pos] != 0:
             b_property = [
                 i for i in Property_with_price if Property_with_price[i] == price]
             b_property = ', '.join(b_property)
             p1_list_p.append(b_property)
             economic.eco_dis1 = (f'Player 1 paid {price} for {b_property} ')
-            economic.leco_dis1 = (f'own {p1_list_p}')
+            if len(p1_list_p) > 5:
+                middle = len(p1_list_p)//2
+                economic.leco_dis1 = p1_list_p[:middle]
+                economic.L_eco_dis1 = p1_list_p[middle:]
+                economic.leco_dis1 = (f'own {economic.leco_dis1}')
+            else:
+                economic.leco_dis1 = (f'own {p1_list_p}')
+
             print(economic.eco_dis1)
             Pricelist[player1_pos] = 0
         elif player_sequence == 2 and Pricelist[player2_pos] != 0:
@@ -1067,7 +1079,14 @@ class economic:
             b_property = ', '.join(b_property)
             p2_list_p.append(b_property)
             economic.eco_dis2 = (f'player 2 paid {price} for {b_property} ')
-            economic.leco_dis2 = (f'own {p2_list_p}')
+            if len(p2_list_p) > 5:
+                middle = len(p2_list_p)//2
+                economic.leco_dis2 = p2_list_p[:middle]
+                economic.L_eco_dis2 = p2_list_p[middle:]
+                economic.leco_dis2 = (f'own {economic.leco_dis2}')
+            else:
+                economic.leco_dis2 = (f'own {p2_list_p}')
+            print(economic.eco_dis2)
             Pricelist[player2_pos] = 0
         elif player_sequence == 3 and Pricelist[player3_pos] != 0:
             b_property = [
@@ -1075,7 +1094,13 @@ class economic:
             b_property = ', '.join(b_property)
             p3_list_p.append(b_property)
             economic.eco_dis3 = (f'player 3 paid {price} for {b_property} ')
-            economic.leco_dis3 = (f'own {p3_list_p}')
+            if len(p3_list_p) > 5:
+                middle = len(p3_list_p)//2
+                economic.leco_dis3 = p3_list_p[:middle]
+                economic.L_eco_dis3 = p3_list_p[middle:]
+                economic.leco_dis3 = (f'own {economic.leco_dis3}')
+            else:
+                economic.leco_dis3 = (f'own {p3_list_p}')
             print(economic.eco_dis3)
             Pricelist[player3_pos] = 0
         elif player_sequence == 4 and Pricelist[player4_pos] != 0:
@@ -1084,7 +1109,13 @@ class economic:
             b_property = ', '.join(b_property)
             p4_list_p.append(b_property)
             economic.eco_dis4 = (f'player 4 paid {price} for {b_property} ')
-            economic.leco_dis4 = (f'and now own {p4_list_p}')
+            if len(p4_list_p) > 5:
+                middle = len(p4_list_p)//2
+                economic.leco_dis4 = p4_list_p[:middle]
+                economic.L_eco_dis4 = p4_list_p[middle:]
+                economic.leco_dis4 = (f'own {economic.leco_dis4}')
+            else:
+                economic.leco_dis4 = (f'own {p4_list_p}')
             print(economic.eco_dis4)
             Pricelist[player4_pos] = 0
 
@@ -1099,26 +1130,38 @@ class economic:
         ldis_eco2 = economic.leco_dis2
         ldis_eco3 = economic.leco_dis3
         ldis_eco4 = economic.leco_dis4
+        L_dis_eco1 = economic.L_eco_dis1
+        L_dis_eco2 = economic.L_eco_dis2
+        L_dis_eco3 = economic.L_eco_dis3
+        L_dis_eco4 = economic.L_eco_dis4
         dis_eco1 = title_font.render(f"{dis_eco1}", True, black)
         ldis_eco1 = title_font.render(f"{ldis_eco1}", True, black)
+        L_dis_eco1 = title_font.render(f"{L_dis_eco1}", True, black)
         dis_eco2 = title_font.render(f"{dis_eco2}", True, black)
         ldis_eco2 = title_font.render(f"{ldis_eco2}", True, black)
+        L_dis_eco2 = title_font.render(f"{L_dis_eco2}", True, black)
         dis_eco3 = title_font.render(f"{dis_eco3}", True, black)
         ldis_eco3 = title_font.render(f"{ldis_eco3}", True, black)
+        L_dis_eco3 = title_font.render(f"{L_dis_eco3}", True, black)
         dis_eco4 = title_font.render(f"{dis_eco4}", True, black)
         ldis_eco4 = title_font.render(f"{ldis_eco4}", True, black)
+        L_dis_eco4 = title_font.render(f"{L_dis_eco4}", True, black)
         if player_sequence == 1:
             screen.blit(dis_eco1, (120, 630))
             screen.blit(ldis_eco1, (120, 650))
+            screen.blit(L_dis_eco1, (120, 670))
         elif player_sequence == 2:
             screen.blit(dis_eco2, (120, 630))
             screen.blit(ldis_eco2, (120, 650))
+            screen.blit(L_dis_eco2, (120, 670))
         elif player_sequence == 3:
             screen.blit(dis_eco3, (120, 630))
             screen.blit(ldis_eco3, (120, 650))
+            screen.blit(L_dis_eco3, (120, 670))
         elif player_sequence == 4:
             screen.blit(dis_eco4, (120, 630))
             screen.blit(ldis_eco4, (120, 650))
+            screen.blit(L_dis_eco4, (120, 670))
     print(player_dict_m)
 
 
