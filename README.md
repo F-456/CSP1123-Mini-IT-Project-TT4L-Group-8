@@ -3,7 +3,7 @@
 <h2>Will be using pygame to create a playable monopoly game with python</h2>
 <p align="left">Game, pygame, same lang? </p>
 <img alt="CJ" src="https://media1.tenor.com/m/cJRcMyUAiMcAAAAd/ah-shit-here-we-go-again-ah-shit.gif">
-<h2>Developing Update log </h2>
+<h1>Developing Update log </h1>
 <h2>V 0.1.1</h2>
 <p>-Created a dice animation (not really a animation..) and simple player movement</p>
 <h2>V 0.1.2</h2>
