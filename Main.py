@@ -152,9 +152,6 @@ property = [
     Property("KLCC", 4000, 500)
 ]
 
-Pricelist = [0, 500, 600, 700, 0, 2100, 800, 900, 1000, 0, 1200, 1300, 0, 1400, 1500, 1600,
-             0, 1800, 1900, 2000, 0, 2150, 2200, 2400, 2500, 0, 2600, 2800, 0, 3000, 3500, 4000]
-
 
 class Display:
     text_font = pygame.font.Font("HelveticaNeue.ttf", 18)
@@ -357,6 +354,7 @@ dice_con = False
 dice_rolled = False
 changing_round = False
 buy_clicked = False
+pay_clicked = False
 
 
 class Button():
@@ -365,6 +363,7 @@ class Button():
     loading = True
     rolling_con = False
     is_buying_properties = False
+    is_paying_rent = False
 
     def __init__(self, image_on, image_off,  x_pos, y_pos):
         self.image_on = image_on
@@ -404,6 +403,10 @@ class Button():
         if self.rect.collidepoint(position):
             Button.is_buying_properties = True
 
+    def check_pay(self, position):
+        if self.rect.collidepoint(position):
+            Button.is_paying_rent = True
+
     def toggleMusicState(self):
         if self.is_music_on:
             pygame.mixer.music.pause()
@@ -420,11 +423,13 @@ button_play = pygame.image.load('pic/play.png')
 button_exit = pygame.image.load('pic/exit.png')
 button_next = pygame.image.load('pic/next.png')
 button_buy = pygame.image.load('pic/buy.png')
+button_pay = pygame.image.load('pic/pay.png')
 # adjust size
 button_surface_on = pygame.transform.scale(button_surface_on, (40, 40))
 button_surface_off = pygame.transform.scale(button_surface_off, (40, 40))
 button_roll = pygame.transform.scale(button_roll, (80, 80))
 button_play = pygame.transform.scale(button_play, (240, 200))
+button_pay = pygame.transform.scale(button_pay, (120, 140))
 button_exit = pygame.transform.scale(button_exit, (240, 200))
 button_next = pygame.transform.scale(button_next, (120, 100))
 button_buy = pygame.transform.scale(button_buy, (120, 100))
@@ -435,6 +440,7 @@ button_play = Button(button_play, button_play, 700, 600)
 button_exit = Button(button_exit, button_exit, 300, 600)
 button_next = Button(button_next, button_next, 800, 600)
 button_buy = Button(button_buy, button_buy, 800, 550)
+button_pay = Button(button_pay, button_pay, 800, 550)
 
 # add background music
 pygame.mixer.music.load('Sound/BGM.mp3')
@@ -940,6 +946,10 @@ players = [player1, player2, player3, player4]
 price = 0
 Pricelist = [0, 500, 600, 700, 0, 2100, 800, 900, 1000, 0, 1200, 1300, 0, 1400, 1500, 1600,
              0, 1800, 1900, 2000, 0, 2150, 2200, 2400, 2500, 0, 2600, 2800, 0, 3000, 3500, 4000]
+
+name_list = ['Passngo', 'Ramly Burger', '99 Speedmarket', 'Aeon Big', 'tax', 'TNB', 'Batu Caves', 'Pulau Langkawi', 'Cameron Highland', 'parking', 'Gunung Mulu', 'Mount Kinabalu', 'chance', 'Johor Bahru', 'George Town',
+             'Melaka', 'jail', 'KL Sentral', 'Port Dickson', 'MMU Cyberjaya', 'tax', 'Indah water', 'Genting Highland', 'Putrajaya', 'KLIA', 'injail', 'TRX', 'Pavilion KL', 'chance', 'KL Tower', 'Merdeka 118', 'KLCC']
+
 b_property = str()
 
 Property_with_price = {
@@ -967,6 +977,32 @@ Property_with_price = {
     "KL Tower": 3000,
     "Merdeka 118": 3500,
     "KLCC": 4000
+}
+Property_with_rent = {
+    'Ramly Burger': 10,
+    '99 Speedmarket': 20,
+    'Aeon Big': 35,
+    'TNB': 40,
+    'Batu Caves': 50,
+    'Pulau Langkawi': 55,
+    'Cameron Highland': 65,
+    'Gunung Mulu': 80,
+    'Mount Kinabalu': 85,
+    'Johor Bahru': 100,
+    'George Town': 110,
+    'Melaka': 120,
+    'KL Sentral': 140,
+    'Port Dickson': 160,
+    'MMU Cyberjaya': 160,
+    'Indah water': 180,
+    'Genting Highland': 180,
+    'Putrajaya': 200,
+    'KLIA': 220,
+    'TRX': 230,
+    'Pavilion KL': 240,
+    'KL Tower': 275,
+    'Merdeka 118': 350,
+    'KLCC': 500
 }
 
 # setting for player
@@ -1119,6 +1155,10 @@ class economic:
             print(economic.eco_dis4)
             Pricelist[player4_pos] = 0
 
+        else:
+
+            pass
+
     def update_eco():
         global player_sequence
         title_font = pygame.font.Font("HelveticaNeue.ttf", 18)
@@ -1162,6 +1202,148 @@ class economic:
             screen.blit(dis_eco4, (120, 630))
             screen.blit(ldis_eco4, (120, 650))
             screen.blit(L_dis_eco4, (120, 670))
+
+    def checking_rent_valid():
+        if player_sequence == 1 and Pricelist[player1_pos] != 0:
+            pass
+        if player_sequence == 2 and Pricelist[player2_pos] != 0:
+            pass
+        if player_sequence == 3 and Pricelist[player3_pos] != 0:
+            pass
+        if player_sequence == 4 and Pricelist[player4_pos] != 0:
+            pass
+        else:
+            # player not landed in any of the buyable or unown property
+            # checking for rent
+            economic.paying_for_rent()
+
+    def paying_for_rent():
+        rent_price = int()
+        property_rent = str()
+        # check if player 1 needed to pay another player rent
+        if player_sequence == 1 and player1_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+            property_rent = name_list[player1_pos]
+            # checking for a property is not own by player 1
+            print(property_rent)
+            if property_rent in p2_list_p:
+                rent_price = Property_with_rent[property_rent]
+                print(f"{property_rent} is own by player 2")
+                print(f"Player 1 paying {rent_price} for player 2")
+                player_dict_m['p1_money'] -= rent_price
+                player_dict_m['p2_money'] += rent_price
+                print(f"Player 1 now have {player_dict_m['p1_money']}")
+                print(f"Player 2 now have {player_dict_m['p2_money']}")
+            if property_rent in p3_list_p:
+                rent_price = Property_with_rent[property_rent]
+                print(f"{property_rent} is own by player 3")
+                print(f"Player 1 paying {rent_price} for player 3")
+                player_dict_m['p1_money'] -= rent_price
+                player_dict_m['p3_money'] += rent_price
+                print(f"Player 1 now have {player_dict_m['p1_money']}")
+                print(f"Player 3 now have {player_dict_m['p3_money']}")
+            if property_rent in p4_list_p:
+                rent_price = Property_with_rent[property_rent]
+                print(f"{property_rent} is own by player 4")
+                print(f"Player 1 paying {rent_price} for player 4")
+                player_dict_m['p1_money'] -= rent_price
+                player_dict_m['p4_money'] += rent_price
+                print(f"Player 1 now have {player_dict_m['p1_money']}")
+                print(f"Player 4 now have {player_dict_m['p4_money']}")
+            else:
+                pass
+        if player_sequence == 2 and player2_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+            property_rent = name_list[player2_pos]
+            # checking for a property is not own by player 1
+            print(property_rent)
+            if property_rent in p1_list_p:
+                rent_price = Property_with_rent[property_rent]
+                print(f"{property_rent} is own by player 1")
+                print(f"Player 2 paying {rent_price} for player 1")
+                player_dict_m['p2_money'] -= rent_price
+                player_dict_m['p1_money'] += rent_price
+                print(f"Player 2 now have {player_dict_m['p2_money']}")
+                print(f"Player 1 now have {player_dict_m['p1_money']}")
+            if property_rent in p3_list_p:
+                rent_price = Property_with_rent[property_rent]
+                print(f"{property_rent} is own by player 3")
+                print(f"Player 2 paying {rent_price} for player 3")
+                player_dict_m['p2_money'] -= rent_price
+                player_dict_m['p3_money'] += rent_price
+                print(f"Player 2 now have {player_dict_m['p2_money']}")
+                print(f"Player 3 now have {player_dict_m['p3_money']}")
+            if property_rent in p4_list_p:
+                rent_price = Property_with_rent[property_rent]
+                print(f"{property_rent} is own by player 4")
+                print(f"Player 2 paying {rent_price} for player 4")
+                player_dict_m['p2_money'] -= rent_price
+                player_dict_m['p4_money'] += rent_price
+                print(f"Player 2 now have {player_dict_m['p2_money']}")
+                print(f"Player 4 now have {player_dict_m['p4_money']}")
+            else:
+                pass
+
+        if player_sequence == 3 and player3_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+            property_rent = name_list[player3_pos]
+            # checking for a property is not own by player 1
+            print(property_rent)
+            if property_rent in p1_list_p:
+                rent_price = Property_with_rent[property_rent]
+                print(f"{property_rent} is own by player 1")
+                print(f"Player 3 paying {rent_price} for player 1")
+                player_dict_m['p3_money'] -= rent_price
+                player_dict_m['p1_money'] += rent_price
+                print(f"Player 3 now have {player_dict_m['p3_money']}")
+                print(f"Player 1 now have {player_dict_m['p1_money']}")
+            if property_rent in p2_list_p:
+                rent_price = Property_with_rent[property_rent]
+                print(f"{property_rent} is own by player 2")
+                print(f"Player 3 paying {rent_price} for player 2")
+                player_dict_m['p3_money'] -= rent_price
+                player_dict_m['p2_money'] += rent_price
+                print(f"Player 3 now have {player_dict_m['p3_money']}")
+                print(f"Player 2 now have {player_dict_m['p2_money']}")
+            if property_rent in p4_list_p:
+                rent_price = Property_with_rent[property_rent]
+                print(f"{property_rent} is own by player 4")
+                print(f"Player 3 paying {rent_price} for player 4")
+                player_dict_m['p3_money'] -= rent_price
+                player_dict_m['p4_money'] += rent_price
+                print(f"Player 3 now have {player_dict_m['p3_money']}")
+                print(f"Player 4 now have {player_dict_m['p4_money']}")
+            else:
+                pass
+
+        if player_sequence == 4 and player4_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+            property_rent = name_list[player4_pos]
+            # checking for a property is not own by player 1
+            print(property_rent)
+            if property_rent in p1_list_p:
+                rent_price = Property_with_rent[property_rent]
+                print(f"{property_rent} is own by player 1")
+                print(f"Player 4 paying {rent_price} for player 1")
+                player_dict_m['p4_money'] -= rent_price
+                player_dict_m['p1_money'] += rent_price
+                print(f"Player 4 now have {player_dict_m['p4_money']}")
+                print(f"Player 1 now have {player_dict_m['p1_money']}")
+            if property_rent in p2_list_p:
+                rent_price = Property_with_rent[property_rent]
+                print(f"{property_rent} is own by player 2")
+                print(f"Player 4 paying {rent_price} for player 2")
+                player_dict_m['p4_money'] -= rent_price
+                player_dict_m['p2_money'] += rent_price
+                print(f"Player 4 now have {player_dict_m['p4_money']}")
+                print(f"Player 2 now have {player_dict_m['p2_money']}")
+            if property_rent in p3_list_p:
+                rent_price = Property_with_rent[property_rent]
+                print(f"{property_rent} is own by player 3")
+                print(f"Player 4 paying {rent_price} for player 3")
+                player_dict_m['p4_money'] -= rent_price
+                player_dict_m['p3_money'] += rent_price
+                print(f"Player 4 now have {player_dict_m['p4_money']}")
+                print(f"Player 3 now have {player_dict_m['p3_money']}")
+            else:
+                pass
+
     print(player_dict_m)
 
 
@@ -1303,7 +1485,6 @@ run = True
 while run:
     clock.tick(fps)
     screen.fill((0, 0, 0))
-
     if Button.exit_game:
         run = False
 
@@ -1352,12 +1533,11 @@ while run:
         # if roll dice randomize a num
             if Button.rolling_con:
                 Dice.rand_a_dice()
-
+                economic.checking_rent_valid()
                 dice_num = (random.randint(1, 6))
                 # dice animating
                 dice.animate(dice_num)
                 Player.player_movement(dice_num)
-
                 Button.rolling_con = False
                 buy_clicked = False
 
