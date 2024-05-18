@@ -12,7 +12,7 @@
 <p>-Added a loading screen for displaying rule</p>
 <h2>V 0.1.4</h2>
 <p>-New displaying screen for the transaction of buying property</p >
-<h2>V 0.1.5</h>
+<h2>V 0.1.5</h2>
 <p>-New features for pay rent transaction</p>
-<h2>V 0.1.6</h>
+<h2>V 0.1.6</h2>
 <p>-Upgraded rent transcation with button control and added display for player left money</p>
