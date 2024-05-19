@@ -46,40 +46,40 @@ map_data = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 block_desctiptions = {
     2: "'Ramly burger', the most famous burger chain store in Malaysia",
     3: "'99 speedmarket', you can buy everything you want from here",
-    4: "'Aeon Big'",
-    6: "'Tenaga National Berhad(TNB)'",
-    7: "'Batu Caves'",
-    8: "'Pulau Langkawi'",
-    9: "'Cameroon Highland'",
-    11: "'Gunung Mulu'",
-    12: "'Mount Kinabalu'",
-    14: "'Johor Bahru'",
-    15: "'George Town'",
-    16: "'Melaka historical city'",
-    18: "'KL Central’",
-    19: "'Port Dickson'",
-    20: "'MMU Cyberjaya'",
-    22: "'Indah Water'",
-    23: "'Genting Highland'",
-    24: "'Putrajaya'",
-    25: "'KLIA'",
-    27: "'TRX'",
-    28: "'Pavilion, KL'",
-    30: "'KL Tower'",
-    31: "'Merdeka 118'",
-    32: "'KLCC'"
+    4: "'Aeon Big' is a supermarket. When ur state got the aeon supermarket, ur state will be certified as 'developed state'.(JKJK)",
+    6: "'Tenaga National Berhad(TNB)', is the Malaysian multinational electricity company and is the only electric utility company in Peninsular Malaysia and also the largest publicly listed power company in Southeast Asia with MYR 182.60 billion worth of assets.",
+    7: "'Batu Caves' is a mogote (a type of karst landform) that has a series of caves and cave temples in Gombak, Selangor, Malaysia. The cave complex is one of the most popular Hindu shrines outside India, and is dedicated to Murugan. It is the focal point of the Tamil festival of Thaipusam in Malaysia.",
+    8: "'Pulau Langkawi' is a duty-free island and an archipelago of 99 islands located some 30 km off the coast of northwestern Malaysia and a few kilometres south of Ko Tarutao, adjacent to the Thai border.",
+    9: "'Cameroon Highland'is a district in Pahang, Malaysia, occupying an area of 712.18 square kilometres. Developed in the 1930s, the tableland is one of the oldest tourist spots in Malaysia.",
+    11: "'Gunung Mulu National Park' is in Miri Division, Sarawak, Malaysia. It is a UNESCO World Heritage Site that encompasses caves and karst formations in a mountainous equatorial rainforest setting",
+    12: "'Mount Kinabalu' is the highest mountain in Borneo and Malaysia. With an elevation of 4,095 metres (13,435 ft), it is the third-highest peak of an island on Earth, the 28th highest peak in Southeast Asia, and 20th most prominent mountain in the world.",
+    14: "'Johor Bahru' colloquially referred to as JB, and the capital city of the state of Johor, Malaysia (the second-largest district in the country, by population). It is the second-largest national GDP-contributor among the major cities in Malaysia, and forms a part of Iskandar Malaysia, the nation's largest special economic zone, by investment value.",
+    15: "'George Town' is the capital of the Malaysian state of Penang. Malaysia's second largest metropolitan area with a population of 2.84 million and the second highest contributor to the country's GDP. The city proper spans an area of 306 km2 (118 sq mi) encompassing Penang Island and surrounding islets.",
+    16: "'Malacca (Malay: Melaka)', officially the Historic State of Malacca, is a state in Malaysia located in the southern region of the Malay Peninsula, facing the Strait of Malacca. Its capital is Malacca City, which has been listed as a UNESCO World Heritage Site since 7 July 2008.",
+    18: "'Kuala Lumpur Sentral Station (KL Sentral)' is a transit-oriented development that houses the main railway station of Kuala Lumpur, the capital of Malaysia. Opened on 16 April 2001, KL Sentral replaced the old Kuala Lumpur railway station as the city's main intercity railway station. KL Sentral is the largest railway station in Malaysia, and also in Southeast Asia from 2001 to 2021",
+    19: "'Port Dickson' colloquially referred to as PD is a beach resort in Port Dickson District, Negeri Sembilan, Malaysia. It is the second largest urban area in Negeri Sembilan after Seremban, its state capital.",
+    20: "'MMU Cyberjaya' GOAT!! The BEST university you can find in MALAYSIA, the lecturers are also the best, especially MR Willie Poh.(PLS rate excellent for us)",
+    22: "'Indah Water Konsortium Sdn. Bhd' is a Malaysian national wastewater and sanitation company, It is a government-owned company under the Minister of Finance Incorporated, which has the task of developing and maintaining a modern and efficient sewerage system for West Malaysia",
+    23: "'Genting Highlands' is a hill station located in the state of Pahang, at 1800 metres elevation. It was established in 1965 by the late Malaysian businessman Lim Goh Tong. The primary tourist attraction is Resorts World Genting, a hill resort where casinos and theme parks are situated and where gambling is permitted. Many of Pahang's skyscrapers can be found here.",
+    24: "'Putrajaya' is the administrative centre of Malaysia. The seat of the federal government of Malaysia was moved in 1999 from Kuala Lumpur to Putrajaya because of overcrowding and congestion in Kuala Lumpur, whilst the seat of the judiciary of Malaysia was later moved to Putrajaya in 2003",
+    25: "'Kuala Lumpur International Airport (KLIA)' is the main international airport serving Kuala Lumpur, the capital of Malaysia. It is located in the Sepang District of Selangor. KLIA is the largest and busiest airport in Malaysia. In 2023, it handled 47,224,000 passengers, 660,040 tonnes of cargo and 319,026 aircraft movements. It is the world's 35th-busiest airport by total passenger traffic.",
+    27: "'Tun Razak Exchange(TRX)' is a 70-acre development by Ministry of Finance Malaysia (MOF) in the heart of Kuala Lumpur for international finance and business. The development was named the second Prime Minister of Malaysia, Tun Abdul Razak Hussein. TRX is a strategic enabler of the Malaysian government's Economic Transformation Programme (ETP).",
+    28: "'Pavilion, KL' is a premier shopping destination in the heart of Bukit Bintang, Malaysia. It offers luxury retail, diverse dining options, and stunning architecture highlighted by the iconic Crystal Fountain. ",
+    30: "'The Kuala Lumpur Tower(KL Tower)' is a 6-storey, 421-metre-tall (1,381 ft) telecommunication tower in Kuala Lumpur, Malaysia. It is the world's seventh-tallest tower. The rest of the tower below has a stairwell and an elevator to reach the upper area, which also contains a revolving restaurant, providing diners with a panoramic view of the city.",
+    31: "'Merdeka 118' is a 118-story megatall skyscraper in Kuala Lumpur, Malaysia. At 678.9 m (2,227 ft) tall, it is the second-tallest building and structure in the world, only behind the Burj Khalifa at 828 m (2,717 ft).",
+    32: "'Petronas Twin Towers or KLCC Twin Towers' are an interlinked pair of 88-story supertall skyscrapers in Kuala Lumpur, Malaysia, standing at 451.9 metres (1,483 feet). From 1998 to 2004, they were officially designated as the tallest buildings in the world until completion of the Taipei 101, tallest twin skyscrapers and remained the tallest buildings in Malaysia until 2019."
 }
 
 
 def display_descriptions(description):
-    max_width = 400
-    max_height = 300
+    max_width = 500
+    max_height = 400
 
     # Create a surface to render text
     description_surface = pygame.Surface((max_width, max_height))
     description_surface.fill(grey)
 
-    font = pygame.font.Font(None, 36)
+    font = pygame.font.Font("HelveticaNeue.ttf", 24)
     text_lines = wrap_text(description, font, max_width)
     y_offset = 0
     for line in text_lines:
@@ -153,9 +153,6 @@ property = [
     Property("KLCC", 4000, 500)
 ]
 
-Pricelist = [0, 500, 600, 700, 0, 2100, 800, 900, 1000, 0, 1200, 1300, 0, 1400, 1500, 1600,
-             0, 1800, 1900, 2000, 0, 2150, 2200, 2400, 2500, 0, 2600, 2800, 0, 3000, 3500, 4000]
-
 
 class Display:
     text_font = pygame.font.Font("HelveticaNeue.ttf", 18)
@@ -202,7 +199,7 @@ class Display:
     price12_t = text_font.render("$ 2200", True, (black))
     price13_t = text_font.render("$ 2400", True, (black))
     price14_t = text_font.render("$ 2500", True, (black))
-
+    current_money_d = int()
     # price_t = smaller_font.render(f"{Pricelist}", True, (white))
     # print(Pricelist)
 
@@ -246,7 +243,7 @@ class Display:
         screen.blit(pavilion_price_rotated, (20, 520))
         trx_rotated = Display.render_rotate_text(
             Display.text_font, "TRX", (black), 270)
-        screen.blit(trx_rotated, (60, 625))
+        screen.blit(trx_rotated, (60, 630))
         trx_price_rotated = Display.render_rotate_text(
             Display.text_font, "$ 2600", (black), 270)
         screen.blit(trx_price_rotated, (20, 620))
@@ -351,6 +348,20 @@ class Display:
         rect_colour = grey
         pygame.draw.rect(screen, (rect_colour), Middle_rect)
 
+    def showing_player_money():
+        text_font = pygame.font.Font("HelveticaNeue.ttf", 22)
+        if player_sequence == 1:
+            Display.current_money_d = player_dict_m['p1_money']
+        elif player_sequence == 2:
+            Display.current_money_d = player_dict_m['p2_money']
+        elif player_sequence == 3:
+            Display.current_money_d = player_dict_m['p3_money']
+        elif player_sequence == 4:
+            Display.current_money_d = player_dict_m['p4_money']
+        current_player = text_font.render(
+            f"Player {player_sequence} now have {Display.current_money_d}", True, (black))
+        screen.blit(current_player, (100, 110))
+
 
 # general value for button
 dice_num = 0
@@ -358,14 +369,18 @@ dice_con = False
 dice_rolled = False
 changing_round = False
 buy_clicked = False
+pay_clicked = False
+paying = False
 
 
 class Button():
+    global paying
     menu = True
     exit_game = False
     loading = True
     rolling_con = False
     is_buying_properties = False
+    is_paying_rent = False
 
     def __init__(self, image_on, image_off,  x_pos, y_pos):
         self.image_on = image_on
@@ -404,6 +419,19 @@ class Button():
     def check_buy(self, position):
         if self.rect.collidepoint(position):
             Button.is_buying_properties = True
+            economic.showing_pay_button = True
+
+    def check_pay(self, position):
+        if self.rect.collidepoint(position):
+            Button.is_paying_rent = True
+            if player_sequence == 1:
+                economic.rent_button_1()
+            if player_sequence == 2:
+                economic.rent_button_2()
+            if player_sequence == 3:
+                economic.rent_button_3()
+            if player_sequence == 4:
+                economic.rent_button_4()
 
     def toggleMusicState(self):
         if self.is_music_on:
@@ -411,14 +439,6 @@ class Button():
         else:
             pygame.mixer.music.unpause()
         self.is_music_on = not self.is_music_on
-
-
-def rand_a_dice():
-    global dice_con, dice_rolled
-    dice_rolled = True
-    if not dice_con:
-        dice_con = True
-    return dice_rolled and dice_con == True
 
 
 # Load button images
@@ -429,11 +449,13 @@ button_play = pygame.image.load('pic/play.png')
 button_exit = pygame.image.load('pic/exit.png')
 button_next = pygame.image.load('pic/next.png')
 button_buy = pygame.image.load('pic/buy.png')
+button_pay = pygame.image.load('pic/pay.png')
 # adjust size
 button_surface_on = pygame.transform.scale(button_surface_on, (40, 40))
 button_surface_off = pygame.transform.scale(button_surface_off, (40, 40))
 button_roll = pygame.transform.scale(button_roll, (80, 80))
 button_play = pygame.transform.scale(button_play, (240, 200))
+button_pay = pygame.transform.scale(button_pay, (120, 100))
 button_exit = pygame.transform.scale(button_exit, (240, 200))
 button_next = pygame.transform.scale(button_next, (120, 100))
 button_buy = pygame.transform.scale(button_buy, (120, 100))
@@ -444,6 +466,7 @@ button_play = Button(button_play, button_play, 700, 600)
 button_exit = Button(button_exit, button_exit, 300, 600)
 button_next = Button(button_next, button_next, 800, 600)
 button_buy = Button(button_buy, button_buy, 800, 550)
+button_pay = Button(button_pay, button_pay, 600, 650)
 
 # add background music
 pygame.mixer.music.load('Sound/BGM.mp3')
@@ -793,6 +816,13 @@ class Dice(pygame.sprite.Sprite):
         self.animation_count = 0
         self.animation_max_count = 20
 
+    def rand_a_dice():
+        global dice_con, dice_rolled
+        dice_rolled = True
+        if not dice_con:
+            dice_con = True
+        return dice_rolled and dice_con == True
+
     def animate(self, dice_num):
         self.animating = True
         # Calculate the frame index corresponding to the roll value
@@ -1073,7 +1103,7 @@ class Player:
                 player1_pos -= 32
                 print(f"Player 1 is now at: {player1_pos}")
 
-        elif dice_con and dice_rolled and player_sequence == 2:
+        if dice_con and dice_rolled and player_sequence == 2:
             dice_rolled = False
             print(f"dice is {dice_num}")
             player2_pos = player2_pos + dice_num
@@ -1085,7 +1115,7 @@ class Player:
             else:
                 player2_pos -= 32
                 print(f"Player 2 is now at: {player2_pos}")
-        elif dice_con and dice_rolled and player_sequence == 3:
+        if dice_con and dice_rolled and player_sequence == 3:
             dice_rolled = False
             print(f"dice is {dice_num}")
             player3_pos = player3_pos + dice_num
@@ -1098,7 +1128,7 @@ class Player:
                 player3_pos -= 32
                 print(f"Player 3 is now at: {player3_pos}")
 
-        elif dice_con and dice_rolled and player_sequence == 4:
+        if dice_con and dice_rolled and player_sequence == 4:
             dice_rolled = False
             print(f"dice is {dice_num}")
 
@@ -1326,6 +1356,10 @@ def handle_chance():
 price = 0
 Pricelist = [0, 500, 600, 700, 0, 2100, 800, 900, 1000, 0, 1200, 1300, 0, 1400, 1500, 1600,
              0, 1800, 1900, 2000, 0, 2150, 2200, 2400, 2500, 0, 2600, 2800, 0, 3000, 3500, 4000]
+
+name_list = ['Passngo', 'Ramly Burger', '99 Speedmarket', 'Aeon Big', 'tax', 'TNB', 'Batu Caves', 'Pulau Langkawi', 'Cameron Highland', 'parking', 'Gunung Mulu', 'Mount Kinabalu', 'chance', 'Johor Bahru', 'George Town',
+             'Melaka', 'jail', 'KL Sentral', 'Port Dickson', 'MMU Cyberjaya', 'tax', 'Indah water', 'Genting Highland', 'Putrajaya', 'KLIA', 'injail', 'TRX', 'Pavilion KL', 'chance', 'KL Tower', 'Merdeka 118', 'KLCC']
+
 b_property = str()
 
 Property_with_price = {
@@ -1354,6 +1388,32 @@ Property_with_price = {
     "Merdeka 118": 3500,
     "KLCC": 4000
 }
+Property_with_rent = {
+    'Ramly Burger': 10,
+    '99 Speedmarket': 20,
+    'Aeon Big': 35,
+    'TNB': 40,
+    'Batu Caves': 50,
+    'Pulau Langkawi': 55,
+    'Cameron Highland': 65,
+    'Gunung Mulu': 80,
+    'Mount Kinabalu': 85,
+    'Johor Bahru': 100,
+    'George Town': 110,
+    'Melaka': 120,
+    'KL Sentral': 140,
+    'Port Dickson': 160,
+    'MMU Cyberjaya': 160,
+    'Indah water': 180,
+    'Genting Highland': 180,
+    'Putrajaya': 200,
+    'KLIA': 220,
+    'TRX': 230,
+    'Pavilion KL': 240,
+    'KL Tower': 275,
+    'Merdeka 118': 350,
+    'KLCC': 500
+}
 
 # setting for player
 initial_money = int(15000)
@@ -1370,21 +1430,38 @@ player4_broke = False
 
 
 class economic:
+    eco_dis1 = str()
+    eco_dis2 = str()
+    eco_dis3 = str()
+    eco_dis4 = str()
+    leco_dis1 = str()
+    leco_dis2 = str()
+    leco_dis3 = str()
+    leco_dis4 = str()
+    L_eco_dis1 = str()
+    L_eco_dis2 = str()
+    L_eco_dis3 = str()
+    L_eco_dis4 = str()
     # checking for validity in buying property
     # player will not be able to click buy button if tile is not available to sell
+    showing_pay_button = False
 
     def check_buying_valid():
         if player_sequence == 1 and player1_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
-            button_buy.update()
+            if Pricelist[player1_pos] != 0:
+                button_buy.update()
 
         elif player_sequence == 2 and player2_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
-            button_buy.update()
+            if Pricelist[player2_pos] != 0:
+                button_buy.update()
 
         elif player_sequence == 3 and player3_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
-            button_buy.update()
+            if Pricelist[player3_pos] != 0:
+                button_buy.update()
 
         elif player_sequence == 4 and player4_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
-            button_buy.update()
+            if Pricelist[player4_pos] != 0:
+                button_buy.update()
 
         else:
             pass
@@ -1430,34 +1507,309 @@ class economic:
         economic.owning_property(price)
 
     def owning_property(price):
+        middle = 0
         if player_sequence == 1 and Pricelist[player1_pos] != 0:
             b_property = [
                 i for i in Property_with_price if Property_with_price[i] == price]
-
+            b_property = ', '.join(b_property)
             p1_list_p.append(b_property)
-            print(f'player 1 now have {p1_list_p}')
+            economic.eco_dis1 = (f'Player 1 paid {price} for {b_property} ')
+            if len(p1_list_p) > 5:
+                middle = len(p1_list_p)//2
+                economic.leco_dis1 = p1_list_p[:middle]
+                economic.L_eco_dis1 = p1_list_p[middle:]
+                economic.leco_dis1 = (f'own {economic.leco_dis1}')
+            else:
+                economic.leco_dis1 = (f'own {p1_list_p}')
+
+            print(economic.eco_dis1)
             Pricelist[player1_pos] = 0
         elif player_sequence == 2 and Pricelist[player2_pos] != 0:
             b_property = [
                 i for i in Property_with_price if Property_with_price[i] == price]
-
+            b_property = ', '.join(b_property)
             p2_list_p.append(b_property)
-            print(f'player 2 now have {p2_list_p}')
+            economic.eco_dis2 = (f'player 2 paid {price} for {b_property} ')
+            if len(p2_list_p) > 5:
+                middle = len(p2_list_p)//2
+                economic.leco_dis2 = p2_list_p[:middle]
+                economic.L_eco_dis2 = p2_list_p[middle:]
+                economic.leco_dis2 = (f'own {economic.leco_dis2}')
+            else:
+                economic.leco_dis2 = (f'own {p2_list_p}')
+            print(economic.eco_dis2)
             Pricelist[player2_pos] = 0
         elif player_sequence == 3 and Pricelist[player3_pos] != 0:
             b_property = [
                 i for i in Property_with_price if Property_with_price[i] == price]
-
+            b_property = ', '.join(b_property)
             p3_list_p.append(b_property)
-            print(f'player 3 now have {p3_list_p}')
+            economic.eco_dis3 = (f'player 3 paid {price} for {b_property} ')
+            if len(p3_list_p) > 5:
+                middle = len(p3_list_p)//2
+                economic.leco_dis3 = p3_list_p[:middle]
+                economic.L_eco_dis3 = p3_list_p[middle:]
+                economic.leco_dis3 = (f'own {economic.leco_dis3}')
+            else:
+                economic.leco_dis3 = (f'own {p3_list_p}')
+            print(economic.eco_dis3)
             Pricelist[player3_pos] = 0
         elif player_sequence == 4 and Pricelist[player4_pos] != 0:
             b_property = [
                 i for i in Property_with_price if Property_with_price[i] == price]
-
+            b_property = ', '.join(b_property)
             p4_list_p.append(b_property)
-            print(f'player 4 now have {p4_list_p}')
+            economic.eco_dis4 = (f'player 4 paid {price} for {b_property} ')
+            if len(p4_list_p) > 5:
+                middle = len(p4_list_p)//2
+                economic.leco_dis4 = p4_list_p[:middle]
+                economic.L_eco_dis4 = p4_list_p[middle:]
+                economic.leco_dis4 = (f'own {economic.leco_dis4}')
+            else:
+                economic.leco_dis4 = (f'own {p4_list_p}')
+            print(economic.eco_dis4)
             Pricelist[player4_pos] = 0
+
+        else:
+            pass
+
+    def update_eco():
+        global player_sequence
+        title_font = pygame.font.Font("HelveticaNeue.ttf", 18)
+        dis_eco1 = economic.eco_dis1
+        dis_eco2 = economic.eco_dis2
+        dis_eco3 = economic.eco_dis3
+        dis_eco4 = economic.eco_dis4
+        ldis_eco1 = economic.leco_dis1
+        ldis_eco2 = economic.leco_dis2
+        ldis_eco3 = economic.leco_dis3
+        ldis_eco4 = economic.leco_dis4
+        L_dis_eco1 = economic.L_eco_dis1
+        L_dis_eco2 = economic.L_eco_dis2
+        L_dis_eco3 = economic.L_eco_dis3
+        L_dis_eco4 = economic.L_eco_dis4
+        dis_eco1 = title_font.render(f"{dis_eco1}", True, black)
+        ldis_eco1 = title_font.render(f"{ldis_eco1}", True, black)
+        L_dis_eco1 = title_font.render(f"{L_dis_eco1}", True, black)
+        dis_eco2 = title_font.render(f"{dis_eco2}", True, black)
+        ldis_eco2 = title_font.render(f"{ldis_eco2}", True, black)
+        L_dis_eco2 = title_font.render(f"{L_dis_eco2}", True, black)
+        dis_eco3 = title_font.render(f"{dis_eco3}", True, black)
+        ldis_eco3 = title_font.render(f"{ldis_eco3}", True, black)
+        L_dis_eco3 = title_font.render(f"{L_dis_eco3}", True, black)
+        dis_eco4 = title_font.render(f"{dis_eco4}", True, black)
+        ldis_eco4 = title_font.render(f"{ldis_eco4}", True, black)
+        L_dis_eco4 = title_font.render(f"{L_dis_eco4}", True, black)
+        if player_sequence == 1:
+            screen.blit(dis_eco1, (120, 630))
+            screen.blit(ldis_eco1, (120, 650))
+            screen.blit(L_dis_eco1, (120, 670))
+        elif player_sequence == 2:
+            screen.blit(dis_eco2, (120, 630))
+            screen.blit(ldis_eco2, (120, 650))
+            screen.blit(L_dis_eco2, (120, 670))
+        elif player_sequence == 3:
+            screen.blit(dis_eco3, (120, 630))
+            screen.blit(ldis_eco3, (120, 650))
+            screen.blit(L_dis_eco3, (120, 670))
+        elif player_sequence == 4:
+            screen.blit(dis_eco4, (120, 630))
+            screen.blit(ldis_eco4, (120, 650))
+            screen.blit(L_dis_eco4, (120, 670))
+
+    def checking_rent_valid():
+        global paying
+        if player_sequence == 1 and Pricelist[player1_pos] != 0:
+            pass
+        if player_sequence == 2 and Pricelist[player2_pos] != 0:
+            pass
+        if player_sequence == 3 and Pricelist[player3_pos] != 0:
+            pass
+        if player_sequence == 4 and Pricelist[player4_pos] != 0:
+            pass
+        else:
+            # player not landed in any of the buyable or unown property
+            # checking for rent
+            economic.paying_for_rent()
+
+    def paying_for_rent():
+        global paying
+        # check if player 1 needed to pay another player rent
+        if player_sequence == 1 and player1_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+
+            property_rent = name_list[player1_pos]
+            rent_in_list = (
+                property_rent in p2_list_p or property_rent in p3_list_p or property_rent in p4_list_p)
+            if rent_in_list:
+                paying = True
+
+        if player_sequence == 2 and player2_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+
+            property_rent = name_list[player2_pos]
+            rent_in_list = (
+                property_rent in p1_list_p or property_rent in p3_list_p or property_rent in p4_list_p)
+            if rent_in_list:
+                paying = True
+
+        if player_sequence == 3 and player3_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+
+            property_rent = name_list[player3_pos]
+            rent_in_list = (
+                property_rent in p1_list_p or property_rent in p2_list_p or property_rent in p4_list_p)
+            if rent_in_list:
+                paying = True
+        if player_sequence == 4 and player4_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+
+            property_rent = name_list[player4_pos]
+            rent_in_list = (
+                property_rent in p1_list_p or property_rent in p3_list_p or property_rent in p2_list_p)
+            if rent_in_list:
+                paying = True
+
+    def rent_button_1():
+        global paying
+        if player_sequence == 1 and player1_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+            property_rent = name_list[player1_pos]
+            # checking for a property is not own by player 1
+            if property_rent in p2_list_p:
+                rent_price = Property_with_rent[property_rent]
+                print(f"{property_rent} is own by player 2")
+                print(f"Player 1 paying {rent_price} for player 2")
+                player_dict_m['p1_money'] -= rent_price
+                player_dict_m['p2_money'] += rent_price
+                print(f"Player 1 now have {player_dict_m['p1_money']}")
+                print(f"Player 2 now have {player_dict_m['p2_money']}")
+                paying = False
+
+            if property_rent in p3_list_p:
+                rent_price = Property_with_rent[property_rent]
+                print(f"{property_rent} is own by player 3")
+                print(f"Player 1 paying {rent_price} for player 3")
+                player_dict_m['p1_money'] -= rent_price
+                player_dict_m['p3_money'] += rent_price
+                print(f"Player 1 now have {player_dict_m['p1_money']}")
+                print(f"Player 3 now have {player_dict_m['p3_money']}")
+                paying = False
+
+            if property_rent in p4_list_p:
+                rent_price = Property_with_rent[property_rent]
+                print(f"{property_rent} is own by player 4")
+                print(f"Player 1 paying {rent_price} for player 4")
+                player_dict_m['p1_money'] -= rent_price
+                player_dict_m['p4_money'] += rent_price
+                print(f"Player 1 now have {player_dict_m['p1_money']}")
+                print(f"Player 4 now have {player_dict_m['p4_money']}")
+                paying = False
+
+            else:
+                paying == False
+
+    def rent_button_2():
+        global paying
+        if player_sequence == 2 and player2_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+            property_rent = name_list[player2_pos]
+            # checking for a property is not own by player 2
+            if property_rent in p1_list_p:
+                rent_price = Property_with_rent[property_rent]
+                print(f"{property_rent} is own by player 1")
+                print(f"Player 2 paying {rent_price} for player 1")
+                player_dict_m['p2_money'] -= rent_price
+                player_dict_m['p1_money'] += rent_price
+                print(f"Player 2 now have {player_dict_m['p2_money']}")
+                print(f"Player 1 now have {player_dict_m['p1_money']}")
+                paying = False
+            if property_rent in p3_list_p:
+                rent_price = Property_with_rent[property_rent]
+                print(f"{property_rent} is own by player 3")
+                print(f"Player 2 paying {rent_price} for player 3")
+                player_dict_m['p2_money'] -= rent_price
+                player_dict_m['p3_money'] += rent_price
+                print(f"Player 2 now have {player_dict_m['p2_money']}")
+                print(f"Player 2 now have {player_dict_m['p2_money']}")
+                paying = False
+            if property_rent in p4_list_p:
+                rent_price = Property_with_rent[property_rent]
+                print(f"{property_rent} is own by player 4")
+                print(f"Player 2 paying {rent_price} for player 4")
+                player_dict_m['p2_money'] -= rent_price
+                player_dict_m['p4_money'] += rent_price
+                print(f"Player 2 now have {player_dict_m['p2_money']}")
+                print(f"Player 4 now have {player_dict_m['p4_money']}")
+                paying = False
+            else:
+                pass
+
+    def rent_button_3():
+        global paying
+        if player_sequence == 3 and player3_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+            property_rent = name_list[player3_pos]
+            # checking for a property is not own by player 3
+            if property_rent in p1_list_p:
+                rent_price = Property_with_rent[property_rent]
+                print(f"{property_rent} is own by player 1")
+                print(f"Player 3 paying {rent_price} for player 1")
+                player_dict_m['p3_money'] -= rent_price
+                player_dict_m['p1_money'] += rent_price
+                print(f"Player 3 now have {player_dict_m['p3_money']}")
+                print(f"Player 1 now have {player_dict_m['p1_money']}")
+                paying = False
+            if property_rent in p2_list_p:
+                rent_price = Property_with_rent[property_rent]
+                print(f"{property_rent} is own by player 2")
+                print(f"Player 3 paying {rent_price} for player 2")
+                player_dict_m['p3_money'] -= rent_price
+                player_dict_m['p2_money'] += rent_price
+                print(f"Player 3 now have {player_dict_m['p3_money']}")
+                print(f"Player 2 now have {player_dict_m['p2_money']}")
+                paying = False
+            if property_rent in p4_list_p:
+                rent_price = Property_with_rent[property_rent]
+                print(f"{property_rent} is own by player 4")
+                print(f"Player 3 paying {rent_price} for player 4")
+                player_dict_m['p3_money'] -= rent_price
+                player_dict_m['p4_money'] += rent_price
+                print(f"Player 3 now have {player_dict_m['p3_money']}")
+                print(f"Player 4 now have {player_dict_m['p4_money']}")
+                paying = False
+            else:
+                pass
+
+    def rent_button_4():
+        global paying
+        if player_sequence == 4 and player4_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+            property_rent = name_list[player4_pos]
+            # checking for a property is not own by player 4
+            if property_rent in p1_list_p:
+                rent_price = Property_with_rent[property_rent]
+                print(f"{property_rent} is own by player 1")
+                print(f"Player 4 paying {rent_price} for player 1")
+                player_dict_m['p4_money'] -= rent_price
+                player_dict_m['p1_money'] += rent_price
+                print(f"Player 4 now have {player_dict_m['p4_money']}")
+                print(f"Player 1 now have {player_dict_m['p1_money']}")
+                paying = False
+
+            if property_rent in p2_list_p:
+                rent_price = Property_with_rent[property_rent]
+                print(f"{property_rent} is own by player 2")
+                print(f"Player 4 paying {rent_price} for player 2")
+                player_dict_m['p4_money'] -= rent_price
+                player_dict_m['p2_money'] += rent_price
+                print(f"Player 4 now have {player_dict_m['p4_money']}")
+                print(f"Player 2 now have {player_dict_m['p2_money']}")
+                paying = False
+
+            if property_rent in p3_list_p:
+                rent_price = Property_with_rent[property_rent]
+                print(f"{property_rent} is own by player 3")
+                print(f"Player 4 paying {rent_price} for player 3")
+                player_dict_m['p4_money'] -= rent_price
+                player_dict_m['p3_money'] += rent_price
+                print(f"Player 4 now have {player_dict_m['p4_money']}")
+                print(f"Player 3 now have {player_dict_m['p3_money']}")
+                paying = False
+            else:
+                pass
 
     print(player_dict_m)
 
@@ -1468,7 +1820,7 @@ class starting_menu:
     counter3 = 0
     counter4 = 0
     counter5 = 0
-    speed = 6
+    speed = 3
     text_done = False
     active_rules = 0
     title_font = pygame.font.Font("HelveticaNeue.ttf", 150)
@@ -1567,7 +1919,8 @@ class starting_menu:
 map = Map(map_data)
 
 
-button_functions = [button_music.checkmusic, button_roll.checkroll,
+
+button_functions = [button_music.checkmusic, button_roll.checkroll, button_pay.check_pay,
                     button_play.check_play, button_buy.check_buy, button_next.checkload_finish, button_exit.check_exit]
 
 
@@ -1600,7 +1953,6 @@ run = True
 while run:
     clock.tick(fps)
     screen.fill((0, 0, 0))
-    
 
     if Button.exit_game:
         run = False
@@ -1619,13 +1971,16 @@ while run:
         # starting_menu.loading_screen()
         map.draw()
         Display.middle()
+        Display.showing_player_money()
         Display.showing_properties_name()
+        economic.update_eco()
         button_music.update()
         button_roll.update()
-        Player.show_players()
-        economic.check_buying_valid()
         moving_sprites.draw(screen)
         moving_sprites.update()
+        economic.check_buying_valid()
+        if paying:
+            button_pay.update()
 
         if show_description and time.time() - description_display_timer < description_display_duration:
             display_descriptions(description)
@@ -1646,18 +2001,25 @@ while run:
 
         # if roll dice randomize a num
             if Button.rolling_con:
-                rand_a_dice()
-                dice_num = (random.randint(1, 6))
-                Player.move(dice_num)
-                Button.rolling_con = False
-                buy_clicked = False
-                # dice animating
-                dice.animate(dice_num)
-                Player.player_movement(dice_num)
-                
+
+                Dice.rand_a_dice()
+                if not paying:
+
+                    dice_num = (random.randint(1, 6))
+                    # dice animating
+                    dice.animate(dice_num)
+                    Player.player_movement(dice_num)
+
+                    Button.rolling_con = False
+                    buy_clicked = False
+
+                if player_sequence != 5 and not changing_round and not paying:
                     # Move the active player based on the dice roll
-                    
-                    
+                    players[active_player_index].move(dice_num)
+                    # Move to the next player
+                    active_player_index = (
+                        active_player_index + 1) % len(players)
+                    economic.checking_rent_valid()
 
             elif Button.is_buying_properties and not buy_clicked:
                 economic.buying_property()
