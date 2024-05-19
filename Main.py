@@ -20,6 +20,7 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 # universal settings
 tile_size = 100
 round_num = 1
+round_num = 1
 num_row = 8
 num_col = 10
 white = 255, 255, 255
@@ -1953,6 +1954,8 @@ run = True
 while run:
     clock.tick(fps)
     screen.fill((0, 0, 0))
+
+
     if Button.exit_game:
         run = False
 
@@ -1971,7 +1974,9 @@ while run:
         map.draw()
         Display.middle()
         Display.showing_player_money()
+        Display.showing_player_money()
         Display.showing_properties_name()
+        economic.update_eco()
         economic.update_eco()
         button_music.update()
         button_roll.update()
@@ -1979,6 +1984,9 @@ while run:
         economic.check_buying_valid()
         moving_sprites.draw(screen)
         moving_sprites.update()
+        economic.check_buying_valid()
+        if paying:
+            button_pay.update()
         economic.check_buying_valid()
         if paying:
             button_pay.update()
