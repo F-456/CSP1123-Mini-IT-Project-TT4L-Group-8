@@ -1,1 +1,0 @@
-Display.drawing_grid(100)

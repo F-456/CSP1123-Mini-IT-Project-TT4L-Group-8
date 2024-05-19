@@ -19,6 +19,7 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 
 # universal settings
 tile_size = 100
+round_num = 1
 num_row = 8
 num_col = 10
 white = 255, 255, 255
@@ -29,6 +30,7 @@ text_font = pygame.font.Font("HelveticaNeue.ttf", 20)
 smaller_font = pygame.font.Font("HelveticaNeue.ttf", 20)
 Specia_font = pygame.font.SysFont(
     "ComicSansMS.ttf", 25, bold=False, italic=False)
+
 
 # Maps control for monopoly
 map_data = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
@@ -107,11 +109,20 @@ def wrap_text(text, font, max_width):
 
 
 class Property:
-    def __init__(self, name, price, rent):
+    def __init__(self, name, price, base_rent):
         self.name = name
         self.price = price
-        self.rent = rent
+        self.base_rent = base_rent
         self.owner = None
+
+    def calculate_rent(self):
+        if self.owner:
+            owned_properties = sum(
+                1 for prop in property if prop.owner == self.owner)
+            rent = self.base_rent * (2 ** (owned_properties - 1))
+            return rent
+        else:
+            return 0
 
 
 # Define property
@@ -147,18 +158,14 @@ Pricelist = [0, 500, 600, 700, 0, 2100, 800, 900, 1000, 0, 1200, 1300, 0, 1400, 
 
 
 class Display:
-    text_font = pygame.font.Font("HelveticaNeue.ttf", 20)
-    smaller_font = pygame.font.Font("HelveticaNeue.ttf", 20)
+    text_font = pygame.font.Font("HelveticaNeue.ttf", 18)
+    smaller_font = pygame.font.Font("HelveticaNeue.ttf", 18)
     Specia_font = pygame.font.SysFont(
         "ComicSansMS.ttf", 25, bold=False, italic=False)
     # text used in all the tile
     Go_t = text_font.render("Go", True, (white))
     collect_t = smaller_font.render("Pass & Go", True, (white))
-    klcc_t = text_font.render("KLCC", True, (black))
     money_t = smaller_font.render("$", True, (black))
-    Q_t = text_font.render("?", True, (white))
-    chance_t = smaller_font.render("Chance", True, (white))
-    jail_t = text_font.render("Jail", True, (white))
     klia_t = text_font.render("KLIA", True, (black))
     indah_t = smaller_font.render("Indah", True, (black))
     water_t = smaller_font.render("Water", True, (black))
@@ -181,80 +188,144 @@ class Display:
     ninenine_t = text_font.render("99", True, (black))
     speedmarket_t = text_font.render("Market", True, (black))
     Ramly_t = smaller_font.render("B.Ramly", True, (black))
+    price1_t = text_font.render("$ 500", True, (black))
+    price2_t = text_font.render("$ 600", True, (black))
+    price3_t = text_font.render("$ 700", True, (black))
+    price4_t = text_font.render("$ 2100", True, (black))
+    price5_t = text_font.render("$ 800", True, (black))
+    price6_t = text_font.render("$ 900", True, (black))
+    price7_t = text_font.render("$ 1000", True, (black))
+    price8_t = text_font.render("$ 1800", True, (black))
+    price9_t = text_font.render("$ 1900", True, (black))
+    price10_t = text_font.render("$ 2000", True, (black))
+    price11_t = text_font.render("$ 2150", True, (black))
+    price12_t = text_font.render("$ 2200", True, (black))
+    price13_t = text_font.render("$ 2400", True, (black))
+    price14_t = text_font.render("$ 2500", True, (black))
+
     # price_t = smaller_font.render(f"{Pricelist}", True, (white))
     # print(Pricelist)
 
+    def rotate_text(text, angle):
+        return pygame.transform.rotate(text, angle)
+
+    def render_rotate_text(font, text, color, angle):
+        rotated_text = Display.rotate_text(
+            font.render(text, True, color), angle)
+        return rotated_text
+
     def showing_properties_name():
-        screen.blit(Display.klcc_t, (20, 120))
         screen.blit(Display.Go_t, (20, 20))
-        # screen.blit(Display.price_t, (20, 20))
         screen.blit(Display.collect_t, (20, 50))
-        screen.blit(Display.Q_t, (40, 420))
-        screen.blit(Display.chance_t, (20, 450))
-        screen.blit(Display.jail_t, (20, 720))
-        screen.blit(Display.income_t, (520, 720))
-        screen.blit(Display.tax_t, (520, 750))
-        screen.blit(Display.Q_t, (950, 420))
-        screen.blit(Display.chance_t, (920, 450))
-        screen.blit(Display.income_t, (520, 20))
-        screen.blit(Display.tax_t, (520, 50))
         klcc_rotated = Display.render_rotate_text(
             Display.text_font, "KLCC", (black), 270)
-        screen.blit(klcc_rotated, (55, 120))
-        merdeka118_rotated = Display.render_rotate_text(
-            Display.text_font, "M.118", (black), 270)
-        screen.blit(merdeka118_rotated, (55, 220))
+        screen.blit(klcc_rotated, (60, 125))
+        klcc_price_rotated = Display.render_rotate_text(
+            Display.text_font, "$ 4000", (black), 270)
+        screen.blit(klcc_price_rotated, (20, 120))
+        merdeka_rotated = Display.render_rotate_text(
+            Display.text_font, "Merdeka", (black), 270)
+        screen.blit(merdeka_rotated, (70, 215))
+        m118_rotated = Display.render_rotate_text(
+            Display.text_font, "118", (black), 270)
+        screen.blit(m118_rotated, (50, 230))
+        merdeka118_price_rotated = Display.render_rotate_text(
+            Display.text_font, "$ 3500", (black), 270)
+        screen.blit(merdeka118_price_rotated, (20, 220))
         kl_tower_rotated = Display.render_rotate_text(
             Display.text_font, "KL.Tower", (black), 270)
-        screen.blit(kl_tower_rotated, (55, 310))
+        screen.blit(kl_tower_rotated, (60, 310))
+        kltower_price_rotated = Display.render_rotate_text(
+            Display.text_font, "$ 3000", (black), 270)
+        screen.blit(kltower_price_rotated, (20, 320))
         pavilion_rotated = Display.render_rotate_text(
             Display.text_font, "Pavilion", (black), 270)
-        screen.blit(pavilion_rotated, (55, 520))
-        lot10_rotated = Display.render_rotate_text(
-            Display.text_font, "Lot 10", (black), 270)
-        screen.blit(lot10_rotated, (55, 620))
-        screen.blit(Display.klia_t, (120, 720))
-        screen.blit(Display.money_t, (120, 750))
-        screen.blit(Display.putra_t, (210, 720))
-        screen.blit(Display.money_t, (220, 750))
-        screen.blit(Display.genting_t, (305, 720))
-        screen.blit(Display.money_t, (320, 750))
-        screen.blit(Display.cameroon_t, (405, 720))
-        screen.blit(Display.money_t, (420, 750))
-        screen.blit(Display.tnb_t, (620, 720))
-        screen.blit(Display.money_t, (620, 750))
-        screen.blit(Display.klsen_t, (710, 720))
-        screen.blit(Display.money_t, (720, 750))
-        screen.blit(Display.cyber_t, (810, 720))
-        screen.blit(Display.money_t, (820, 750))
-        chewjetty_rotated = Display.render_rotate_text(
-            Display.text_font, "C.Jetty", (black), 90)
-        screen.blit(chewjetty_rotated, (920, 620))
-        gtown_rotated = Display.render_rotate_text(
-            Display.text_font, "G.Town", (black), 90)
-        screen.blit(gtown_rotated, (920, 520))
-        PenangHill_rotated = Display.render_rotate_text(
-            Display.text_font, "P.Hill", (black), 90)
-        screen.blit(PenangHill_rotated, (920, 320))
-        sky_b_rotated = Display.render_rotate_text(
-            Display.text_font, "Sky.B", (black), 90)
-        screen.blit(sky_b_rotated, (920, 220))
-        tm_rotated = Display.render_rotate_text(
-            Display.text_font, "TM", (black), 90)
-        screen.blit(tm_rotated, (920, 120))
-        screen.blit(Display.famosa_1, (710, 20))
-        screen.blit(Display.money_t, (720, 50))
-        screen.blit(Display.jonker_1, (820, 10))
-        screen.blit(Display.jonker_2, (820, 30))
-        screen.blit(Display.money_t, (820, 50))
-        screen.blit(Display.stadthuys_t, (610, 20))
-        screen.blit(Display.money_t, (620, 50))
-        screen.blit(Display.astro_t, (420, 20))
-        screen.blit(Display.money_t, (420, 50))
-        screen.blit(Display.rtm_t, (320, 20))
-        screen.blit(Display.money_t, (320, 50))
-        screen.blit(Display.seven_t, (220, 20))
-        screen.blit(Display.money_t, (220, 50))
+        screen.blit(pavilion_rotated, (60, 515))
+        pavilion_price_rotated = Display.render_rotate_text(
+            Display.text_font, "$ 2800", (black), 270)
+        screen.blit(pavilion_price_rotated, (20, 520))
+        trx_rotated = Display.render_rotate_text(
+            Display.text_font, "TRX", (black), 270)
+        screen.blit(trx_rotated, (60, 625))
+        trx_price_rotated = Display.render_rotate_text(
+            Display.text_font, "$ 2600", (black), 270)
+        screen.blit(trx_price_rotated, (20, 620))
+        screen.blit(Display.klia_t, (132, 720))
+        screen.blit(Display.price14_t, (123, 760))
+        screen.blit(Display.putra_t, (212, 720))
+        screen.blit(Display.price13_t, (223, 760))
+        screen.blit(Display.genting_t, (320, 710))
+        screen.blit(Display.highland_t, (315, 730))
+        screen.blit(Display.price12_t, (323, 760))
+        screen.blit(Display.indah_t, (425, 710))
+        screen.blit(Display.water_t, (425, 730))
+        screen.blit(Display.price11_t, (423, 760))
+        screen.blit(Display.mmu_t, (630, 710))
+        screen.blit(Display.cyber_t, (610, 730))
+        screen.blit(Display.price10_t, (623, 760))
+        screen.blit(Display.port_t, (733, 710))
+        screen.blit(Display.dickson_t, (720, 730))
+        screen.blit(Display.price9_t, (723, 760))
+        screen.blit(Display.kl_t, (840, 710))
+        screen.blit(Display.sen_t, (820, 730))
+        screen.blit(Display.price8_t, (823, 760))
+        melaka_rotated = Display.render_rotate_text(
+            Display.text_font, "Melaka", (black), 90)
+        screen.blit(melaka_rotated, (920, 620))
+        melaka_price_rotated = Display.render_rotate_text(
+            Display.text_font, "$ 1600", (black), 90)
+        screen.blit(melaka_price_rotated, (960, 622))
+        gtown1_rotated = Display.render_rotate_text(
+            Display.text_font, "George", (black), 90)
+        screen.blit(gtown1_rotated, (910, 520))
+        gtown2_rotated = Display.render_rotate_text(
+            Display.text_font, "Town", (black), 90)
+        screen.blit(gtown2_rotated, (930, 530))
+        gtown_price_rotated = Display.render_rotate_text(
+            Display.text_font, "$ 1500", (black), 90)
+        screen.blit(gtown_price_rotated, (960, 522))
+        johot_rotated = Display.render_rotate_text(
+            Display.text_font, "Johor", (black), 90)
+        screen.blit(johot_rotated, (910, 425))
+        bahru_rotated = Display.render_rotate_text(
+            Display.text_font, "Bahru", (black), 90)
+        screen.blit(bahru_rotated, (930, 425))
+        jb_price_rotated = Display.render_rotate_text(
+            Display.text_font, "$ 1400", (black), 90)
+        screen.blit(jb_price_rotated, (960, 422))
+        mount_rotated = Display.render_rotate_text(
+            Display.text_font, "Mount", (black), 90)
+        screen.blit(mount_rotated, (910, 220))
+        kinabalu_rotated = Display.render_rotate_text(
+            Display.text_font, "Kinabalu", (black), 90)
+        screen.blit(kinabalu_rotated, (930, 213))
+        mk_price_rotated = Display.render_rotate_text(
+            Display.text_font, "$ 1300", (black), 90)
+        screen.blit(mk_price_rotated, (960, 222))
+        gunung_rotated = Display.render_rotate_text(
+            Display.text_font, "Gunung", (black), 90)
+        screen.blit(gunung_rotated, (910, 120))
+        mulu_rotated = Display.render_rotate_text(
+            Display.text_font, "Mulu", (black), 90)
+        gm_price_rotated = Display.render_rotate_text(
+            Display.text_font, "$ 1200", (black), 90)
+        screen.blit(gm_price_rotated, (960, 122))
+        screen.blit(mulu_rotated, (930, 130))
+        screen.blit(Display.cameron_t, (815, 10))
+        screen.blit(Display.highland_t, (815, 30))
+        screen.blit(Display.price7_t, (823, 60))
+        screen.blit(Display.pulau_t, (725, 10))
+        screen.blit(Display.langkawi_t, (715, 30))
+        screen.blit(Display.price6_t, (727, 60))
+        screen.blit(Display.batu_caves_t, (604, 20))
+        screen.blit(Display.price5_t, (627, 60))
+        screen.blit(Display.tnb_t, (530, 20))
+        screen.blit(Display.price4_t, (523, 60))
+        screen.blit(Display.aeon_t, (323, 20))
+        screen.blit(Display.price3_t, (327, 60))
+        screen.blit(Display.ninenine_t, (240, 10))
+        screen.blit(Display.speedmarket_t, (222, 30))
+        screen.blit(Display.price2_t, (227, 60))
         screen.blit(Display.Ramly_t, (120, 20))
         screen.blit(Display.price1_t, (127, 60))
 
@@ -291,6 +362,7 @@ buy_clicked = False
 
 class Button():
     menu = True
+    exit_game = False
     loading = True
     rolling_con = False
     is_buying_properties = False
@@ -325,6 +397,10 @@ class Button():
         if self.rect.collidepoint(position):
             Button.loading = False
 
+    def check_exit(self, position):
+        if self.rect.collidepoint(position):
+            Button.exit_game = True
+
     def check_buy(self, position):
         if self.rect.collidepoint(position):
             Button.is_buying_properties = True
@@ -357,8 +433,11 @@ button_buy = pygame.image.load('pic/buy.png')
 button_surface_on = pygame.transform.scale(button_surface_on, (40, 40))
 button_surface_off = pygame.transform.scale(button_surface_off, (40, 40))
 button_roll = pygame.transform.scale(button_roll, (80, 80))
-button_play = pygame.transform.scale(button_play, (450, 170))
-button_buy = pygame.transform.scale(button_buy, (100, 100))
+button_play = pygame.transform.scale(button_play, (240, 200))
+button_exit = pygame.transform.scale(button_exit, (240, 200))
+button_next = pygame.transform.scale(button_next, (120, 100))
+button_buy = pygame.transform.scale(button_buy, (120, 100))
+# adjust location
 button_music = Button(button_surface_on, button_surface_off, 880, 120)
 button_roll = Button(button_roll, button_roll, 800, 650)
 button_play = Button(button_play, button_play, 700, 600)
@@ -396,6 +475,9 @@ class Map:
         red_box = pygame.image.load("pic/lightred.png")
         go_to_jail = pygame.image.load("pic/gotojail.webp")
         free_parking = pygame.image.load("pic/freeparking.png")
+        tax = pygame.image.load("pic/LHDN.png")
+        injail = pygame.image.load("pic/injail.png")
+        chance = pygame.image.load("pic/chance.png")
 
         row_count = 0
         for row in data:
@@ -589,6 +671,15 @@ class Map:
                     tile = (img, img_rect)
                     self.tile_list.append(tile)
 
+                elif tile == 26:
+                    img = pygame.transform.scale(
+                        injail, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
                 elif tile == 27:
                     img = pygame.transform.scale(
                         purple_box, (tile_size, tile_size))
@@ -605,11 +696,56 @@ class Map:
                     img_rect.x = col_count * tile_size
                     img_rect.y = row_count * tile_size
                     tile = (img, img_rect)
-                    self.tile_list.append(tile)                
-  
+                    self.tile_list.append(tile)
+
+                elif tile == 29:
+                    img = pygame.transform.scale(
+                        chance, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
                 elif tile == 30:
                     img = pygame.transform.scale(
                         red_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 31:
+                    img = pygame.transform.scale(
+                        red_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 32:
+                    img = pygame.transform.scale(
+                        red_box, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 10:
+                    img = pygame.transform.scale(
+                        free_parking, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+
+                elif tile == 17:
+                    img = pygame.transform.scale(
+                        go_to_jail, (tile_size, tile_size))
                     img_rect = img.get_rect()
                     img_rect.x = col_count * tile_size
                     img_rect.y = row_count * tile_size
@@ -633,6 +769,12 @@ player3_pos = 0
 player4_pos = 0
 # player sequence
 player_sequence = 0
+
+
+go_position = (0, 0)  #position for "GO"
+bramly_position = (2, 1)  #position for "B.Ramly"
+free_parking_position = (9, 1)  #position for Free Parking
+jail_position = (1, 8)  #position for Jail
 
 
 class Dice(pygame.sprite.Sprite):
@@ -676,62 +818,247 @@ dice = Dice(750, 350)
 moving_sprites.add(dice)
 
 
+
 class Player:
-    def __init__(self, color, shape, row, col, scale_factor=0.5):
-        self.color = color
-        self.shape = shape
-        self.row = row
-        self.col = col
-        self.scale_factor = scale_factor
+    pic1 = pygame.image.load('pic/player1.png').convert_alpha()
+    pic2 = pygame.image.load('pic/player2.png').convert_alpha()
+    pic3 = pygame.image.load('pic/player3.png').convert_alpha()
+    pic4 = pygame.image.load('pic/player4.png').convert_alpha()
+    w1 = pic1.get_width()
+    h1 = pic1.get_height()
+    w2 = pic2.get_width()
+    h2 = pic2.get_height()
+    w3 = pic3.get_width()
+    h3 = pic3.get_height()
+    w4 = pic4.get_width()
+    h4 = pic4.get_height()
+    x1 = 0 
+    y1 = 0 
+    x2 = 0
+    y2 = 0
+    x3 = 0
+    y3 = 0
+    x4 = 0
+    y4 = 0
+
+    p1 = pygame.transform.scale(pic1, (int(w1 * 0.35), int(h1 * 0.35)))
+    p2 = pygame.transform.scale(pic2, (int(w2 * 0.35), int(h2 * 0.35)))
+    p3 = pygame.transform.scale(pic3, (int(w3 * 0.35), int(h3 * 0.35)))
+    p4 = pygame.transform.scale(pic4, (int(w4 * 0.35), int(h4 * 0.35)))
+
+    
+
+    
+
+    def __init__(self, image, player_name, index):
+        self.image = image
+        self.rect  = self.image.get_rect()
         self.dice_num = dice_num
+        self.player_name = player_name
+        self.index = index
 
-    def draw(self):
-        x = self.col * tile_size + tile_size//4
-        y = self.row * tile_size + tile_size//4
 
-        if self.shape == 'circle':
-            radius = int(tile_size//4 * self.scale_factor)
-            pygame.draw.circle(screen, self.color, (x, y), radius)
-        elif self.shape == 'square':
-            side_length = int(tile_size//2 * self.scale_factor)
-            pygame.draw.rect(screen, self.color,
-                             (x, y, side_length, side_length))
-        elif self.shape == 'triangle':
-            half_size = int(tile_size//2 * self.scale_factor)
-            pygame.draw.polygon(screen, self.color, [(x + half_size, y),
-                                                     (x, y + half_size),
-                                                     (x + tile_size * self.scale_factor, y + half_size)])
-        elif self.shape == 'star':
-            star_size = int(tile_size//2 * self.scale_factor)
-            pygame.draw.polygon(screen, self.color, [(x + star_size//2, y),
-                                                     (x + star_size,
-                                                      y + star_size),
-                                                     (x, y + star_size//3),
-                                                     (x + star_size,
-                                                      y + star_size//3),
-                                                     (x, y + star_size),
-                                                     (x + star_size//2, y)])
 
-    def move(self, steps):
-        # Move the player along the perimeter of the grid
-        for _ in range(steps):
-            if self.row == 0 and self.col < num_col - 1:
-                self.col += 1
-            elif self.row < num_row - 1 and self.col == num_col - 1:
-                self.row += 1
-            elif self.row == num_row - 1 and self.col > 0:
-                self.col -= 1
-            elif self.row > 0 and self.col == 0:
-                self.row -= 1
+    def move(dice_num):
+            step = int(0)
+            step = dice_num
+            second_step = int (0)
+            global player_sequence
+            #check whether the player is in the first row and move 
+            if player_sequence == 0 and Player.x1 < 1000 and Player.y1 == 0:
+                Player.x1 += step * 100
+                print(f'x = {Player.x1}') 
+                print(f'y = {Player.y1}')
+                # check if player exceed x boundary and needed to turn down
+                if Player.x1 >= 1000:
+                    second_step = Player.x1 - 1000
+                    Player.x1 = 900
+                    print(f'x = {Player.x1}') 
+                    Player.y1 += second_step + 100
+                    print(f'y = {Player.y1}')
 
-            # If the player reaches the starting position, stop
-            if self.row == 0 and self.col == 0:
-                break
+            elif player_sequence == 0 and Player.x1 == 900 and Player.y1 != 0:
+                Player.y1 += step * 100
+                print(f'x = {Player.x1}') 
+                print(f'y = {Player.y1}')
+                if Player.y1 >= 800:
+                    second_step = Player.y1 - 800
+                    Player.y1 = 700        
+                    print(f'x = {Player.x1}')            
+                    Player.x1 -= second_step
+                    Player.x1 -= 100 
+                    print(f'y = {Player.y1}')
+
+            elif player_sequence == 0 and Player.x1 < 1000 and Player.y1 == 700:
+                Player.x1 -= step * 100
+                print(f'x = {Player.x1}') 
+                print(f'y = {Player.y1}')
+                if Player.x1 <= 0:
+                    second_step = 0 - Player.x1 
+                    Player.x1 = 0
+                    print(f'x = {Player.x1}') 
+                    Player.y1 = 700 - second_step 
+                    print(f'y = {Player.y1}')
+                    
+            elif player_sequence == 0 and Player.x1 == 0 and Player.y1 <= 700:
+                Player.y1 -= step * 100
+                print(f'x = {Player.x1}') 
+                print(f'y = {Player.y1}')
+                if Player.y1 <= 0:
+                    second_step = 0 - Player.y1
+                    Player.y1 = 0
+                    print(f'x = {Player.x1}')
+                    Player.x1 = second_step
+                    print(f'y = {Player.y1}')
+
+            
+            if player_sequence == 1 and Player.x2 < 1000 and Player.y2 == 0:
+                Player.x2 += step * 100
+                print(f'x = {Player.x2}') 
+                print(f'y = {Player.y2}')
+                if Player.x2 >= 1000:
+                    second_step = Player.x2 - 1000
+                    Player.x2 = 900
+                    print(f'x = {Player.x2}')
+                    Player.y2 += second_step + 100
+                    print(f'y = {Player.y2}')
+
+            elif player_sequence == 1 and Player.x2 == 900 and Player.y2 != 0:
+                Player.y2 += step * 100
+                print(f'x = {Player.x2}') 
+                print(f'y = {Player.y2}')
+                if Player.y2 >= 800:
+                    second_step = Player.y2 - 800
+                    Player.y2 = 700
+                    print(f'x = {Player.x2}') 
+                    Player.x2 -= second_step
+                    Player.x2 -= 100 
+                    print(f'y = {Player.y2}')
+
+            elif player_sequence == 1 and Player.x2 < 1000 and Player.y2 == 700:
+                Player.x2 -= step * 100
+                print(f'x = {Player.x2}') 
+                print(f'y = {Player.y2}')
+                if Player.x2 <= 0:
+                    second_step = 0 - Player.x2
+                    Player.x2 = 0
+                    print(f'x = {Player.x2}')
+                    Player.y2 = 700 - second_step 
+                    print(f'y = {Player.y2}')
+
+            elif player_sequence == 1 and Player.x2 == 0 and Player.y2 <= 700:
+                Player.y2 -= step * 100
+                print(f'x = {Player.x2}') 
+                print(f'y = {Player.y2}')
+                if Player.y2 <= 0:
+                    second_step = 0 - Player.y2
+                    Player.y2 = 0
+                    print(f'x = {Player.x2}')
+                    Player.x2 = second_step
+                    print(f'y = {Player.y2}')
+                  
+
+            if player_sequence == 2 and Player.x3 < 1000 and Player.y3 == 0:
+                Player.x3 += step * 100
+                if Player.x3 >= 1000:
+                    second_step = Player.x3 - 1000
+                    Player.x3 = 900
+                    print(f'x = {Player.x3}')
+                    Player.y3 += second_step + 100
+                    print(f'y = {Player.y3}')
+
+            elif player_sequence == 2 and Player.x3 == 900 and Player.y3 != 0:
+                Player.y3 += step * 100
+                print(f'x = {Player.x3}') 
+                print(f'y = {Player.y3}')
+                if Player.y3 >= 800:
+                    second_step = Player.y3 - 800
+                    Player.y3 = 700
+                    print(f'y = {Player.y3}')
+                    Player.x3 -= second_step
+                    Player.x3 -= 100 
+                    print(f'x = {Player.x3}') 
+
+            elif player_sequence == 2 and Player.x3 < 1000 and Player.y3 == 700:
+                Player.x3 -= step * 100
+                print(f'x = {Player.x3}') 
+                print(f'y = {Player.y3}')
+                if Player.x3 <= 0:
+                    second_step = 0 - Player.x3
+                    Player.x3 = 0
+                    print(f'x = {Player.x3}') 
+                    Player.y3 = 700 - second_step 
+                    print(f'y = {Player.y3}')
+                    
+            elif player_sequence == 2 and Player.x3 == 0 and Player.y3 <= 700:
+                Player.y3 -= step * 100
+                print(f'x = {Player.x3}') 
+                print(f'y = {Player.y3}')
+                if Player.y3 <= 0:
+                    second_step = 0 - Player.y3
+                    Player.y3 = 0
+                    print(f'x = {Player.x3}')
+                    Player.x3 = second_step
+                    print(f'y = {Player.y3}')
+
+
+            if player_sequence == 3 and Player.x4 < 1000 and Player.y4 == 0:
+                Player.x4 += step * 100
+                print(f'x = {Player.x4}') 
+                print(f'y = {Player.y4}')
+                if Player.x4 >= 1000:
+                    second_step = Player.x4 - 1000
+                    Player.x4 = 900
+                    print(f'x = {Player.x4}')
+                    Player.y4 += second_step + 100
+                    print(f'y = {Player.y4}')
+
+            elif player_sequence == 3 and Player.x4 == 900 and Player.y4 != 0:
+                Player.y4 += step * 100
+                print(f'x = {Player.x4}') 
+                print(f'y = {Player.y4}')
+                if Player.y4 >= 800:
+                    second_step = Player.y4 - 800
+                    Player.y4 = 700
+                    print(f'y = {Player.y4}')
+                    Player.x4 -= second_step
+                    Player.x4 -= 100 
+                    print(f'x = {Player.x4}') 
+
+            elif player_sequence == 3 and Player.x4 < 1000 and Player.y4 == 700:
+                Player.x4 -= step * 100
+                print(f'x = {Player.x4}') 
+                print(f'y = {Player.y4}')
+                if Player.x4 <= 0:
+                    second_step = 0 - Player.x4 
+                    Player.x4 = 0
+                    print(f'x = {Player.x4}') 
+                    Player.y4 = 700 - second_step 
+                    print(f'y = {Player.y4}')
+                    
+            elif player_sequence == 3 and Player.x4 == 0 and Player.y4 <= 700:
+                Player.y4 -= step * 100
+                print(f'x = {Player.x4}') 
+                print(f'y = {Player.y4}')
+                if Player.y4 <= 0:
+                    second_step = 0 - Player.y4
+                    Player.y4 = 0
+                    print(f'x = {Player.x4}')
+                    Player.x4 = second_step
+                    print(f'y = {Player.y4}')
+
+    def show_players(): 
+        screen.blit(Player.p1, (Player.x1, Player.y1))
+        screen.blit(Player.p2, (Player.x2, Player.y2))
+        screen.blit(Player.p3, (Player.x3, Player.y3))
+        screen.blit(Player.p4, (Player.x4, Player.y4))  
+
+
 
     def player_movement(dice_num):
-        global dice_rolled,  player1_pos, player2_pos, player3_pos, player4_pos, player_sequence, changing_round
+        global dice_rolled,  player1_pos, player2_pos, player3_pos, player4_pos, player_sequence, changing_round, round_num
         player_sequence += 1
-        round_num = 1
+
         if dice_con and dice_rolled and player_sequence == 1:
             dice_rolled = False
             print(f"dice is {dice_num}")
@@ -788,19 +1115,211 @@ class Player:
         elif player_sequence == 5:
             changing_round = True
             round_num += 1
-            print(f"changing round = {changing_round}")
             print(f'{round_num} round started')
             player_sequence -= 5
 
 
 active_player_index = 0
 
+total_positions = num_row * 2 + num_col * 2 - 4  
 
-player1 = Player((255, 0, 0), 'circle', 0, 0, scale_factor=0.5)
-player2 = Player((0, 255, 0), 'square', 0, 0, scale_factor=0.5)
-player3 = Player((0, 0, 255), 'triangle', 0, 0, scale_factor=0.5)
-player4 = Player((255, 255, 0), 'star', 0, 0, scale_factor=0.5)
+
+player_names = ["player1", "player2", "player3", "player4"]
+
+# Create player instances
+player1 = (Player.p1, "Player 1", 1)
+player2 = (Player.p2, "Player 2", 2)
+player3 = (Player.p3, "Player 3", 3)
+player4 = (Player.p4, "Player 4", 4)
+
 players = [player1, player2, player3, player4]
+
+chance_rarities = {
+    "Common":[
+        "Advance to GO. Collect $300",
+        "It is your birthday. Collect $100 from each player",
+        "Go back to B.Ramly"
+    ],
+     "Rare": [
+        "Advance to Free parking. If you pass Go, collect $200.",
+        "Bank pays you dividend of $300.",
+        "Go to jail, move directly to jail,do not collect $200",
+    ],
+    "Epic": [
+        "Advance one step forward and rest. If the property is owned, no payment is required. If unclaimed, you have the option to purchase it from the bank. ",
+        "Seize any property of your choosing.",
+        "hired hacker cunningly snatches $200 from each player.",
+        "Experience the unexpected tremors of an earthquake, resulting in each player losing $1500.",
+    ]
+}
+
+
+def determine_chance_rarity(second_roll):
+    if second_roll >= 5:
+        return "Epic"
+    elif second_roll >= 3:
+        return "Rare"
+    else:
+        return "Common" 
+
+def handle_chance():
+
+    if player_sequence == 0:
+        if player1_pos == 12 or player1_pos == 28:
+            second_roll = random.randint(1,6)
+            chance_rarity = determine_chance_rarity(second_roll)
+            chance_card = random.choice(chance_rarities[chance_rarity])
+            print("Player 1 draws a", chance_rarity, "chance card:", chance_card)
+            if "Advance to GO" in chance_card:
+               Player.x1 = 0
+               Player.y1 = 0
+            elif "Collect $100 from each player" in chance_card:
+                pass  
+            elif "Go back to B.Ramly" in chance_card:
+                Player.x1 = 100
+                Player.y1 = 0
+            elif "Advance to Free parking" in chance_card:
+                Player.x1 = 900
+                Player.y1 = 0
+            elif "Bank pays you dividend of $300" in chance_card:
+                pass  
+            elif "Go to jail" in chance_card:
+                Player.x1 = 0
+                Player.y1 = 700
+            elif "Advance one step forward and rest" in chance_card:
+                if Player.x1 < 1000 and Player.y1 == 0:
+                    Player.x1 + 100      
+                elif Player.x1 == 900 and Player.y1 != 0:
+                      Player.y1 +  100
+                elif Player.x1 < 1000 and Player.y1 == 700:
+                      Player.x1 - 100
+                elif Player.x1 == 0 and Player.y1 <= 700:
+                      Player.y1 - 100
+            elif "Seize any property" in chance_card:
+                pass  
+            elif "snatches $200 from each player" in chance_card:
+                pass 
+            elif "earthquake" in chance_card:
+                pass  
+            
+        
+    if player_sequence == 1:
+        if player2_pos == 12 or player2_pos == 28:
+            second_roll = random.randint(1,6)
+            chance_rarity = determine_chance_rarity(second_roll)
+            chance_card = random.choice(chance_rarities[chance_rarity])
+            print("Player 2 draws a", chance_rarity, "chance card:", chance_card)
+            if "Advance to GO" in chance_card:
+               Player.x2 = 0
+               Player.y2 = 0
+            elif "Collect $100 from each player" in chance_card:
+                pass  
+            elif "Go back to B.Ramly" in chance_card:
+                Player.x2 = 100
+                Player.y2 = 0
+            elif "Advance to Free parking" in chance_card:
+                Player.x2 = 900
+                Player.y2 = 0
+            elif "Bank pays you dividend of $300" in chance_card:
+                pass  
+            elif "Go to jail" in chance_card:
+                Player.x2 = 0
+                Player.y2 = 700
+            elif "Advance one step forward and rest" in chance_card:
+                if Player.x2 < 1000 and Player.y2 == 0:
+                    Player.x2 + 100      
+                elif Player.x2 == 900 and Player.y2 != 0:
+                      Player.y2 +  100
+                elif Player.x2 < 1000 and Player.y2 == 700:
+                      Player.x2 - 100
+                elif Player.x2 == 0 and Player.y2 <= 700:
+                      Player.y2 - 100
+            elif "Seize any property" in chance_card:
+                pass  
+            elif "snatches $200 from each player" in chance_card:
+                pass 
+            elif "earthquake" in chance_card:
+                pass  
+            
+        
+    if player_sequence == 2:
+        if player3_pos == 12 or player3_pos == 28:
+            second_roll = random.randint(1,6)
+            chance_rarity = determine_chance_rarity(second_roll)
+            chance_card = random.choice(chance_rarities[chance_rarity])
+            print("Player 3 draws a", chance_rarity, "chance card:", chance_card)
+            if "Advance to GO" in chance_card:
+               Player.x3 = 0
+               Player.y3 = 0
+            elif "Collect $100 from each player" in chance_card:
+                pass  
+            elif "Go back to B.Ramly" in chance_card:
+                Player.x3 = 100
+                Player.y3 = 0
+            elif "Advance to Free parking" in chance_card:
+               Player.x3 = 900
+               Player.y3 = 0
+            elif "Bank pays you dividend of $300" in chance_card:
+                pass  
+            elif "Go to jail" in chance_card:
+                Player.x3 = 0
+                Player.y3 = 700
+            elif "Advance one step forward and rest" in chance_card:
+                if Player.x3 < 1000 and Player.y3 == 0:
+                    Player.x3 + 100      
+                elif Player.x3 == 900 and Player.y3 != 0:
+                      Player.y3 +  100
+                elif Player.x3 < 1000 and Player.y3 == 700:
+                      Player.x3 - 100
+                elif Player.x3 == 0 and Player.y3 <= 700:
+                      Player.y3 - 100
+            elif "Seize any property" in chance_card:
+                pass  
+            elif "snatches $200 from each player" in chance_card:
+                pass 
+            elif "earthquake" in chance_card:
+                pass  
+            
+
+    if player_sequence == 3:
+        if player4_pos == 12 or player4_pos == 28:
+            second_roll = random.randint(1,6)
+            chance_rarity = determine_chance_rarity(second_roll)
+            chance_card = random.choice(chance_rarities[chance_rarity])
+            print("Player 4 draws a", chance_rarity, "chance card:", chance_card)
+            if "Advance to GO" in chance_card:
+               Player.x4 = 0
+               Player.y4 = 0
+            elif "Collect $100 from each player" in chance_card:
+                pass  
+            elif "Go back to B.Ramly" in chance_card:
+                Player.x4 = 100
+                Player.y4 = 0
+            elif "Advance to Free parking" in chance_card:
+                Player.x4 = 900
+                Player.y4 = 0
+            elif "Bank pays you dividend of $300" in chance_card:
+                pass  
+            elif "Go to jail" in chance_card:
+                Player.x4 = 0
+                Player.y4 = 700
+            elif "Advance one step forward and rest" in chance_card:
+                if Player.x4 < 1000 and Player.y4 == 0:
+                    Player.x4 + 100      
+                elif Player.x4 == 900 and Player.y4 != 0:
+                      Player.y4 +  100
+                elif Player.x4 < 1000 and Player.y4 == 700:
+                      Player.x4 - 100
+                elif Player.x4 == 0 and Player.y4 <= 700:
+                      Player.y4 - 100
+            elif "Seize any property" in chance_card:
+                pass  
+            elif "snatches $200 from each player" in chance_card:
+                pass 
+            elif "earthquake" in chance_card:
+                pass  
+            
+
 
 
 # settings for the property
@@ -978,11 +1497,78 @@ class starting_menu:
     def title():
         screen.blit(starting_menu.start_title, (200, 100))
 
+    def loading_screen():
+        screen.blit(starting_menu.loading_title, (700, 700))
+
+    def showing_rule():
+        rule_num = 1
+        # using function to modify typewritter displaying effect
+        if rule_num == 1:
+            if starting_menu.counter1 < starting_menu.speed * len(starting_menu.rules_1):
+                starting_menu.counter1 += 1
+            elif starting_menu.counter1 >= starting_menu.speed * len(starting_menu.rules_1):
+                starting_menu.text_done = True
+            snip_rule1 = starting_menu.rule_font.render(
+                starting_menu.rules_1[0:starting_menu.counter1//starting_menu.speed], True, 'white')
+            screen.blit(snip_rule1, (100, 100))
+            if starting_menu.text_done:
+                starting_menu.text_done = False
+                rule_num += 1
+
+        if rule_num == 2:
+            if starting_menu.counter2 < starting_menu.speed * len(starting_menu.rules_2):
+                starting_menu.counter2 += 1
+            elif starting_menu.counter2 >= starting_menu.speed * len(starting_menu.rules_2):
+                starting_menu.text_done = True
+            snip_rule2 = starting_menu.rule_font.render(
+                starting_menu.rules_2[0:starting_menu.counter2//starting_menu.speed], True, 'white')
+            screen.blit(snip_rule2, (100, 160))
+            if starting_menu.text_done:
+                starting_menu.text_done = False
+                rule_num += 1
+        if rule_num == 3:
+            if starting_menu.counter3 < starting_menu.speed * len(starting_menu.rules_3):
+                starting_menu.counter3 += 1
+            elif starting_menu.counter3 >= starting_menu.speed * len(starting_menu.rules_3):
+                starting_menu.text_done = True
+            snip_rule3 = starting_menu.rule_font.render(
+                starting_menu.rules_3[0:starting_menu.counter3//starting_menu.speed], True, 'white')
+            screen.blit(snip_rule3, (100, 220))
+            if starting_menu.text_done:
+                starting_menu.text_done = False
+                rule_num += 1
+        if rule_num == 4:
+            if starting_menu.counter4 < starting_menu.speed * len(starting_menu.rules_4):
+                starting_menu.counter4 += 1
+            elif starting_menu.counter4 >= starting_menu.speed * len(starting_menu.rules_4):
+                starting_menu.text_done = True
+            snip_rule4 = starting_menu.rule_font.render(
+                starting_menu.rules_4[0:starting_menu.counter4//starting_menu.speed], True, 'white')
+            screen.blit(snip_rule4, (100, 280))
+            if starting_menu.text_done:
+                starting_menu.text_done = False
+                rule_num += 1
+
+        if rule_num == 5:
+            if starting_menu.counter5 < starting_menu.speed * len(starting_menu.rules_5):
+                starting_menu.counter5 += 1
+            elif starting_menu.counter5 >= starting_menu.speed * len(starting_menu.rules_5):
+                starting_menu.text_done = True
+            snip_rule5 = starting_menu.rule_font.render(
+                starting_menu.rules_5[0:starting_menu.counter5//starting_menu.speed], True, 'white')
+            screen.blit(snip_rule5, (100, 340))
+            if starting_menu.text_done:
+                starting_menu.text_done = False
+                rule_num += 1
+        if rule_num == 6:
+            screen.blit(starting_menu.rule_continue, (100, 400))
+
+
 map = Map(map_data)
 
 
 button_functions = [button_music.checkmusic, button_roll.checkroll,
-                    button_play.check_play, button_buy.check_buy, button_next.checkload_finish]
+                    button_play.check_play, button_buy.check_buy, button_next.checkload_finish, button_exit.check_exit]
 
 
 def handle_button_events(pos):
@@ -1014,6 +1600,10 @@ run = True
 while run:
     clock.tick(fps)
     screen.fill((0, 0, 0))
+    
+
+    if Button.exit_game:
+        run = False
 
     if Button.menu:
         button_play.update()
@@ -1032,6 +1622,7 @@ while run:
         Display.showing_properties_name()
         button_music.update()
         button_roll.update()
+        Player.show_players()
         economic.check_buying_valid()
         moving_sprites.draw(screen)
         moving_sprites.update()
@@ -1040,9 +1631,6 @@ while run:
             display_descriptions(description)
         else:
             show_description = False
-
-        for player in players:
-            player.draw()
 
         # Display.drawing_grid(100)
     else:
@@ -1053,33 +1641,23 @@ while run:
             pygame.quit()
             sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
-            button_music.checkmusic(pygame.mouse.get_pos())
-            button_roll.checkroll(pygame.mouse.get_pos())
-            button_play.check_play(pygame.mouse.get_pos())
-            button_buy.check_buy(pygame.mouse.get_pos())
-            if event.button == 1:  # Left mouse button
-                x, y = pygame.mouse.get_pos()
-                block_x, block_y = x // 100, y // 100
-                block = map_data[block_y][block_x]
-                if block in block_desctiptions:
-                    description = block_desctiptions[block]
-                    display_descriptions(description)
+            handle_button_events(pygame.mouse.get_pos())
+            display_description_block(pygame.mouse.get_pos())
+
         # if roll dice randomize a num
             if Button.rolling_con:
                 rand_a_dice()
                 dice_num = (random.randint(1, 6))
-
+                Player.move(dice_num)
                 Button.rolling_con = False
                 buy_clicked = False
                 # dice animating
                 dice.animate(dice_num)
                 Player.player_movement(dice_num)
-                if player_sequence != 5 and not changing_round:
+                
                     # Move the active player based on the dice roll
-                    players[active_player_index].move(dice_num)
-                    # Move to the next player
-                    active_player_index = (
-                        active_player_index + 1) % len(players)
+                    
+                    
 
             elif Button.is_buying_properties and not buy_clicked:
                 economic.buying_property()
@@ -1088,6 +1666,17 @@ while run:
                 Button.is_buying_properties == False
             else:
                 pass
+
+    # if player1_pos == 12 or player1_pos == 28:
+    #     handle_chance()
+    # if player2_pos == 12 or player2_pos == 28:
+    #     handle_chance()
+    # if player3_pos == 12 or player3_pos == 28:
+    #     handle_chance()
+    # if player4_pos == 12 or player4_pos == 28:
+    #     handle_chance()
+
+
 
     pygame.display.update()
 pygame.quit()
