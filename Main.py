@@ -26,7 +26,6 @@ num_col = 10
 white = 255, 255, 255
 black = 0, 0, 0
 grey = 179, 179, 179
-active_player_index = 0
 
 text_font = pygame.font.Font("HelveticaNeue.ttf", 20)
 smaller_font = pygame.font.Font("HelveticaNeue.ttf", 20)
@@ -897,187 +896,130 @@ class Player:
             second_step = int (0)
             global player_sequence
             #check whether the player is in the first row and move 
-            if player_sequence == 0 and Player.x1 < 1000 and Player.y1 == 0:
+            if player_sequence == 1 and Player.x1 < 1000 and Player.y1 == 0:
                 Player.x1 += step * 100
-                print(f'x = {Player.x1}') 
-                print(f'y = {Player.y1}')
                 # check if player exceed x boundary and needed to turn down
                 if Player.x1 >= 1000:
                     second_step = Player.x1 - 1000
                     Player.x1 = 900
-                    print(f'x = {Player.x1}') 
                     Player.y1 += second_step + 100
-                    print(f'y = {Player.y1}')
 
-            elif player_sequence == 0 and Player.x1 == 900 and Player.y1 != 0:
+            elif player_sequence == 1 and Player.x1 == 900 and Player.y1 != 0:
                 Player.y1 += step * 100
-                print(f'x = {Player.x1}') 
-                print(f'y = {Player.y1}')
                 if Player.y1 >= 800:
                     second_step = Player.y1 - 800
-                    Player.y1 = 700        
-                    print(f'x = {Player.x1}')            
+                    Player.y1 = 700              
                     Player.x1 -= second_step
                     Player.x1 -= 100 
-                    print(f'y = {Player.y1}')
 
-            elif player_sequence == 0 and Player.x1 < 1000 and Player.y1 == 700:
+            elif player_sequence == 1 and Player.x1 < 1000 and Player.y1 == 700:
                 Player.x1 -= step * 100
-                print(f'x = {Player.x1}') 
-                print(f'y = {Player.y1}')
                 if Player.x1 <= 0:
                     second_step = 0 - Player.x1 
                     Player.x1 = 0
-                    print(f'x = {Player.x1}') 
                     Player.y1 = 700 - second_step 
-                    print(f'y = {Player.y1}')
                     
-            elif player_sequence == 0 and Player.x1 == 0 and Player.y1 <= 700:
+            elif player_sequence == 1 and Player.x1 == 0 and Player.y1 <= 700:
                 Player.y1 -= step * 100
-                print(f'x = {Player.x1}') 
-                print(f'y = {Player.y1}')
                 if Player.y1 <= 0:
                     second_step = 0 - Player.y1
                     Player.y1 = 0
-                    print(f'x = {Player.x1}')
                     Player.x1 = second_step
-                    print(f'y = {Player.y1}')
+
 
             
-            if player_sequence == 1 and Player.x2 < 1000 and Player.y2 == 0:
+            if player_sequence == 2 and Player.x2 < 1000 and Player.y2 == 0:
                 Player.x2 += step * 100
-                print(f'x = {Player.x2}') 
-                print(f'y = {Player.y2}')
                 if Player.x2 >= 1000:
                     second_step = Player.x2 - 1000
                     Player.x2 = 900
-                    print(f'x = {Player.x2}')
                     Player.y2 += second_step + 100
-                    print(f'y = {Player.y2}')
 
-            elif player_sequence == 1 and Player.x2 == 900 and Player.y2 != 0:
+            elif player_sequence == 2 and Player.x2 == 900 and Player.y2 != 0:
                 Player.y2 += step * 100
-                print(f'x = {Player.x2}') 
-                print(f'y = {Player.y2}')
                 if Player.y2 >= 800:
                     second_step = Player.y2 - 800
                     Player.y2 = 700
-                    print(f'x = {Player.x2}') 
                     Player.x2 -= second_step
                     Player.x2 -= 100 
-                    print(f'y = {Player.y2}')
 
-            elif player_sequence == 1 and Player.x2 < 1000 and Player.y2 == 700:
+
+            elif player_sequence == 2 and Player.x2 < 1000 and Player.y2 == 700:
                 Player.x2 -= step * 100
-                print(f'x = {Player.x2}') 
-                print(f'y = {Player.y2}')
                 if Player.x2 <= 0:
                     second_step = 0 - Player.x2
                     Player.x2 = 0
-                    print(f'x = {Player.x2}')
                     Player.y2 = 700 - second_step 
-                    print(f'y = {Player.y2}')
 
-            elif player_sequence == 1 and Player.x2 == 0 and Player.y2 <= 700:
+            elif player_sequence == 2 and Player.x2 == 0 and Player.y2 <= 700:
                 Player.y2 -= step * 100
-                print(f'x = {Player.x2}') 
-                print(f'y = {Player.y2}')
                 if Player.y2 <= 0:
                     second_step = 0 - Player.y2
                     Player.y2 = 0
-                    print(f'x = {Player.x2}')
                     Player.x2 = second_step
-                    print(f'y = {Player.y2}')
+
                   
 
-            if player_sequence == 2 and Player.x3 < 1000 and Player.y3 == 0:
+            if player_sequence == 3 and Player.x3 < 1000 and Player.y3 == 0:
                 Player.x3 += step * 100
                 if Player.x3 >= 1000:
                     second_step = Player.x3 - 1000
                     Player.x3 = 900
-                    print(f'x = {Player.x3}')
                     Player.y3 += second_step + 100
-                    print(f'y = {Player.y3}')
 
-            elif player_sequence == 2 and Player.x3 == 900 and Player.y3 != 0:
+
+            elif player_sequence == 3 and Player.x3 == 900 and Player.y3 != 0:
                 Player.y3 += step * 100
-                print(f'x = {Player.x3}') 
-                print(f'y = {Player.y3}')
                 if Player.y3 >= 800:
                     second_step = Player.y3 - 800
                     Player.y3 = 700
-                    print(f'y = {Player.y3}')
                     Player.x3 -= second_step
                     Player.x3 -= 100 
-                    print(f'x = {Player.x3}') 
 
-            elif player_sequence == 2 and Player.x3 < 1000 and Player.y3 == 700:
+
+            elif player_sequence == 3 and Player.x3 < 1000 and Player.y3 == 700:
                 Player.x3 -= step * 100
-                print(f'x = {Player.x3}') 
-                print(f'y = {Player.y3}')
                 if Player.x3 <= 0:
                     second_step = 0 - Player.x3
                     Player.x3 = 0
-                    print(f'x = {Player.x3}') 
                     Player.y3 = 700 - second_step 
-                    print(f'y = {Player.y3}')
                     
-            elif player_sequence == 2 and Player.x3 == 0 and Player.y3 <= 700:
+            elif player_sequence == 3 and Player.x3 == 0 and Player.y3 <= 700:
                 Player.y3 -= step * 100
-                print(f'x = {Player.x3}') 
-                print(f'y = {Player.y3}')
                 if Player.y3 <= 0:
                     second_step = 0 - Player.y3
                     Player.y3 = 0
-                    print(f'x = {Player.x3}')
                     Player.x3 = second_step
-                    print(f'y = {Player.y3}')
 
 
-            if player_sequence == 3 and Player.x4 < 1000 and Player.y4 == 0:
+            if player_sequence == 4 and Player.x4 < 1000 and Player.y4 == 0:
                 Player.x4 += step * 100
-                print(f'x = {Player.x4}') 
-                print(f'y = {Player.y4}')
                 if Player.x4 >= 1000:
                     second_step = Player.x4 - 1000
                     Player.x4 = 900
-                    print(f'x = {Player.x4}')
                     Player.y4 += second_step + 100
-                    print(f'y = {Player.y4}')
 
-            elif player_sequence == 3 and Player.x4 == 900 and Player.y4 != 0:
+            elif player_sequence == 4 and Player.x4 == 900 and Player.y4 != 0:
                 Player.y4 += step * 100
-                print(f'x = {Player.x4}') 
-                print(f'y = {Player.y4}')
                 if Player.y4 >= 800:
                     second_step = Player.y4 - 800
                     Player.y4 = 700
-                    print(f'y = {Player.y4}')
                     Player.x4 -= second_step
                     Player.x4 -= 100 
-                    print(f'x = {Player.x4}') 
 
-            elif player_sequence == 3 and Player.x4 < 1000 and Player.y4 == 700:
+            elif player_sequence == 4 and Player.x4 < 1000 and Player.y4 == 700:
                 Player.x4 -= step * 100
-                print(f'x = {Player.x4}') 
-                print(f'y = {Player.y4}')
                 if Player.x4 <= 0:
                     second_step = 0 - Player.x4 
                     Player.x4 = 0
-                    print(f'x = {Player.x4}') 
                     Player.y4 = 700 - second_step 
-                    print(f'y = {Player.y4}')
                     
-            elif player_sequence == 3 and Player.x4 == 0 and Player.y4 <= 700:
+            elif player_sequence == 4 and Player.x4 == 0 and Player.y4 <= 700:
                 Player.y4 -= step * 100
-                print(f'x = {Player.x4}') 
-                print(f'y = {Player.y4}')
                 if Player.y4 <= 0:
                     second_step = 0 - Player.y4
                     Player.y4 = 0
-                    print(f'x = {Player.x4}')
                     Player.x4 = second_step
-                    print(f'y = {Player.y4}')
 
     def show_players(): 
         screen.blit(Player.p1, (Player.x1, Player.y1))
@@ -2017,16 +1959,11 @@ while run:
                     # dice animating
                     dice.animate(dice_num)
                     Player.player_movement(dice_num)
-                    Player.move(dice_num)
                     Button.rolling_con = False
                     buy_clicked = False
 
                 if player_sequence != 5 and not changing_round and not paying:
-                    # Move the active player based on the dice roll
-                    players[active_player_index].move(dice_num)
-                    # Move to the next player
-                    active_player_index = (
-                        active_player_index + 1) % len(players)
+                    Player.move(dice_num)
                     economic.checking_rent_valid()
 
             elif Button.is_buying_properties and not buy_clicked:
