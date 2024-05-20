@@ -114,15 +114,6 @@ class Property:
         self.base_rent = base_rent
         self.owner = None
 
-    def calculate_rent(self):
-        if self.owner:
-            owned_properties = sum(
-                1 for prop in property if prop.owner == self.owner)
-            rent = self.base_rent * (2 ** (owned_properties - 1))
-            return rent
-        else:
-            return 0
-
 
 # Define property
 property = [
@@ -198,9 +189,6 @@ class Display:
     price12_t = text_font.render("$ 2200", True, (black))
     price13_t = text_font.render("$ 2400", True, (black))
     price14_t = text_font.render("$ 2500", True, (black))
-
-    # price_t = smaller_font.render(f"{Pricelist}", True, (white))
-    # print(Pricelist)
 
     def rotate_text(text, angle):
         return pygame.transform.rotate(text, angle)
@@ -355,7 +343,7 @@ dice_rolled = False
 changing_round = False
 buy_clicked = False
 pay_clicked = False
-
+upgrade_clicked = False
 
 class Button():
     menu = True
@@ -364,6 +352,7 @@ class Button():
     rolling_con = False
     is_buying_properties = False
     is_paying_rent = False
+    is_upgrading_property = False
 
     def __init__(self, image_on, image_off,  x_pos, y_pos):
         self.image_on = image_on
@@ -407,6 +396,10 @@ class Button():
         if self.rect.collidepoint(position):
             Button.is_paying_rent = True
 
+    def check_upgrade(self, position):
+        if self.rect.collidepoint(position):
+            Button.is_upgrading_property = True
+
     def toggleMusicState(self):
         if self.is_music_on:
             pygame.mixer.music.pause()
@@ -424,6 +417,7 @@ button_exit = pygame.image.load('pic/exit.png')
 button_next = pygame.image.load('pic/next.png')
 button_buy = pygame.image.load('pic/buy.png')
 button_pay = pygame.image.load('pic/pay.png')
+button_upgrade = pygame.image.load('pic/upgrade.png')
 # adjust size
 button_surface_on = pygame.transform.scale(button_surface_on, (40, 40))
 button_surface_off = pygame.transform.scale(button_surface_off, (40, 40))
@@ -433,6 +427,7 @@ button_pay = pygame.transform.scale(button_pay, (120, 140))
 button_exit = pygame.transform.scale(button_exit, (240, 200))
 button_next = pygame.transform.scale(button_next, (120, 100))
 button_buy = pygame.transform.scale(button_buy, (120, 100))
+button_upgrade = pygame.transform.scale(button_upgrade, (120, 100))
 # adjust location
 button_music = Button(button_surface_on, button_surface_off, 880, 120)
 button_roll = Button(button_roll, button_roll, 800, 650)
@@ -441,6 +436,7 @@ button_exit = Button(button_exit, button_exit, 300, 600)
 button_next = Button(button_next, button_next, 800, 600)
 button_buy = Button(button_buy, button_buy, 800, 550)
 button_pay = Button(button_pay, button_pay, 800, 550)
+button_upgrade = Button(button_upgrade, button_upgrade, 600, 550)
 
 # add background music
 pygame.mixer.music.load('Sound/BGM.mp3')
@@ -1017,7 +1013,8 @@ player1_broke = False
 player2_broke = False
 player3_broke = False
 player4_broke = False
-
+property_upgrade_status = 0
+upgrade_cost = int()
 
 class economic:
     eco_dis1 = str()
@@ -1052,7 +1049,6 @@ class economic:
             pass
 
     def buying_property():
-
         if player_sequence == 1 and player1_broke == False:
             price = Pricelist[player1_pos]
             print(f"price ={price}")
@@ -1452,8 +1448,8 @@ class starting_menu:
 map = Map(map_data)
 
 
-button_functions = [button_music.checkmusic, button_roll.checkroll,
-                    button_play.check_play, button_buy.check_buy, button_next.checkload_finish, button_exit.check_exit]
+button_functions = [button_music.checkmusic, button_roll.checkroll, button_play.check_play,
+                    button_buy.check_buy, button_next.checkload_finish, button_exit.check_exit,button_upgrade.check_upgrade]
 
 
 def handle_button_events(pos):
@@ -1553,7 +1549,8 @@ while run:
 
                 buy_clicked = True
                 Button.is_buying_properties == False
-            else:
+            elif Button.is_upgrading_property and not upgrade_clicked:
+                economic.upgrade_property()
                 pass
 
     pygame.display.update()
