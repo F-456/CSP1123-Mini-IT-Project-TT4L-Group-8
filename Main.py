@@ -364,6 +364,7 @@ buy_clicked = False
 pay_clicked = False
 upgrade_clicked = False
 
+
 class Button():
     global paying
     menu = True
@@ -371,7 +372,7 @@ class Button():
     loading = True
     rolling_con = False
     is_buying_properties = False
-    is_paying_rent = False
+    paying = False
     is_upgrading_property = False
 
     def __init__(self, image_on, image_off,  x_pos, y_pos):
@@ -1356,6 +1357,7 @@ player4_broke = False
 property_upgrade_status = 0
 upgrade_cost = int()
 
+
 class economic:
     eco_dis1 = str()
     eco_dis2 = str()
@@ -1373,6 +1375,7 @@ class economic:
     # player will not be able to click buy button if tile is not available to sell
     showing_pay_button = False
     # checking for price is 0 for validity of buying
+
     def check_buying_valid():
         if player_sequence == 1 and player1_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
             if Pricelist[player1_pos] != 0:
@@ -1847,7 +1850,7 @@ map = Map(map_data)
 
 
 button_functions = [button_music.checkmusic, button_roll.checkroll, button_play.check_play,
-                    button_buy.check_buy, button_next.checkload_finish, button_exit.check_exit,button_upgrade.check_upgrade]
+                    button_buy.check_buy, button_next.checkload_finish, button_exit.check_exit, button_upgrade.check_upgrade]
 
 
 def handle_button_events(pos):
