@@ -793,10 +793,10 @@ player4_pos = 0
 player_sequence = 0
 
 
-go_position = (0, 0)  #position for "GO"
-bramly_position = (2, 1)  #position for "B.Ramly"
-free_parking_position = (9, 1)  #position for Free Parking
-jail_position = (1, 8)  #position for Jail
+go_position = (0, 0)  # position for "GO"
+bramly_position = (2, 1)  # position for "B.Ramly"
+free_parking_position = (9, 1)  # position for Free Parking
+jail_position = (1, 8)  # position for Jail
 
 
 class Dice(pygame.sprite.Sprite):
@@ -847,7 +847,6 @@ dice = Dice(750, 350)
 moving_sprites.add(dice)
 
 
-
 class Player:
     pic1 = pygame.image.load('pic/player1.png').convert_alpha()
     pic2 = pygame.image.load('pic/player2.png').convert_alpha()
@@ -861,8 +860,8 @@ class Player:
     h3 = pic3.get_height()
     w4 = pic4.get_width()
     h4 = pic4.get_height()
-    x1 = 0 
-    y1 = 0 
+    x1 = 0
+    y1 = 0
     x2 = 0
     y2 = 0
     x3 = 0
@@ -875,157 +874,141 @@ class Player:
     p3 = pygame.transform.scale(pic3, (int(w3 * 0.35), int(h3 * 0.35)))
     p4 = pygame.transform.scale(pic4, (int(w4 * 0.35), int(h4 * 0.35)))
 
-    
-
-    
-
     def __init__(self, image, player_name, index):
         self.image = image
-        self.rect  = self.image.get_rect()
+        self.rect = self.image.get_rect()
         self.dice_num = dice_num
         self.player_name = player_name
         self.index = index
 
-
-
     def move(dice_num):
-            step = int(0)
-            step = dice_num
-            second_step = int (0)
-            global player_sequence
-            #check whether the player is in the first row and move 
-            if player_sequence == 1 and Player.x1 < 1000 and Player.y1 == 0:
-                Player.x1 += step * 100
-                # check if player exceed x boundary and needed to turn down
-                if Player.x1 >= 1000:
-                    second_step = Player.x1 - 1000
-                    Player.x1 = 900
-                    Player.y1 += second_step + 100
+        step = int(0)
+        step = dice_num
+        second_step = int(0)
+        global player_sequence
+        # check whether the player is in the first row and move
+        if player_sequence == 1 and Player.x1 < 1000 and Player.y1 == 0:
+            Player.x1 += step * 100
+            # check if player exceed x boundary and needed to turn down
+            if Player.x1 >= 1000:
+                second_step = Player.x1 - 1000
+                Player.x1 = 900
+                Player.y1 += second_step + 100
 
-            elif player_sequence == 1 and Player.x1 == 900 and Player.y1 != 0:
-                Player.y1 += step * 100
-                if Player.y1 >= 800:
-                    second_step = Player.y1 - 800
-                    Player.y1 = 700              
-                    Player.x1 -= second_step
-                    Player.x1 -= 100 
+        elif player_sequence == 1 and Player.x1 == 900 and Player.y1 != 0:
+            Player.y1 += step * 100
+            if Player.y1 >= 800:
+                second_step = Player.y1 - 800
+                Player.y1 = 700
+                Player.x1 -= second_step
+                Player.x1 -= 100
 
-            elif player_sequence == 1 and Player.x1 < 1000 and Player.y1 == 700:
-                Player.x1 -= step * 100
-                if Player.x1 <= 0:
-                    second_step = 0 - Player.x1 
-                    Player.x1 = 0
-                    Player.y1 = 700 - second_step 
-                    
-            elif player_sequence == 1 and Player.x1 == 0 and Player.y1 <= 700:
-                Player.y1 -= step * 100
-                if Player.y1 <= 0:
-                    second_step = 0 - Player.y1
-                    Player.y1 = 0
-                    Player.x1 = second_step
+        elif player_sequence == 1 and Player.x1 < 1000 and Player.y1 == 700:
+            Player.x1 -= step * 100
+            if Player.x1 <= 0:
+                second_step = 0 - Player.x1
+                Player.x1 = 0
+                Player.y1 = 700 - second_step
 
+        elif player_sequence == 1 and Player.x1 == 0 and Player.y1 <= 700:
+            Player.y1 -= step * 100
+            if Player.y1 <= 0:
+                second_step = 0 - Player.y1
+                Player.y1 = 0
+                Player.x1 = second_step
 
-            
-            if player_sequence == 2 and Player.x2 < 1000 and Player.y2 == 0:
-                Player.x2 += step * 100
-                if Player.x2 >= 1000:
-                    second_step = Player.x2 - 1000
-                    Player.x2 = 900
-                    Player.y2 += second_step + 100
+        if player_sequence == 2 and Player.x2 < 1000 and Player.y2 == 0:
+            Player.x2 += step * 100
+            if Player.x2 >= 1000:
+                second_step = Player.x2 - 1000
+                Player.x2 = 900
+                Player.y2 += second_step + 100
 
-            elif player_sequence == 2 and Player.x2 == 900 and Player.y2 != 0:
-                Player.y2 += step * 100
-                if Player.y2 >= 800:
-                    second_step = Player.y2 - 800
-                    Player.y2 = 700
-                    Player.x2 -= second_step
-                    Player.x2 -= 100 
+        elif player_sequence == 2 and Player.x2 == 900 and Player.y2 != 0:
+            Player.y2 += step * 100
+            if Player.y2 >= 800:
+                second_step = Player.y2 - 800
+                Player.y2 = 700
+                Player.x2 -= second_step
+                Player.x2 -= 100
 
+        elif player_sequence == 2 and Player.x2 < 1000 and Player.y2 == 700:
+            Player.x2 -= step * 100
+            if Player.x2 <= 0:
+                second_step = 0 - Player.x2
+                Player.x2 = 0
+                Player.y2 = 700 - second_step
 
-            elif player_sequence == 2 and Player.x2 < 1000 and Player.y2 == 700:
-                Player.x2 -= step * 100
-                if Player.x2 <= 0:
-                    second_step = 0 - Player.x2
-                    Player.x2 = 0
-                    Player.y2 = 700 - second_step 
+        elif player_sequence == 2 and Player.x2 == 0 and Player.y2 <= 700:
+            Player.y2 -= step * 100
+            if Player.y2 <= 0:
+                second_step = 0 - Player.y2
+                Player.y2 = 0
+                Player.x2 = second_step
 
-            elif player_sequence == 2 and Player.x2 == 0 and Player.y2 <= 700:
-                Player.y2 -= step * 100
-                if Player.y2 <= 0:
-                    second_step = 0 - Player.y2
-                    Player.y2 = 0
-                    Player.x2 = second_step
+        if player_sequence == 3 and Player.x3 < 1000 and Player.y3 == 0:
+            Player.x3 += step * 100
+            if Player.x3 >= 1000:
+                second_step = Player.x3 - 1000
+                Player.x3 = 900
+                Player.y3 += second_step + 100
 
-                  
+        elif player_sequence == 3 and Player.x3 == 900 and Player.y3 != 0:
+            Player.y3 += step * 100
+            if Player.y3 >= 800:
+                second_step = Player.y3 - 800
+                Player.y3 = 700
+                Player.x3 -= second_step
+                Player.x3 -= 100
 
-            if player_sequence == 3 and Player.x3 < 1000 and Player.y3 == 0:
-                Player.x3 += step * 100
-                if Player.x3 >= 1000:
-                    second_step = Player.x3 - 1000
-                    Player.x3 = 900
-                    Player.y3 += second_step + 100
+        elif player_sequence == 3 and Player.x3 < 1000 and Player.y3 == 700:
+            Player.x3 -= step * 100
+            if Player.x3 <= 0:
+                second_step = 0 - Player.x3
+                Player.x3 = 0
+                Player.y3 = 700 - second_step
 
+        elif player_sequence == 3 and Player.x3 == 0 and Player.y3 <= 700:
+            Player.y3 -= step * 100
+            if Player.y3 <= 0:
+                second_step = 0 - Player.y3
+                Player.y3 = 0
+                Player.x3 = second_step
 
-            elif player_sequence == 3 and Player.x3 == 900 and Player.y3 != 0:
-                Player.y3 += step * 100
-                if Player.y3 >= 800:
-                    second_step = Player.y3 - 800
-                    Player.y3 = 700
-                    Player.x3 -= second_step
-                    Player.x3 -= 100 
+        if player_sequence == 4 and Player.x4 < 1000 and Player.y4 == 0:
+            Player.x4 += step * 100
+            if Player.x4 >= 1000:
+                second_step = Player.x4 - 1000
+                Player.x4 = 900
+                Player.y4 += second_step + 100
 
+        elif player_sequence == 4 and Player.x4 == 900 and Player.y4 != 0:
+            Player.y4 += step * 100
+            if Player.y4 >= 800:
+                second_step = Player.y4 - 800
+                Player.y4 = 700
+                Player.x4 -= second_step
+                Player.x4 -= 100
 
-            elif player_sequence == 3 and Player.x3 < 1000 and Player.y3 == 700:
-                Player.x3 -= step * 100
-                if Player.x3 <= 0:
-                    second_step = 0 - Player.x3
-                    Player.x3 = 0
-                    Player.y3 = 700 - second_step 
-                    
-            elif player_sequence == 3 and Player.x3 == 0 and Player.y3 <= 700:
-                Player.y3 -= step * 100
-                if Player.y3 <= 0:
-                    second_step = 0 - Player.y3
-                    Player.y3 = 0
-                    Player.x3 = second_step
+        elif player_sequence == 4 and Player.x4 < 1000 and Player.y4 == 700:
+            Player.x4 -= step * 100
+            if Player.x4 <= 0:
+                second_step = 0 - Player.x4
+                Player.x4 = 0
+                Player.y4 = 700 - second_step
 
+        elif player_sequence == 4 and Player.x4 == 0 and Player.y4 <= 700:
+            Player.y4 -= step * 100
+            if Player.y4 <= 0:
+                second_step = 0 - Player.y4
+                Player.y4 = 0
+                Player.x4 = second_step
 
-            if player_sequence == 4 and Player.x4 < 1000 and Player.y4 == 0:
-                Player.x4 += step * 100
-                if Player.x4 >= 1000:
-                    second_step = Player.x4 - 1000
-                    Player.x4 = 900
-                    Player.y4 += second_step + 100
-
-            elif player_sequence == 4 and Player.x4 == 900 and Player.y4 != 0:
-                Player.y4 += step * 100
-                if Player.y4 >= 800:
-                    second_step = Player.y4 - 800
-                    Player.y4 = 700
-                    Player.x4 -= second_step
-                    Player.x4 -= 100 
-
-            elif player_sequence == 4 and Player.x4 < 1000 and Player.y4 == 700:
-                Player.x4 -= step * 100
-                if Player.x4 <= 0:
-                    second_step = 0 - Player.x4 
-                    Player.x4 = 0
-                    Player.y4 = 700 - second_step 
-                    
-            elif player_sequence == 4 and Player.x4 == 0 and Player.y4 <= 700:
-                Player.y4 -= step * 100
-                if Player.y4 <= 0:
-                    second_step = 0 - Player.y4
-                    Player.y4 = 0
-                    Player.x4 = second_step
-
-    def show_players(): 
+    def show_players():
         screen.blit(Player.p1, (Player.x1, Player.y1))
         screen.blit(Player.p2, (Player.x2, Player.y2))
         screen.blit(Player.p3, (Player.x3, Player.y3))
-        screen.blit(Player.p4, (Player.x4, Player.y4))  
-
-
+        screen.blit(Player.p4, (Player.x4, Player.y4))
 
     def player_movement(dice_num):
         global dice_rolled,  player1_pos, player2_pos, player3_pos, player4_pos, player_sequence, changing_round, round_num
@@ -1093,7 +1076,7 @@ class Player:
 
 active_player_index = 0
 
-total_positions = num_row * 2 + num_col * 2 - 4  
+total_positions = num_row * 2 + num_col * 2 - 4
 
 
 player_names = ["player1", "player2", "player3", "player4"]
@@ -1107,12 +1090,12 @@ player4 = (Player.p4, "Player 4", 4)
 players = [player1, player2, player3, player4]
 
 chance_rarities = {
-    "Common":[
+    "Common": [
         "Advance to GO. Collect $300",
         "It is your birthday. Collect $100 from each player",
         "Go back to B.Ramly"
     ],
-     "Rare": [
+    "Rare": [
         "Advance to Free parking. If you pass Go, collect $200.",
         "Bank pays you dividend of $300.",
         "Go to jail, move directly to jail,do not collect $200",
@@ -1132,21 +1115,23 @@ def determine_chance_rarity(second_roll):
     elif second_roll >= 3:
         return "Rare"
     else:
-        return "Common" 
+        return "Common"
+
 
 def handle_chance():
 
     if player_sequence == 0:
         if player1_pos == 12 or player1_pos == 28:
-            second_roll = random.randint(1,6)
+            second_roll = random.randint(1, 6)
             chance_rarity = determine_chance_rarity(second_roll)
             chance_card = random.choice(chance_rarities[chance_rarity])
-            print("Player 1 draws a", chance_rarity, "chance card:", chance_card)
+            print("Player 1 draws a", chance_rarity,
+                  "chance card:", chance_card)
             if "Advance to GO" in chance_card:
-               Player.x1 = 0
-               Player.y1 = 0
+                Player.x1 = 0
+                Player.y1 = 0
             elif "Collect $100 from each player" in chance_card:
-                pass  
+                pass
             elif "Go back to B.Ramly" in chance_card:
                 Player.x1 = 100
                 Player.y1 = 0
@@ -1154,38 +1139,38 @@ def handle_chance():
                 Player.x1 = 900
                 Player.y1 = 0
             elif "Bank pays you dividend of $300" in chance_card:
-                pass  
+                pass
             elif "Go to jail" in chance_card:
                 Player.x1 = 0
                 Player.y1 = 700
             elif "Advance one step forward and rest" in chance_card:
                 if Player.x1 < 1000 and Player.y1 == 0:
-                    Player.x1 + 100      
+                    Player.x1 + 100
                 elif Player.x1 == 900 and Player.y1 != 0:
-                      Player.y1 +  100
+                    Player.y1 + 100
                 elif Player.x1 < 1000 and Player.y1 == 700:
-                      Player.x1 - 100
+                    Player.x1 - 100
                 elif Player.x1 == 0 and Player.y1 <= 700:
-                      Player.y1 - 100
+                    Player.y1 - 100
             elif "Seize any property" in chance_card:
-                pass  
+                pass
             elif "snatches $200 from each player" in chance_card:
-                pass 
+                pass
             elif "earthquake" in chance_card:
-                pass  
-            
-        
+                pass
+
     if player_sequence == 1:
         if player2_pos == 12 or player2_pos == 28:
-            second_roll = random.randint(1,6)
+            second_roll = random.randint(1, 6)
             chance_rarity = determine_chance_rarity(second_roll)
             chance_card = random.choice(chance_rarities[chance_rarity])
-            print("Player 2 draws a", chance_rarity, "chance card:", chance_card)
+            print("Player 2 draws a", chance_rarity,
+                  "chance card:", chance_card)
             if "Advance to GO" in chance_card:
-               Player.x2 = 0
-               Player.y2 = 0
+                Player.x2 = 0
+                Player.y2 = 0
             elif "Collect $100 from each player" in chance_card:
-                pass  
+                pass
             elif "Go back to B.Ramly" in chance_card:
                 Player.x2 = 100
                 Player.y2 = 0
@@ -1193,77 +1178,77 @@ def handle_chance():
                 Player.x2 = 900
                 Player.y2 = 0
             elif "Bank pays you dividend of $300" in chance_card:
-                pass  
+                pass
             elif "Go to jail" in chance_card:
                 Player.x2 = 0
                 Player.y2 = 700
             elif "Advance one step forward and rest" in chance_card:
                 if Player.x2 < 1000 and Player.y2 == 0:
-                    Player.x2 + 100      
+                    Player.x2 + 100
                 elif Player.x2 == 900 and Player.y2 != 0:
-                      Player.y2 +  100
+                    Player.y2 + 100
                 elif Player.x2 < 1000 and Player.y2 == 700:
-                      Player.x2 - 100
+                    Player.x2 - 100
                 elif Player.x2 == 0 and Player.y2 <= 700:
-                      Player.y2 - 100
+                    Player.y2 - 100
             elif "Seize any property" in chance_card:
-                pass  
+                pass
             elif "snatches $200 from each player" in chance_card:
-                pass 
+                pass
             elif "earthquake" in chance_card:
-                pass  
-            
-        
+                pass
+
     if player_sequence == 2:
         if player3_pos == 12 or player3_pos == 28:
-            second_roll = random.randint(1,6)
+            second_roll = random.randint(1, 6)
             chance_rarity = determine_chance_rarity(second_roll)
             chance_card = random.choice(chance_rarities[chance_rarity])
-            print("Player 3 draws a", chance_rarity, "chance card:", chance_card)
+            print("Player 3 draws a", chance_rarity,
+                  "chance card:", chance_card)
             if "Advance to GO" in chance_card:
-               Player.x3 = 0
-               Player.y3 = 0
+                Player.x3 = 0
+                Player.y3 = 0
             elif "Collect $100 from each player" in chance_card:
-                pass  
+                pass
             elif "Go back to B.Ramly" in chance_card:
                 Player.x3 = 100
                 Player.y3 = 0
             elif "Advance to Free parking" in chance_card:
-               Player.x3 = 900
-               Player.y3 = 0
+                Player.x3 = 900
+                Player.y3 = 0
             elif "Bank pays you dividend of $300" in chance_card:
-                pass  
+                pass
             elif "Go to jail" in chance_card:
                 Player.x3 = 0
                 Player.y3 = 700
             elif "Advance one step forward and rest" in chance_card:
                 if Player.x3 < 1000 and Player.y3 == 0:
-                    Player.x3 + 100      
+                    Player.x3 + 100
                 elif Player.x3 == 900 and Player.y3 != 0:
-                      Player.y3 +  100
+                    Player.y3 + 100
                 elif Player.x3 < 1000 and Player.y3 == 700:
-                      Player.x3 - 100
+                    Player.x3 - 100
                 elif Player.x3 == 0 and Player.y3 <= 700:
-                      Player.y3 - 100
+                    Player.y3 - 100
             elif "Seize any property" in chance_card:
-                pass  
+                pass
             elif "snatches $200 from each player" in chance_card:
-                pass 
+                pass
             elif "earthquake" in chance_card:
-                pass  
-            
+                pass
 
     if player_sequence == 3:
         if player4_pos == 12 or player4_pos == 28:
-            second_roll = random.randint(1,6)
+            second_roll = random.randint(1, 6)
             chance_rarity = determine_chance_rarity(second_roll)
             chance_card = random.choice(chance_rarities[chance_rarity])
-            print("Player 4 draws a", chance_rarity, "chance card:", chance_card)
+            print("Player 4 draws a", chance_rarity,
+                  "chance card:", chance_card)
             if "Advance to GO" in chance_card:
-               Player.x4 = 0
-               Player.y4 = 0
+                Player.x4 = 0
+                Player.y4 = 0
             elif "Collect $100 from each player" in chance_card:
-                pass  
+                pass
             elif "Go back to B.Ramly" in chance_card:
                 Player.x4 = 100
                 Player.y4 = 0
@@ -1271,31 +1256,30 @@ def handle_chance():
                 Player.x4 = 900
                 Player.y4 = 0
             elif "Bank pays you dividend of $300" in chance_card:
-                pass  
+                pass
             elif "Go to jail" in chance_card:
                 Player.x4 = 0
                 Player.y4 = 700
             elif "Advance one step forward and rest" in chance_card:
                 if Player.x4 < 1000 and Player.y4 == 0:
-                    Player.x4 + 100      
+                    Player.x4 + 100
                 elif Player.x4 == 900 and Player.y4 != 0:
-                      Player.y4 +  100
+                    Player.y4 + 100
                 elif Player.x4 < 1000 and Player.y4 == 700:
-                      Player.x4 - 100
+                    Player.x4 - 100
                 elif Player.x4 == 0 and Player.y4 <= 700:
-                      Player.y4 - 100
+                    Player.y4 - 100
             elif "Seize any property" in chance_card:
-                pass  
+                pass
             elif "snatches $200 from each player" in chance_card:
-                pass 
+                pass
             elif "earthquake" in chance_card:
-                pass  
-            
-
+                pass
 
 
 # settings for the property
 price = 0
+# price list is for player to buy property according to their price
 Pricelist = [0, 500, 600, 700, 0, 2100, 800, 900, 1000, 0, 1200, 1300, 0, 1400, 1500, 1600,
              0, 1800, 1900, 2000, 0, 2150, 2200, 2400, 2500, 0, 2600, 2800, 0, 3000, 3500, 4000]
 
@@ -1388,7 +1372,7 @@ class economic:
     # checking for validity in buying property
     # player will not be able to click buy button if tile is not available to sell
     showing_pay_button = False
-
+    # checking for price is 0 for validity of buying
     def check_buying_valid():
         if player_sequence == 1 and player1_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
             if Pricelist[player1_pos] != 0:
@@ -1558,6 +1542,7 @@ class economic:
             screen.blit(dis_eco4, (120, 630))
             screen.blit(ldis_eco4, (120, 650))
             screen.blit(L_dis_eco4, (120, 670))
+    # calling a function for the game
 
     def checking_rent_valid():
         global paying
@@ -1895,7 +1880,6 @@ while run:
     clock.tick(fps)
     screen.fill((0, 0, 0))
 
-
     if Button.exit_game:
         run = False
 
@@ -1981,8 +1965,6 @@ while run:
     #     handle_chance()
     # if player4_pos == 12 or player4_pos == 28:
     #     handle_chance()
-
-
 
     pygame.display.update()
 pygame.quit()
