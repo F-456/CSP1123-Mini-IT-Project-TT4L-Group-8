@@ -109,52 +109,6 @@ def wrap_text(text, font, max_width):
     return lines
 
 
-class Property:
-    def __init__(self, name, price, base_rent):
-        self.name = name
-        self.price = price
-        self.base_rent = base_rent
-        self.owner = None
-
-    def calculate_rent(self):
-        if self.owner:
-            owned_properties = sum(
-                1 for prop in property if prop.owner == self.owner)
-            rent = self.base_rent * (2 ** (owned_properties - 1))
-            return rent
-        else:
-            return 0
-
-
-# Define property
-property = [
-    Property("Ramly Burger", 500, 10),
-    Property("99 Speedmarket", 600, 20),
-    Property("Aeon Big", 700, 35),
-    Property("TNB", 2100, 40),
-    Property("Batu Caves", 800, 50),
-    Property("Pulau Langkawi", 900, 55),
-    Property("Cameron Highland", 1000, 65),
-    Property("Gunung Mulu", 1200, 80),
-    Property("Mount Kinabalu", 1300, 85),
-    Property("Johor Bahru", 1400, 100),
-    Property("George Town", 1500, 110),
-    Property("Melaka", 1600, 120),
-    Property("KL Sentral", 1800, 140),
-    Property("Port Dickson", 2000, 160),
-    Property("MMU Cyberjaya", 2000, 160),
-    Property("Indah water", 2150, 180),
-    Property("Genting Highland", 2200, 180),
-    Property("Putrajaya", 2400, 200),
-    Property("KLIA", 2500, 220),
-    Property("TRX", 2600, 230),
-    Property("Pavilion KL", 2800, 240),
-    Property("KL Tower", 3000, 275),
-    Property("Merdeka 118", 3500, 350),
-    Property("KLCC", 4000, 500)
-]
-
-
 class Display:
     text_font = pygame.font.Font("HelveticaNeue.ttf", 18)
     smaller_font = pygame.font.Font("HelveticaNeue.ttf", 18)
@@ -201,8 +155,36 @@ class Display:
     price13_t = text_font.render("$ 2400", True, (black))
     price14_t = text_font.render("$ 2500", True, (black))
     current_money_d = int()
-    # price_t = smaller_font.render(f"{Pricelist}", True, (white))
-    # print(Pricelist)
+    current_round = str()
+    # displaying image
+
+    show_players_image = pygame.transform.scale(pygame.image.load(
+        'pic/loading background.png').convert_alpha(), (1000, 800))
+    show_players_image_rect = show_players_image.get_rect(
+        center=(screen_width//2, screen_height//2))
+    show_load_bool = True
+    limit = 0
+    alpha = 0
+    show_loading_done = False
+    # adding a boolean to control the function to loop one times
+
+    def show_loading():
+        # adding a limit to control when the if expression end
+        Display.limit += 1
+        if Display.show_load_bool and Display.alpha <= 255:
+            # adjusting the value to adjust the appear speed
+            Display.alpha += 0.9
+            if Display.limit >= 450 or Display.alpha >= 255:
+                Display.show_load_bool = False
+        if not Display.show_load_bool:
+            # adjusting the value to adjust the disappear speed
+            Display.alpha -= 3
+        if Display.alpha <= 0:
+            Display.show_loading_done = True
+        print(Display.alpha)
+        Display.show_players_image.set_alpha(Display.alpha)
+        screen.blit(Display.show_players_image,
+                    Display.show_players_image_rect)
 
     def rotate_text(text, angle):
         return pygame.transform.rotate(text, angle)
@@ -328,7 +310,7 @@ class Display:
         screen.blit(Display.price1_t, (127, 60))
 
         # drawing grids for maps
-
+    # grid for demonstrating not using in normal play
     def drawing_grid(tile_size):
         tile_size = 50*2
         for line in range(0, 10):
@@ -351,6 +333,8 @@ class Display:
 
     def showing_player_money():
         text_font = pygame.font.Font("HelveticaNeue.ttf", 22)
+        if player_sequence == 0:
+            Display.current_round = round_num
         if player_sequence == 1:
             Display.current_money_d = player_dict_m['p1_money']
         elif player_sequence == 2:
@@ -359,9 +343,19 @@ class Display:
             Display.current_money_d = player_dict_m['p3_money']
         elif player_sequence == 4:
             Display.current_money_d = player_dict_m['p4_money']
-        current_player = text_font.render(
-            f"Player {player_sequence} now have {Display.current_money_d}", True, (black))
-        screen.blit(current_player, (100, 110))
+        if player_sequence != 0:
+            current_player = text_font.render(
+                f"Player {player_sequence} now have {Display.current_money_d}", True, (black))
+            screen.blit(current_player, (100, 110))
+            # showing which round of current when player sequence is 0
+        elif player_sequence == 0:
+            current_player = text_font.render(
+                f"Current round = {Display.current_round}", True, (black))
+            screen.blit(current_player, (100, 110))
+
+    def showing_dim_button():
+        button_pay_dim.update()
+        button_buy_dim.update()
 
 
 # general value for button
@@ -450,16 +444,20 @@ button_play = pygame.image.load('pic/play.png')
 button_exit = pygame.image.load('pic/exit.png')
 button_next = pygame.image.load('pic/next.png')
 button_buy = pygame.image.load('pic/buy.png')
+button_buy_dim = pygame.image.load('pic/buy_dim.png')
 button_pay = pygame.image.load('pic/pay.png')
+button_pay_dim = pygame.image.load('pic/pay_dim.png')
 # adjust size
 button_surface_on = pygame.transform.scale(button_surface_on, (40, 40))
 button_surface_off = pygame.transform.scale(button_surface_off, (40, 40))
 button_roll = pygame.transform.scale(button_roll, (80, 80))
-button_play = pygame.transform.scale(button_play, (240, 200))
-button_pay = pygame.transform.scale(button_pay, (120, 100))
-button_exit = pygame.transform.scale(button_exit, (240, 200))
+button_play = pygame.transform.scale(button_play, (240, 150))
+button_pay = pygame.transform.scale(button_pay, (120, 80))
+button_pay_dim = pygame.transform.scale(button_pay_dim, (120, 80))
+button_exit = pygame.transform.scale(button_exit, (240, 150))
 button_next = pygame.transform.scale(button_next, (120, 100))
 button_buy = pygame.transform.scale(button_buy, (120, 100))
+button_buy_dim = pygame.transform.scale(button_buy_dim, (120, 100))
 # adjust location
 button_music = Button(button_surface_on, button_surface_off, 880, 120)
 button_roll = Button(button_roll, button_roll, 800, 650)
@@ -467,7 +465,9 @@ button_play = Button(button_play, button_play, 700, 600)
 button_exit = Button(button_exit, button_exit, 300, 600)
 button_next = Button(button_next, button_next, 800, 600)
 button_buy = Button(button_buy, button_buy, 800, 550)
-button_pay = Button(button_pay, button_pay, 600, 650)
+button_buy_dim = Button(button_buy_dim, button_buy_dim, 800, 550)
+button_pay = Button(button_pay, button_pay, 650, 560)
+button_pay_dim = Button(button_pay_dim, button_pay_dim, 650, 560)
 
 # add background music
 pygame.mixer.music.load('Sound/BGM.mp3')
@@ -1025,9 +1025,13 @@ class Player:
                 print(f"Player 1 is now at:{player1_pos}")
             elif player1_pos == 32:
                 player1_pos = 0
+                player_dict_m['p1_money'] += 2000
+                print(f"player 1 passes go and get 2000")
                 print(f"Player 1 is now at: {player1_pos}")
             else:
                 player1_pos -= 32
+                player_dict_m['p1_money'] += 2000
+                print(f"player 1 passes go and get 2000")
                 print(f"Player 1 is now at: {player1_pos}")
 
         if dice_con and dice_rolled and player_sequence == 2:
@@ -1038,9 +1042,13 @@ class Player:
                 print(f"Player 2 is now at:{player2_pos}")
             elif player2_pos == 32:
                 player2_pos = 0
+                player_dict_m['p2_money'] += 2000
+                print(f"player 2 passes go and get 2000")
                 print(f"Player 2 is now at: {player2_pos}")
             else:
                 player2_pos -= 32
+                player_dict_m['p2_money'] += 2000
+                print(f"player 2 passes go and get 2000")
                 print(f"Player 2 is now at: {player2_pos}")
         if dice_con and dice_rolled and player_sequence == 3:
             dice_rolled = False
@@ -1050,9 +1058,13 @@ class Player:
                 print(f"Player 3 is now at:{player3_pos}")
             elif player3_pos == 32:
                 player3_pos = 0
+                player_dict_m['p3_money'] += 2000
+                print(f"player 3 passes go and added 2000")
                 print(f"Player 3 is now at: {player3_pos}")
             else:
                 player3_pos -= 32
+                player_dict_m['p3_money'] += 2000
+                print(f"player 3 passes go and added 2000")
                 print(f"Player 3 is now at: {player3_pos}")
 
         if dice_con and dice_rolled and player_sequence == 4:
@@ -1064,9 +1076,14 @@ class Player:
                 print(f"Player 4 is now at:{player4_pos}")
             elif player4_pos == 32:
                 player4_pos = 0
+                player_dict_m['p4_money'] += 2000
+                print(f"player 4 passes go and added 2000")
                 print(f"Player 4 is now at: {player4_pos}")
+
             else:
                 player4_pos -= 32
+                player_dict_m['p4_money'] += 2000
+                print(f"player 4 passes go and added 2000")
                 print(f"Player 4 is now at: {player4_pos}")
 
         elif player_sequence == 5:
@@ -1370,10 +1387,13 @@ class economic:
     L_eco_dis2 = str()
     L_eco_dis3 = str()
     L_eco_dis4 = str()
+    rent_display = str()
+    rent_value = str()
     # checking for validity in buying property
     # player will not be able to click buy button if tile is not available to sell
     showing_pay_button = False
     # checking for price is 0 for validity of buying
+
     def check_buying_valid():
         if player_sequence == 1 and player1_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
             if Pricelist[player1_pos] != 0:
@@ -1504,6 +1524,7 @@ class economic:
     def update_eco():
         global player_sequence
         title_font = pygame.font.Font("HelveticaNeue.ttf", 18)
+        rent_font = pygame.font.Font("HelveticaNeue.ttf", 20)
         dis_eco1 = economic.eco_dis1
         dis_eco2 = economic.eco_dis2
         dis_eco3 = economic.eco_dis3
@@ -1516,6 +1537,7 @@ class economic:
         L_dis_eco2 = economic.L_eco_dis2
         L_dis_eco3 = economic.L_eco_dis3
         L_dis_eco4 = economic.L_eco_dis4
+        rent_display = economic.rent_display
         dis_eco1 = title_font.render(f"{dis_eco1}", True, black)
         ldis_eco1 = title_font.render(f"{ldis_eco1}", True, black)
         L_dis_eco1 = title_font.render(f"{L_dis_eco1}", True, black)
@@ -1528,23 +1550,26 @@ class economic:
         dis_eco4 = title_font.render(f"{dis_eco4}", True, black)
         ldis_eco4 = title_font.render(f"{ldis_eco4}", True, black)
         L_dis_eco4 = title_font.render(f"{L_dis_eco4}", True, black)
-        if player_sequence == 1:
+        rent_display = rent_font.render(f"{rent_display}", True, black)
+        # showing player current activity
+        if player_sequence == 1 and not paying:
             screen.blit(dis_eco1, (120, 630))
             screen.blit(ldis_eco1, (120, 650))
             screen.blit(L_dis_eco1, (120, 670))
-        elif player_sequence == 2:
+        elif player_sequence == 2 and not paying:
             screen.blit(dis_eco2, (120, 630))
             screen.blit(ldis_eco2, (120, 650))
             screen.blit(L_dis_eco2, (120, 670))
-        elif player_sequence == 3:
+        elif player_sequence == 3 and not paying:
             screen.blit(dis_eco3, (120, 630))
             screen.blit(ldis_eco3, (120, 650))
             screen.blit(L_dis_eco3, (120, 670))
-        elif player_sequence == 4:
+        elif player_sequence == 4 and not paying:
             screen.blit(dis_eco4, (120, 630))
             screen.blit(ldis_eco4, (120, 650))
             screen.blit(L_dis_eco4, (120, 670))
-    # calling a function for the game
+        elif player_sequence != 0 and paying:
+            screen.blit(rent_display, (120, 630))
 
     def checking_rent_valid():
         global paying
@@ -1565,34 +1590,72 @@ class economic:
         global paying
         # check if player 1 needed to pay another player rent
         if player_sequence == 1 and player1_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
-
             property_rent = name_list[player1_pos]
+            rent_price = Property_with_rent[property_rent]
             rent_in_list = (
                 property_rent in p2_list_p or property_rent in p3_list_p or property_rent in p4_list_p)
             if rent_in_list:
+                if property_rent in p2_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 2 rent")
+                elif property_rent in p3_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 3 rent")
+                elif property_rent in p4_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 4 rent")
                 paying = True
 
         if player_sequence == 2 and player2_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
 
             property_rent = name_list[player2_pos]
+            rent_price = Property_with_rent[property_rent]
             rent_in_list = (
                 property_rent in p1_list_p or property_rent in p3_list_p or property_rent in p4_list_p)
             if rent_in_list:
+                if property_rent in p1_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 1 rent")
+                elif property_rent in p3_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 3 rent")
+                elif property_rent in p4_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 4 rent")
                 paying = True
 
         if player_sequence == 3 and player3_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
-
             property_rent = name_list[player3_pos]
+            rent_price = Property_with_rent[property_rent]
             rent_in_list = (
                 property_rent in p1_list_p or property_rent in p2_list_p or property_rent in p4_list_p)
             if rent_in_list:
+                if property_rent in p1_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 1 rent")
+                elif property_rent in p2_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 2 rent")
+                elif property_rent in p4_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 4 rent")
                 paying = True
         if player_sequence == 4 and player4_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
 
             property_rent = name_list[player4_pos]
+            rent_price = Property_with_rent[property_rent]
             rent_in_list = (
                 property_rent in p1_list_p or property_rent in p3_list_p or property_rent in p2_list_p)
             if rent_in_list:
+                if property_rent in p1_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 1 rent")
+                elif property_rent in p2_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 2 rent")
+                elif property_rent in p3_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 3 rent")
                 paying = True
 
     def rent_button_1():
@@ -1886,6 +1949,7 @@ while run:
         run = False
 
     if Button.menu:
+
         button_play.update()
         button_exit.update()
         starting_menu.title()
@@ -1895,11 +1959,14 @@ while run:
         starting_menu.loading_screen()
         starting_menu.showing_rule()
 
-    if not Button.menu and not Button.loading:
-        # starting_menu.loading_screen()
+    if not Display.show_loading_done and not Button.loading:
+        Display.show_loading()
+
+    if not Button.menu and not Button.loading and Display.show_loading_done:
+
         map.draw()
         Display.middle()
-        Display.showing_player_money()
+        Display.showing_dim_button()
         Display.showing_player_money()
         Display.showing_properties_name()
         economic.update_eco()
