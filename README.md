@@ -16,3 +16,11 @@
 <p>-New features for pay rent transaction</p>
 <h2>V 0.1.6</h2>
 <p>-Upgraded rent transcation with button control and added display for player left money</p>
+<h2>V 0.1.7</h2>
+<p>-Reworking a player system to adapt for the chance features</p>
+<h2>V 0.1.8</h2>
+<p>-Added a displaying screen for showing player sequence and rework on the buy, pay button</p>
+<h2>V 0.1.9</h2>
+<p>-Completed jail map features</p>
+<h2>V 0.2.0</h2>
+<p>-80% of Chance features done</p>
