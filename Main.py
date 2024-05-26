@@ -54,7 +54,7 @@ block_desctiptions = {
     9: "'Cameroon Highland'is a district in Pahang, Malaysia, occupying an area of 712.18 square kilometres. Developed in the 1930s, the tableland is one of the oldest tourist spots in Malaysia.",
     11: "'Gunung Mulu National Park' is in Miri Division, Sarawak, Malaysia. It is a UNESCO World Heritage Site that encompasses caves and karst formations in a mountainous equatorial rainforest setting",
     12: "'Mount Kinabalu' is the highest mountain in Borneo and Malaysia. With an elevation of 4,095 metres (13,435 ft), it is the third-highest peak of an island on Earth, the 28th highest peak in Southeast Asia, and 20th most prominent mountain in the world.",
-    14: "'Johor Bahru' colloquially referred to as JB, and the capital city of the state of Johor, Malaysia (the second-largest district in the country, by population). It is the second-largest national GDP-contributor among the major cities in Malaysia, and forms a part of Iskandar Malaysia, the nation's largest special economic zone, by investment value.",
+    14: "'Johor Bahru' colloquially referred to as JB, and the capital city of the state of Johor, Malaysia (the second-largest district in the country, by population). ",
     15: "'George Town' is the capital of the Malaysian state of Penang. Malaysia's second largest metropolitan area with a population of 2.84 million and the second highest contributor to the country's GDP. The city proper spans an area of 306 km2 (118 sq mi) encompassing Penang Island and surrounding islets.",
     16: "'Malacca (Malay: Melaka)', officially the Historic State of Malacca, is a state in Malaysia located in the southern region of the Malay Peninsula, facing the Strait of Malacca. Its capital is Malacca City, which has been listed as a UNESCO World Heritage Site since 7 July 2008.",
     18: "'Kuala Lumpur Sentral Station (KL Sentral)' is a transit-oriented development that houses the main railway station of Kuala Lumpur, the capital of Malaysia. Opened on 16 April 2001, KL Sentral replaced the old Kuala Lumpur railway station as the city's main intercity railway station. KL Sentral is the largest railway station in Malaysia, and also in Southeast Asia from 2001 to 2021",
@@ -168,7 +168,7 @@ class Display:
     show_loading_done = False
     # adding a boolean to control the function to loop one times
 
-    def show_loading():
+    def show_player_explain():
         # adding a limit to control when the if expression end
         Display.limit += 1
         if Display.show_load_bool and Display.alpha <= 255:
@@ -870,6 +870,14 @@ class Player:
     y3 = 0
     x4 = 0
     y4 = 0
+    player1_in_jail = False
+    player1_jail_round = 0
+    player2_in_jail = False
+    player2_jail_round = 0
+    player3_in_jail = False
+    player3_jail_round = 0
+    player4_in_jail = False
+    player4_jail_round = 0
 
     p1 = pygame.transform.scale(pic1, (int(w1 * 0.35), int(h1 * 0.35)))
     p2 = pygame.transform.scale(pic2, (int(w2 * 0.35), int(h2 * 0.35)))
@@ -889,122 +897,138 @@ class Player:
         second_step = int(0)
         global player_sequence
         # check whether the player is in the first row and move
-        if player_sequence == 1 and Player.x1 < 1000 and Player.y1 == 0:
-            Player.x1 += step * 100
-            # check if player exceed x boundary and needed to turn down
-            if Player.x1 >= 1000:
-                second_step = Player.x1 - 1000
-                Player.x1 = 900
-                Player.y1 += second_step + 100
+        if not Player.player1_in_jail:
+            if player_sequence == 1 and Player.x1 < 1000 and Player.y1 == 0:
+                Player.x1 += step * 100
+                # check if player exceed x boundary and needed to turn down
+                if Player.x1 >= 1000:
+                    second_step = Player.x1 - 1000
+                    Player.x1 = 900
+                    Player.y1 += second_step + 100
 
-        elif player_sequence == 1 and Player.x1 == 900 and Player.y1 != 0:
-            Player.y1 += step * 100
-            if Player.y1 >= 800:
-                second_step = Player.y1 - 800
-                Player.y1 = 700
-                Player.x1 -= second_step
-                Player.x1 -= 100
+            elif player_sequence == 1 and Player.x1 == 900 and Player.y1 != 0:
+                Player.y1 += step * 100
+                if Player.y1 >= 800:
+                    second_step = Player.y1 - 800
+                    Player.y1 = 700
+                    Player.x1 -= second_step
+                    Player.x1 -= 100
 
-        elif player_sequence == 1 and Player.x1 < 1000 and Player.y1 == 700:
-            Player.x1 -= step * 100
-            if Player.x1 <= 0:
-                second_step = 0 - Player.x1
-                Player.x1 = 0
-                Player.y1 = 700 - second_step
+            elif player_sequence == 1 and Player.x1 < 1000 and Player.y1 == 700:
+                Player.x1 -= step * 100
+                if Player.x1 <= 0:
+                    second_step = 0 - Player.x1
+                    Player.x1 = 0
+                    Player.y1 = 700 - second_step
 
-        elif player_sequence == 1 and Player.x1 == 0 and Player.y1 <= 700:
-            Player.y1 -= step * 100
-            if Player.y1 <= 0:
-                second_step = 0 - Player.y1
-                Player.y1 = 0
-                Player.x1 = second_step
+            elif player_sequence == 1 and Player.x1 == 0 and Player.y1 <= 700:
+                Player.y1 -= step * 100
+                if Player.y1 <= 0:
+                    second_step = 0 - Player.y1
+                    Player.y1 = 0
+                    Player.x1 = second_step
+        elif Player.player1_in_jail:
+            Player.x1 = 0
+            Player.y1 = 700
 
-        if player_sequence == 2 and Player.x2 < 1000 and Player.y2 == 0:
-            Player.x2 += step * 100
-            if Player.x2 >= 1000:
-                second_step = Player.x2 - 1000
-                Player.x2 = 900
-                Player.y2 += second_step + 100
+        if not Player.player2_in_jail:
+            if player_sequence == 2 and Player.x2 < 1000 and Player.y2 == 0:
+                Player.x2 += step * 100
+                if Player.x2 >= 1000:
+                    second_step = Player.x2 - 1000
+                    Player.x2 = 900
+                    Player.y2 += second_step + 100
 
-        elif player_sequence == 2 and Player.x2 == 900 and Player.y2 != 0:
-            Player.y2 += step * 100
-            if Player.y2 >= 800:
-                second_step = Player.y2 - 800
-                Player.y2 = 700
-                Player.x2 -= second_step
-                Player.x2 -= 100
+            elif player_sequence == 2 and Player.x2 == 900 and Player.y2 != 0:
+                Player.y2 += step * 100
+                if Player.y2 >= 800:
+                    second_step = Player.y2 - 800
+                    Player.y2 = 700
+                    Player.x2 -= second_step
+                    Player.x2 -= 100
 
-        elif player_sequence == 2 and Player.x2 < 1000 and Player.y2 == 700:
-            Player.x2 -= step * 100
-            if Player.x2 <= 0:
-                second_step = 0 - Player.x2
-                Player.x2 = 0
-                Player.y2 = 700 - second_step
+            elif player_sequence == 2 and Player.x2 < 1000 and Player.y2 == 700:
+                Player.x2 -= step * 100
+                if Player.x2 <= 0:
+                    second_step = 0 - Player.x2
+                    Player.x2 = 0
+                    Player.y2 = 700 - second_step
 
-        elif player_sequence == 2 and Player.x2 == 0 and Player.y2 <= 700:
-            Player.y2 -= step * 100
-            if Player.y2 <= 0:
-                second_step = 0 - Player.y2
-                Player.y2 = 0
-                Player.x2 = second_step
+            elif player_sequence == 2 and Player.x2 == 0 and Player.y2 <= 700:
+                Player.y2 -= step * 100
+                if Player.y2 <= 0:
+                    second_step = 0 - Player.y2
+                    Player.y2 = 0
+                    Player.x2 = second_step
+        elif Player.player2_in_jail:
+            Player.x2 = 0
+            Player.y2 = 700
 
-        if player_sequence == 3 and Player.x3 < 1000 and Player.y3 == 0:
-            Player.x3 += step * 100
-            if Player.x3 >= 1000:
-                second_step = Player.x3 - 1000
-                Player.x3 = 900
-                Player.y3 += second_step + 100
+        if not Player.player3_in_jail:
+            if player_sequence == 3 and Player.x3 < 1000 and Player.y3 == 0:
+                Player.x3 += step * 100
+                if Player.x3 >= 1000:
+                    second_step = Player.x3 - 1000
+                    Player.x3 = 900
+                    Player.y3 += second_step + 100
 
-        elif player_sequence == 3 and Player.x3 == 900 and Player.y3 != 0:
-            Player.y3 += step * 100
-            if Player.y3 >= 800:
-                second_step = Player.y3 - 800
-                Player.y3 = 700
-                Player.x3 -= second_step
-                Player.x3 -= 100
+            elif player_sequence == 3 and Player.x3 == 900 and Player.y3 != 0:
+                Player.y3 += step * 100
+                if Player.y3 >= 800:
+                    second_step = Player.y3 - 800
+                    Player.y3 = 700
+                    Player.x3 -= second_step
+                    Player.x3 -= 100
 
-        elif player_sequence == 3 and Player.x3 < 1000 and Player.y3 == 700:
-            Player.x3 -= step * 100
-            if Player.x3 <= 0:
-                second_step = 0 - Player.x3
-                Player.x3 = 0
-                Player.y3 = 700 - second_step
+            elif player_sequence == 3 and Player.x3 < 1000 and Player.y3 == 700:
+                Player.x3 -= step * 100
+                if Player.x3 <= 0:
+                    second_step = 0 - Player.x3
+                    Player.x3 = 0
+                    Player.y3 = 700 - second_step
 
-        elif player_sequence == 3 and Player.x3 == 0 and Player.y3 <= 700:
-            Player.y3 -= step * 100
-            if Player.y3 <= 0:
-                second_step = 0 - Player.y3
-                Player.y3 = 0
-                Player.x3 = second_step
+            elif player_sequence == 3 and Player.x3 == 0 and Player.y3 <= 700:
+                Player.y3 -= step * 100
+                if Player.y3 <= 0:
+                    second_step = 0 - Player.y3
+                    Player.y3 = 0
+                    Player.x3 = second_step
+        elif Player.player3_in_jail:
+            Player.x3 = 0
+            Player.y3 = 700
 
-        if player_sequence == 4 and Player.x4 < 1000 and Player.y4 == 0:
-            Player.x4 += step * 100
-            if Player.x4 >= 1000:
-                second_step = Player.x4 - 1000
-                Player.x4 = 900
-                Player.y4 += second_step + 100
+        if not Player.player4_in_jail:
+            if player_sequence == 4 and Player.x4 < 1000 and Player.y4 == 0:
+                Player.x4 += step * 100
+                if Player.x4 >= 1000:
+                    second_step = Player.x4 - 1000
+                    Player.x4 = 900
+                    Player.y4 += second_step + 100
 
-        elif player_sequence == 4 and Player.x4 == 900 and Player.y4 != 0:
-            Player.y4 += step * 100
-            if Player.y4 >= 800:
-                second_step = Player.y4 - 800
-                Player.y4 = 700
-                Player.x4 -= second_step
-                Player.x4 -= 100
+            elif player_sequence == 4 and Player.x4 == 900 and Player.y4 != 0:
+                Player.y4 += step * 100
+                if Player.y4 >= 800:
+                    second_step = Player.y4 - 800
+                    Player.y4 = 700
+                    Player.x4 -= second_step
+                    Player.x4 -= 100
 
-        elif player_sequence == 4 and Player.x4 < 1000 and Player.y4 == 700:
-            Player.x4 -= step * 100
-            if Player.x4 <= 0:
-                second_step = 0 - Player.x4
-                Player.x4 = 0
-                Player.y4 = 700 - second_step
+            elif player_sequence == 4 and Player.x4 < 1000 and Player.y4 == 700:
+                Player.x4 -= step * 100
+                if Player.x4 <= 0:
+                    second_step = 0 - Player.x4
+                    Player.x4 = 0
+                    Player.y4 = 700 - second_step
 
-        elif player_sequence == 4 and Player.x4 == 0 and Player.y4 <= 700:
-            Player.y4 -= step * 100
-            if Player.y4 <= 0:
-                second_step = 0 - Player.y4
-                Player.y4 = 0
-                Player.x4 = second_step
+            elif player_sequence == 4 and Player.x4 == 0 and Player.y4 <= 700:
+                Player.y4 -= step * 100
+                if Player.y4 <= 0:
+                    second_step = 0 - Player.y4
+                    Player.y4 = 0
+                    Player.x4 = second_step
+        elif Player.player4_in_jail:
+            Player.x4 = 0
+            Player.y4 = 700
 
     def show_players():
         screen.blit(Player.p1, (Player.x1, Player.y1))
@@ -1015,46 +1039,57 @@ class Player:
     def player_movement(dice_num):
         global dice_rolled,  player1_pos, player2_pos, player3_pos, player4_pos, player_sequence, changing_round, round_num
         player_sequence += 1
-
-        if dice_con and dice_rolled and player_sequence == 1:
+        if dice_con and dice_rolled and player_sequence == 1 and not Player.player1_in_jail:
             dice_rolled = False
             print(f"dice is {dice_num}")
             player1_pos = player1_pos + dice_num
             changing_round = False
+            # a player position is less than a new round
             if player1_pos < 32:
+                if player1_pos == 16:
+                    Player.player_jail1()
+                    print(Player.player1_in_jail)
                 print(f"Player 1 is now at:{player1_pos}")
+            # a player position goes back on the origin and reset it to 0
             elif player1_pos == 32:
                 player1_pos = 0
                 player_dict_m['p1_money'] += 2000
                 print(f"player 1 passes go and get 2000")
                 print(f"Player 1 is now at: {player1_pos}")
+
             else:
+                # a player position exceed total tile of a round , therefore -32 to adjust to new lapse
                 player1_pos -= 32
                 player_dict_m['p1_money'] += 2000
                 print(f"player 1 passes go and get 2000")
                 print(f"Player 1 is now at: {player1_pos}")
 
-        if dice_con and dice_rolled and player_sequence == 2:
+        if dice_con and dice_rolled and player_sequence == 2 and not Player.player2_in_jail:
             dice_rolled = False
             print(f"dice is {dice_num}")
             player2_pos = player2_pos + dice_num
             if player2_pos < 32:
+                if player2_pos == 16:
+                    Player.player_jail2()
                 print(f"Player 2 is now at:{player2_pos}")
             elif player2_pos == 32:
                 player2_pos = 0
                 player_dict_m['p2_money'] += 2000
                 print(f"player 2 passes go and get 2000")
                 print(f"Player 2 is now at: {player2_pos}")
+
             else:
                 player2_pos -= 32
                 player_dict_m['p2_money'] += 2000
                 print(f"player 2 passes go and get 2000")
                 print(f"Player 2 is now at: {player2_pos}")
-        if dice_con and dice_rolled and player_sequence == 3:
+        if dice_con and dice_rolled and player_sequence == 3 and not Player.player3_in_jail:
             dice_rolled = False
             print(f"dice is {dice_num}")
             player3_pos = player3_pos + dice_num
             if player3_pos < 32:
+                if player3_pos == 16:
+                    Player.player_jail3()
                 print(f"Player 3 is now at:{player3_pos}")
             elif player3_pos == 32:
                 player3_pos = 0
@@ -1067,19 +1102,19 @@ class Player:
                 print(f"player 3 passes go and added 2000")
                 print(f"Player 3 is now at: {player3_pos}")
 
-        if dice_con and dice_rolled and player_sequence == 4:
+        if dice_con and dice_rolled and player_sequence == 4 and not Player.player4_in_jail:
             dice_rolled = False
             print(f"dice is {dice_num}")
-
             player4_pos = player4_pos + dice_num
             if player4_pos < 32:
+                if player4_pos == 16:
+                    Player.player_jail4()
                 print(f"Player 4 is now at:{player4_pos}")
             elif player4_pos == 32:
                 player4_pos = 0
                 player_dict_m['p4_money'] += 2000
                 print(f"player 4 passes go and added 2000")
                 print(f"Player 4 is now at: {player4_pos}")
-
             else:
                 player4_pos -= 32
                 player_dict_m['p4_money'] += 2000
@@ -1091,11 +1126,74 @@ class Player:
             round_num += 1
             print(f'{round_num} round started')
             player_sequence -= 5
+            # if a new round started check whether if a player is in jail and count a round for his sentences
+            if Player.player1_in_jail:
+                Player.player1_jail_sentences()
+            if Player.player2_in_jail:
+                Player.player2_jail_sentences()
+            if Player.player3_in_jail:
+                Player.player3_jail_sentences()
+            if Player.player4_in_jail:
+                Player.player4_jail_sentences()
 
+    def player_jail1():
+        global player1_pos
+        # run a def and switch a bool to true and stop moving a certain player
+        print('player 1 in jail')
+        # adjusting position of a player
+        player1_pos = 25
+        Player.player1_in_jail = True
 
-active_player_index = 0
+    def player_jail2():
+        global player2_pos
+        print('player 2 in jail')
+        player2_pos = 25
+        Player.player2_in_jail = True
 
-total_positions = num_row * 2 + num_col * 2 - 4
+    def player_jail3():
+        global player3_pos
+        print('player 3 in jail')
+        player3_pos = 25
+        Player.player3_in_jail = True
+
+    def player_jail4():
+        global player4_pos
+        print('player 4 in jail')
+        player4_pos = 25
+        Player.player4_in_jail = True
+
+    def player1_jail_sentences():
+        # checking if the player has passed two round since being jailed and set the player free
+        if Player.player1_jail_round == 1:
+            Player.player1_in_jail = False
+            Player.player1_jail_round == 0
+        else:
+            Player.player1_jail_round += 1
+            print('Player1 is 1 more round from freedom')
+
+    def player2_jail_sentences():
+        if Player.player2_jail_round == 1:
+            Player.player2_in_jail = False
+            Player.player2_jail_round == 0
+        else:
+            Player.player2_jail_round += 1
+            print('Player2 is 1 more round from freedom')
+
+    def player3_jail_sentences():
+        if Player.player3_jail_round == 1:
+            Player.player3_in_jail = False
+            Player.player3_jail_round == 0
+        else:
+            Player.player3_jail_round += 1
+            print('Player3 is 1 more round from freedom')
+
+    def player4_jail_sentences():
+        if Player.player4_jail_round == 1:
+            Player.player4_in_jail = False
+            Player.player4_jail_round == 0
+        else:
+            Player.player4_jail_round += 1
+            print('Player4 is 1 more round from freedom')
 
 
 player_names = ["player1", "player2", "player3", "player4"]
@@ -1960,7 +2058,9 @@ while run:
         starting_menu.showing_rule()
 
     if not Display.show_loading_done and not Button.loading:
-        Display.show_loading()
+        pass
+        # remember change show_loading_done back to false when activate this def
+        Display.show_player_explain()
 
     if not Button.menu and not Button.loading and Display.show_loading_done:
 
@@ -1970,17 +2070,12 @@ while run:
         Display.showing_player_money()
         Display.showing_properties_name()
         economic.update_eco()
-        economic.update_eco()
         button_music.update()
         button_roll.update()
-        Player.show_players()
         economic.check_buying_valid()
+        Player.show_players()
         moving_sprites.draw(screen)
         moving_sprites.update()
-        economic.check_buying_valid()
-        if paying:
-            button_pay.update()
-        economic.check_buying_valid()
         if paying:
             button_pay.update()
 
@@ -1997,7 +2092,7 @@ while run:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             handle_button_events(pygame.mouse.get_pos())
             display_description_block(pygame.mouse.get_pos())
 
@@ -2024,15 +2119,6 @@ while run:
                 Button.is_buying_properties == False
             else:
                 pass
-
-    # if player1_pos == 12 or player1_pos == 28:
-    #     handle_chance()
-    # if player2_pos == 12 or player2_pos == 28:
-    #     handle_chance()
-    # if player3_pos == 12 or player3_pos == 28:
-    #     handle_chance()
-    # if player4_pos == 12 or player4_pos == 28:
-    #     handle_chance()
 
     pygame.display.update()
 pygame.quit()
