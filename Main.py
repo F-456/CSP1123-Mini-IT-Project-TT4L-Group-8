@@ -14,7 +14,7 @@ fps = 60
 screen_width = 1000
 screen_height = 800
 
-pygame.display.set_caption("Monopoly")
+pygame.display.set_caption("Pynopoly")
 screen = pygame.display.set_mode((screen_width, screen_height))
 
 # universal settings
@@ -373,7 +373,6 @@ buy_clicked = False
 pay_clicked = False
 paying = False
 
-
 class Button():
     global paying
     menu = True
@@ -382,6 +381,7 @@ class Button():
     rolling_con = False
     is_buying_properties = False
     is_paying_rent = False
+
 
     def __init__(self, image_on, image_off,  x_pos, y_pos):
         self.image_on = image_on
@@ -425,14 +425,28 @@ class Button():
     def check_pay(self, position):
         if self.rect.collidepoint(position):
             Button.is_paying_rent = True
-            if player_sequence == 1:
+            if player_sequence == 1 :
                 economic.rent_button_1()
-            if player_sequence == 2:
+            if player_sequence == 2 :
                 economic.rent_button_2()
-            if player_sequence == 3:
+            if player_sequence == 3 :
                 economic.rent_button_3()
-            if player_sequence == 4:
+            if player_sequence == 4 :
                 economic.rent_button_4()
+    
+    def check_chance(self, position):
+        if self.rect.collidepoint(position) and not Chance.chance_done:
+            print('chance chance')
+            Chance.chance_done = True
+            if player_sequence == 1  : 
+                Chance.chance_button1()      
+            if player_sequence == 2  :
+                Chance.chance_button2()
+            if player_sequence == 3  :
+                Chance.chance_button3()
+            if player_sequence == 4  :
+                Chance.chance_button4()
+            
 
     def toggleMusicState(self):
         if self.is_music_on:
@@ -451,6 +465,8 @@ button_exit = pygame.image.load('pic/exit.png')
 button_next = pygame.image.load('pic/next.png')
 button_buy = pygame.image.load('pic/buy.png')
 button_pay = pygame.image.load('pic/pay.png')
+button_chance = pygame.image.load('pic/chance_b.png')
+
 # adjust size
 button_surface_on = pygame.transform.scale(button_surface_on, (40, 40))
 button_surface_off = pygame.transform.scale(button_surface_off, (40, 40))
@@ -460,6 +476,8 @@ button_pay = pygame.transform.scale(button_pay, (120, 100))
 button_exit = pygame.transform.scale(button_exit, (240, 200))
 button_next = pygame.transform.scale(button_next, (120, 100))
 button_buy = pygame.transform.scale(button_buy, (120, 100))
+button_chance = pygame.transform.scale(button_chance, (120, 100))
+
 # adjust location
 button_music = Button(button_surface_on, button_surface_off, 880, 120)
 button_roll = Button(button_roll, button_roll, 800, 650)
@@ -468,6 +486,7 @@ button_exit = Button(button_exit, button_exit, 300, 600)
 button_next = Button(button_next, button_next, 800, 600)
 button_buy = Button(button_buy, button_buy, 800, 550)
 button_pay = Button(button_pay, button_pay, 600, 650)
+button_chance = Button(button_chance, button_chance, 400, 600)
 
 # add background music
 pygame.mixer.music.load('Sound/BGM.mp3')
@@ -794,13 +813,6 @@ player4_pos = 0
 # player sequence
 player_sequence = 0
 
-
-go_position = (0, 0)  #position for "GO"
-bramly_position = (2, 1)  #position for "B.Ramly"
-free_parking_position = (9, 1)  #position for Free Parking
-jail_position = (1, 8)  #position for Jail
-
-
 class Dice(pygame.sprite.Sprite):
     def __init__(self, pos_x, pos_y):
         super().__init__()
@@ -887,7 +899,6 @@ class Player:
         self.dice_num = dice_num
         self.player_name = player_name
         self.index = index
-
 
 
     def move(dice_num):
@@ -1091,11 +1102,8 @@ class Player:
             round_num += 1
             print(f'{round_num} round started')
             player_sequence -= 5
+            
 
-
-active_player_index = 0
-
-total_positions = num_row * 2 + num_col * 2 - 4  
 
 
 player_names = ["player1", "player2", "player3", "player4"]
@@ -1127,26 +1135,69 @@ chance_rarities = {
     ]
 }
 
+class Chance:
+    showing_chance = False
+    chance_done = False
+    player1_c= False
+    player2_c =False
+    player3_c =False
+    player4_c =False
+    def determine_chance_rarity(second_roll):
+            if second_roll >= 5:
+                return "Epic"
+            elif second_roll >= 3:
+                return "Rare"
+            else:
+                return "Common" 
+            
+    def check_chance_valid():
+        
+        if not Chance.chance_done:
+            if player1_pos == 12 or player1_pos == 28 :
+                Chance.showing_chance = True
+                Chance.player1_c =True
+            if player2_pos == 12 or player2_pos == 28 :
+                Chance.showing_chance = True
+                Chance.player2_c =True
+            if player3_pos == 12 or player3_pos == 28 :
+                Chance.showing_chance = True
+                Chance.player3_c =True
+            if player4_pos == 12 or player4_pos == 28 :
+                Chance.showing_chance = True
+                Chance.player4_c =True  
+        else:
+            Chance.showing_chance = False
+        Chance.player_leave_chance()
+    # detect whether a player who get chance leave the position and reset to make button disappear
+    def player_leave_chance():
+        if Chance.player1_c :
+            if player1_pos !=12 and player1_pos !=28:
+                    Chance.chance_done = False
+                    Chance.player1_c = False
+        if Chance.player2_c :                
+            if player2_pos !=12 and player2_pos !=28:
+                    Chance.chance_done = False
+                    Chance.player2_c = False
+        if Chance.player3_c :
+            if player3_pos !=12 and player3_pos !=28:
+                    Chance.chance_done = False
+                    Chance.player3_c = False
+        if Chance.player4_c :
+            if player4_pos !=12 and player4_pos !=28:
+                    Chance.chance_done = False
+                    Chance.player4_c = False
+        
 
-def determine_chance_rarity(second_roll):
-    if second_roll >= 5:
-        return "Epic"
-    elif second_roll >= 3:
-        return "Rare"
-    else:
-        return "Common" 
 
-def handle_chance():
-
-    if player_sequence == 0:
-        if player1_pos == 12 or player1_pos == 28:
+    def chance_button1():
+        if player_sequence == 1 :
             second_roll = random.randint(1,6)
-            chance_rarity = determine_chance_rarity(second_roll)
+            chance_rarity = Chance.determine_chance_rarity(second_roll)
             chance_card = random.choice(chance_rarities[chance_rarity])
             print("Player 1 draws a", chance_rarity, "chance card:", chance_card)
             if "Advance to GO" in chance_card:
-               Player.x1 = 0
-               Player.y1 = 0
+                Player.x1 = 0
+                Player.y1 = 0
             elif "Collect $100 from each player" in chance_card:
                 pass  
             elif "Go back to B.Ramly" in chance_card:
@@ -1164,28 +1215,29 @@ def handle_chance():
                 if Player.x1 < 1000 and Player.y1 == 0:
                     Player.x1 + 100      
                 elif Player.x1 == 900 and Player.y1 != 0:
-                      Player.y1 +  100
+                    Player.y1 +  100
                 elif Player.x1 < 1000 and Player.y1 == 700:
-                      Player.x1 - 100
+                    Player.x1 - 100
                 elif Player.x1 == 0 and Player.y1 <= 700:
-                      Player.y1 - 100
+                    Player.y1 - 100
             elif "Seize any property" in chance_card:
                 pass  
             elif "snatches $200 from each player" in chance_card:
                 pass 
             elif "earthquake" in chance_card:
-                pass  
-            
-        
-    if player_sequence == 1:
-        if player2_pos == 12 or player2_pos == 28:
+                pass
+            Chance.chance_done = True
+
+     
+    def chance_button2():
+        if player_sequence == 2 :
             second_roll = random.randint(1,6)
-            chance_rarity = determine_chance_rarity(second_roll)
+            chance_rarity = Chance.determine_chance_rarity(second_roll)
             chance_card = random.choice(chance_rarities[chance_rarity])
             print("Player 2 draws a", chance_rarity, "chance card:", chance_card)
             if "Advance to GO" in chance_card:
-               Player.x2 = 0
-               Player.y2 = 0
+                Player.x2 = 0
+                Player.y2 = 0
             elif "Collect $100 from each player" in chance_card:
                 pass  
             elif "Go back to B.Ramly" in chance_card:
@@ -1203,36 +1255,38 @@ def handle_chance():
                 if Player.x2 < 1000 and Player.y2 == 0:
                     Player.x2 + 100      
                 elif Player.x2 == 900 and Player.y2 != 0:
-                      Player.y2 +  100
+                    Player.y2 +  100
                 elif Player.x2 < 1000 and Player.y2 == 700:
-                      Player.x2 - 100
+                    Player.x2 - 100
                 elif Player.x2 == 0 and Player.y2 <= 700:
-                      Player.y2 - 100
+                    Player.y2 - 100
             elif "Seize any property" in chance_card:
                 pass  
             elif "snatches $200 from each player" in chance_card:
                 pass 
             elif "earthquake" in chance_card:
-                pass  
-            
-        
-    if player_sequence == 2:
-        if player3_pos == 12 or player3_pos == 28:
+                pass
+            Chance.chance_done = True
+    
+
+
+    def chance_button3():
+        if player_sequence == 3 :
             second_roll = random.randint(1,6)
-            chance_rarity = determine_chance_rarity(second_roll)
+            chance_rarity = Chance.determine_chance_rarity(second_roll)
             chance_card = random.choice(chance_rarities[chance_rarity])
             print("Player 3 draws a", chance_rarity, "chance card:", chance_card)
             if "Advance to GO" in chance_card:
-               Player.x3 = 0
-               Player.y3 = 0
+                Player.x3 = 0
+                Player.y3 = 0
             elif "Collect $100 from each player" in chance_card:
                 pass  
             elif "Go back to B.Ramly" in chance_card:
                 Player.x3 = 100
                 Player.y3 = 0
             elif "Advance to Free parking" in chance_card:
-               Player.x3 = 900
-               Player.y3 = 0
+                Player.x3 = 900
+                Player.y3 = 0
             elif "Bank pays you dividend of $300" in chance_card:
                 pass  
             elif "Go to jail" in chance_card:
@@ -1242,28 +1296,30 @@ def handle_chance():
                 if Player.x3 < 1000 and Player.y3 == 0:
                     Player.x3 + 100      
                 elif Player.x3 == 900 and Player.y3 != 0:
-                      Player.y3 +  100
+                    Player.y3 +  100
                 elif Player.x3 < 1000 and Player.y3 == 700:
-                      Player.x3 - 100
+                    Player.x3 - 100
                 elif Player.x3 == 0 and Player.y3 <= 700:
-                      Player.y3 - 100
+                    Player.y3 - 100
             elif "Seize any property" in chance_card:
                 pass  
             elif "snatches $200 from each player" in chance_card:
                 pass 
             elif "earthquake" in chance_card:
-                pass  
-            
+                pass
+            Chance.chance_done = True
 
-    if player_sequence == 3:
-        if player4_pos == 12 or player4_pos == 28:
+           
+
+    def chance_button4():
+        if player_sequence == 4 :
             second_roll = random.randint(1,6)
-            chance_rarity = determine_chance_rarity(second_roll)
+            chance_rarity = Chance.determine_chance_rarity(second_roll)
             chance_card = random.choice(chance_rarities[chance_rarity])
             print("Player 4 draws a", chance_rarity, "chance card:", chance_card)
             if "Advance to GO" in chance_card:
-               Player.x4 = 0
-               Player.y4 = 0
+                Player.x4 = 0
+                Player.y4 = 0
             elif "Collect $100 from each player" in chance_card:
                 pass  
             elif "Go back to B.Ramly" in chance_card:
@@ -1281,21 +1337,21 @@ def handle_chance():
                 if Player.x4 < 1000 and Player.y4 == 0:
                     Player.x4 + 100      
                 elif Player.x4 == 900 and Player.y4 != 0:
-                      Player.y4 +  100
+                    Player.y4 +  100
                 elif Player.x4 < 1000 and Player.y4 == 700:
-                      Player.x4 - 100
+                    Player.x4 - 100
                 elif Player.x4 == 0 and Player.y4 <= 700:
-                      Player.y4 - 100
+                    Player.y4 - 100
             elif "Seize any property" in chance_card:
                 pass  
             elif "snatches $200 from each player" in chance_card:
                 pass 
             elif "earthquake" in chance_card:
-                pass  
-            
-
-
-
+                pass
+            Chance.chance_done = True
+   
+                 
+                   
 # settings for the property
 price = 0
 Pricelist = [0, 500, 600, 700, 0, 2100, 800, 900, 1000, 0, 1200, 1300, 0, 1400, 1500, 1600,
@@ -1863,7 +1919,7 @@ class starting_menu:
 map = Map(map_data)
 
 
-button_functions = [button_music.checkmusic, button_roll.checkroll, button_pay.check_pay,
+button_functions = [button_music.checkmusic, button_roll.checkroll, button_pay.check_pay, button_chance.check_chance,
                     button_play.check_play, button_buy.check_buy, button_next.checkload_finish, button_exit.check_exit]
 
 
@@ -1897,8 +1953,7 @@ while run:
     clock.tick(fps)
     screen.fill((0, 0, 0))
 
-
-    if Button.exit_game:
+    if Button.exit_game and Button.menu:
         run = False
 
     if Button.menu:
@@ -1916,22 +1971,20 @@ while run:
         map.draw()
         Display.middle()
         Display.showing_player_money()
-        Display.showing_player_money()
         Display.showing_properties_name()
         economic.update_eco()
-        economic.update_eco()
         button_music.update()
+        Chance.check_chance_valid()
         button_roll.update()
         Player.show_players()
-        economic.check_buying_valid()
         moving_sprites.draw(screen)
         moving_sprites.update()
         economic.check_buying_valid()
+
         if paying:
             button_pay.update()
-        economic.check_buying_valid()
-        if paying:
-            button_pay.update()
+        if Chance.showing_chance:
+            button_chance.update()
 
         if show_description and time.time() - description_display_timer < description_display_duration:
             display_descriptions(description)
@@ -1946,15 +1999,15 @@ while run:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             handle_button_events(pygame.mouse.get_pos())
             display_description_block(pygame.mouse.get_pos())
+
 
         # if roll dice randomize a num
             if Button.rolling_con:
                 Dice.rand_a_dice()
-                if not paying:
-
+                if not paying :
                     dice_num = (random.randint(1, 6))
                     # dice animating
                     dice.animate(dice_num)
@@ -1962,27 +2015,19 @@ while run:
                     Button.rolling_con = False
                     buy_clicked = False
 
-                if player_sequence != 5 and not changing_round and not paying:
+                if player_sequence != 5 and not changing_round and not paying :
                     Player.move(dice_num)
                     economic.checking_rent_valid()
+                
 
             elif Button.is_buying_properties and not buy_clicked:
                 economic.buying_property()
-
                 buy_clicked = True
                 Button.is_buying_properties == False
+            
+
             else:
                 pass
-
-    # if player1_pos == 12 or player1_pos == 28:
-    #     handle_chance()
-    # if player2_pos == 12 or player2_pos == 28:
-    #     handle_chance()
-    # if player3_pos == 12 or player3_pos == 28:
-    #     handle_chance()
-    # if player4_pos == 12 or player4_pos == 28:
-    #     handle_chance()
-
 
 
     pygame.display.update()
