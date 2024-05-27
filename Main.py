@@ -54,7 +54,7 @@ block_desctiptions = {
     9: "'Cameroon Highland'is a district in Pahang, Malaysia, occupying an area of 712.18 square kilometres. Developed in the 1930s, the tableland is one of the oldest tourist spots in Malaysia.",
     11: "'Gunung Mulu National Park' is in Miri Division, Sarawak, Malaysia. It is a UNESCO World Heritage Site that encompasses caves and karst formations in a mountainous equatorial rainforest setting",
     12: "'Mount Kinabalu' is the highest mountain in Borneo and Malaysia. With an elevation of 4,095 metres (13,435 ft), it is the third-highest peak of an island on Earth, the 28th highest peak in Southeast Asia, and 20th most prominent mountain in the world.",
-    14: "'Johor Bahru' colloquially referred to as JB, and the capital city of the state of Johor, Malaysia (the second-largest district in the country, by population). It is the second-largest national GDP-contributor among the major cities in Malaysia, and forms a part of Iskandar Malaysia, the nation's largest special economic zone, by investment value.",
+    14: "'Johor Bahru' colloquially referred to as JB, and the capital city of the state of Johor, Malaysia (the second-largest district in the country, by population). ",
     15: "'George Town' is the capital of the Malaysian state of Penang. Malaysia's second largest metropolitan area with a population of 2.84 million and the second highest contributor to the country's GDP. The city proper spans an area of 306 km2 (118 sq mi) encompassing Penang Island and surrounding islets.",
     16: "'Malacca (Malay: Melaka)', officially the Historic State of Malacca, is a state in Malaysia located in the southern region of the Malay Peninsula, facing the Strait of Malacca. Its capital is Malacca City, which has been listed as a UNESCO World Heritage Site since 7 July 2008.",
     18: "'Kuala Lumpur Sentral Station (KL Sentral)' is a transit-oriented development that houses the main railway station of Kuala Lumpur, the capital of Malaysia. Opened on 16 April 2001, KL Sentral replaced the old Kuala Lumpur railway station as the city's main intercity railway station. KL Sentral is the largest railway station in Malaysia, and also in Southeast Asia from 2001 to 2021",
@@ -71,44 +71,6 @@ block_desctiptions = {
     32: "'Petronas Twin Towers or KLCC Twin Towers' are an interlinked pair of 88-story supertall skyscrapers in Kuala Lumpur, Malaysia, standing at 451.9 metres (1,483 feet). From 1998 to 2004, they were officially designated as the tallest buildings in the world until completion of the Taipei 101, tallest twin skyscrapers and remained the tallest buildings in Malaysia until 2019."
 }
 
-block_image = {
-    2: pygame.image.load('pic/klcc.png'),
-    3: pygame.image.load('pic/klcc.png'),
-    4: pygame.image.load('pic/klcc.png'),
-    6: pygame.image.load('pic/klcc.png'),
-    7: pygame.image.load('pic/klcc.png'),
-    8: pygame.image.load('pic/klcc.png'),
-    9: pygame.image.load('pic/klcc.png'),
-    11: pygame.image.load('pic/klcc.png'),
-    12: pygame.image.load('pic/klcc.png'),
-    14: pygame.image.load('pic/klcc.png'),
-    15: pygame.image.load('pic/klcc.png'),
-    16: pygame.image.load('pic/klcc.png'),
-    18: pygame.image.load('pic/klcc.png'),
-    19: pygame.image.load('pic/klcc.png'),
-    20: pygame.image.load('pic/klcc.png'),
-    22: pygame.image.load('pic/klcc.png'),
-    23: pygame.image.load('pic/klcc.png'),
-    24: pygame.image.load('pic/klcc.png'),
-    25: pygame.image.load('pic/klcc.png'),
-    27: pygame.image.load('pic/klcc.png'),
-    28: pygame.image.load('pic/klcc.png'),
-    30: pygame.image.load('pic/klcc.png'),
-    31: pygame.image.load('pic/klcc.png'),
-    32: pygame.image.load('pic/klcc.png')
-}
-
-def display_block_image():
-    if player_sequence == 1 and player1_pos in block_image:
-        screen.blit(block_image[player1_pos],(700,120))
-    elif player_sequence ==2 and player2_pos in block_image:
-        screen.blit(block_image[player2_pos], (700,120))
-    elif player_sequence ==3 and player3_pos in block_image:
-        screen.blit(block_image[player3_pos], (700,120))
-    elif player_sequence ==4 and player4_pos in block_image:
-        screen.blit(block_image[player4_pos], (700,120))
-    else:
-        pass
 
 def display_descriptions(description):
     max_width = 500
@@ -145,43 +107,6 @@ def wrap_text(text, font, max_width):
     if current_line:
         lines.append(current_line)
     return lines
-
-
-class Property:
-    def __init__(self, name, price, base_rent):
-        self.name = name
-        self.price = price
-        self.base_rent = base_rent
-        self.owner = None
-
-
-# Define property
-property = [
-    Property("Ramly Burger", 500, 10),
-    Property("99 Speedmarket", 600, 20),
-    Property("Aeon Big", 700, 35),
-    Property("TNB", 2100, 40),
-    Property("Batu Caves", 800, 50),
-    Property("Pulau Langkawi", 900, 55),
-    Property("Cameron Highland", 1000, 65),
-    Property("Gunung Mulu", 1200, 80),
-    Property("Mount Kinabalu", 1300, 85),
-    Property("Johor Bahru", 1400, 100),
-    Property("George Town", 1500, 110),
-    Property("Melaka", 1600, 120),
-    Property("KL Sentral", 1800, 140),
-    Property("Port Dickson", 2000, 160),
-    Property("MMU Cyberjaya", 2000, 160),
-    Property("Indah water", 2150, 180),
-    Property("Genting Highland", 2200, 180),
-    Property("Putrajaya", 2400, 200),
-    Property("KLIA", 2500, 220),
-    Property("TRX", 2600, 230),
-    Property("Pavilion KL", 2800, 240),
-    Property("KL Tower", 3000, 275),
-    Property("Merdeka 118", 3500, 350),
-    Property("KLCC", 4000, 500)
-]
 
 
 class Display:
@@ -440,7 +365,7 @@ dice_rolled = False
 changing_round = False
 buy_clicked = False
 pay_clicked = False
-upgrade_clicked = False
+paying = False
 
 
 class Button():
@@ -450,8 +375,7 @@ class Button():
     loading = True
     rolling_con = False
     is_buying_properties = False
-    paying = False
-    is_upgrading_property = False
+    is_paying_rent = False
 
     def __init__(self, image_on, image_off,  x_pos, y_pos):
         self.image_on = image_on
@@ -504,10 +428,6 @@ class Button():
             if player_sequence == 4:
                 economic.rent_button_4()
 
-    def check_upgrade(self, position):
-        if self.rect.collidepoint(position):
-            Button.is_upgrading_property = True
-
     def check_chance(self, position):
         if self.rect.collidepoint(position) and not Chance.chance_done:
             print('chance chance')
@@ -539,7 +459,6 @@ button_next = pygame.image.load('pic/next.png')
 button_buy = pygame.image.load('pic/buy.png')
 button_buy_dim = pygame.image.load('pic/buy_dim.png')
 button_pay = pygame.image.load('pic/pay.png')
-button_upgrade = pygame.image.load('pic/upgrade.png')
 button_chance = pygame.image.load('pic/chance_b.png')
 button_pay_dim = pygame.image.load('pic/pay_dim.png')
 
@@ -553,7 +472,6 @@ button_pay_dim = pygame.transform.scale(button_pay_dim, (120, 80))
 button_exit = pygame.transform.scale(button_exit, (240, 150))
 button_next = pygame.transform.scale(button_next, (120, 100))
 button_buy = pygame.transform.scale(button_buy, (120, 100))
-button_upgrade = pygame.transform.scale(button_upgrade, (120, 100))
 button_chance = pygame.transform.scale(button_chance, (120, 100))
 button_buy_dim = pygame.transform.scale(button_buy_dim, (120, 100))
 
@@ -564,12 +482,11 @@ button_play = Button(button_play, button_play, 700, 600)
 button_exit = Button(button_exit, button_exit, 300, 600)
 button_next = Button(button_next, button_next, 800, 600)
 button_buy = Button(button_buy, button_buy, 800, 550)
-button_pay = Button(button_pay, button_pay, 800, 550)
-button_upgrade = Button(button_upgrade, button_upgrade, 600, 550)
 button_chance = Button(button_chance, button_chance, 400, 600)
 button_buy_dim = Button(button_buy_dim, button_buy_dim, 800, 550)
 button_pay = Button(button_pay, button_pay, 650, 560)
 button_pay_dim = Button(button_pay_dim, button_pay_dim, 650, 560)
+
 
 # add background music
 pygame.mixer.music.load('Sound/BGM.mp3')
@@ -895,12 +812,6 @@ player3_pos = 0
 player4_pos = 0
 # player sequence
 player_sequence = 0
-
-
-go_position = (0, 0)  # position for "GO"
-bramly_position = (2, 1)  # position for "B.Ramly"
-free_parking_position = (9, 1)  # position for Free Parking
-jail_position = (1, 8)  # position for Jail
 
 
 class Dice(pygame.sprite.Sprite):
@@ -1639,8 +1550,6 @@ player1_broke = False
 player2_broke = False
 player3_broke = False
 player4_broke = False
-property_upgrade_status = 0
-upgrade_cost = int()
 
 
 class economic:
@@ -1684,6 +1593,7 @@ class economic:
             pass
 
     def buying_property():
+
         if player_sequence == 1 and player1_broke == False:
             price = Pricelist[player1_pos]
             print(f"price ={price}")
@@ -2179,10 +2089,6 @@ class starting_menu:
 map = Map(map_data)
 
 
-
-button_functions = [button_music.checkmusic, button_roll.checkroll, button_play.check_play,
-                    button_buy.check_buy, button_next.checkload_finish, button_exit.check_exit, button_upgrade.check_upgrade]
-
 button_functions = [button_music.checkmusic, button_roll.checkroll, button_pay.check_pay, button_chance.check_chance,
                     button_play.check_play, button_buy.check_buy, button_next.checkload_finish, button_exit.check_exit]
 
@@ -2251,11 +2157,6 @@ while run:
         moving_sprites.draw(screen)
         moving_sprites.update()
         economic.check_buying_valid()
-        # if paying:
-        #     button_pay.update()
-        # economic.check_buying_valid()
-        # if paying:
-        #     button_pay.update()
 
         if paying:
             button_pay.update()
@@ -2304,8 +2205,7 @@ while run:
                 economic.buying_property()
                 buy_clicked = True
                 Button.is_buying_properties == False
-            elif Button.is_upgrading_property and not upgrade_clicked:
-                economic.upgrade_property()
+
             else:
                 pass
 
