@@ -14,7 +14,7 @@ fps = 60
 screen_width = 1000
 screen_height = 800
 
-pygame.display.set_caption("Monopoly")
+pygame.display.set_caption("Pynopoly")
 screen = pygame.display.set_mode((screen_width, screen_height))
 
 # universal settings
@@ -71,6 +71,44 @@ block_desctiptions = {
     32: "'Petronas Twin Towers or KLCC Twin Towers' are an interlinked pair of 88-story supertall skyscrapers in Kuala Lumpur, Malaysia, standing at 451.9 metres (1,483 feet). From 1998 to 2004, they were officially designated as the tallest buildings in the world until completion of the Taipei 101, tallest twin skyscrapers and remained the tallest buildings in Malaysia until 2019."
 }
 
+block_image = {
+    2: pygame.image.load('pic/klcc.png'),
+    3: pygame.image.load('pic/klcc.png'),
+    4: pygame.image.load('pic/klcc.png'),
+    6: pygame.image.load('pic/klcc.png'),
+    7: pygame.image.load('pic/klcc.png'),
+    8: pygame.image.load('pic/klcc.png'),
+    9: pygame.image.load('pic/klcc.png'),
+    11: pygame.image.load('pic/klcc.png'),
+    12: pygame.image.load('pic/klcc.png'),
+    14: pygame.image.load('pic/klcc.png'),
+    15: pygame.image.load('pic/klcc.png'),
+    16: pygame.image.load('pic/klcc.png'),
+    18: pygame.image.load('pic/klcc.png'),
+    19: pygame.image.load('pic/klcc.png'),
+    20: pygame.image.load('pic/klcc.png'),
+    22: pygame.image.load('pic/klcc.png'),
+    23: pygame.image.load('pic/klcc.png'),
+    24: pygame.image.load('pic/klcc.png'),
+    25: pygame.image.load('pic/klcc.png'),
+    27: pygame.image.load('pic/klcc.png'),
+    28: pygame.image.load('pic/klcc.png'),
+    30: pygame.image.load('pic/klcc.png'),
+    31: pygame.image.load('pic/klcc.png'),
+    32: pygame.image.load('pic/klcc.png')
+}
+
+def display_block_image():
+    if player_sequence == 1 and player1_pos in block_image:
+        screen.blit(block_image[player1_pos],(700,120))
+    elif player_sequence ==2 and player2_pos in block_image:
+        screen.blit(block_image[player2_pos], (700,120))
+    elif player_sequence ==3 and player3_pos in block_image:
+        screen.blit(block_image[player3_pos], (700,120))
+    elif player_sequence ==4 and player4_pos in block_image:
+        screen.blit(block_image[player4_pos], (700,120))
+    else:
+        pass
 
 def display_descriptions(description):
     max_width = 500
@@ -192,8 +230,36 @@ class Display:
     price13_t = text_font.render("$ 2400", True, (black))
     price14_t = text_font.render("$ 2500", True, (black))
     current_money_d = int()
-    # price_t = smaller_font.render(f"{Pricelist}", True, (white))
-    # print(Pricelist)
+    current_round = str()
+    # displaying image
+
+    show_players_image = pygame.transform.scale(pygame.image.load(
+        'pic/loading background.png').convert_alpha(), (1000, 800))
+    show_players_image_rect = show_players_image.get_rect(
+        center=(screen_width//2, screen_height//2))
+    show_load_bool = True
+    limit = 0
+    alpha = 0
+    show_loading_done = False
+    # adding a boolean to control the function to loop one times
+
+    def show_player_explain():
+        # adding a limit to control when the if expression end
+        Display.limit += 1
+        if Display.show_load_bool and Display.alpha <= 255:
+            # adjusting the value to adjust the appear speed
+            Display.alpha += 0.9
+            if Display.limit >= 450 or Display.alpha >= 255:
+                Display.show_load_bool = False
+        if not Display.show_load_bool:
+            # adjusting the value to adjust the disappear speed
+            Display.alpha -= 3
+        if Display.alpha <= 0:
+            Display.show_loading_done = True
+        print(Display.alpha)
+        Display.show_players_image.set_alpha(Display.alpha)
+        screen.blit(Display.show_players_image,
+                    Display.show_players_image_rect)
 
     def rotate_text(text, angle):
         return pygame.transform.rotate(text, angle)
@@ -319,7 +385,7 @@ class Display:
         screen.blit(Display.price1_t, (127, 60))
 
         # drawing grids for maps
-
+    # grid for demonstrating not using in normal play
     def drawing_grid(tile_size):
         tile_size = 50*2
         for line in range(0, 10):
@@ -342,6 +408,8 @@ class Display:
 
     def showing_player_money():
         text_font = pygame.font.Font("HelveticaNeue.ttf", 22)
+        if player_sequence == 0:
+            Display.current_round = round_num
         if player_sequence == 1:
             Display.current_money_d = player_dict_m['p1_money']
         elif player_sequence == 2:
@@ -350,9 +418,19 @@ class Display:
             Display.current_money_d = player_dict_m['p3_money']
         elif player_sequence == 4:
             Display.current_money_d = player_dict_m['p4_money']
-        current_player = text_font.render(
-            f"Player {player_sequence} now have {Display.current_money_d}", True, (black))
-        screen.blit(current_player, (100, 110))
+        if player_sequence != 0:
+            current_player = text_font.render(
+                f"Player {player_sequence} now have {Display.current_money_d}", True, (black))
+            screen.blit(current_player, (100, 110))
+            # showing which round of current when player sequence is 0
+        elif player_sequence == 0:
+            current_player = text_font.render(
+                f"Current round = {Display.current_round}", True, (black))
+            screen.blit(current_player, (100, 110))
+
+    def showing_dim_button():
+        button_pay_dim.update()
+        button_buy_dim.update()
 
 
 # general value for button
@@ -430,6 +508,19 @@ class Button():
         if self.rect.collidepoint(position):
             Button.is_upgrading_property = True
 
+    def check_chance(self, position):
+        if self.rect.collidepoint(position) and not Chance.chance_done:
+            print('chance chance')
+            Chance.chance_done = True
+            if player_sequence == 1:
+                Chance.chance_button1()
+            if player_sequence == 2:
+                Chance.chance_button2()
+            if player_sequence == 3:
+                Chance.chance_button3()
+            if player_sequence == 4:
+                Chance.chance_button4()
+
     def toggleMusicState(self):
         if self.is_music_on:
             pygame.mixer.music.pause()
@@ -446,18 +537,26 @@ button_play = pygame.image.load('pic/play.png')
 button_exit = pygame.image.load('pic/exit.png')
 button_next = pygame.image.load('pic/next.png')
 button_buy = pygame.image.load('pic/buy.png')
+button_buy_dim = pygame.image.load('pic/buy_dim.png')
 button_pay = pygame.image.load('pic/pay.png')
 button_upgrade = pygame.image.load('pic/upgrade.png')
+button_chance = pygame.image.load('pic/chance_b.png')
+button_pay_dim = pygame.image.load('pic/pay_dim.png')
+
 # adjust size
 button_surface_on = pygame.transform.scale(button_surface_on, (40, 40))
 button_surface_off = pygame.transform.scale(button_surface_off, (40, 40))
 button_roll = pygame.transform.scale(button_roll, (80, 80))
-button_play = pygame.transform.scale(button_play, (240, 200))
-button_pay = pygame.transform.scale(button_pay, (120, 100))
-button_exit = pygame.transform.scale(button_exit, (240, 200))
+button_play = pygame.transform.scale(button_play, (240, 150))
+button_pay = pygame.transform.scale(button_pay, (120, 80))
+button_pay_dim = pygame.transform.scale(button_pay_dim, (120, 80))
+button_exit = pygame.transform.scale(button_exit, (240, 150))
 button_next = pygame.transform.scale(button_next, (120, 100))
 button_buy = pygame.transform.scale(button_buy, (120, 100))
 button_upgrade = pygame.transform.scale(button_upgrade, (120, 100))
+button_chance = pygame.transform.scale(button_chance, (120, 100))
+button_buy_dim = pygame.transform.scale(button_buy_dim, (120, 100))
+
 # adjust location
 button_music = Button(button_surface_on, button_surface_off, 880, 120)
 button_roll = Button(button_roll, button_roll, 800, 650)
@@ -467,6 +566,10 @@ button_next = Button(button_next, button_next, 800, 600)
 button_buy = Button(button_buy, button_buy, 800, 550)
 button_pay = Button(button_pay, button_pay, 800, 550)
 button_upgrade = Button(button_upgrade, button_upgrade, 600, 550)
+button_chance = Button(button_chance, button_chance, 400, 600)
+button_buy_dim = Button(button_buy_dim, button_buy_dim, 800, 550)
+button_pay = Button(button_pay, button_pay, 650, 560)
+button_pay_dim = Button(button_pay_dim, button_pay_dim, 650, 560)
 
 # add background music
 pygame.mixer.music.load('Sound/BGM.mp3')
@@ -869,6 +972,14 @@ class Player:
     y3 = 0
     x4 = 0
     y4 = 0
+    player1_in_jail = False
+    player1_jail_round = 0
+    player2_in_jail = False
+    player2_jail_round = 0
+    player3_in_jail = False
+    player3_jail_round = 0
+    player4_in_jail = False
+    player4_jail_round = 0
 
     p1 = pygame.transform.scale(pic1, (int(w1 * 0.35), int(h1 * 0.35)))
     p2 = pygame.transform.scale(pic2, (int(w2 * 0.35), int(h2 * 0.35)))
@@ -888,122 +999,138 @@ class Player:
         second_step = int(0)
         global player_sequence
         # check whether the player is in the first row and move
-        if player_sequence == 1 and Player.x1 < 1000 and Player.y1 == 0:
-            Player.x1 += step * 100
-            # check if player exceed x boundary and needed to turn down
-            if Player.x1 >= 1000:
-                second_step = Player.x1 - 1000
-                Player.x1 = 900
-                Player.y1 += second_step + 100
+        if not Player.player1_in_jail:
+            if player_sequence == 1 and Player.x1 < 1000 and Player.y1 == 0:
+                Player.x1 += step * 100
+                # check if player exceed x boundary and needed to turn down
+                if Player.x1 >= 1000:
+                    second_step = Player.x1 - 1000
+                    Player.x1 = 900
+                    Player.y1 += second_step + 100
 
-        elif player_sequence == 1 and Player.x1 == 900 and Player.y1 != 0:
-            Player.y1 += step * 100
-            if Player.y1 >= 800:
-                second_step = Player.y1 - 800
-                Player.y1 = 700
-                Player.x1 -= second_step
-                Player.x1 -= 100
+            elif player_sequence == 1 and Player.x1 == 900 and Player.y1 != 0:
+                Player.y1 += step * 100
+                if Player.y1 >= 800:
+                    second_step = Player.y1 - 800
+                    Player.y1 = 700
+                    Player.x1 -= second_step
+                    Player.x1 -= 100
 
-        elif player_sequence == 1 and Player.x1 < 1000 and Player.y1 == 700:
-            Player.x1 -= step * 100
-            if Player.x1 <= 0:
-                second_step = 0 - Player.x1
-                Player.x1 = 0
-                Player.y1 = 700 - second_step
+            elif player_sequence == 1 and Player.x1 < 1000 and Player.y1 == 700:
+                Player.x1 -= step * 100
+                if Player.x1 <= 0:
+                    second_step = 0 - Player.x1
+                    Player.x1 = 0
+                    Player.y1 = 700 - second_step
 
-        elif player_sequence == 1 and Player.x1 == 0 and Player.y1 <= 700:
-            Player.y1 -= step * 100
-            if Player.y1 <= 0:
-                second_step = 0 - Player.y1
-                Player.y1 = 0
-                Player.x1 = second_step
+            elif player_sequence == 1 and Player.x1 == 0 and Player.y1 <= 700:
+                Player.y1 -= step * 100
+                if Player.y1 <= 0:
+                    second_step = 0 - Player.y1
+                    Player.y1 = 0
+                    Player.x1 = second_step
+        elif Player.player1_in_jail:
+            Player.x1 = 0
+            Player.y1 = 700
 
-        if player_sequence == 2 and Player.x2 < 1000 and Player.y2 == 0:
-            Player.x2 += step * 100
-            if Player.x2 >= 1000:
-                second_step = Player.x2 - 1000
-                Player.x2 = 900
-                Player.y2 += second_step + 100
+        if not Player.player2_in_jail:
+            if player_sequence == 2 and Player.x2 < 1000 and Player.y2 == 0:
+                Player.x2 += step * 100
+                if Player.x2 >= 1000:
+                    second_step = Player.x2 - 1000
+                    Player.x2 = 900
+                    Player.y2 += second_step + 100
 
-        elif player_sequence == 2 and Player.x2 == 900 and Player.y2 != 0:
-            Player.y2 += step * 100
-            if Player.y2 >= 800:
-                second_step = Player.y2 - 800
-                Player.y2 = 700
-                Player.x2 -= second_step
-                Player.x2 -= 100
+            elif player_sequence == 2 and Player.x2 == 900 and Player.y2 != 0:
+                Player.y2 += step * 100
+                if Player.y2 >= 800:
+                    second_step = Player.y2 - 800
+                    Player.y2 = 700
+                    Player.x2 -= second_step
+                    Player.x2 -= 100
 
-        elif player_sequence == 2 and Player.x2 < 1000 and Player.y2 == 700:
-            Player.x2 -= step * 100
-            if Player.x2 <= 0:
-                second_step = 0 - Player.x2
-                Player.x2 = 0
-                Player.y2 = 700 - second_step
+            elif player_sequence == 2 and Player.x2 < 1000 and Player.y2 == 700:
+                Player.x2 -= step * 100
+                if Player.x2 <= 0:
+                    second_step = 0 - Player.x2
+                    Player.x2 = 0
+                    Player.y2 = 700 - second_step
 
-        elif player_sequence == 2 and Player.x2 == 0 and Player.y2 <= 700:
-            Player.y2 -= step * 100
-            if Player.y2 <= 0:
-                second_step = 0 - Player.y2
-                Player.y2 = 0
-                Player.x2 = second_step
+            elif player_sequence == 2 and Player.x2 == 0 and Player.y2 <= 700:
+                Player.y2 -= step * 100
+                if Player.y2 <= 0:
+                    second_step = 0 - Player.y2
+                    Player.y2 = 0
+                    Player.x2 = second_step
+        elif Player.player2_in_jail:
+            Player.x2 = 0
+            Player.y2 = 700
 
-        if player_sequence == 3 and Player.x3 < 1000 and Player.y3 == 0:
-            Player.x3 += step * 100
-            if Player.x3 >= 1000:
-                second_step = Player.x3 - 1000
-                Player.x3 = 900
-                Player.y3 += second_step + 100
+        if not Player.player3_in_jail:
+            if player_sequence == 3 and Player.x3 < 1000 and Player.y3 == 0:
+                Player.x3 += step * 100
+                if Player.x3 >= 1000:
+                    second_step = Player.x3 - 1000
+                    Player.x3 = 900
+                    Player.y3 += second_step + 100
 
-        elif player_sequence == 3 and Player.x3 == 900 and Player.y3 != 0:
-            Player.y3 += step * 100
-            if Player.y3 >= 800:
-                second_step = Player.y3 - 800
-                Player.y3 = 700
-                Player.x3 -= second_step
-                Player.x3 -= 100
+            elif player_sequence == 3 and Player.x3 == 900 and Player.y3 != 0:
+                Player.y3 += step * 100
+                if Player.y3 >= 800:
+                    second_step = Player.y3 - 800
+                    Player.y3 = 700
+                    Player.x3 -= second_step
+                    Player.x3 -= 100
 
-        elif player_sequence == 3 and Player.x3 < 1000 and Player.y3 == 700:
-            Player.x3 -= step * 100
-            if Player.x3 <= 0:
-                second_step = 0 - Player.x3
-                Player.x3 = 0
-                Player.y3 = 700 - second_step
+            elif player_sequence == 3 and Player.x3 < 1000 and Player.y3 == 700:
+                Player.x3 -= step * 100
+                if Player.x3 <= 0:
+                    second_step = 0 - Player.x3
+                    Player.x3 = 0
+                    Player.y3 = 700 - second_step
 
-        elif player_sequence == 3 and Player.x3 == 0 and Player.y3 <= 700:
-            Player.y3 -= step * 100
-            if Player.y3 <= 0:
-                second_step = 0 - Player.y3
-                Player.y3 = 0
-                Player.x3 = second_step
+            elif player_sequence == 3 and Player.x3 == 0 and Player.y3 <= 700:
+                Player.y3 -= step * 100
+                if Player.y3 <= 0:
+                    second_step = 0 - Player.y3
+                    Player.y3 = 0
+                    Player.x3 = second_step
+        elif Player.player3_in_jail:
+            Player.x3 = 0
+            Player.y3 = 700
 
-        if player_sequence == 4 and Player.x4 < 1000 and Player.y4 == 0:
-            Player.x4 += step * 100
-            if Player.x4 >= 1000:
-                second_step = Player.x4 - 1000
-                Player.x4 = 900
-                Player.y4 += second_step + 100
+        if not Player.player4_in_jail:
+            if player_sequence == 4 and Player.x4 < 1000 and Player.y4 == 0:
+                Player.x4 += step * 100
+                if Player.x4 >= 1000:
+                    second_step = Player.x4 - 1000
+                    Player.x4 = 900
+                    Player.y4 += second_step + 100
 
-        elif player_sequence == 4 and Player.x4 == 900 and Player.y4 != 0:
-            Player.y4 += step * 100
-            if Player.y4 >= 800:
-                second_step = Player.y4 - 800
-                Player.y4 = 700
-                Player.x4 -= second_step
-                Player.x4 -= 100
+            elif player_sequence == 4 and Player.x4 == 900 and Player.y4 != 0:
+                Player.y4 += step * 100
+                if Player.y4 >= 800:
+                    second_step = Player.y4 - 800
+                    Player.y4 = 700
+                    Player.x4 -= second_step
+                    Player.x4 -= 100
 
-        elif player_sequence == 4 and Player.x4 < 1000 and Player.y4 == 700:
-            Player.x4 -= step * 100
-            if Player.x4 <= 0:
-                second_step = 0 - Player.x4
-                Player.x4 = 0
-                Player.y4 = 700 - second_step
+            elif player_sequence == 4 and Player.x4 < 1000 and Player.y4 == 700:
+                Player.x4 -= step * 100
+                if Player.x4 <= 0:
+                    second_step = 0 - Player.x4
+                    Player.x4 = 0
+                    Player.y4 = 700 - second_step
 
-        elif player_sequence == 4 and Player.x4 == 0 and Player.y4 <= 700:
-            Player.y4 -= step * 100
-            if Player.y4 <= 0:
-                second_step = 0 - Player.y4
-                Player.y4 = 0
-                Player.x4 = second_step
+            elif player_sequence == 4 and Player.x4 == 0 and Player.y4 <= 700:
+                Player.y4 -= step * 100
+                if Player.y4 <= 0:
+                    second_step = 0 - Player.y4
+                    Player.y4 = 0
+                    Player.x4 = second_step
+        elif Player.player4_in_jail:
+            Player.x4 = 0
+            Player.y4 = 700
 
     def show_players():
         screen.blit(Player.p1, (Player.x1, Player.y1))
@@ -1014,58 +1141,86 @@ class Player:
     def player_movement(dice_num):
         global dice_rolled,  player1_pos, player2_pos, player3_pos, player4_pos, player_sequence, changing_round, round_num
         player_sequence += 1
-
-        if dice_con and dice_rolled and player_sequence == 1:
+        if dice_con and dice_rolled and player_sequence == 1 and not Player.player1_in_jail:
             dice_rolled = False
             print(f"dice is {dice_num}")
             player1_pos = player1_pos + dice_num
             changing_round = False
+            # a player position is less than a new round
             if player1_pos < 32:
+                if player1_pos == 16:
+                    Player.player_jail1()
+                    print(Player.player1_in_jail)
                 print(f"Player 1 is now at:{player1_pos}")
+            # a player position goes back on the origin and reset it to 0
             elif player1_pos == 32:
                 player1_pos = 0
-                print(f"Player 1 is now at: {player1_pos}")
-            else:
-                player1_pos -= 32
+                player_dict_m['p1_money'] += 2000
+                print(f"player 1 passes go and get 2000")
                 print(f"Player 1 is now at: {player1_pos}")
 
-        if dice_con and dice_rolled and player_sequence == 2:
+            else:
+                # a player position exceed total tile of a round , therefore -32 to adjust to new lapse
+                player1_pos -= 32
+                player_dict_m['p1_money'] += 2000
+                print(f"player 1 passes go and get 2000")
+                print(f"Player 1 is now at: {player1_pos}")
+
+        if dice_con and dice_rolled and player_sequence == 2 and not Player.player2_in_jail:
             dice_rolled = False
             print(f"dice is {dice_num}")
             player2_pos = player2_pos + dice_num
             if player2_pos < 32:
+                if player2_pos == 16:
+                    Player.player_jail2()
                 print(f"Player 2 is now at:{player2_pos}")
             elif player2_pos == 32:
                 player2_pos = 0
+                player_dict_m['p2_money'] += 2000
+                print(f"player 2 passes go and get 2000")
                 print(f"Player 2 is now at: {player2_pos}")
+
             else:
                 player2_pos -= 32
+                player_dict_m['p2_money'] += 2000
+                print(f"player 2 passes go and get 2000")
                 print(f"Player 2 is now at: {player2_pos}")
-        if dice_con and dice_rolled and player_sequence == 3:
+        if dice_con and dice_rolled and player_sequence == 3 and not Player.player3_in_jail:
             dice_rolled = False
             print(f"dice is {dice_num}")
             player3_pos = player3_pos + dice_num
             if player3_pos < 32:
+                if player3_pos == 16:
+                    Player.player_jail3()
                 print(f"Player 3 is now at:{player3_pos}")
             elif player3_pos == 32:
                 player3_pos = 0
+                player_dict_m['p3_money'] += 2000
+                print(f"player 3 passes go and added 2000")
                 print(f"Player 3 is now at: {player3_pos}")
             else:
                 player3_pos -= 32
+                player_dict_m['p3_money'] += 2000
+                print(f"player 3 passes go and added 2000")
                 print(f"Player 3 is now at: {player3_pos}")
 
-        if dice_con and dice_rolled and player_sequence == 4:
+        if dice_con and dice_rolled and player_sequence == 4 and not Player.player4_in_jail:
             dice_rolled = False
             print(f"dice is {dice_num}")
-
             player4_pos = player4_pos + dice_num
             if player4_pos < 32:
+                if player4_pos == 16:
+                    Player.player_jail4()
                 print(f"Player 4 is now at:{player4_pos}")
             elif player4_pos == 32:
                 player4_pos = 0
+                player_dict_m['p4_money'] += 2000
+                print(f"player 4 passes go and added 2000")
                 print(f"Player 4 is now at: {player4_pos}")
             else:
                 player4_pos -= 32
+                player_dict_m['p4_money'] += 2000
+                print(f"player 4 passes go and added 2000")
                 print(f"Player 4 is now at: {player4_pos}")
 
         elif player_sequence == 5:
@@ -1074,10 +1229,74 @@ class Player:
             print(f'{round_num} round started')
             player_sequence -= 5
 
+            # if a new round started check whether if a player is in jail and count a round for his sentences
+            if Player.player1_in_jail:
+                Player.player1_jail_sentences()
+            if Player.player2_in_jail:
+                Player.player2_jail_sentences()
+            if Player.player3_in_jail:
+                Player.player3_jail_sentences()
+            if Player.player4_in_jail:
+                Player.player4_jail_sentences()
 
-active_player_index = 0
+    def player_jail1():
+        global player1_pos
+        # run a def and switch a bool to true and stop moving a certain player
+        print('player 1 in jail')
+        # adjusting position of a player
+        player1_pos = 25
+        Player.player1_in_jail = True
 
-total_positions = num_row * 2 + num_col * 2 - 4
+    def player_jail2():
+        global player2_pos
+        print('player 2 in jail')
+        player2_pos = 25
+        Player.player2_in_jail = True
+
+    def player_jail3():
+        global player3_pos
+        print('player 3 in jail')
+        player3_pos = 25
+        Player.player3_in_jail = True
+
+    def player_jail4():
+        global player4_pos
+        print('player 4 in jail')
+        player4_pos = 25
+        Player.player4_in_jail = True
+
+    def player1_jail_sentences():
+        # checking if the player has passed two round since being jailed and set the player free
+        if Player.player1_jail_round == 1:
+            Player.player1_in_jail = False
+            Player.player1_jail_round == 0
+        else:
+            Player.player1_jail_round += 1
+            print('Player1 is 1 more round from freedom')
+
+    def player2_jail_sentences():
+        if Player.player2_jail_round == 1:
+            Player.player2_in_jail = False
+            Player.player2_jail_round == 0
+        else:
+            Player.player2_jail_round += 1
+            print('Player2 is 1 more round from freedom')
+
+    def player3_jail_sentences():
+        if Player.player3_jail_round == 1:
+            Player.player3_in_jail = False
+            Player.player3_jail_round == 0
+        else:
+            Player.player3_jail_round += 1
+            print('Player3 is 1 more round from freedom')
+
+    def player4_jail_sentences():
+        if Player.player4_jail_round == 1:
+            Player.player4_in_jail = False
+            Player.player4_jail_round == 0
+        else:
+            Player.player4_jail_round += 1
+            print('Player4 is 1 more round from freedom')
 
 
 player_names = ["player1", "player2", "player3", "player4"]
@@ -1110,21 +1329,78 @@ chance_rarities = {
 }
 
 
-def determine_chance_rarity(second_roll):
-    if second_roll >= 5:
-        return "Epic"
-    elif second_roll >= 3:
-        return "Rare"
-    else:
-        return "Common"
+class Chance:
+    showing_chance = False
+    chance_done = False
+    player1_c = False
+    player2_c = False
+    player3_c = False
+    player4_c = False
 
+    def determine_chance_rarity(second_roll):
+        if second_roll >= 5:
+            return "Epic"
+        elif second_roll >= 3:
+            return "Rare"
+        else:
+            return "Common"
 
-def handle_chance():
+    def handle_chance():
+        if player_sequence == 0:
+            if player1_pos == 12 or player1_pos == 28:
+                second_roll = random.randint(1, 6)
+                chance_rarity = Chance.determine_chance_rarity(second_roll)
 
-    if player_sequence == 0:
-        if player1_pos == 12 or player1_pos == 28:
+    def determine_chance_rarity(second_roll):
+        if second_roll >= 5:
+            return "Epic"
+        elif second_roll >= 3:
+            return "Rare"
+        else:
+            return "Common"
+
+    def check_chance_valid():
+
+        if not Chance.chance_done:
+            if player1_pos == 12 or player1_pos == 28:
+                Chance.showing_chance = True
+                Chance.player1_c = True
+            if player2_pos == 12 or player2_pos == 28:
+                Chance.showing_chance = True
+                Chance.player2_c = True
+            if player3_pos == 12 or player3_pos == 28:
+                Chance.showing_chance = True
+                Chance.player3_c = True
+            if player4_pos == 12 or player4_pos == 28:
+                Chance.showing_chance = True
+                Chance.player4_c = True
+        else:
+            Chance.showing_chance = False
+        Chance.player_leave_chance()
+    # detect whether a player who get chance leave the position and reset to make button disappear
+
+    def player_leave_chance():
+        if Chance.player1_c:
+            if player1_pos != 12 and player1_pos != 28:
+                Chance.chance_done = False
+                Chance.player1_c = False
+        if Chance.player2_c:
+            if player2_pos != 12 and player2_pos != 28:
+                Chance.chance_done = False
+                Chance.player2_c = False
+        if Chance.player3_c:
+            if player3_pos != 12 and player3_pos != 28:
+                Chance.chance_done = False
+                Chance.player3_c = False
+        if Chance.player4_c:
+            if player4_pos != 12 and player4_pos != 28:
+                Chance.chance_done = False
+                Chance.player4_c = False
+
+    def chance_button1():
+        if player_sequence == 1:
             second_roll = random.randint(1, 6)
-            chance_rarity = determine_chance_rarity(second_roll)
+            chance_rarity = Chance.determine_chance_rarity(second_roll)
             chance_card = random.choice(chance_rarities[chance_rarity])
             print("Player 1 draws a", chance_rarity,
                   "chance card:", chance_card)
@@ -1149,6 +1425,7 @@ def handle_chance():
                     Player.x1 + 100
                 elif Player.x1 == 900 and Player.y1 != 0:
                     Player.y1 + 100
+
                 elif Player.x1 < 1000 and Player.y1 == 700:
                     Player.x1 - 100
                 elif Player.x1 == 0 and Player.y1 <= 700:
@@ -1160,10 +1437,12 @@ def handle_chance():
             elif "earthquake" in chance_card:
                 pass
 
-    if player_sequence == 1:
-        if player2_pos == 12 or player2_pos == 28:
+            Chance.chance_done = True
+
+    def chance_button2():
+        if player_sequence == 2:
             second_roll = random.randint(1, 6)
-            chance_rarity = determine_chance_rarity(second_roll)
+            chance_rarity = Chance.determine_chance_rarity(second_roll)
             chance_card = random.choice(chance_rarities[chance_rarity])
             print("Player 2 draws a", chance_rarity,
                   "chance card:", chance_card)
@@ -1188,6 +1467,7 @@ def handle_chance():
                     Player.x2 + 100
                 elif Player.x2 == 900 and Player.y2 != 0:
                     Player.y2 + 100
+
                 elif Player.x2 < 1000 and Player.y2 == 700:
                     Player.x2 - 100
                 elif Player.x2 == 0 and Player.y2 <= 700:
@@ -1199,10 +1479,12 @@ def handle_chance():
             elif "earthquake" in chance_card:
                 pass
 
-    if player_sequence == 2:
-        if player3_pos == 12 or player3_pos == 28:
+            Chance.chance_done = True
+
+    def chance_button3():
+        if player_sequence == 3:
             second_roll = random.randint(1, 6)
-            chance_rarity = determine_chance_rarity(second_roll)
+            chance_rarity = Chance.determine_chance_rarity(second_roll)
             chance_card = random.choice(chance_rarities[chance_rarity])
             print("Player 3 draws a", chance_rarity,
                   "chance card:", chance_card)
@@ -1226,6 +1508,7 @@ def handle_chance():
                 if Player.x3 < 1000 and Player.y3 == 0:
                     Player.x3 + 100
                 elif Player.x3 == 900 and Player.y3 != 0:
+
                     Player.y3 + 100
                 elif Player.x3 < 1000 and Player.y3 == 700:
                     Player.x3 - 100
@@ -1237,11 +1520,12 @@ def handle_chance():
                 pass
             elif "earthquake" in chance_card:
                 pass
+            Chance.chance_done = True
 
-    if player_sequence == 3:
-        if player4_pos == 12 or player4_pos == 28:
+    def chance_button4():
+        if player_sequence == 4:
             second_roll = random.randint(1, 6)
-            chance_rarity = determine_chance_rarity(second_roll)
+            chance_rarity = Chance.determine_chance_rarity(second_roll)
             chance_card = random.choice(chance_rarities[chance_rarity])
             print("Player 4 draws a", chance_rarity,
                   "chance card:", chance_card)
@@ -1276,6 +1560,7 @@ def handle_chance():
                 pass
             elif "earthquake" in chance_card:
                 pass
+            Chance.chance_done = True
 
 
 # settings for the property
@@ -1371,6 +1656,8 @@ class economic:
     L_eco_dis2 = str()
     L_eco_dis3 = str()
     L_eco_dis4 = str()
+    rent_display = str()
+    rent_value = str()
     # checking for validity in buying property
     # player will not be able to click buy button if tile is not available to sell
     showing_pay_button = False
@@ -1505,6 +1792,7 @@ class economic:
     def update_eco():
         global player_sequence
         title_font = pygame.font.Font("HelveticaNeue.ttf", 18)
+        rent_font = pygame.font.Font("HelveticaNeue.ttf", 20)
         dis_eco1 = economic.eco_dis1
         dis_eco2 = economic.eco_dis2
         dis_eco3 = economic.eco_dis3
@@ -1517,6 +1805,7 @@ class economic:
         L_dis_eco2 = economic.L_eco_dis2
         L_dis_eco3 = economic.L_eco_dis3
         L_dis_eco4 = economic.L_eco_dis4
+        rent_display = economic.rent_display
         dis_eco1 = title_font.render(f"{dis_eco1}", True, black)
         ldis_eco1 = title_font.render(f"{ldis_eco1}", True, black)
         L_dis_eco1 = title_font.render(f"{L_dis_eco1}", True, black)
@@ -1529,23 +1818,26 @@ class economic:
         dis_eco4 = title_font.render(f"{dis_eco4}", True, black)
         ldis_eco4 = title_font.render(f"{ldis_eco4}", True, black)
         L_dis_eco4 = title_font.render(f"{L_dis_eco4}", True, black)
-        if player_sequence == 1:
+        rent_display = rent_font.render(f"{rent_display}", True, black)
+        # showing player current activity
+        if player_sequence == 1 and not paying:
             screen.blit(dis_eco1, (120, 630))
             screen.blit(ldis_eco1, (120, 650))
             screen.blit(L_dis_eco1, (120, 670))
-        elif player_sequence == 2:
+        elif player_sequence == 2 and not paying:
             screen.blit(dis_eco2, (120, 630))
             screen.blit(ldis_eco2, (120, 650))
             screen.blit(L_dis_eco2, (120, 670))
-        elif player_sequence == 3:
+        elif player_sequence == 3 and not paying:
             screen.blit(dis_eco3, (120, 630))
             screen.blit(ldis_eco3, (120, 650))
             screen.blit(L_dis_eco3, (120, 670))
-        elif player_sequence == 4:
+        elif player_sequence == 4 and not paying:
             screen.blit(dis_eco4, (120, 630))
             screen.blit(ldis_eco4, (120, 650))
             screen.blit(L_dis_eco4, (120, 670))
-    # calling a function for the game
+        elif player_sequence != 0 and paying:
+            screen.blit(rent_display, (120, 630))
 
     def checking_rent_valid():
         global paying
@@ -1566,34 +1858,72 @@ class economic:
         global paying
         # check if player 1 needed to pay another player rent
         if player_sequence == 1 and player1_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
-
             property_rent = name_list[player1_pos]
+            rent_price = Property_with_rent[property_rent]
             rent_in_list = (
                 property_rent in p2_list_p or property_rent in p3_list_p or property_rent in p4_list_p)
             if rent_in_list:
+                if property_rent in p2_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 2 rent")
+                elif property_rent in p3_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 3 rent")
+                elif property_rent in p4_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 4 rent")
                 paying = True
 
         if player_sequence == 2 and player2_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
 
             property_rent = name_list[player2_pos]
+            rent_price = Property_with_rent[property_rent]
             rent_in_list = (
                 property_rent in p1_list_p or property_rent in p3_list_p or property_rent in p4_list_p)
             if rent_in_list:
+                if property_rent in p1_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 1 rent")
+                elif property_rent in p3_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 3 rent")
+                elif property_rent in p4_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 4 rent")
                 paying = True
 
         if player_sequence == 3 and player3_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
-
             property_rent = name_list[player3_pos]
+            rent_price = Property_with_rent[property_rent]
             rent_in_list = (
                 property_rent in p1_list_p or property_rent in p2_list_p or property_rent in p4_list_p)
             if rent_in_list:
+                if property_rent in p1_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 1 rent")
+                elif property_rent in p2_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 2 rent")
+                elif property_rent in p4_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 4 rent")
                 paying = True
         if player_sequence == 4 and player4_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
 
             property_rent = name_list[player4_pos]
+            rent_price = Property_with_rent[property_rent]
             rent_in_list = (
                 property_rent in p1_list_p or property_rent in p3_list_p or property_rent in p2_list_p)
             if rent_in_list:
+                if property_rent in p1_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 1 rent")
+                elif property_rent in p2_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 2 rent")
+                elif property_rent in p3_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 3 rent")
                 paying = True
 
     def rent_button_1():
@@ -1849,8 +2179,12 @@ class starting_menu:
 map = Map(map_data)
 
 
+
 button_functions = [button_music.checkmusic, button_roll.checkroll, button_play.check_play,
                     button_buy.check_buy, button_next.checkload_finish, button_exit.check_exit, button_upgrade.check_upgrade]
+
+button_functions = [button_music.checkmusic, button_roll.checkroll, button_pay.check_pay, button_chance.check_chance,
+                    button_play.check_play, button_buy.check_buy, button_next.checkload_finish, button_exit.check_exit]
 
 
 def handle_button_events(pos):
@@ -1883,10 +2217,11 @@ while run:
     clock.tick(fps)
     screen.fill((0, 0, 0))
 
-    if Button.exit_game:
+    if Button.exit_game and Button.menu:
         run = False
 
     if Button.menu:
+
         button_play.update()
         button_exit.update()
         starting_menu.title()
@@ -1896,19 +2231,23 @@ while run:
         starting_menu.loading_screen()
         starting_menu.showing_rule()
 
-    if not Button.menu and not Button.loading:
-        # starting_menu.loading_screen()
+    if not Display.show_loading_done and not Button.loading:
+        pass
+        # remember change show_loading_done back to false when activate this def
+        Display.show_player_explain()
+
+    if not Button.menu and not Button.loading and Display.show_loading_done:
+
         map.draw()
         Display.middle()
-        Display.showing_player_money()
+        Display.showing_dim_button()
         Display.showing_player_money()
         Display.showing_properties_name()
         economic.update_eco()
-        economic.update_eco()
         button_music.update()
+        Chance.check_chance_valid()
         button_roll.update()
         Player.show_players()
-        economic.check_buying_valid()
         moving_sprites.draw(screen)
         moving_sprites.update()
         economic.check_buying_valid()
@@ -1917,6 +2256,17 @@ while run:
         # economic.check_buying_valid()
         # if paying:
         #     button_pay.update()
+
+        if paying:
+            button_pay.update()
+        if Chance.showing_chance:
+            button_chance.update()
+        economic.check_buying_valid()
+        Player.show_players()
+        moving_sprites.draw(screen)
+        moving_sprites.update()
+        if paying:
+            button_pay.update()
 
         if show_description and time.time() - description_display_timer < description_display_duration:
             display_descriptions(description)
@@ -1931,7 +2281,7 @@ while run:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             handle_button_events(pygame.mouse.get_pos())
             display_description_block(pygame.mouse.get_pos())
 
@@ -1939,7 +2289,6 @@ while run:
             if Button.rolling_con:
                 Dice.rand_a_dice()
                 if not paying:
-
                     dice_num = (random.randint(1, 6))
                     # dice animating
                     dice.animate(dice_num)
@@ -1953,21 +2302,12 @@ while run:
 
             elif Button.is_buying_properties and not buy_clicked:
                 economic.buying_property()
-
                 buy_clicked = True
                 Button.is_buying_properties == False
             elif Button.is_upgrading_property and not upgrade_clicked:
                 economic.upgrade_property()
+            else:
                 pass
-
-    # if player1_pos == 12 or player1_pos == 28:
-    #     handle_chance()
-    # if player2_pos == 12 or player2_pos == 28:
-    #     handle_chance()
-    # if player3_pos == 12 or player3_pos == 28:
-    #     handle_chance()
-    # if player4_pos == 12 or player4_pos == 28:
-    #     handle_chance()
 
     pygame.display.update()
 pygame.quit()
