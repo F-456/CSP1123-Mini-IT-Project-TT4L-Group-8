@@ -467,8 +467,8 @@ button_surface_on = pygame.transform.scale(button_surface_on, (40, 40))
 button_surface_off = pygame.transform.scale(button_surface_off, (40, 40))
 button_roll = pygame.transform.scale(button_roll, (80, 80))
 button_play = pygame.transform.scale(button_play, (240, 150))
-button_pay = pygame.transform.scale(button_pay, (120, 80))
-button_pay_dim = pygame.transform.scale(button_pay_dim, (120, 80))
+button_pay = pygame.transform.scale(button_pay, (120, 88))
+button_pay_dim = pygame.transform.scale(button_pay_dim, (120, 88))
 button_exit = pygame.transform.scale(button_exit, (240, 150))
 button_next = pygame.transform.scale(button_next, (120, 100))
 button_buy = pygame.transform.scale(button_buy, (120, 100))
@@ -2117,7 +2117,51 @@ def display_description_block(pos):
         description_display_timer = time.time()
 
 
+def disaster_eartquake():
+    # adjusting another value after 1 can change it's possibilities
+    possibilities = random.randint(1, 80)
+    if round_num >= 1:
+        if possibilities == 1:
+            print("oh no a earthquake happen")
+            print('player 1 donate 500')
+            player_dict_m['p1_money'] -= 500
+        if possibilities == 2:
+            print("oh no a earthquake happen")
+            print('player 2 donate 500')
+            player_dict_m['p2_money'] -= 500
+        if possibilities == 3:
+            print("oh no a earthquake happen")
+            print('player 3 donate 500')
+            player_dict_m['p3_money'] -= 500
+        if possibilities == 4:
+            print("oh no a earthquake happen")
+            print('player 4 donate 500')
+            player_dict_m['p4_money'] -= 500
+
+
+def disaster_tornado():
+    possibilities = random.randint(1, 100)
+    if round_num >= 1:
+        if possibilities == 1:
+            print("oh no a tornoda hit player 1")
+            print('player 1 loss 1000')
+            player_dict_m['p1_money'] -= 1000
+        if possibilities == 2:
+            print("oh no a tornado hit player 2")
+            print('player 2 loss 1000')
+            player_dict_m['p2_money'] -= 1000
+        if possibilities == 3:
+            print("oh no a tornado hit player 3")
+            print('player 3 donate 1000')
+            player_dict_m['p3_money'] -= 1000
+        if possibilities == 4:
+            print("oh no a tornado happen")
+            print('player 4 donate 1000')
+            player_dict_m['p4_money'] -= 1000
+
+
 run = True
+
 # main loop for python
 while run:
     clock.tick(fps)
@@ -2127,7 +2171,6 @@ while run:
         run = False
 
     if Button.menu:
-
         button_play.update()
         button_exit.update()
         starting_menu.title()
@@ -2187,9 +2230,11 @@ while run:
             display_description_block(pygame.mouse.get_pos())
 
         # if roll dice randomize a num
-            if Button.rolling_con:
+            if Button.rolling_con and Display.show_loading_done:
                 Dice.rand_a_dice()
                 if not paying:
+                    disaster_eartquake()
+                    disaster_tornado()
                     dice_num = (random.randint(1, 6))
                     # dice animating
                     dice.animate(dice_num)
