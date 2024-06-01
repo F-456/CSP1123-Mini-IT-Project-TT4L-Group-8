@@ -74,7 +74,7 @@ block_desctiptions = {
 
 def display_descriptions(description):
     max_width = 500
-    max_height = 400
+    max_height = 350
 
     # Create a surface to render text
     description_surface = pygame.Surface((max_width, max_height))
@@ -174,7 +174,7 @@ class Display:
         if Display.show_load_bool and Display.alpha <= 255:
             # adjusting the value to adjust the appear speed
             Display.alpha += 0.9
-            if Display.limit >= 450 or Display.alpha >= 255:
+            if Display.limit >= 300 or Display.alpha >= 255:
                 Display.show_load_bool = False
         if not Display.show_load_bool:
             # adjusting the value to adjust the disappear speed
@@ -376,6 +376,7 @@ class Button():
     rolling_con = False
     is_buying_properties = False
     is_paying_rent = False
+    # is_upgrade_properties = False
 
     def __init__(self, image_on, image_off,  x_pos, y_pos):
         self.image_on = image_on
@@ -427,6 +428,10 @@ class Button():
                 economic.rent_button_3()
             if player_sequence == 4:
                 economic.rent_button_4()
+    
+    # def check_upgrade(self, position):
+    #     if self.rect.collidepoint(position):
+    #         Button.is_upgrade_properties = True
 
     def check_chance(self, position):
         if self.rect.collidepoint(position) and not Chance.chance_done:
@@ -459,6 +464,7 @@ button_next = pygame.image.load('pic/next.png')
 button_buy = pygame.image.load('pic/buy.png')
 button_buy_dim = pygame.image.load('pic/buy_dim.png')
 button_pay = pygame.image.load('pic/pay.png')
+button_upgrade = pygame.image.load('pic/upgrade.png')
 button_chance = pygame.image.load('pic/chance_b.png')
 button_pay_dim = pygame.image.load('pic/pay_dim.png')
 
@@ -472,6 +478,7 @@ button_pay_dim = pygame.transform.scale(button_pay_dim, (120, 80))
 button_exit = pygame.transform.scale(button_exit, (240, 150))
 button_next = pygame.transform.scale(button_next, (120, 100))
 button_buy = pygame.transform.scale(button_buy, (120, 100))
+button_upgrade = pygame.transform.scale(button_upgrade, (120, 100))
 button_chance = pygame.transform.scale(button_chance, (120, 100))
 button_buy_dim = pygame.transform.scale(button_buy_dim, (120, 100))
 
@@ -482,11 +489,11 @@ button_play = Button(button_play, button_play, 700, 600)
 button_exit = Button(button_exit, button_exit, 300, 600)
 button_next = Button(button_next, button_next, 800, 600)
 button_buy = Button(button_buy, button_buy, 800, 550)
+button_upgrade = Button(button_upgrade, button_upgrade, 500, 540)
 button_chance = Button(button_chance, button_chance, 400, 600)
 button_buy_dim = Button(button_buy_dim, button_buy_dim, 800, 550)
 button_pay = Button(button_pay, button_pay, 650, 560)
 button_pay_dim = Button(button_pay_dim, button_pay_dim, 650, 560)
-
 
 # add background music
 pygame.mixer.music.load('Sound/BGM.mp3')
@@ -1538,6 +1545,31 @@ Property_with_rent = {
     'KLCC': 500
 }
 
+upgrade_cost = {
+    'Ramly Burger': 250,
+    '99 Speedmarket': 300,
+    'Aeon Big': 350,
+    'Batu Caves': 400,
+    'Pulau Langkawi': 450,
+    'Cameron Highland': 500,
+    'Gunung Mulu': 600,
+    'Mount Kinabalu': 650,
+    'Johor Bahru': 700,
+    'George Town': 750,
+    'Melaka': 800,
+    'KL Sentral': 900,
+    'Port Dickson': 950,
+    'MMU Cyberjaya': 1000,
+    'Genting Highland': 1100,
+    'Putrajaya': 1200,
+    'KLIA': 1250,
+    'TRX': 1300,
+    'Pavilion KL': 1400,
+    'KL Tower': 1500,
+    'Merdeka 118': 1750,
+    'KLCC': 2000
+}
+
 # setting for player
 initial_money = int(15000)
 player_dict_m = {'p1_money': initial_money, 'p2_money': initial_money,
@@ -1647,7 +1679,6 @@ class economic:
                 economic.leco_dis1 = (f'own {economic.leco_dis1}')
             else:
                 economic.leco_dis1 = (f'own {p1_list_p}')
-
             print(economic.eco_dis1)
             Pricelist[player1_pos] = 0
         elif player_sequence == 2 and Pricelist[player2_pos] != 0:
@@ -1699,6 +1730,73 @@ class economic:
         else:
             pass
 
+    def check_upgrade_valid():
+        if player_sequence == 1 and player1_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+            if Pricelist[player1_pos] !=0:
+                button_upgrade.update()
+
+        elif player_sequence == 2 and player2_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+            if Pricelist[player2_pos] != 0:
+                button_upgrade.update()
+
+        elif player_sequence == 3 and player3_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+            if Pricelist[player3_pos] != 0:
+                button_upgrade.update()
+
+        elif player_sequence == 4 and player4_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+            if Pricelist[player4_pos] != 0:
+                button_upgrade.update()
+
+        else:
+            pass
+
+    def upgrade_property():
+        if player_sequence == 1 and player1_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+            upgrade_property = name_list[player1_pos]
+            price_upgrade = upgrade_cost[upgrade_property]
+            if upgrade_property in p1_list_p:
+                before_upgrade_p1 = player_dict_m['p1_money']
+                player_dict_m['p1_money'] = before_upgrade_p1 - price_upgrade
+                after_upgrade_p1 = player_dict_m['p1_money']
+                print(f'After upgrade, player1 now have{after_upgrade_p1}')
+            else:
+                pass
+
+        elif player_sequence == 2 and player2_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+            upgrade_property = name_list[player2_pos]
+            price_upgrade = upgrade_cost[upgrade_property]
+            if upgrade_property in p2_list_p:
+                before_upgrade_p2 = player_dict_m['p2_money']
+                player_dict_m['p2_money'] = before_upgrade_p2 - price_upgrade
+                after_upgrade_p2 = player_dict_m['p2_money']
+                print(f'After upgrade, player2 now have{after_upgrade_p2}')
+            else:
+                pass
+
+        elif player_sequence == 3 and player3_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+            upgrade_property = name_list[player3_pos]
+            price_upgrade = upgrade_cost[upgrade_property]
+            if upgrade_property in p3_list_p:
+                before_upgrade_p3 = player_dict_m['p3_money']
+                player_dict_m['p3_money'] = before_upgrade_p3 - price_upgrade
+                after_upgrade_p3 = player_dict_m['p3_money']
+                print(f'After upgrade, player3 now have{after_upgrade_p3}')
+            else:
+                pass
+
+        elif player_sequence == 4 and player4_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+            upgrade_property = name_list[player4_pos]
+            price_upgrade = upgrade_cost[upgrade_property]
+            if upgrade_property in p4_list_p:
+                before_upgrade_p4 = player_dict_m['p4_money']
+                player_dict_m['p4_money'] = before_upgrade_p4 - price_upgrade
+                after_upgrade_p4 = player_dict_m['p4_money']
+                print(f'After upgrade, player4 now have{after_upgrade_p4}')
+            else:
+                pass  
+
+
+            
     def update_eco():
         global player_sequence
         title_font = pygame.font.Font("HelveticaNeue.ttf", 18)
@@ -2088,8 +2186,10 @@ class starting_menu:
 
 map = Map(map_data)
 
+mouse_click = pygame.mixer.Sound('Sound/mouse_click1.mp3')
 
-button_functions = [button_music.checkmusic, button_roll.checkroll, button_pay.check_pay, button_chance.check_chance,
+
+button_functions = [button_music.checkmusic, button_roll.checkroll, button_pay.check_pay, button_chance.check_chance, 
                     button_play.check_play, button_buy.check_buy, button_next.checkload_finish, button_exit.check_exit]
 
 
@@ -2157,6 +2257,7 @@ while run:
         moving_sprites.draw(screen)
         moving_sprites.update()
         economic.check_buying_valid()
+        button_upgrade.update()
 
         if paying:
             button_pay.update()
@@ -2183,9 +2284,10 @@ while run:
             pygame.quit()
             sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            mouse_click.play()
             handle_button_events(pygame.mouse.get_pos())
             display_description_block(pygame.mouse.get_pos())
-
+            
         # if roll dice randomize a num
             if Button.rolling_con:
                 Dice.rand_a_dice()
