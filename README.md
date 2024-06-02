@@ -1,5 +1,5 @@
 <h1 >Mini IT project by TT4L group 8</h1>
-<h2>Current Version- 0.1.8 </h2>
+<h2>Current Version- 0.2.2 </h2>
 <h2>Will be using pygame to create a playable monopoly game with python</h2>
 <p align="left">Game, pygame, same lang? </p>
 <img alt="CJ" src="https://media1.tenor.com/m/cJRcMyUAiMcAAAAd/ah-shit-here-we-go-again-ah-shit.gif">
@@ -20,3 +20,13 @@
 <p>-Reworking a player system to adapt for the chance features</p>
 <h2>V 0.1.8</h2>
 <p>-Added a displaying screen for showing player sequence and rework on the buy, pay button</p>
+<h2>V 0.1.9 </h2>
+<p>-Completed jail map features</p>
+<h2>V 0.2.0</h2>
+<p>-80% of Chance features done</p>
+<h2>V 0.2.1</h2>
+<p>added a random natural disaster event</p>
+<h2>V 0.2.2</h2>
+<p>-Added upgrade property features </p>
+<p>-Rework the old button style</p>
+<p>-Solving minor bugs such as other button trigger buying function</p>

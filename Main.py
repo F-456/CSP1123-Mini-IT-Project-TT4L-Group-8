@@ -356,6 +356,8 @@ class Display:
     def showing_dim_button():
         button_pay_dim.update()
         button_buy_dim.update()
+        button_chance_dim.update()
+        button_upgrade_dim.update()
 
 
 # general value for button
@@ -413,9 +415,9 @@ class Button():
             Button.exit_game = True
 
     def check_buy(self, position):
-        if self.rect.collidepoint(position):
-            Button.is_buying_properties = True
-            economic.showing_pay_button = True
+        if self.rect.collidepoint(position) and economic.showing_buy_button:
+            if not Button.is_buying_properties:
+                economic.buying_property()
 
     def check_pay(self, position):
         if self.rect.collidepoint(position):
@@ -446,6 +448,19 @@ class Button():
             if player_sequence == 4:
                 Chance.chance_button4()
 
+    def check_upgrade(self, position):
+        if self.rect.collidepoint(position) and not economic.upgrading:
+            print('upgrade property')
+            economic.upgrading = True
+            if player_sequence == 1:
+                economic.upgrade_player1()
+            if player_sequence == 2:
+                economic.upgrade_player2()
+            if player_sequence == 3:
+                economic.upgrade_player3()
+            if player_sequence == 4:
+                economic.upgrade_player4()
+
     def toggleMusicState(self):
         if self.is_music_on:
             pygame.mixer.music.pause()
@@ -464,40 +479,46 @@ button_next = pygame.image.load('pic/next.png')
 button_buy = pygame.image.load('pic/buy.png')
 button_buy_dim = pygame.image.load('pic/buy_dim.png')
 button_pay = pygame.image.load('pic/pay.png')
-button_upgrade = pygame.image.load('pic/upgrade.png')
-button_chance = pygame.image.load('pic/chance_b.png')
 button_pay_dim = pygame.image.load('pic/pay_dim.png')
+button_chance = pygame.image.load('pic/chance_b.png')
+button_chance_dim = pygame.image.load('pic/chance_dim.png')
+button_upgrade = pygame.image.load('pic/upgrade.png')
+button_upgrade_dim = pygame.image.load('pic/upgrade_dim.png')
 
 # adjust size
 button_surface_on = pygame.transform.scale(button_surface_on, (40, 40))
 button_surface_off = pygame.transform.scale(button_surface_off, (40, 40))
-button_roll = pygame.transform.scale(button_roll, (80, 80))
+button_roll = pygame.transform.scale(button_roll, (84, 56))
 button_play = pygame.transform.scale(button_play, (240, 150))
-button_pay = pygame.transform.scale(button_pay, (120, 80))
-button_pay_dim = pygame.transform.scale(button_pay_dim, (120, 80))
+button_pay = pygame.transform.scale(button_pay, (84, 56))
+button_pay_dim = pygame.transform.scale(button_pay_dim, (84, 56))
 button_exit = pygame.transform.scale(button_exit, (240, 150))
 button_next = pygame.transform.scale(button_next, (120, 100))
-button_buy = pygame.transform.scale(button_buy, (120, 100))
-button_upgrade = pygame.transform.scale(button_upgrade, (120, 100))
-button_chance = pygame.transform.scale(button_chance, (120, 100))
-button_buy_dim = pygame.transform.scale(button_buy_dim, (120, 100))
+button_buy = pygame.transform.scale(button_buy, (84, 56))
+button_buy_dim = pygame.transform.scale(button_buy_dim, (84, 56))
+button_chance = pygame.transform.scale(button_chance, (84, 56))
+button_chance_dim = pygame.transform.scale(button_chance_dim, (84, 56))
+button_upgrade = pygame.transform.scale(button_upgrade, (84, 56))
+button_upgrade_dim = pygame.transform.scale(button_upgrade_dim, (84, 56))
 
 # adjust location
 button_music = Button(button_surface_on, button_surface_off, 880, 120)
-button_roll = Button(button_roll, button_roll, 800, 650)
+button_roll = Button(button_roll, button_roll, 660, 650)
 button_play = Button(button_play, button_play, 700, 600)
 button_exit = Button(button_exit, button_exit, 300, 600)
 button_next = Button(button_next, button_next, 800, 600)
-button_buy = Button(button_buy, button_buy, 800, 550)
-button_upgrade = Button(button_upgrade, button_upgrade, 500, 540)
-button_chance = Button(button_chance, button_chance, 400, 600)
-button_buy_dim = Button(button_buy_dim, button_buy_dim, 800, 550)
-button_pay = Button(button_pay, button_pay, 650, 560)
-button_pay_dim = Button(button_pay_dim, button_pay_dim, 650, 560)
+button_buy = Button(button_buy, button_buy, 830, 650)
+button_buy_dim = Button(button_buy_dim, button_buy_dim, 830, 650)
+button_pay = Button(button_pay, button_pay, 745, 650)
+button_pay_dim = Button(button_pay_dim, button_pay_dim, 745, 650)
+button_chance = Button(button_chance, button_chance, 575, 650)
+button_chance_dim = Button(button_chance_dim, button_chance_dim, 575, 650)
+button_upgrade = Button(button_upgrade, button_upgrade, 490, 650)
+button_upgrade_dim = Button(button_upgrade_dim, button_upgrade_dim, 490, 650)
 
 # add background music
 pygame.mixer.music.load('Sound/BGM.mp3')
-pygame.mixer.music.set_volume(0.5)
+pygame.mixer.music.set_volume(0.2)
 pygame.mixer.music.play(loops=-1, fade_ms=5000)
 
 # Variable to track fade-in progress
@@ -507,8 +528,8 @@ fade_in_progress = True
 while fade_in_progress:
     if pygame.mixer.music.get_busy():
         current_volume = pygame.mixer.music.get_volume()
-        if current_volume < 0.1:
-            new_volume = min(current_volume + 0.01, 0.1)
+        if current_volume < 0.01:
+            new_volume = min(current_volume + 0.01, 0.001)
             pygame.mixer.music.set_volume(new_volume)
         else:
             fade_in_progress = False
@@ -917,8 +938,8 @@ class Player:
         second_step = int(0)
         global player_sequence
         # check whether the player is in the first row and move
-        if not Player.player1_in_jail:
-            if player_sequence == 1 and Player.x1 < 1000 and Player.y1 == 0:
+        if player_sequence == 1 and not Player.player1_in_jail:
+            if Player.x1 < 1000 and Player.y1 == 0:
                 Player.x1 += step * 100
                 # check if player exceed x boundary and needed to turn down
                 if Player.x1 >= 1000:
@@ -926,7 +947,7 @@ class Player:
                     Player.x1 = 900
                     Player.y1 += second_step + 100
 
-            elif player_sequence == 1 and Player.x1 == 900 and Player.y1 != 0:
+            elif Player.x1 == 900 and Player.y1 != 0:
                 Player.y1 += step * 100
                 if Player.y1 >= 800:
                     second_step = Player.y1 - 800
@@ -934,14 +955,14 @@ class Player:
                     Player.x1 -= second_step
                     Player.x1 -= 100
 
-            elif player_sequence == 1 and Player.x1 < 1000 and Player.y1 == 700:
+            elif Player.x1 < 1000 and Player.y1 == 700:
                 Player.x1 -= step * 100
                 if Player.x1 <= 0:
                     second_step = 0 - Player.x1
                     Player.x1 = 0
                     Player.y1 = 700 - second_step
 
-            elif player_sequence == 1 and Player.x1 == 0 and Player.y1 <= 700:
+            elif Player.x1 == 0 and Player.y1 <= 700:
                 Player.y1 -= step * 100
                 if Player.y1 <= 0:
                     second_step = 0 - Player.y1
@@ -951,15 +972,15 @@ class Player:
             Player.x1 = 0
             Player.y1 = 700
 
-        if not Player.player2_in_jail:
-            if player_sequence == 2 and Player.x2 < 1000 and Player.y2 == 0:
+        if player_sequence == 2 and not Player.player2_in_jail:
+            if Player.x2 < 1000 and Player.y2 == 0:
                 Player.x2 += step * 100
                 if Player.x2 >= 1000:
                     second_step = Player.x2 - 1000
                     Player.x2 = 900
                     Player.y2 += second_step + 100
 
-            elif player_sequence == 2 and Player.x2 == 900 and Player.y2 != 0:
+            elif Player.x2 == 900 and Player.y2 != 0:
                 Player.y2 += step * 100
                 if Player.y2 >= 800:
                     second_step = Player.y2 - 800
@@ -967,14 +988,14 @@ class Player:
                     Player.x2 -= second_step
                     Player.x2 -= 100
 
-            elif player_sequence == 2 and Player.x2 < 1000 and Player.y2 == 700:
+            elif Player.x2 < 1000 and Player.y2 == 700:
                 Player.x2 -= step * 100
                 if Player.x2 <= 0:
                     second_step = 0 - Player.x2
                     Player.x2 = 0
                     Player.y2 = 700 - second_step
 
-            elif player_sequence == 2 and Player.x2 == 0 and Player.y2 <= 700:
+            elif Player.x2 == 0 and Player.y2 <= 700:
                 Player.y2 -= step * 100
                 if Player.y2 <= 0:
                     second_step = 0 - Player.y2
@@ -984,15 +1005,15 @@ class Player:
             Player.x2 = 0
             Player.y2 = 700
 
-        if not Player.player3_in_jail:
-            if player_sequence == 3 and Player.x3 < 1000 and Player.y3 == 0:
+        if player_sequence == 3 and not Player.player3_in_jail:
+            if Player.x3 < 1000 and Player.y3 == 0:
                 Player.x3 += step * 100
                 if Player.x3 >= 1000:
                     second_step = Player.x3 - 1000
                     Player.x3 = 900
                     Player.y3 += second_step + 100
 
-            elif player_sequence == 3 and Player.x3 == 900 and Player.y3 != 0:
+            elif Player.x3 == 900 and Player.y3 != 0:
                 Player.y3 += step * 100
                 if Player.y3 >= 800:
                     second_step = Player.y3 - 800
@@ -1000,14 +1021,14 @@ class Player:
                     Player.x3 -= second_step
                     Player.x3 -= 100
 
-            elif player_sequence == 3 and Player.x3 < 1000 and Player.y3 == 700:
+            elif Player.x3 < 1000 and Player.y3 == 700:
                 Player.x3 -= step * 100
                 if Player.x3 <= 0:
                     second_step = 0 - Player.x3
                     Player.x3 = 0
                     Player.y3 = 700 - second_step
 
-            elif player_sequence == 3 and Player.x3 == 0 and Player.y3 <= 700:
+            elif Player.x3 == 0 and Player.y3 <= 700:
                 Player.y3 -= step * 100
                 if Player.y3 <= 0:
                     second_step = 0 - Player.y3
@@ -1017,15 +1038,15 @@ class Player:
             Player.x3 = 0
             Player.y3 = 700
 
-        if not Player.player4_in_jail:
-            if player_sequence == 4 and Player.x4 < 1000 and Player.y4 == 0:
+        if player_sequence == 4 and not Player.player4_in_jail:
+            if Player.x4 < 1000 and Player.y4 == 0:
                 Player.x4 += step * 100
                 if Player.x4 >= 1000:
                     second_step = Player.x4 - 1000
                     Player.x4 = 900
                     Player.y4 += second_step + 100
 
-            elif player_sequence == 4 and Player.x4 == 900 and Player.y4 != 0:
+            elif Player.x4 == 900 and Player.y4 != 0:
                 Player.y4 += step * 100
                 if Player.y4 >= 800:
                     second_step = Player.y4 - 800
@@ -1033,14 +1054,14 @@ class Player:
                     Player.x4 -= second_step
                     Player.x4 -= 100
 
-            elif player_sequence == 4 and Player.x4 < 1000 and Player.y4 == 700:
+            elif Player.x4 < 1000 and Player.y4 == 700:
                 Player.x4 -= step * 100
                 if Player.x4 <= 0:
                     second_step = 0 - Player.x4
                     Player.x4 = 0
                     Player.y4 = 700 - second_step
 
-            elif player_sequence == 4 and Player.x4 == 0 and Player.y4 <= 700:
+            elif Player.x4 == 0 and Player.y4 <= 700:
                 Player.y4 -= step * 100
                 if Player.y4 <= 0:
                     second_step = 0 - Player.y4
@@ -1051,10 +1072,13 @@ class Player:
             Player.y4 = 700
 
     def show_players():
+        global player_num2, player_num3
         screen.blit(Player.p1, (Player.x1, Player.y1))
         screen.blit(Player.p2, (Player.x2, Player.y2))
-        screen.blit(Player.p3, (Player.x3, Player.y3))
-        screen.blit(Player.p4, (Player.x4, Player.y4))
+        if not player_num2:
+            screen.blit(Player.p3, (Player.x3, Player.y3))
+            if not player_num3 or player_num2:
+                screen.blit(Player.p4, (Player.x4, Player.y4))
 
     def player_movement(dice_num):
         global dice_rolled,  player1_pos, player2_pos, player3_pos, player4_pos, player_sequence, changing_round, round_num
@@ -1065,10 +1089,9 @@ class Player:
             player1_pos = player1_pos + dice_num
             changing_round = False
             # a player position is less than a new round
-            if player1_pos < 32:
-                if player1_pos == 16:
-                    Player.player_jail1()
-                    print(Player.player1_in_jail)
+            if player1_pos == 16:
+                Player.player_jail1()
+            elif player1_pos < 32:
                 print(f"Player 1 is now at:{player1_pos}")
             # a player position goes back on the origin and reset it to 0
             elif player1_pos == 32:
@@ -1088,9 +1111,9 @@ class Player:
             dice_rolled = False
             print(f"dice is {dice_num}")
             player2_pos = player2_pos + dice_num
-            if player2_pos < 32:
-                if player2_pos == 16:
-                    Player.player_jail2()
+            if player2_pos == 16:
+                Player.player_jail2()
+            elif player2_pos < 32:
                 print(f"Player 2 is now at:{player2_pos}")
             elif player2_pos == 32:
                 player2_pos = 0
@@ -1107,9 +1130,9 @@ class Player:
             dice_rolled = False
             print(f"dice is {dice_num}")
             player3_pos = player3_pos + dice_num
-            if player3_pos < 32:
-                if player3_pos == 16:
-                    Player.player_jail3()
+            if player3_pos == 16:
+                Player.player_jail3()
+            elif player3_pos < 32:
                 print(f"Player 3 is now at:{player3_pos}")
             elif player3_pos == 32:
                 player3_pos = 0
@@ -1126,9 +1149,9 @@ class Player:
             dice_rolled = False
             print(f"dice is {dice_num}")
             player4_pos = player4_pos + dice_num
-            if player4_pos < 32:
-                if player4_pos == 16:
-                    Player.player_jail4()
+            if player4_pos == 16:
+                Player.player_jail4()
+            elif player4_pos < 32:
                 print(f"Player 4 is now at:{player4_pos}")
             elif player4_pos == 32:
                 player4_pos = 0
@@ -1187,7 +1210,7 @@ class Player:
         # checking if the player has passed two round since being jailed and set the player free
         if Player.player1_jail_round == 1:
             Player.player1_in_jail = False
-            Player.player1_jail_round == 0
+            Player.player1_jail_round -= 1
         else:
             Player.player1_jail_round += 1
             print('Player1 is 1 more round from freedom')
@@ -1195,7 +1218,7 @@ class Player:
     def player2_jail_sentences():
         if Player.player2_jail_round == 1:
             Player.player2_in_jail = False
-            Player.player2_jail_round == 0
+            Player.player2_jail_round -= 1
         else:
             Player.player2_jail_round += 1
             print('Player2 is 1 more round from freedom')
@@ -1203,7 +1226,7 @@ class Player:
     def player3_jail_sentences():
         if Player.player3_jail_round == 1:
             Player.player3_in_jail = False
-            Player.player3_jail_round == 0
+            Player.player3_jail_round -= 1
         else:
             Player.player3_jail_round += 1
             print('Player3 is 1 more round from freedom')
@@ -1211,7 +1234,7 @@ class Player:
     def player4_jail_sentences():
         if Player.player4_jail_round == 1:
             Player.player4_in_jail = False
-            Player.player4_jail_round == 0
+            Player.player4_jail_round -= 1
         else:
             Player.player4_jail_round += 1
             print('Player4 is 1 more round from freedom')
@@ -1486,12 +1509,15 @@ price = 0
 # price list is for player to buy property according to their price
 Pricelist = [0, 500, 600, 700, 0, 2100, 800, 900, 1000, 0, 1200, 1300, 0, 1400, 1500, 1600,
              0, 1800, 1900, 2000, 0, 2150, 2200, 2400, 2500, 0, 2600, 2800, 0, 3000, 3500, 4000]
+# List for property level
+Property_level = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 name_list = ['Passngo', 'Ramly Burger', '99 Speedmarket', 'Aeon Big', 'tax', 'TNB', 'Batu Caves', 'Pulau Langkawi', 'Cameron Highland', 'parking', 'Gunung Mulu', 'Mount Kinabalu', 'chance', 'Johor Bahru', 'George Town',
              'Melaka', 'jail', 'KL Sentral', 'Port Dickson', 'MMU Cyberjaya', 'tax', 'Indah water', 'Genting Highland', 'Putrajaya', 'KLIA', 'injail', 'TRX', 'Pavilion KL', 'chance', 'KL Tower', 'Merdeka 118', 'KLCC']
 
 b_property = str()
-
+# Buying , rent price and upgrade price for all property
 Property_with_price = {
     "Ramly Burger": 500,
     "99 Speedmarket": 600,
@@ -1544,11 +1570,11 @@ Property_with_rent = {
     'Merdeka 118': 350,
     'KLCC': 500
 }
-
-upgrade_cost = {
+Property_upgrade_cost = {
     'Ramly Burger': 250,
     '99 Speedmarket': 300,
     'Aeon Big': 350,
+    'TNB': 370,
     'Batu Caves': 400,
     'Pulau Langkawi': 450,
     'Cameron Highland': 500,
@@ -1569,7 +1595,6 @@ upgrade_cost = {
     'Merdeka 118': 1750,
     'KLCC': 2000
 }
-
 # setting for player
 initial_money = int(15000)
 player_dict_m = {'p1_money': initial_money, 'p2_money': initial_money,
@@ -1585,6 +1610,7 @@ player4_broke = False
 
 
 class economic:
+    buy_clicked = False
     eco_dis1 = str()
     eco_dis2 = str()
     eco_dis3 = str()
@@ -1602,67 +1628,85 @@ class economic:
     # checking for validity in buying property
     # player will not be able to click buy button if tile is not available to sell
     showing_pay_button = False
+
+    # upgrade controlling bool
+    showing_upgrade_button = False
+    upgrading = False
+    showing_buy_button = False
     # checking for price is 0 for validity of buying
 
     def check_buying_valid():
         if player_sequence == 1 and player1_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
             if Pricelist[player1_pos] != 0:
-                button_buy.update()
+                economic.showing_buy_button = True
 
         elif player_sequence == 2 and player2_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
             if Pricelist[player2_pos] != 0:
-                button_buy.update()
+                economic.showing_buy_button = True
 
         elif player_sequence == 3 and player3_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
             if Pricelist[player3_pos] != 0:
-                button_buy.update()
+                economic.showing_buy_button = True
 
         elif player_sequence == 4 and player4_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
             if Pricelist[player4_pos] != 0:
-                button_buy.update()
+                economic.showing_buy_button = True
 
         else:
-            pass
+            economic.showing_buy_button = False
 
     def buying_property():
 
-        if player_sequence == 1 and player1_broke == False:
+        if player_sequence == 1 and player1_broke == False and not economic.buy_clicked:
             price = Pricelist[player1_pos]
             print(f"price ={price}")
             before_buy_p1 = player_dict_m['p1_money']
             player_dict_m['p1_money'] = before_buy_p1 - price
             after_buy_p1 = player_dict_m['p1_money']
             print(f'Player1 now have {after_buy_p1}$')
+            economic.buy_clicked = True
+            Button.is_buying_properties = True
 
-        elif player_sequence == 2 and player2_broke == False:
+        elif player_sequence == 2 and player2_broke == False and not economic.buy_clicked:
             price = Pricelist[player2_pos]
             print(f"price ={price}")
             before_buy_p2 = player_dict_m['p2_money']
             player_dict_m['p2_money'] = before_buy_p2 - price
             after_buy_p2 = player_dict_m['p2_money']
             print(f'Player2 now have {after_buy_p2}$')
+            economic.buy_clicked = True
+            Button.is_buying_properties = True
 
-        elif player_sequence == 3 and player3_broke == False:
+        elif player_sequence == 3 and player3_broke == False and not economic.buy_clicked:
             price = Pricelist[player3_pos]
             print(f"price ={price}")
             before_buy_p3 = player_dict_m['p3_money']
             player_dict_m['p3_money'] = before_buy_p3 - price
             after_buy_p3 = player_dict_m['p3_money']
             print(f'Player3 now have {after_buy_p3}$')
+            economic.buy_clicked = True
+            Button.is_buying_properties = True
 
-        elif player_sequence == 4 and player4_broke == False:
+        elif player_sequence == 4 and player4_broke == False and not economic.buy_clicked:
             price = Pricelist[player4_pos]
             print(f"price ={price}")
             before_buy_p4 = player_dict_m['p4_money']
             player_dict_m['p4_money'] = before_buy_p4 - price
             after_buy_p4 = player_dict_m['p4_money']
             print(f'Player4 now have {after_buy_p4}$')
+            economic.buy_clicked = True
+            Button.is_buying_properties = True
 
         else:
             price = 0
             pass
 
         economic.owning_property(price)
+
+    def check_buy_button():
+        if economic.showing_buy_button:
+            if not Button.is_buying_properties:
+                button_buy.update()
 
     def owning_property(price):
         middle = 0
@@ -1729,71 +1773,6 @@ class economic:
 
         else:
             pass
-
-    def check_upgrade_valid():
-        if player_sequence == 1 and player1_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
-            if Pricelist[player1_pos] !=0:
-                button_upgrade.update()
-
-        elif player_sequence == 2 and player2_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
-            if Pricelist[player2_pos] != 0:
-                button_upgrade.update()
-
-        elif player_sequence == 3 and player3_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
-            if Pricelist[player3_pos] != 0:
-                button_upgrade.update()
-
-        elif player_sequence == 4 and player4_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
-            if Pricelist[player4_pos] != 0:
-                button_upgrade.update()
-
-        else:
-            pass
-
-    def upgrade_property():
-        if player_sequence == 1 and player1_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
-            upgrade_property = name_list[player1_pos]
-            price_upgrade = upgrade_cost[upgrade_property]
-            if upgrade_property in p1_list_p:
-                before_upgrade_p1 = player_dict_m['p1_money']
-                player_dict_m['p1_money'] = before_upgrade_p1 - price_upgrade
-                after_upgrade_p1 = player_dict_m['p1_money']
-                print(f'After upgrade, player1 now have{after_upgrade_p1}')
-            else:
-                pass
-
-        elif player_sequence == 2 and player2_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
-            upgrade_property = name_list[player2_pos]
-            price_upgrade = upgrade_cost[upgrade_property]
-            if upgrade_property in p2_list_p:
-                before_upgrade_p2 = player_dict_m['p2_money']
-                player_dict_m['p2_money'] = before_upgrade_p2 - price_upgrade
-                after_upgrade_p2 = player_dict_m['p2_money']
-                print(f'After upgrade, player2 now have{after_upgrade_p2}')
-            else:
-                pass
-
-        elif player_sequence == 3 and player3_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
-            upgrade_property = name_list[player3_pos]
-            price_upgrade = upgrade_cost[upgrade_property]
-            if upgrade_property in p3_list_p:
-                before_upgrade_p3 = player_dict_m['p3_money']
-                player_dict_m['p3_money'] = before_upgrade_p3 - price_upgrade
-                after_upgrade_p3 = player_dict_m['p3_money']
-                print(f'After upgrade, player3 now have{after_upgrade_p3}')
-            else:
-                pass
-
-        elif player_sequence == 4 and player4_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
-            upgrade_property = name_list[player4_pos]
-            price_upgrade = upgrade_cost[upgrade_property]
-            if upgrade_property in p4_list_p:
-                before_upgrade_p4 = player_dict_m['p4_money']
-                player_dict_m['p4_money'] = before_upgrade_p4 - price_upgrade
-                after_upgrade_p4 = player_dict_m['p4_money']
-                print(f'After upgrade, player4 now have{after_upgrade_p4}')
-            else:
-                pass  
 
 
             
@@ -2079,7 +2058,156 @@ class economic:
             else:
                 pass
 
-    print(player_dict_m)
+    def check_upgrade():
+        if player_sequence == 1 and player1_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+            if Pricelist[player1_pos] == 0 and name_list[player1_pos] in p1_list_p:
+                economic.showing_upgrade_button = True
+            else:
+                economic.showing_upgrade_button = False
+
+        elif player_sequence == 2 and player2_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+            if Pricelist[player2_pos] == 0 and name_list[player2_pos] in p2_list_p:
+                economic.showing_upgrade_button = True
+            else:
+                economic.showing_upgrade_button = False
+
+        elif player_sequence == 3 and player3_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+            if Pricelist[player3_pos] == 0 and name_list[player3_pos] in p3_list_p:
+                economic.showing_upgrade_button = True
+            else:
+                economic.showing_upgrade_button = False
+
+        elif player_sequence == 4 and player4_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+            if Pricelist[player4_pos] == 0 and name_list[player4_pos] in p4_list_p:
+                economic.showing_upgrade_button = True
+            else:
+                economic.showing_upgrade_button = False
+
+    def check_upgrade_button():
+        if economic.showing_upgrade_button:
+            if not economic.upgrading:
+                button_upgrade.update()
+
+    def upgrade_player1():
+        property_level = Property_level[player1_pos]
+        upgrading_property = name_list[player1_pos]
+        before_upgrade_rent = Property_with_rent[upgrading_property]
+        upgrade_price = Property_upgrade_cost[upgrading_property]
+        economic.showing_upgrade_button = False
+        # if the player has'nt reach maximum level
+        if property_level <= 3 and economic.upgrading and economic.showing_upgrade_button:
+            Property_level[player1_pos] += 1
+            print(f'Player 1 is upgrading {
+                upgrading_property} with {upgrade_price}')
+            player_dict_m["p1_money"] -= upgrade_price
+            after_upgrade_rent = before_upgrade_rent * 1.5
+            print(f'the property level is now{Property_level[player1_pos]}')
+            print(f'new rent price is {after_upgrade_rent}')
+            Property_with_rent[upgrading_property] = after_upgrade_rent
+            # if the player has reach maximum level
+        if property_level == 3 and economic.upgrading and economic.showing_upgrade_button:
+            Property_level[player1_pos] += 1
+            print(f'Player 1 is upgrading {
+                upgrading_property} with {upgrade_price}')
+            player_dict_m["p1_money"] -= upgrade_price
+            print(f'the property level is now{
+                  Property_level[player1_pos]} and has reach the maximum level')
+            after_upgrade_rent = before_upgrade_rent * 2
+            print(f'new rent price is {after_upgrade_rent}')
+            Property_with_rent[upgrading_property] = after_upgrade_rent
+        elif property_level > 4:
+            print(f'{upgrading_property} have reach the highest level')
+
+    def upgrade_player2():
+        property_level = Property_level[player2_pos]
+        upgrading_property = name_list[player2_pos]
+        before_upgrade_rent = Property_with_rent[upgrading_property]
+        upgrade_price = Property_upgrade_cost[upgrading_property]
+        economic.showing_upgrade_button = False
+        # if the player has'nt reach maximum level
+        if property_level <= 3 and economic.upgrading and economic.showing_upgrade_button:
+            Property_level[player2_pos] += 1
+            print(f'Player 2 is upgrading {
+                upgrading_property} with {upgrade_price}')
+            player_dict_m["p2_money"] -= upgrade_price
+            after_upgrade_rent = before_upgrade_rent * 1.5
+            print(f'the property level is now{Property_level[player2_pos]}')
+            print(f'new rent price is {after_upgrade_rent}')
+            Property_with_rent[upgrading_property] = after_upgrade_rent
+            # if the player has reach maximum level
+        if property_level == 3 and economic.upgrading and economic.showing_upgrade_button:
+            Property_level[player2_pos] += 1
+            print(f'Player 2 is upgrading {
+                upgrading_property} with {upgrade_price}')
+            player_dict_m["p2_money"] -= upgrade_price
+            print(f'the property level is now{
+                  Property_level[player2_pos]} and has reach the maximum level')
+            after_upgrade_rent = before_upgrade_rent * 2
+            print(f'new rent price is {after_upgrade_rent}')
+            Property_with_rent[upgrading_property] = after_upgrade_rent
+
+        elif property_level > 4:
+            print(f'{upgrading_property} have reach the highest level')
+
+    def upgrade_player3():
+        property_level = Property_level[player3_pos]
+        upgrading_property = name_list[player3_pos]
+        before_upgrade_rent = Property_with_rent[upgrading_property]
+        upgrade_price = Property_upgrade_cost[upgrading_property]
+        economic.showing_upgrade_button = False
+        # if the player has'nt reach maximum level
+        if property_level <= 3 and economic.upgrading and economic.showing_upgrade_button:
+            Property_level[player3_pos] += 1
+            print(f'Player 3 is upgrading {
+                upgrading_property} with {upgrade_price}')
+            player_dict_m["p3_money"] -= upgrade_price
+            after_upgrade_rent = before_upgrade_rent * 1.5
+            print(f'the property level is now{Property_level[player3_pos]}')
+            print(f'new rent price is {after_upgrade_rent}')
+            Property_with_rent[upgrading_property] = after_upgrade_rent
+            # if the player has reach maximum level
+        if property_level == 3 and economic.upgrading and economic.showing_upgrade_button:
+            Property_level[player3_pos] += 1
+            print(f'Player 3 is upgrading {
+                upgrading_property} with {upgrade_price}')
+            player_dict_m["p3_money"] -= upgrade_price
+            print(f'the property level is now{
+                  Property_level[player3_pos]} and has reach the maximum level')
+            after_upgrade_rent = before_upgrade_rent * 2
+            print(f'new rent price is {after_upgrade_rent}')
+            Property_with_rent[upgrading_property] = after_upgrade_rent
+        elif property_level > 4:
+            print(f'{upgrading_property} have reach the highest level')
+
+    def upgrade_player4():
+        property_level = Property_level[player4_pos]
+        upgrading_property = name_list[player4_pos]
+        before_upgrade_rent = Property_with_rent[upgrading_property]
+        upgrade_price = Property_upgrade_cost[upgrading_property]
+        economic.showing_upgrade_button = False
+        # if the player has'nt reach maximum level
+        if property_level <= 3 and economic.upgrading and economic.showing_upgrade_button:
+            Property_level[player4_pos] += 1
+            print(f'Player 4 is upgrading {
+                upgrading_property} with {upgrade_price}')
+            player_dict_m["p4_money"] -= upgrade_price
+            after_upgrade_rent = before_upgrade_rent * 1.5
+            print(f'the property level is now{Property_level[player3_pos]}')
+            print(f'new rent price is {after_upgrade_rent}')
+            Property_with_rent[upgrading_property] = after_upgrade_rent
+            # if the player has reach maximum level
+        if property_level == 3 and economic.upgrading and economic.showing_upgrade_button:
+            Property_level[player4_pos] += 1
+            print(f'Player 4 is upgrading {
+                upgrading_property} with {upgrade_price}')
+            player_dict_m["p4_money"] -= upgrade_price
+            print(f'the property level is now{
+                  Property_level[player4_pos]} and has reach the maximum level')
+            after_upgrade_rent = before_upgrade_rent * 2
+            print(f'new rent price is {after_upgrade_rent}')
+            Property_with_rent[upgrading_property] = after_upgrade_rent
+        elif property_level > 4:
+            print(f'{upgrading_property} have reach the highest level')
 
 
 class starting_menu:
@@ -2188,9 +2316,8 @@ map = Map(map_data)
 
 mouse_click = pygame.mixer.Sound('Sound/mouse_click1.mp3')
 
-
-button_functions = [button_music.checkmusic, button_roll.checkroll, button_pay.check_pay, button_chance.check_chance, 
-                    button_play.check_play, button_buy.check_buy, button_next.checkload_finish, button_exit.check_exit]
+button_functions = [button_music.checkmusic, button_roll.checkroll, button_pay.check_pay, button_chance.check_chance,
+                    button_play.check_play, button_buy.check_buy, button_next.checkload_finish, button_exit.check_exit, button_upgrade.check_upgrade]
 
 
 def handle_button_events(pos):
@@ -2217,7 +2344,69 @@ def display_description_block(pos):
         description_display_timer = time.time()
 
 
+def disaster_eartquake():
+    # adjusting another value after 1 can change it's possibilities
+    possibilities = random.randint(1, 80)
+    if round_num >= 1:
+        if possibilities == 1:
+            print("oh no a earthquake happen")
+            print('player 1 donate 500')
+            player_dict_m['p1_money'] -= 500
+        if possibilities == 2:
+            print("oh no a earthquake happen")
+            print('player 2 donate 500')
+            player_dict_m['p2_money'] -= 500
+        if possibilities == 3:
+            print("oh no a earthquake happen")
+            print('player 3 donate 500')
+            player_dict_m['p3_money'] -= 500
+        if possibilities == 4:
+            print("oh no a earthquake happen")
+            print('player 4 donate 500')
+            player_dict_m['p4_money'] -= 500
+
+
+def disaster_tornado():
+    possibilities = random.randint(1, 100)
+    if round_num >= 1:
+        if possibilities == 1:
+            print("oh no a tornoda hit player 1")
+            print('player 1 loss 1000')
+            player_dict_m['p1_money'] -= 1000
+        if possibilities == 2:
+            print("oh no a tornado hit player 2")
+            print('player 2 loss 1000')
+            player_dict_m['p2_money'] -= 1000
+        if possibilities == 3:
+            print("oh no a tornado hit player 3")
+            print('player 3 donate 1000')
+            player_dict_m['p3_money'] -= 1000
+        if possibilities == 4:
+            print("oh no a tornado happen")
+            print('player 4 donate 1000')
+            player_dict_m['p4_money'] -= 1000
+
+
+# variable to control and skip player
+player_num2 = False
+player_num3 = True
+
+
+def skipping_player():
+    global player_sequence
+    if player_num2:
+        if player_sequence == 2:
+            player_sequence += 1
+        if player_sequence == 3:
+            player_sequence += 1
+
+    elif player_num3:
+        if player_sequence == 3:
+            player_sequence += 1
+
+
 run = True
+
 # main loop for python
 while run:
     clock.tick(fps)
@@ -2227,7 +2416,6 @@ while run:
         run = False
 
     if Button.menu:
-
         button_play.update()
         button_exit.update()
         starting_menu.title()
@@ -2257,7 +2445,8 @@ while run:
         moving_sprites.draw(screen)
         moving_sprites.update()
         economic.check_buying_valid()
-        button_upgrade.update()
+        economic.check_buy_button()
+        economic.check_upgrade_button()
 
         if paying:
             button_pay.update()
@@ -2289,24 +2478,26 @@ while run:
             display_description_block(pygame.mouse.get_pos())
             
         # if roll dice randomize a num
-            if Button.rolling_con:
+            if Button.rolling_con and Display.show_loading_done:
                 Dice.rand_a_dice()
+                skipping_player()
                 if not paying:
+                    disaster_eartquake()
+                    disaster_tornado()
                     dice_num = (random.randint(1, 6))
-                    # dice animating
-                    dice.animate(dice_num)
                     Player.player_movement(dice_num)
-                    Button.rolling_con = False
-                    buy_clicked = False
+                    economic.upgrading = False
+                    economic.buy_clicked = False
+                    Button.is_buying_properties = False
 
                 if player_sequence != 5 and not changing_round and not paying:
+                    # dice animating
+                    dice.animate(dice_num)
+                    Button.rolling_con = False
+                    buy_clicked = False
                     Player.move(dice_num)
                     economic.checking_rent_valid()
-
-            elif Button.is_buying_properties and not buy_clicked:
-                economic.buying_property()
-                buy_clicked = True
-                Button.is_buying_properties == False
+                    economic.check_upgrade()
 
             else:
                 pass
