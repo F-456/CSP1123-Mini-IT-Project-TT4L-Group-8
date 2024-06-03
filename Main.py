@@ -157,7 +157,14 @@ class Display:
     current_player = current_round = int()
     player1_money = player2_money = player3_money = player4_money = str()
     activity = str()
+    current_player = current_round = int()
+    player1_money = player2_money = player3_money = player4_money = str()
+    activity = str()
     # displaying image
+    players_num_image = pygame.transform.scale(pygame.image.load(
+        'pic/chooseplayer.png').convert_alpha(), (1000, 800))
+    players_num_image_rect = players_num_image.get_rect(
+        center=(screen_width//2, screen_height//2))
     players_num_image = pygame.transform.scale(pygame.image.load(
         'pic/chooseplayer.png').convert_alpha(), (1000, 800))
     players_num_image_rect = players_num_image.get_rect(
@@ -350,14 +357,32 @@ class Display:
 
     def showing_player_money():
         text_font = pygame.font.Font("HelveticaNeue.ttf", 22)
-        Display.player1_money = text_font.render(
-            f'Player 1 now have {player_dict_m["p1_money"]} $', True, black)
-        Display.player2_money = text_font.render(
-            f'Player 2 now have {player_dict_m["p2_money"]} $', True, black)
-        Display.player3_money = text_font.render(
-            f'Player 3 now have {player_dict_m["p3_money"]} $', True, black)
-        Display.player4_money = text_font.render(
-            f'Player 4 now have {player_dict_m["p4_money"]} $', True, black)
+        if not player1_broke:
+            Display.player1_money = text_font.render(
+                f'Player 1 now have {player_dict_m["p1_money"]} $', True, black)
+        # showing player 1 info if he is broke
+        if player1_broke:
+            Display.player1_money = text_font.render(
+                f'Player 1 is broke', True, black)
+        if not player2_broke:
+            Display.player2_money = text_font.render(
+                f'Player 2 now have {player_dict_m["p2_money"]} $', True, black)
+        if player2_broke:
+            Display.player2_money = text_font.render(
+                f'Player 2 is broke', True, black)
+        if not player3_broke:
+            Display.player3_money = text_font.render(
+                f'Player 3 now have {player_dict_m["p3_money"]} $', True, black)
+        if player3_broke:
+            Display.player3_money = text_font.render(
+                f'Player 3 is broke', True, black)
+        if not player4_broke:
+            Display.player4_money = text_font.render(
+                f'Player 4 now have {player_dict_m["p4_money"]} $', True, black)
+        if player4_broke:
+            Display.player4_money = text_font.render(
+                f'Player 4 is broke', True, black)
+
         screen.blit(Display.player1_money, (580, 110))
         screen.blit(Display.player2_money, (580, 140))
         if not player_num2:
@@ -931,7 +956,7 @@ class Dice(pygame.sprite.Sprite):
 moving_sprites = pygame.sprite.Group()
 
 # Create the Dice sprite
-dice = Dice(750, 350)
+dice = Dice(500, 350)
 moving_sprites.add(dice)
 
 
@@ -948,14 +973,10 @@ class Player:
     h3 = pic3.get_height()
     w4 = pic4.get_width()
     h4 = pic4.get_height()
-    x1 = 0
-    y1 = 0
-    x2 = 0
-    y2 = 0
-    x3 = 0
-    y3 = 0
-    x4 = 0
-    y4 = 0
+    x1 = y1 = x2 = y2 = x3 = y3 = x4 = y4 = 0
+    playerlist_4 = ['Player1', 'Player2', 'Player3', 'Player4']
+    playerlist_3 = ['Player1', 'Player2', 'Player3']
+    playerlist_2 = ['Player1', 'Player2']
     player1_in_jail = False
     player1_jail_round = 0
     player2_in_jail = False
@@ -1118,12 +1139,14 @@ class Player:
 
     def show_players():
         global player_num2, player_num3
-        screen.blit(Player.p1, (Player.x1, Player.y1))
-        screen.blit(Player.p2, (Player.x2, Player.y2))
-        if not player_num2:
+        if not player1_broke:
+            screen.blit(Player.p1, (Player.x1, Player.y1))
+        if not player2_broke:
+            screen.blit(Player.p2, (Player.x2, Player.y2))
+        if not player_num2 and not player3_broke:
             screen.blit(Player.p3, (Player.x3, Player.y3))
-            if not player_num3 or player_num2:
-                screen.blit(Player.p4, (Player.x4, Player.y4))
+        if not player_num3 and not player_num2 and not player4_broke:
+            screen.blit(Player.p4, (Player.x4, Player.y4))
 
     def player_movement(dice_num):
         global dice_rolled,  player1_pos, player2_pos, player3_pos, player4_pos, player_sequence, changing_round, round_num
@@ -1293,6 +1316,82 @@ class Player:
         else:
             Player.player4_jail_round += 1
             print('Player4 is 1 more round from freedom')
+
+    def player_check_broke():
+        global player1_broke, player2_broke, player3_broke, player4_broke, p1_broked, p2_broked, p3_broked, p4_broked
+        if player_dict_m["p1_money"] < 0 and not p1_broked:
+            player1_broke = True
+            p1_broked = True
+            print('Player 1 is broke')
+        if player_dict_m["p2_money"] < 0 and not p2_broked:
+            player2_broke = True
+            p2_broked = True
+            print('Player 2 is broke')
+        if player_dict_m["p3_money"] < 0 and not p3_broked:
+            player3_broke = True
+            p3_broked = True
+            print('Player 3 is broke')
+            Display.activity = (f'Player 3 is broke')
+        if player_dict_m["p4_money"] < 0 and not p4_broked:
+            player4_broke = True
+            p4_broked = True
+            print('Player 4 is broke')
+
+    def player_check_win():
+        if not player_num2 and not player_num3:
+            Player.player_check_win_4()
+        if player_num3:
+            Player.player_check_win_3()
+        if player_num2:
+            Player.player_check_win_2()
+
+    def player_check_win_4():
+        if player1_broke:
+            if 'Player1' in Player.playerlist_4:
+                Player.playerlist_4.remove('Player1')
+        if player2_broke:
+            if 'Player2' in Player.playerlist_4:
+                Player.playerlist_4.remove('Player2')
+        if player3_broke:
+            if 'Player3' in Player.playerlist_4:
+                Player.playerlist_4.remove('Player3')
+        if player4_broke:
+            if 'Player4' in Player.playerlist_4:
+                Player.playerlist_4.remove('Player4')
+
+        if len(Player.playerlist_4) == 1:
+            winner = Player.playerlist_4[0]
+            print(f"The winner is {winner}")
+            Display.activity = (f'The winner is {winner} !!')
+
+    def player_check_win_3():
+        if player1_broke:
+            if 'Player1' in Player.playerlist_3:
+                Player.playerlist_3.remove('Player1')
+        if player2_broke:
+            if 'Player2' in Player.playerlist_3:
+                Player.playerlist_3.remove('Player2')
+        if player3_broke:
+            if 'Player3' in Player.playerlist_3:
+                Player.playerlist_3.remove('Player3')
+
+        if len(Player.playerlist_3) == 1:
+            winner = Player.playerlist_3[0]
+            print(f"The winner is {winner}")
+            Display.activity = (f'The winner is {winner} !!')
+
+    def player_check_win_2():
+        if player1_broke:
+            if 'Player1' in Player.playerlist_2:
+                Player.playerlist_2.remove('Player1')
+        if player2_broke:
+            if 'Player2' in Player.playerlist_2:
+                Player.playerlist_2.remove('Player2')
+
+        if len(Player.playerlist_2) == 1:
+            winner = Player.playerlist_2[0]
+            print(f"The winner is {winner}")
+            Display.activity = (f'The winner is {winner} !!')
 
 
 player_names = ["player1", "player2", "player3", "player4"]
@@ -1651,7 +1750,7 @@ Property_upgrade_cost = {
     'KLCC': 2000
 }
 # setting for player
-initial_money = int(15000)
+initial_money = int(200)
 player_dict_m = {'p1_money': initial_money, 'p2_money': initial_money,
                  'p3_money': initial_money, 'p4_money': initial_money}
 p1_list_p = []
@@ -1662,6 +1761,8 @@ player1_broke = False
 player2_broke = False
 player3_broke = False
 player4_broke = False
+# added a boolean condition to make the message only trigger one times
+p1_broked = p2_broked = p3_broked = p4_broked = False
 
 
 class economic:
@@ -1759,7 +1860,7 @@ class economic:
         else:
             price = 0
             pass
-
+        Player.player_check_broke()
         economic.owning_property(price)
 
     def check_buy_button():
@@ -1998,6 +2099,7 @@ class economic:
 
             else:
                 paying == False
+            Player.player_check_broke()
 
     def rent_button_2():
         global paying
@@ -2039,6 +2141,7 @@ class economic:
                 paying = False
             else:
                 pass
+            Player.player_check_broke()
 
     def rent_button_3():
         global paying
@@ -2080,6 +2183,7 @@ class economic:
                 paying = False
             else:
                 pass
+            Player.player_check_broke()
 
     def rent_button_4():
         global paying
@@ -2123,6 +2227,7 @@ class economic:
                 paying = False
             else:
                 pass
+            Player.player_check_broke()
 
     def check_upgrade():
         if player_sequence == 1 and player1_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
@@ -2298,16 +2403,21 @@ class economic:
     def tax():
         if player_sequence == 1:
             print('player1 paying tax')
+            Display.activity = (f'Player 1 is paying 1500 tax')
             player_dict_m['p1_money'] -= 1500
         if player_sequence == 2:
             print('player2 paying tax')
+            Display.activity = (f'Player 2 is paying 1500 tax')
             player_dict_m["p2_money"] -= 1500
         if player_sequence == 3:
             print('player3 paying tax')
-            player_dict_m["p2_money"] -= 1500
+            Display.activity = (f'Player 3 is paying 1500 tax')
+            player_dict_m["p3_money"] -= 1500
         if player_sequence == 4:
             print('player4 paying tax')
-            player_dict_m["p2_money"] -= 1500
+            Display.activity = (f'Player 4 is paying 1500 tax')
+            player_dict_m["p4_money"] -= 1500
+        Player.player_check_broke()
 
 
 class starting_menu:
@@ -2463,6 +2573,7 @@ def disaster_eartquake():
             print("oh no a earthquake happen")
             print('player 4 donate 500')
             player_dict_m['p4_money'] -= 500
+        Player.player_check_broke()
 
 
 def disaster_tornado():
@@ -2484,6 +2595,7 @@ def disaster_tornado():
             print("oh no a tornado happen")
             print('player 4 donate 1000')
             player_dict_m['p4_money'] -= 1000
+        Player.player_check_broke()
 
 
 # variable to control and skip player
@@ -2493,7 +2605,6 @@ player_num3 = False
 
 
 def skipping_player():
-
     global player_sequence
     if player_num2:
         if player_sequence == 2:
@@ -2502,6 +2613,18 @@ def skipping_player():
             player_sequence += 1
 
     elif player_num3:
+        if player_sequence == 3:
+            player_sequence += 1
+    if player1_broke:
+        if player_sequence == 0:
+            player_sequence += 1
+    if player2_broke:
+        if player_sequence == 1:
+            player_sequence += 1
+    if player3_broke:
+        if player_sequence == 2:
+            player_sequence += 1
+    if player4_broke:
         if player_sequence == 3:
             player_sequence += 1
 
@@ -2589,13 +2712,15 @@ while run:
 
         # if roll dice randomize a num
             if Button.rolling_con and Display.show_loading_done:
-                skipping_player()
                 Dice.rand_a_dice()
                 if not paying:
-                    disaster_eartquake()
-                    disaster_tornado()
+                    skipping_player()
+                    # disaster_eartquake()
+                    # disaster_tornado()
                     dice_num = (random.randint(1, 6))
                     Player.player_movement(dice_num)
+                    Player.move(dice_num)
+                    Player.player_check_win()
                     economic.upgrading = False
                     economic.buy_clicked = False
                     Button.is_buying_properties = False
@@ -2605,7 +2730,6 @@ while run:
                     dice.animate(dice_num)
                     Button.rolling_con = False
                     buy_clicked = False
-                    Player.move(dice_num)
                     economic.checking_rent_valid()
                     economic.check_upgrade()
 
