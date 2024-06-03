@@ -1,5 +1,5 @@
 <h1 >Mini IT project by TT4L group 8</h1>
-<h2>Current Version- 0.2.3 </h2>
+<h2>Current Version- 0.2.4 </h2>
 <h2>Will be using pygame to create a playable monopoly game with python</h2>
 <p align="left">Game, pygame, same lang? </p>
 <img alt="CJ" src="https://media1.tenor.com/m/cJRcMyUAiMcAAAAd/ah-shit-here-we-go-again-ah-shit.gif">
@@ -33,3 +33,5 @@
 <h2>V 0.2.3</h2>
 <p>-Added features to choose number of players</p>
 <p>-Added more information in game for the player</p>
+<h2>-V 0.2.4</h2>
+<p>-Added winner for the game if one player is left</p>
