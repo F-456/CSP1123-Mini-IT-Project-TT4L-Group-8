@@ -157,7 +157,14 @@ class Display:
     current_player = current_round = int()
     player1_money = player2_money = player3_money = player4_money = str()
     activity = str()
+    current_player = current_round = int()
+    player1_money = player2_money = player3_money = player4_money = str()
+    activity = str()
     # displaying image
+    players_num_image = pygame.transform.scale(pygame.image.load(
+        'pic/chooseplayer.png').convert_alpha(), (1000, 800))
+    players_num_image_rect = players_num_image.get_rect(
+        center=(screen_width//2, screen_height//2))
     players_num_image = pygame.transform.scale(pygame.image.load(
         'pic/chooseplayer.png').convert_alpha(), (1000, 800))
     players_num_image_rect = players_num_image.get_rect(
@@ -1294,6 +1301,21 @@ class Player:
             Player.player4_jail_round += 1
             print('Player4 is 1 more round from freedom')
 
+    def player_check_broke():
+        global player1_broke, player2_broke, player3_broke, player4_broke
+        if player_dict_m["p1_money"] < 0:
+            player1_broke = True
+            print('Player 1 is broke')
+        if player_dict_m["p2_money"] < 0:
+            player2_broke = True
+            print('Player 2 is broke')
+        if player_dict_m["p3_money"] < 0:
+            player3_broke = True
+            print('Player 3 is broke')
+        if player_dict_m["p4_money"] < 0:
+            player4_broke = True
+            print('Player 4 is broke')
+
 
 player_names = ["player1", "player2", "player3", "player4"]
 
@@ -1651,7 +1673,7 @@ Property_upgrade_cost = {
     'KLCC': 2000
 }
 # setting for player
-initial_money = int(15000)
+initial_money = int(200)
 player_dict_m = {'p1_money': initial_money, 'p2_money': initial_money,
                  'p3_money': initial_money, 'p4_money': initial_money}
 p1_list_p = []
@@ -2298,15 +2320,19 @@ class economic:
     def tax():
         if player_sequence == 1:
             print('player1 paying tax')
+            Display.activity = (f'Player 1 is paying 1500 tax')
             player_dict_m['p1_money'] -= 1500
         if player_sequence == 2:
             print('player2 paying tax')
+            Display.activity = (f'Player 2 is paying 1500 tax')
             player_dict_m["p2_money"] -= 1500
         if player_sequence == 3:
             print('player3 paying tax')
+            Display.activity = (f'Player 3 is paying 1500 tax')
             player_dict_m["p2_money"] -= 1500
         if player_sequence == 4:
             print('player4 paying tax')
+            Display.activity = (f'Player 4 is paying 1500 tax')
             player_dict_m["p2_money"] -= 1500
 
 
