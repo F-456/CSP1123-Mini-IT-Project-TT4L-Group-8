@@ -2702,7 +2702,7 @@ while run:
             button_pay.update()
 
         if show_description and time.time() - description_display_timer < description_display_duration:
-            display_descriptions(description)
+            display_descriptions()
         else:
             show_description = False
 
