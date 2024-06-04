@@ -45,34 +45,34 @@ map_data = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
             ]
 
 block_desctiptions = {
-    2: "'Ramly burger', the most famous burger chain store in Malaysia",
-    3: "'99 speedmarket', you can buy everything you want from here",
-    4: "'Aeon Big' is a supermarket. When ur state got the aeon supermarket, ur state will be certified as 'developed state'.(JKJK)",
-    6: "'Tenaga National Berhad(TNB)', is the Malaysian multinational electricity company and is the only electric utility company in Peninsular Malaysia and also the largest publicly listed power company in Southeast Asia with MYR 182.60 billion worth of assets.",
-    7: "'Batu Caves' is a mogote (a type of karst landform) that has a series of caves and cave temples in Gombak, Selangor, Malaysia. The cave complex is one of the most popular Hindu shrines outside India, and is dedicated to Murugan. It is the focal point of the Tamil festival of Thaipusam in Malaysia.",
-    8: "'Pulau Langkawi' is a duty-free island and an archipelago of 99 islands located some 30 km off the coast of northwestern Malaysia and a few kilometres south of Ko Tarutao, adjacent to the Thai border.",
-    9: "'Cameroon Highland'is a district in Pahang, Malaysia, occupying an area of 712.18 square kilometres. Developed in the 1930s, the tableland is one of the oldest tourist spots in Malaysia.",
-    11: "'Gunung Mulu National Park' is in Miri Division, Sarawak, Malaysia. It is a UNESCO World Heritage Site that encompasses caves and karst formations in a mountainous equatorial rainforest setting",
-    12: "'Mount Kinabalu' is the highest mountain in Borneo and Malaysia. With an elevation of 4,095 metres (13,435 ft), it is the third-highest peak of an island on Earth, the 28th highest peak in Southeast Asia, and 20th most prominent mountain in the world.",
-    14: "'Johor Bahru' colloquially referred to as JB, and the capital city of the state of Johor, Malaysia (the second-largest district in the country, by population). ",
-    15: "'George Town' is the capital of the Malaysian state of Penang. Malaysia's second largest metropolitan area with a population of 2.84 million and the second highest contributor to the country's GDP. The city proper spans an area of 306 km2 (118 sq mi) encompassing Penang Island and surrounding islets.",
-    16: "'Malacca (Malay: Melaka)', officially the Historic State of Malacca, is a state in Malaysia located in the southern region of the Malay Peninsula, facing the Strait of Malacca. Its capital is Malacca City, which has been listed as a UNESCO World Heritage Site since 7 July 2008.",
-    18: "'Kuala Lumpur Sentral Station (KL Sentral)' is a transit-oriented development that houses the main railway station of Kuala Lumpur, the capital of Malaysia. Opened on 16 April 2001, KL Sentral replaced the old Kuala Lumpur railway station as the city's main intercity railway station. KL Sentral is the largest railway station in Malaysia, and also in Southeast Asia from 2001 to 2021",
-    19: "'Port Dickson' colloquially referred to as PD is a beach resort in Port Dickson District, Negeri Sembilan, Malaysia. It is the second largest urban area in Negeri Sembilan after Seremban, its state capital.",
-    20: "'MMU Cyberjaya' GOAT!! The BEST university you can find in MALAYSIA, the lecturers are also the best, especially MR Willie Poh.(PLS rate excellent for us)",
-    22: "'Indah Water Konsortium Sdn. Bhd' is a Malaysian national wastewater and sanitation company, It is a government-owned company under the Minister of Finance Incorporated, which has the task of developing and maintaining a modern and efficient sewerage system for West Malaysia",
-    23: "'Genting Highlands' is a hill station located in the state of Pahang, at 1800 metres elevation. It was established in 1965 by the late Malaysian businessman Lim Goh Tong. The primary tourist attraction is Resorts World Genting, a hill resort where casinos and theme parks are situated and where gambling is permitted. Many of Pahang's skyscrapers can be found here.",
-    24: "'Putrajaya' is the administrative centre of Malaysia. The seat of the federal government of Malaysia was moved in 1999 from Kuala Lumpur to Putrajaya because of overcrowding and congestion in Kuala Lumpur, whilst the seat of the judiciary of Malaysia was later moved to Putrajaya in 2003",
-    25: "'Kuala Lumpur International Airport (KLIA)' is the main international airport serving Kuala Lumpur, the capital of Malaysia. It is located in the Sepang District of Selangor. KLIA is the largest and busiest airport in Malaysia. In 2023, it handled 47,224,000 passengers, 660,040 tonnes of cargo and 319,026 aircraft movements. It is the world's 35th-busiest airport by total passenger traffic.",
-    27: "'Tun Razak Exchange(TRX)' is a 70-acre development by Ministry of Finance Malaysia (MOF) in the heart of Kuala Lumpur for international finance and business. The development was named the second Prime Minister of Malaysia, Tun Abdul Razak Hussein. TRX is a strategic enabler of the Malaysian government's Economic Transformation Programme (ETP).",
-    28: "'Pavilion, KL' is a premier shopping destination in the heart of Bukit Bintang, Malaysia. It offers luxury retail, diverse dining options, and stunning architecture highlighted by the iconic Crystal Fountain. ",
-    30: "'The Kuala Lumpur Tower(KL Tower)' is a 6-storey, 421-metre-tall (1,381 ft) telecommunication tower in Kuala Lumpur, Malaysia. It is the world's seventh-tallest tower. The rest of the tower below has a stairwell and an elevator to reach the upper area, which also contains a revolving restaurant, providing diners with a panoramic view of the city.",
-    31: "'Merdeka 118' is a 118-story megatall skyscraper in Kuala Lumpur, Malaysia. At 678.9 m (2,227 ft) tall, it is the second-tallest building and structure in the world, only behind the Burj Khalifa at 828 m (2,717 ft).",
-    32: "'Petronas Twin Towers or KLCC Twin Towers' are an interlinked pair of 88-story supertall skyscrapers in Kuala Lumpur, Malaysia, standing at 451.9 metres (1,483 feet). From 1998 to 2004, they were officially designated as the tallest buildings in the world until completion of the Taipei 101, tallest twin skyscrapers and remained the tallest buildings in Malaysia until 2019."
+    2:pygame.image.load('pic/klcc.png').convert_alpha,
+    3:pygame.image.load('pic/klcc.png').convert_alpha,
+    4:pygame.image.load('pic/klcc.png').convert_alpha,
+    6:pygame.image.load('pic/klcc.png').convert_alpha,
+    7:pygame.image.load('pic/klcc.png').convert_alpha,
+    8:pygame.image.load('pic/klcc.png').convert_alpha,
+    9:pygame.image.load('pic/klcc.png').convert_alpha,
+    11:pygame.image.load('pic/klcc.png').convert_alpha,
+    12:pygame.image.load('pic/klcc.png').convert_alpha,
+    14:pygame.image.load('pic/klcc.png').convert_alpha,
+    15:pygame.image.load('pic/klcc.png').convert_alpha,
+    16:pygame.image.load('pic/klcc.png').convert_alpha,
+    18:pygame.image.load('pic/klcc.png').convert_alpha,
+    19:pygame.image.load('pic/klcc.png').convert_alpha,
+    20:pygame.image.load('pic/klcc.png').convert_alpha,
+    22:pygame.image.load('pic/klcc.png').convert_alpha,
+    23:pygame.image.load('pic/klcc.png').convert_alpha,
+    24:pygame.image.load('pic/klcc.png').convert_alpha,
+    25:pygame.image.load('pic/klcc.png').convert_alpha,
+    27:pygame.image.load('pic/klcc.png').convert_alpha,
+    28:pygame.image.load('pic/klcc.png').convert_alpha,
+    30:pygame.image.load('pic/klcc.png').convert_alpha,
+    31:pygame.image.load('pic/klcc.png').convert_alpha,
+    32:pygame.image.load('pic/klcc.png').convert_alpha
 }
 
 
-def display_descriptions(description):
+def display_descriptions():
     max_width = 500
     max_height = 350
 
@@ -80,33 +80,39 @@ def display_descriptions(description):
     description_surface = pygame.Surface((max_width, max_height))
     description_surface.fill(grey)
 
-    font = pygame.font.Font("HelveticaNeue.ttf", 24)
-    text_lines = wrap_text(description, font, max_width)
-    y_offset = 0
-    for line in text_lines:
-        text_surface = font.render(line, True, black)
-        description_surface.blit(text_surface, (0, y_offset))
-        y_offset += font.get_height()
+    image = pygame.image.load('pic/klcc.png')
+    image_rect = image.get_rect()
+    image_rect.top = 0
+    image_rect.left = 0
+    description_surface.blit(image, image_rect)
+
+    # font = pygame.font.Font("HelveticaNeue.ttf", 24)
+    # text_lines = wrap_text(description, font, max_width)
+    # y_offset = 0
+    # for line in text_lines:
+    #     text_surface = font.render(line, True, black)
+    #     description_surface.blit(text_surface, (0, y_offset))
+    #     y_offset += font.get_height()
 
     screen.blit(description_surface, (180, 150))
     pygame.display.flip()
 
 
-def wrap_text(text, font, max_width):
-    words = text.split(' ')
-    lines = []
-    current_line = ''
-    for word in words:
-        test_line = current_line + word + ' '
-        test_line_surface = font.render(test_line, True, white)
-        if test_line_surface.get_width() <= max_width:
-            current_line = test_line
-        else:
-            lines.append(current_line)
-            current_line = word + ' '
-    if current_line:
-        lines.append(current_line)
-    return lines
+# def wrap_text(text, font, max_width):
+#     words = text.split(' ')
+#     lines = []
+#     current_line = ''
+#     for word in words:
+#         test_line = current_line + word + ' '
+#         test_line_surface = font.render(test_line, True, white)
+#         if test_line_surface.get_width() <= max_width:
+#             current_line = test_line
+#         else:
+#             lines.append(current_line)
+#             current_line = word + ' '
+#     if current_line:
+#         lines.append(current_line)
+#     return lines
 
 
 class Display:
@@ -1775,7 +1781,6 @@ class economic:
             pass
 
 
-            
     def update_eco():
         global player_sequence
         title_font = pygame.font.Font("HelveticaNeue.ttf", 18)
@@ -2158,8 +2163,7 @@ class economic:
         # if the player has'nt reach maximum level
         if property_level <= 3 and economic.upgrading and economic.showing_upgrade_button:
             Property_level[player3_pos] += 1
-            print(f'Player 3 is upgrading {
-                upgrading_property} with {upgrade_price}')
+            print(f'Player 3 is upgrading {upgrading_property} with {upgrade_price}')
             player_dict_m["p3_money"] -= upgrade_price
             after_upgrade_rent = before_upgrade_rent * 1.5
             print(f'the property level is now{Property_level[player3_pos]}')
@@ -2168,11 +2172,9 @@ class economic:
             # if the player has reach maximum level
         if property_level == 3 and economic.upgrading and economic.showing_upgrade_button:
             Property_level[player3_pos] += 1
-            print(f'Player 3 is upgrading {
-                upgrading_property} with {upgrade_price}')
+            print(f'Player 3 is upgrading {upgrading_property} with {upgrade_price}')
             player_dict_m["p3_money"] -= upgrade_price
-            print(f'the property level is now{
-                  Property_level[player3_pos]} and has reach the maximum level')
+            print(f'the property level is now{Property_level[player3_pos]} and has reach the maximum level')
             after_upgrade_rent = before_upgrade_rent * 2
             print(f'new rent price is {after_upgrade_rent}')
             Property_with_rent[upgrading_property] = after_upgrade_rent
