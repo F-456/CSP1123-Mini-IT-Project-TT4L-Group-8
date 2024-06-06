@@ -85,34 +85,8 @@ def display_descriptions():
     image_rect.top = 0
     image_rect.left = 0
     description_surface.blit(image, image_rect)
-
-    # font = pygame.font.Font("HelveticaNeue.ttf", 24)
-    # text_lines = wrap_text(description, font, max_width)
-    # y_offset = 0
-    # for line in text_lines:
-    #     text_surface = font.render(line, True, black)
-    #     description_surface.blit(text_surface, (0, y_offset))
-    #     y_offset += font.get_height()
-
     screen.blit(description_surface, (180, 150))
     pygame.display.flip()
-
-
-# def wrap_text(text, font, max_width):
-#     words = text.split(' ')
-#     lines = []
-#     current_line = ''
-#     for word in words:
-#         test_line = current_line + word + ' '
-#         test_line_surface = font.render(test_line, True, white)
-#         if test_line_surface.get_width() <= max_width:
-#             current_line = test_line
-#         else:
-#             lines.append(current_line)
-#             current_line = word + ' '
-#     if current_line:
-#         lines.append(current_line)
-#     return lines
 
 
 class Display:
@@ -428,7 +402,6 @@ class Button():
     loading = True
     rolling_con = False
     is_buying_properties = False
-    is_paying_rent = False
     # is_upgrade_properties = False
 
     def __init__(self, image_on, image_off,  x_pos, y_pos):
@@ -472,7 +445,6 @@ class Button():
 
     def check_pay(self, position):
         if self.rect.collidepoint(position):
-            Button.is_paying_rent = True
             if player_sequence == 1:
                 economic.rent_button_1()
             if player_sequence == 2:
@@ -487,9 +459,8 @@ class Button():
     #         Button.is_upgrade_properties = True
 
     def check_chance(self, position):
-        if self.rect.collidepoint(position) and not Chance.chance_done:
+        if self.rect.collidepoint(position):
             print('chance chance')
-            Chance.chance_done = True
             if player_sequence == 1:
                 Chance.chance_button1()
             if player_sequence == 2:
@@ -941,7 +912,7 @@ class Dice(pygame.sprite.Sprite):
     def rand_a_dice():
         global dice_con, dice_rolled
         dice_rolled = True
-        if not dice_con:
+        if not dice_con and not paying and not Chance.doing_chance:
             dice_con = True
         return dice_rolled and dice_con == True
 
@@ -1436,11 +1407,7 @@ chance_rarities = {
 
 class Chance:
     showing_chance = False
-    chance_done = False
-    player1_c = False
-    player2_c = False
-    player3_c = False
-    player4_c = False
+    doing_chance = False
 
     def determine_chance_rarity(second_roll):
         if second_roll >= 5:
@@ -1466,43 +1433,20 @@ class Chance:
 
     def check_chance_valid():
 
-        if not Chance.chance_done:
-            if player1_pos == 12 or player1_pos == 28:
-                Chance.showing_chance = True
-                Chance.player1_c = True
-            if player2_pos == 12 or player2_pos == 28:
-                Chance.showing_chance = True
-                Chance.player2_c = True
-            if player3_pos == 12 or player3_pos == 28:
-                Chance.showing_chance = True
-                Chance.player3_c = True
-            if player4_pos == 12 or player4_pos == 28:
-                Chance.showing_chance = True
-                Chance.player4_c = True
-        else:
-            Chance.showing_chance = False
-        Chance.player_leave_chance()
-    # detect whether a player who get chance leave the position and reset to make button disappear
+        if player_sequence == 1 and player1_pos == 12 or player1_pos == 28:
+            Chance.chance_trigger()
+        if player_sequence == 2 and player2_pos == 12 or player2_pos == 28:
+            Chance.chance_trigger()
+        if player_sequence == 3 and player3_pos == 12 or player3_pos == 28:
+            Chance.chance_trigger()
+        if player_sequence == 4 and player4_pos == 12 or player4_pos == 28:
+            Chance.chance_trigger()
 
-    def player_leave_chance():
-        if Chance.player1_c:
-            if player1_pos != 12 and player1_pos != 28:
-                Chance.chance_done = False
-                Chance.player1_c = False
-        if Chance.player2_c:
-            if player2_pos != 12 and player2_pos != 28:
-                Chance.chance_done = False
-                Chance.player2_c = False
-        if Chance.player3_c:
-            if player3_pos != 12 and player3_pos != 28:
-                Chance.chance_done = False
-                Chance.player3_c = False
-        if Chance.player4_c:
-            if player4_pos != 12 and player4_pos != 28:
-                Chance.chance_done = False
-                Chance.player4_c = False
+    def chance_trigger():
+        Chance.doing_chance = True
 
     def chance_button1():
+        Chance.doing_chance = False
         if player_sequence == 1:
             second_roll = random.randint(1, 6)
             chance_rarity = Chance.determine_chance_rarity(second_roll)
@@ -1542,9 +1486,8 @@ class Chance:
             elif "earthquake" in chance_card:
                 pass
 
-            Chance.chance_done = True
-
     def chance_button2():
+        Chance.doing_chance = False
         if player_sequence == 2:
             second_roll = random.randint(1, 6)
             chance_rarity = Chance.determine_chance_rarity(second_roll)
@@ -1584,9 +1527,8 @@ class Chance:
             elif "earthquake" in chance_card:
                 pass
 
-            Chance.chance_done = True
-
     def chance_button3():
+        Chance.doing_chance = False
         if player_sequence == 3:
             second_roll = random.randint(1, 6)
             chance_rarity = Chance.determine_chance_rarity(second_roll)
@@ -1625,9 +1567,9 @@ class Chance:
                 pass
             elif "earthquake" in chance_card:
                 pass
-            Chance.chance_done = True
 
     def chance_button4():
+        Chance.doing_chance = False
         if player_sequence == 4:
             second_roll = random.randint(1, 6)
             chance_rarity = Chance.determine_chance_rarity(second_roll)
@@ -1665,7 +1607,6 @@ class Chance:
                 pass
             elif "earthquake" in chance_card:
                 pass
-            Chance.chance_done = True
 
 
 # settings for the property
@@ -1760,7 +1701,7 @@ Property_upgrade_cost = {
     'KLCC': 2000
 }
 # setting for player
-initial_money = int(200)
+initial_money = int(15000)
 player_dict_m = {'p1_money': initial_money, 'p2_money': initial_money,
                  'p3_money': initial_money, 'p4_money': initial_money}
 p1_list_p = []
@@ -2683,7 +2624,6 @@ while run:
         Display.showing_properties_name()
         economic.update_eco()
         button_music.update()
-        Chance.check_chance_valid()
         button_roll.update()
         Player.show_players()
         moving_sprites.draw(screen)
@@ -2694,8 +2634,9 @@ while run:
 
         if paying:
             button_pay.update()
-        if Chance.showing_chance:
+        if Chance.doing_chance:
             button_chance.update()
+
         economic.check_buying_valid()
         Player.show_players()
         moving_sprites.draw(screen)
@@ -2717,14 +2658,14 @@ while run:
             pygame.quit()
             sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            mouse_click.play()
+            # mouse_click.play()
             handle_button_events(pygame.mouse.get_pos())
             display_description_block(pygame.mouse.get_pos())
 
         # if roll dice randomize a num
             if Button.rolling_con and Display.show_loading_done:
                 Dice.rand_a_dice()
-                if not paying:
+                if not paying and not Chance.doing_chance:
                     skipping_player()
                     # disaster_eartquake()
                     # disaster_tornado()
@@ -2736,12 +2677,13 @@ while run:
                     economic.buy_clicked = False
                     Button.is_buying_properties = False
 
-                if not changing_round and not paying:
+                if not changing_round and not paying and not Chance.doing_chance:
                     # dice animating preventing player move again when changing round
                     dice.animate(dice_num)
                     Button.rolling_con = False
                     buy_clicked = False
                     economic.checking_rent_valid()
+                    Chance.check_chance_valid()
                     economic.check_upgrade()
 
             else:
