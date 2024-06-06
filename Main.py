@@ -45,30 +45,30 @@ map_data = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
             ]
 
 block_desctiptions = {
-    2:pygame.image.load('pic/klcc.png').convert_alpha,
-    3:pygame.image.load('pic/klcc.png').convert_alpha,
-    4:pygame.image.load('pic/klcc.png').convert_alpha,
-    6:pygame.image.load('pic/klcc.png').convert_alpha,
-    7:pygame.image.load('pic/klcc.png').convert_alpha,
-    8:pygame.image.load('pic/klcc.png').convert_alpha,
-    9:pygame.image.load('pic/klcc.png').convert_alpha,
-    11:pygame.image.load('pic/klcc.png').convert_alpha,
-    12:pygame.image.load('pic/klcc.png').convert_alpha,
-    14:pygame.image.load('pic/klcc.png').convert_alpha,
-    15:pygame.image.load('pic/klcc.png').convert_alpha,
-    16:pygame.image.load('pic/klcc.png').convert_alpha,
-    18:pygame.image.load('pic/klcc.png').convert_alpha,
-    19:pygame.image.load('pic/klcc.png').convert_alpha,
-    20:pygame.image.load('pic/klcc.png').convert_alpha,
-    22:pygame.image.load('pic/klcc.png').convert_alpha,
-    23:pygame.image.load('pic/klcc.png').convert_alpha,
-    24:pygame.image.load('pic/klcc.png').convert_alpha,
-    25:pygame.image.load('pic/klcc.png').convert_alpha,
-    27:pygame.image.load('pic/klcc.png').convert_alpha,
-    28:pygame.image.load('pic/klcc.png').convert_alpha,
-    30:pygame.image.load('pic/klcc.png').convert_alpha,
-    31:pygame.image.load('pic/klcc.png').convert_alpha,
-    32:pygame.image.load('pic/klcc.png').convert_alpha
+    2: pygame.image.load('pic/klcc.png').convert_alpha,
+    3: pygame.image.load('pic/klcc.png').convert_alpha,
+    4: pygame.image.load('pic/klcc.png').convert_alpha,
+    6: pygame.image.load('pic/klcc.png').convert_alpha,
+    7: pygame.image.load('pic/klcc.png').convert_alpha,
+    8: pygame.image.load('pic/klcc.png').convert_alpha,
+    9: pygame.image.load('pic/klcc.png').convert_alpha,
+    11: pygame.image.load('pic/klcc.png').convert_alpha,
+    12: pygame.image.load('pic/klcc.png').convert_alpha,
+    14: pygame.image.load('pic/klcc.png').convert_alpha,
+    15: pygame.image.load('pic/klcc.png').convert_alpha,
+    16: pygame.image.load('pic/klcc.png').convert_alpha,
+    18: pygame.image.load('pic/klcc.png').convert_alpha,
+    19: pygame.image.load('pic/klcc.png').convert_alpha,
+    20: pygame.image.load('pic/klcc.png').convert_alpha,
+    22: pygame.image.load('pic/klcc.png').convert_alpha,
+    23: pygame.image.load('pic/klcc.png').convert_alpha,
+    24: pygame.image.load('pic/klcc.png').convert_alpha,
+    25: pygame.image.load('pic/klcc.png').convert_alpha,
+    27: pygame.image.load('pic/klcc.png').convert_alpha,
+    28: pygame.image.load('pic/klcc.png').convert_alpha,
+    30: pygame.image.load('pic/klcc.png').convert_alpha,
+    31: pygame.image.load('pic/klcc.png').convert_alpha,
+    32: pygame.image.load('pic/klcc.png').convert_alpha
 }
 
 
@@ -481,7 +481,7 @@ class Button():
                 economic.rent_button_3()
             if player_sequence == 4:
                 economic.rent_button_4()
-    
+
     # def check_upgrade(self, position):
     #     if self.rect.collidepoint(position):
     #         Button.is_upgrade_properties = True
@@ -1940,7 +1940,6 @@ class economic:
         else:
             pass
 
-
     def update_eco():
         global player_sequence
         title_font = pygame.font.Font("HelveticaNeue.ttf", 18)
@@ -2349,7 +2348,8 @@ class economic:
         # if the player has'nt reach maximum level
         if property_level <= 3 and economic.upgrading and economic.showing_upgrade_button:
             Property_level[player3_pos] += 1
-            print(f'Player 3 is upgrading {upgrading_property} with {upgrade_price}')
+            print(f'Player 3 is upgrading {
+                  upgrading_property} with {upgrade_price}')
             player_dict_m["p3_money"] -= upgrade_price
             after_upgrade_rent = before_upgrade_rent * 1.5
             print(f'the property level is now{Property_level[player3_pos]}')
@@ -2361,9 +2361,11 @@ class economic:
             # if the player has reach maximum level
         if property_level == 3 and economic.upgrading and economic.showing_upgrade_button:
             Property_level[player3_pos] += 1
-            print(f'Player 3 is upgrading {upgrading_property} with {upgrade_price}')
+            print(f'Player 3 is upgrading {
+                  upgrading_property} with {upgrade_price}')
             player_dict_m["p3_money"] -= upgrade_price
-            print(f'the property level is now{Property_level[player3_pos]} and has reach the maximum level')
+            print(f'the property level is now{
+                  Property_level[player3_pos]} and has reach the maximum level')
             after_upgrade_rent = before_upgrade_rent * 2
             print(f'new rent price is {after_upgrade_rent}')
             Property_with_rent[upgrading_property] = after_upgrade_rent
@@ -2718,7 +2720,7 @@ while run:
             mouse_click.play()
             handle_button_events(pygame.mouse.get_pos())
             display_description_block(pygame.mouse.get_pos())
-            
+
         # if roll dice randomize a num
             if Button.rolling_con and Display.show_loading_done:
                 Dice.rand_a_dice()
