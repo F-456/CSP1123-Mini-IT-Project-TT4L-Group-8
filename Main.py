@@ -45,114 +45,74 @@ map_data = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
             ]
 
 block_desctiptions = {
-    2: "'Ramly burger', the most famous burger chain store in Malaysia",
-    3: "'99 speedmarket', you can buy everything you want from here",
-    4: "'Aeon Big' is a supermarket. When ur state got the aeon supermarket, ur state will be certified as 'developed state'.(JKJK)",
-    6: "'Tenaga National Berhad(TNB)', is the Malaysian multinational electricity company and is the only electric utility company in Peninsular Malaysia and also the largest publicly listed power company in Southeast Asia with MYR 182.60 billion worth of assets.",
-    7: "'Batu Caves' is a mogote (a type of karst landform) that has a series of caves and cave temples in Gombak, Selangor, Malaysia. The cave complex is one of the most popular Hindu shrines outside India, and is dedicated to Murugan. It is the focal point of the Tamil festival of Thaipusam in Malaysia.",
-    8: "'Pulau Langkawi' is a duty-free island and an archipelago of 99 islands located some 30 km off the coast of northwestern Malaysia and a few kilometres south of Ko Tarutao, adjacent to the Thai border.",
-    9: "'Cameroon Highland'is a district in Pahang, Malaysia, occupying an area of 712.18 square kilometres. Developed in the 1930s, the tableland is one of the oldest tourist spots in Malaysia.",
-    11: "'Gunung Mulu National Park' is in Miri Division, Sarawak, Malaysia. It is a UNESCO World Heritage Site that encompasses caves and karst formations in a mountainous equatorial rainforest setting",
-    12: "'Mount Kinabalu' is the highest mountain in Borneo and Malaysia. With an elevation of 4,095 metres (13,435 ft), it is the third-highest peak of an island on Earth, the 28th highest peak in Southeast Asia, and 20th most prominent mountain in the world.",
-    14: "'Johor Bahru' colloquially referred to as JB, and the capital city of the state of Johor, Malaysia (the second-largest district in the country, by population). It is the second-largest national GDP-contributor among the major cities in Malaysia, and forms a part of Iskandar Malaysia, the nation's largest special economic zone, by investment value.",
-    15: "'George Town' is the capital of the Malaysian state of Penang. Malaysia's second largest metropolitan area with a population of 2.84 million and the second highest contributor to the country's GDP. The city proper spans an area of 306 km2 (118 sq mi) encompassing Penang Island and surrounding islets.",
-    16: "'Malacca (Malay: Melaka)', officially the Historic State of Malacca, is a state in Malaysia located in the southern region of the Malay Peninsula, facing the Strait of Malacca. Its capital is Malacca City, which has been listed as a UNESCO World Heritage Site since 7 July 2008.",
-    18: "'Kuala Lumpur Sentral Station (KL Sentral)' is a transit-oriented development that houses the main railway station of Kuala Lumpur, the capital of Malaysia. Opened on 16 April 2001, KL Sentral replaced the old Kuala Lumpur railway station as the city's main intercity railway station. KL Sentral is the largest railway station in Malaysia, and also in Southeast Asia from 2001 to 2021",
-    19: "'Port Dickson' colloquially referred to as PD is a beach resort in Port Dickson District, Negeri Sembilan, Malaysia. It is the second largest urban area in Negeri Sembilan after Seremban, its state capital.",
-    20: "'MMU Cyberjaya' GOAT!! The BEST university you can find in MALAYSIA, the lecturers are also the best, especially MR Willie Poh.(PLS rate excellent for us)",
-    22: "'Indah Water Konsortium Sdn. Bhd' is a Malaysian national wastewater and sanitation company, It is a government-owned company under the Minister of Finance Incorporated, which has the task of developing and maintaining a modern and efficient sewerage system for West Malaysia",
-    23: "'Genting Highlands' is a hill station located in the state of Pahang, at 1800 metres elevation. It was established in 1965 by the late Malaysian businessman Lim Goh Tong. The primary tourist attraction is Resorts World Genting, a hill resort where casinos and theme parks are situated and where gambling is permitted. Many of Pahang's skyscrapers can be found here.",
-    24: "'Putrajaya' is the administrative centre of Malaysia. The seat of the federal government of Malaysia was moved in 1999 from Kuala Lumpur to Putrajaya because of overcrowding and congestion in Kuala Lumpur, whilst the seat of the judiciary of Malaysia was later moved to Putrajaya in 2003",
-    25: "'Kuala Lumpur International Airport (KLIA)' is the main international airport serving Kuala Lumpur, the capital of Malaysia. It is located in the Sepang District of Selangor. KLIA is the largest and busiest airport in Malaysia. In 2023, it handled 47,224,000 passengers, 660,040 tonnes of cargo and 319,026 aircraft movements. It is the world's 35th-busiest airport by total passenger traffic.",
-    27: "'Tun Razak Exchange(TRX)' is a 70-acre development by Ministry of Finance Malaysia (MOF) in the heart of Kuala Lumpur for international finance and business. The development was named the second Prime Minister of Malaysia, Tun Abdul Razak Hussein. TRX is a strategic enabler of the Malaysian government's Economic Transformation Programme (ETP).",
-    28: "'Pavilion, KL' is a premier shopping destination in the heart of Bukit Bintang, Malaysia. It offers luxury retail, diverse dining options, and stunning architecture highlighted by the iconic Crystal Fountain. ",
-    30: "'The Kuala Lumpur Tower(KL Tower)' is a 6-storey, 421-metre-tall (1,381 ft) telecommunication tower in Kuala Lumpur, Malaysia. It is the world's seventh-tallest tower. The rest of the tower below has a stairwell and an elevator to reach the upper area, which also contains a revolving restaurant, providing diners with a panoramic view of the city.",
-    31: "'Merdeka 118' is a 118-story megatall skyscraper in Kuala Lumpur, Malaysia. At 678.9 m (2,227 ft) tall, it is the second-tallest building and structure in the world, only behind the Burj Khalifa at 828 m (2,717 ft).",
-    32: "'Petronas Twin Towers or KLCC Twin Towers' are an interlinked pair of 88-story supertall skyscrapers in Kuala Lumpur, Malaysia, standing at 451.9 metres (1,483 feet). From 1998 to 2004, they were officially designated as the tallest buildings in the world until completion of the Taipei 101, tallest twin skyscrapers and remained the tallest buildings in Malaysia until 2019."
+    2: pygame.image.load('pic/klcc.png').convert_alpha,
+    3: pygame.image.load('pic/klcc.png').convert_alpha,
+    4: pygame.image.load('pic/klcc.png').convert_alpha,
+    6: pygame.image.load('pic/klcc.png').convert_alpha,
+    7: pygame.image.load('pic/klcc.png').convert_alpha,
+    8: pygame.image.load('pic/klcc.png').convert_alpha,
+    9: pygame.image.load('pic/klcc.png').convert_alpha,
+    11: pygame.image.load('pic/klcc.png').convert_alpha,
+    12: pygame.image.load('pic/klcc.png').convert_alpha,
+    14: pygame.image.load('pic/klcc.png').convert_alpha,
+    15: pygame.image.load('pic/klcc.png').convert_alpha,
+    16: pygame.image.load('pic/klcc.png').convert_alpha,
+    18: pygame.image.load('pic/klcc.png').convert_alpha,
+    19: pygame.image.load('pic/klcc.png').convert_alpha,
+    20: pygame.image.load('pic/klcc.png').convert_alpha,
+    22: pygame.image.load('pic/klcc.png').convert_alpha,
+    23: pygame.image.load('pic/klcc.png').convert_alpha,
+    24: pygame.image.load('pic/klcc.png').convert_alpha,
+    25: pygame.image.load('pic/klcc.png').convert_alpha,
+    27: pygame.image.load('pic/klcc.png').convert_alpha,
+    28: pygame.image.load('pic/klcc.png').convert_alpha,
+    30: pygame.image.load('pic/klcc.png').convert_alpha,
+    31: pygame.image.load('pic/klcc.png').convert_alpha,
+    32: pygame.image.load('pic/klcc.png').convert_alpha
 }
 
 
-def display_descriptions(description):
+def display_descriptions():
     max_width = 500
-    max_height = 400
+    max_height = 350
 
     # Create a surface to render text
     description_surface = pygame.Surface((max_width, max_height))
     description_surface.fill(grey)
 
-    font = pygame.font.Font("HelveticaNeue.ttf", 24)
-    text_lines = wrap_text(description, font, max_width)
-    y_offset = 0
-    for line in text_lines:
-        text_surface = font.render(line, True, black)
-        description_surface.blit(text_surface, (0, y_offset))
-        y_offset += font.get_height()
+    image = pygame.image.load('pic/klcc.png')
+    image_rect = image.get_rect()
+    image_rect.top = 0
+    image_rect.left = 0
+    description_surface.blit(image, image_rect)
+
+    # font = pygame.font.Font("HelveticaNeue.ttf", 24)
+    # text_lines = wrap_text(description, font, max_width)
+    # y_offset = 0
+    # for line in text_lines:
+    #     text_surface = font.render(line, True, black)
+    #     description_surface.blit(text_surface, (0, y_offset))
+    #     y_offset += font.get_height()
 
     screen.blit(description_surface, (180, 150))
     pygame.display.flip()
 
 
-def wrap_text(text, font, max_width):
-    words = text.split(' ')
-    lines = []
-    current_line = ''
-    for word in words:
-        test_line = current_line + word + ' '
-        test_line_surface = font.render(test_line, True, white)
-        if test_line_surface.get_width() <= max_width:
-            current_line = test_line
-        else:
-            lines.append(current_line)
-            current_line = word + ' '
-    if current_line:
-        lines.append(current_line)
-    return lines
-
-
-class Property:
-    def __init__(self, name, price, base_rent):
-        self.name = name
-        self.price = price
-        self.base_rent = base_rent
-        self.owner = None
-
-    def calculate_rent(self):
-        if self.owner:
-            owned_properties = sum(
-                1 for prop in property if prop.owner == self.owner)
-            rent = self.base_rent * (2 ** (owned_properties - 1))
-            return rent
-        else:
-            return 0
-
-
-# Define property
-property = [
-    Property("Ramly Burger", 500, 10),
-    Property("99 Speedmarket", 600, 20),
-    Property("Aeon Big", 700, 35),
-    Property("TNB", 2100, 40),
-    Property("Batu Caves", 800, 50),
-    Property("Pulau Langkawi", 900, 55),
-    Property("Cameron Highland", 1000, 65),
-    Property("Gunung Mulu", 1200, 80),
-    Property("Mount Kinabalu", 1300, 85),
-    Property("Johor Bahru", 1400, 100),
-    Property("George Town", 1500, 110),
-    Property("Melaka", 1600, 120),
-    Property("KL Sentral", 1800, 140),
-    Property("Port Dickson", 2000, 160),
-    Property("MMU Cyberjaya", 2000, 160),
-    Property("Indah water", 2150, 180),
-    Property("Genting Highland", 2200, 180),
-    Property("Putrajaya", 2400, 200),
-    Property("KLIA", 2500, 220),
-    Property("TRX", 2600, 230),
-    Property("Pavilion KL", 2800, 240),
-    Property("KL Tower", 3000, 275),
-    Property("Merdeka 118", 3500, 350),
-    Property("KLCC", 4000, 500)
-]
+# def wrap_text(text, font, max_width):
+#     words = text.split(' ')
+#     lines = []
+#     current_line = ''
+#     for word in words:
+#         test_line = current_line + word + ' '
+#         test_line_surface = font.render(test_line, True, white)
+#         if test_line_surface.get_width() <= max_width:
+#             current_line = test_line
+#         else:
+#             lines.append(current_line)
+#             current_line = word + ' '
+#     if current_line:
+#         lines.append(current_line)
+#     return lines
 
 
 class Display:
@@ -200,9 +160,48 @@ class Display:
     price12_t = text_font.render("$ 2200", True, (black))
     price13_t = text_font.render("$ 2400", True, (black))
     price14_t = text_font.render("$ 2500", True, (black))
-    current_money_d = int()
-    # price_t = smaller_font.render(f"{Pricelist}", True, (white))
-    # print(Pricelist)
+    current_player = current_round = int()
+    player1_money = player2_money = player3_money = player4_money = str()
+    activity = str()
+    current_player = current_round = int()
+    player1_money = player2_money = player3_money = player4_money = str()
+    activity = str()
+    # displaying image
+    players_num_image = pygame.transform.scale(pygame.image.load(
+        'pic/chooseplayer.png').convert_alpha(), (1000, 800))
+    players_num_image_rect = players_num_image.get_rect(
+        center=(screen_width//2, screen_height//2))
+    players_num_image = pygame.transform.scale(pygame.image.load(
+        'pic/chooseplayer.png').convert_alpha(), (1000, 800))
+    players_num_image_rect = players_num_image.get_rect(
+        center=(screen_width//2, screen_height//2))
+    show_players_image = pygame.transform.scale(pygame.image.load(
+        'pic/loading background.png').convert_alpha(), (1000, 800))
+    show_players_image_rect = show_players_image.get_rect(
+        center=(screen_width//2, screen_height//2))
+    show_load_bool = True
+    limit = 0
+    alpha = 0
+    show_loading_done = False
+    # adding a boolean to control the function to loop one times
+
+    def show_player_explain():
+        # adding a limit to control when the if expression end
+        Display.limit += 1
+        if Display.show_load_bool and Display.alpha <= 255:
+            # adjusting the value to adjust the appear speed
+            Display.alpha += 0.9
+            if Display.limit >= 300 or Display.alpha >= 255:
+                Display.show_load_bool = False
+        if not Display.show_load_bool and not Display.show_loading_done:
+            # adjusting the value to adjust the disappear speed
+            Display.alpha -= 3
+        if Display.alpha <= 0:
+            Display.show_loading_done = True
+        print(Display.alpha)
+        Display.show_players_image.set_alpha(Display.alpha)
+        screen.blit(Display.show_players_image,
+                    Display.show_players_image_rect)
 
     def rotate_text(text, angle):
         return pygame.transform.rotate(text, angle)
@@ -328,7 +327,7 @@ class Display:
         screen.blit(Display.price1_t, (127, 60))
 
         # drawing grids for maps
-
+    # grid for demonstrating not using in normal play
     def drawing_grid(tile_size):
         tile_size = 50*2
         for line in range(0, 10):
@@ -349,19 +348,66 @@ class Display:
         rect_colour = grey
         pygame.draw.rect(screen, (rect_colour), Middle_rect)
 
+    def showing_player_round():
+        text_font = pygame.font.Font("HelveticaNeue.ttf", 22)
+        if player_sequence != 0:
+            current_player = text_font.render(
+                f"Player {player_sequence} turn", True, black)
+            screen.blit(current_player, (100, 110))
+            # showing which round of current when player sequence is 0
+        elif player_sequence == 0:
+            Display.current_round = round_num
+            current_player = text_font.render(
+                f"Current round = {Display.current_round}", True, (black))
+            screen.blit(current_player, (100, 110))
+
     def showing_player_money():
         text_font = pygame.font.Font("HelveticaNeue.ttf", 22)
-        if player_sequence == 1:
-            Display.current_money_d = player_dict_m['p1_money']
-        elif player_sequence == 2:
-            Display.current_money_d = player_dict_m['p2_money']
-        elif player_sequence == 3:
-            Display.current_money_d = player_dict_m['p3_money']
-        elif player_sequence == 4:
-            Display.current_money_d = player_dict_m['p4_money']
-        current_player = text_font.render(
-            f"Player {player_sequence} now have {Display.current_money_d}", True, (black))
-        screen.blit(current_player, (100, 110))
+        if not player1_broke:
+            Display.player1_money = text_font.render(
+                f'Player 1 now have {player_dict_m["p1_money"]} $', True, black)
+        # showing player 1 info if he is broke
+        if player1_broke:
+            Display.player1_money = text_font.render(
+                f'Player 1 is broke', True, black)
+        if not player2_broke:
+            Display.player2_money = text_font.render(
+                f'Player 2 now have {player_dict_m["p2_money"]} $', True, black)
+        if player2_broke:
+            Display.player2_money = text_font.render(
+                f'Player 2 is broke', True, black)
+        if not player3_broke:
+            Display.player3_money = text_font.render(
+                f'Player 3 now have {player_dict_m["p3_money"]} $', True, black)
+        if player3_broke:
+            Display.player3_money = text_font.render(
+                f'Player 3 is broke', True, black)
+        if not player4_broke:
+            Display.player4_money = text_font.render(
+                f'Player 4 now have {player_dict_m["p4_money"]} $', True, black)
+        if player4_broke:
+            Display.player4_money = text_font.render(
+                f'Player 4 is broke', True, black)
+
+        screen.blit(Display.player1_money, (580, 110))
+        screen.blit(Display.player2_money, (580, 140))
+        if not player_num2:
+            screen.blit(Display.player3_money, (580, 170))
+        if not player_num2 and not player_num3:
+            screen.blit(Display.player4_money, (580, 200))
+
+    def showing_dim_button():
+        button_pay_dim.update()
+        button_buy_dim.update()
+        button_chance_dim.update()
+        button_upgrade_dim.update()
+
+    # showing last activity by player
+    def showing_activity():
+        showing_activity = str()
+        text_font = pygame.font.Font("HelveticaNeue.ttf", 18)
+        showing_activity = text_font.render(Display.activity, True, black)
+        screen.blit(showing_activity, (110, 650))
 
 
 # general value for button
@@ -373,15 +419,17 @@ buy_clicked = False
 pay_clicked = False
 paying = False
 
+
 class Button():
     global paying
     menu = True
+    player_choose = False
     exit_game = False
     loading = True
     rolling_con = False
     is_buying_properties = False
     is_paying_rent = False
-
+    # is_upgrade_properties = False
 
     def __init__(self, image_on, image_off,  x_pos, y_pos):
         self.image_on = image_on
@@ -418,35 +466,70 @@ class Button():
             Button.exit_game = True
 
     def check_buy(self, position):
-        if self.rect.collidepoint(position):
-            Button.is_buying_properties = True
-            economic.showing_pay_button = True
+        if self.rect.collidepoint(position) and economic.showing_buy_button:
+            if not Button.is_buying_properties:
+                economic.buying_property()
 
     def check_pay(self, position):
         if self.rect.collidepoint(position):
             Button.is_paying_rent = True
-            if player_sequence == 1 :
+            if player_sequence == 1:
                 economic.rent_button_1()
-            if player_sequence == 2 :
+            if player_sequence == 2:
                 economic.rent_button_2()
-            if player_sequence == 3 :
+            if player_sequence == 3:
                 economic.rent_button_3()
-            if player_sequence == 4 :
+            if player_sequence == 4:
                 economic.rent_button_4()
-    
+
+    # def check_upgrade(self, position):
+    #     if self.rect.collidepoint(position):
+    #         Button.is_upgrade_properties = True
+
     def check_chance(self, position):
         if self.rect.collidepoint(position) and not Chance.chance_done:
             print('chance chance')
             Chance.chance_done = True
-            if player_sequence == 1  : 
-                Chance.chance_button1(player1_pos)      
-            if player_sequence == 2  :
+            if player_sequence == 1:
+                Chance.chance_button1(player1_pos)
+            if player_sequence == 2:
                 Chance.chance_button2(player2_pos)
-            if player_sequence == 3  :
+            if player_sequence == 3:
                 Chance.chance_button3(player3_pos)
-            if player_sequence == 4  :
+            if player_sequence == 4:
                 Chance.chance_button4(player4_pos)
-            
+
+    def check_upgrade(self, position):
+        if self.rect.collidepoint(position) and not economic.upgrading:
+            print('upgrade property')
+            economic.upgrading = True
+            if player_sequence == 1:
+                economic.upgrade_player1()
+            if player_sequence == 2:
+                economic.upgrade_player2()
+            if player_sequence == 3:
+                economic.upgrade_player3()
+            if player_sequence == 4:
+                economic.upgrade_player4()
+
+    def player_num_2(self, position):
+        global player_num2
+        if self.rect.collidepoint(position) and not Button.player_choose and not Button.loading:
+            print('Select player number 2')
+            Button.player_choose = True
+            player_num2 = True
+
+    def player_num_3(self, position):
+        global player_num3
+        if self.rect.collidepoint(position) and not Button.player_choose and not Button.loading:
+            print('Select player number 3')
+            Button.player_choose = True
+            player_num3 = True
+
+    def player_num_4(self, position):
+        if self.rect.collidepoint(position) and not Button.player_choose and not Button.loading:
+            print('Select player number 4')
+            Button.player_choose = True
 
     def toggleMusicState(self):
         if self.is_music_on:
@@ -464,33 +547,58 @@ button_play = pygame.image.load('pic/play.png')
 button_exit = pygame.image.load('pic/exit.png')
 button_next = pygame.image.load('pic/next.png')
 button_buy = pygame.image.load('pic/buy.png')
+button_buy_dim = pygame.image.load('pic/buy_dim.png')
 button_pay = pygame.image.load('pic/pay.png')
+button_pay_dim = pygame.image.load('pic/pay_dim.png')
 button_chance = pygame.image.load('pic/chance_b.png')
+button_chance_dim = pygame.image.load('pic/chance_dim.png')
+button_upgrade = pygame.image.load('pic/upgrade.png')
+button_upgrade_dim = pygame.image.load('pic/upgrade_dim.png')
+button_2p = pygame.image.load('pic/2P.png')
+button_3p = pygame.image.load('pic/3P.png')
+button_4p = pygame.image.load('pic/4P.png')
+
 
 # adjust size
 button_surface_on = pygame.transform.scale(button_surface_on, (40, 40))
 button_surface_off = pygame.transform.scale(button_surface_off, (40, 40))
-button_roll = pygame.transform.scale(button_roll, (80, 80))
-button_play = pygame.transform.scale(button_play, (240, 200))
-button_pay = pygame.transform.scale(button_pay, (120, 100))
-button_exit = pygame.transform.scale(button_exit, (240, 200))
+button_roll = pygame.transform.scale(button_roll, (84, 56))
+button_play = pygame.transform.scale(button_play, (240, 150))
+button_pay = pygame.transform.scale(button_pay, (84, 56))
+button_pay_dim = pygame.transform.scale(button_pay_dim, (84, 56))
+button_exit = pygame.transform.scale(button_exit, (240, 150))
 button_next = pygame.transform.scale(button_next, (120, 100))
-button_buy = pygame.transform.scale(button_buy, (120, 100))
-button_chance = pygame.transform.scale(button_chance, (120, 100))
+button_buy = pygame.transform.scale(button_buy, (84, 56))
+button_buy_dim = pygame.transform.scale(button_buy_dim, (84, 56))
+button_chance = pygame.transform.scale(button_chance, (84, 56))
+button_chance_dim = pygame.transform.scale(button_chance_dim, (84, 56))
+button_upgrade = pygame.transform.scale(button_upgrade, (84, 56))
+button_upgrade_dim = pygame.transform.scale(button_upgrade_dim, (84, 56))
+button_2p = pygame.transform.scale(button_2p, (300, 200))
+button_3p = pygame.transform.scale(button_3p, (300, 200))
+button_4p = pygame.transform.scale(button_4p, (300, 200))
 
 # adjust location
 button_music = Button(button_surface_on, button_surface_off, 880, 120)
-button_roll = Button(button_roll, button_roll, 800, 650)
+button_roll = Button(button_roll, button_roll, 660, 650)
 button_play = Button(button_play, button_play, 700, 600)
 button_exit = Button(button_exit, button_exit, 300, 600)
 button_next = Button(button_next, button_next, 800, 600)
-button_buy = Button(button_buy, button_buy, 800, 550)
-button_pay = Button(button_pay, button_pay, 600, 650)
-button_chance = Button(button_chance, button_chance, 400, 600)
+button_buy = Button(button_buy, button_buy, 830, 650)
+button_buy_dim = Button(button_buy_dim, button_buy_dim, 830, 650)
+button_pay = Button(button_pay, button_pay, 745, 650)
+button_pay_dim = Button(button_pay_dim, button_pay_dim, 745, 650)
+button_chance = Button(button_chance, button_chance, 575, 650)
+button_chance_dim = Button(button_chance_dim, button_chance_dim, 575, 650)
+button_upgrade = Button(button_upgrade, button_upgrade, 490, 650)
+button_upgrade_dim = Button(button_upgrade_dim, button_upgrade_dim, 490, 650)
+button_2p = Button(button_2p, button_2p, 500, 600)
+button_3p = Button(button_3p, button_3p, 500, 450)
+button_4p = Button(button_4p, button_4p, 500, 300)
 
 # add background music
 pygame.mixer.music.load('Sound/BGM.mp3')
-pygame.mixer.music.set_volume(0.5)
+pygame.mixer.music.set_volume(0.2)
 pygame.mixer.music.play(loops=-1, fade_ms=5000)
 
 # Variable to track fade-in progress
@@ -500,8 +608,8 @@ fade_in_progress = True
 while fade_in_progress:
     if pygame.mixer.music.get_busy():
         current_volume = pygame.mixer.music.get_volume()
-        if current_volume < 0.1:
-            new_volume = min(current_volume + 0.01, 0.1)
+        if current_volume < 0.01:
+            new_volume = min(current_volume + 0.01, 0.001)
             pygame.mixer.music.set_volume(new_volume)
         else:
             fade_in_progress = False
@@ -813,6 +921,7 @@ player4_pos = 0
 # player sequence
 player_sequence = 0
 
+
 class Dice(pygame.sprite.Sprite):
     def __init__(self, pos_x, pos_y):
         super().__init__()
@@ -857,9 +966,8 @@ class Dice(pygame.sprite.Sprite):
 moving_sprites = pygame.sprite.Group()
 
 # Create the Dice sprite
-dice = Dice(750, 350)
+dice = Dice(500, 350)
 moving_sprites.add(dice)
-
 
 
 class Player:
@@ -875,39 +983,39 @@ class Player:
     h3 = pic3.get_height()
     w4 = pic4.get_width()
     h4 = pic4.get_height()
-    x1 = 0 
-    y1 = 0 
-    x2 = 0
-    y2 = 0
-    x3 = 0
-    y3 = 0
-    x4 = 0
-    y4 = 0
+    x1 = y1 = x2 = y2 = x3 = y3 = x4 = y4 = 0
+    playerlist_4 = ['Player1', 'Player2', 'Player3', 'Player4']
+    playerlist_3 = ['Player1', 'Player2', 'Player3']
+    playerlist_2 = ['Player1', 'Player2']
+    player1_in_jail = False
+    player1_jail_round = 0
+    player2_in_jail = False
+    player2_jail_round = 0
+    player3_in_jail = False
+    player3_jail_round = 0
+    player4_in_jail = False
+    player4_jail_round = 0
 
     p1 = pygame.transform.scale(pic1, (int(w1 * 0.35), int(h1 * 0.35)))
     p2 = pygame.transform.scale(pic2, (int(w2 * 0.35), int(h2 * 0.35)))
     p3 = pygame.transform.scale(pic3, (int(w3 * 0.35), int(h3 * 0.35)))
     p4 = pygame.transform.scale(pic4, (int(w4 * 0.35), int(h4 * 0.35)))
 
-    
-
-    
-
     def __init__(self, image, player_name, index):
         self.image = image
-        self.rect  = self.image.get_rect()
+        self.rect = self.image.get_rect()
         self.dice_num = dice_num
         self.player_name = player_name
         self.index = index
 
-
     def move(dice_num):
-            step = int(0)
-            step = dice_num
-            second_step = int (0)
-            global player_sequence
-            #check whether the player is in the first row and move 
-            if player_sequence == 1 and Player.x1 < 1000 and Player.y1 == 0:
+        step = int(0)
+        step = dice_num
+        second_step = int(0)
+        global player_sequence
+        # check whether the player is in the first row and move
+        if player_sequence == 1 and not Player.player1_in_jail:
+            if Player.x1 < 1000 and Player.y1 == 0:
                 Player.x1 += step * 100
                 # check if player exceed x boundary and needed to turn down
                 if Player.x1 >= 1000:
@@ -915,186 +1023,233 @@ class Player:
                     Player.x1 = 900
                     Player.y1 += second_step + 100
 
-            elif player_sequence == 1 and Player.x1 == 900 and Player.y1 != 0:
+            elif Player.x1 == 900 and Player.y1 != 0:
                 Player.y1 += step * 100
                 if Player.y1 >= 800:
                     second_step = Player.y1 - 800
-                    Player.y1 = 700              
+                    Player.y1 = 700
                     Player.x1 -= second_step
-                    Player.x1 -= 100 
+                    Player.x1 -= 100
 
-            elif player_sequence == 1 and Player.x1 < 1000 and Player.y1 == 700:
+            elif Player.x1 < 1000 and Player.y1 == 700:
                 Player.x1 -= step * 100
                 if Player.x1 <= 0:
-                    second_step = 0 - Player.x1 
+                    second_step = 0 - Player.x1
                     Player.x1 = 0
-                    Player.y1 = 700 - second_step 
-                    
-            elif player_sequence == 1 and Player.x1 == 0 and Player.y1 <= 700:
+                    Player.y1 = 700 - second_step
+
+            elif Player.x1 == 0 and Player.y1 <= 700:
                 Player.y1 -= step * 100
                 if Player.y1 <= 0:
                     second_step = 0 - Player.y1
                     Player.y1 = 0
                     Player.x1 = second_step
+        elif Player.player1_in_jail:
+            Player.x1 = 0
+            Player.y1 = 700
 
-
-            
-            if player_sequence == 2 and Player.x2 < 1000 and Player.y2 == 0:
+        if player_sequence == 2 and not Player.player2_in_jail:
+            if Player.x2 < 1000 and Player.y2 == 0:
                 Player.x2 += step * 100
                 if Player.x2 >= 1000:
                     second_step = Player.x2 - 1000
                     Player.x2 = 900
                     Player.y2 += second_step + 100
 
-            elif player_sequence == 2 and Player.x2 == 900 and Player.y2 != 0:
+            elif Player.x2 == 900 and Player.y2 != 0:
                 Player.y2 += step * 100
                 if Player.y2 >= 800:
                     second_step = Player.y2 - 800
                     Player.y2 = 700
                     Player.x2 -= second_step
-                    Player.x2 -= 100 
+                    Player.x2 -= 100
 
-
-            elif player_sequence == 2 and Player.x2 < 1000 and Player.y2 == 700:
+            elif Player.x2 < 1000 and Player.y2 == 700:
                 Player.x2 -= step * 100
                 if Player.x2 <= 0:
                     second_step = 0 - Player.x2
                     Player.x2 = 0
-                    Player.y2 = 700 - second_step 
+                    Player.y2 = 700 - second_step
 
-            elif player_sequence == 2 and Player.x2 == 0 and Player.y2 <= 700:
+            elif Player.x2 == 0 and Player.y2 <= 700:
                 Player.y2 -= step * 100
                 if Player.y2 <= 0:
                     second_step = 0 - Player.y2
                     Player.y2 = 0
                     Player.x2 = second_step
+        elif Player.player2_in_jail:
+            Player.x2 = 0
+            Player.y2 = 700
 
-                  
-
-            if player_sequence == 3 and Player.x3 < 1000 and Player.y3 == 0:
+        if player_sequence == 3 and not Player.player3_in_jail:
+            if Player.x3 < 1000 and Player.y3 == 0:
                 Player.x3 += step * 100
                 if Player.x3 >= 1000:
                     second_step = Player.x3 - 1000
                     Player.x3 = 900
                     Player.y3 += second_step + 100
 
-
-            elif player_sequence == 3 and Player.x3 == 900 and Player.y3 != 0:
+            elif Player.x3 == 900 and Player.y3 != 0:
                 Player.y3 += step * 100
                 if Player.y3 >= 800:
                     second_step = Player.y3 - 800
                     Player.y3 = 700
                     Player.x3 -= second_step
-                    Player.x3 -= 100 
+                    Player.x3 -= 100
 
-
-            elif player_sequence == 3 and Player.x3 < 1000 and Player.y3 == 700:
+            elif Player.x3 < 1000 and Player.y3 == 700:
                 Player.x3 -= step * 100
                 if Player.x3 <= 0:
                     second_step = 0 - Player.x3
                     Player.x3 = 0
-                    Player.y3 = 700 - second_step 
-                    
-            elif player_sequence == 3 and Player.x3 == 0 and Player.y3 <= 700:
+                    Player.y3 = 700 - second_step
+
+            elif Player.x3 == 0 and Player.y3 <= 700:
                 Player.y3 -= step * 100
                 if Player.y3 <= 0:
                     second_step = 0 - Player.y3
                     Player.y3 = 0
                     Player.x3 = second_step
+        elif Player.player3_in_jail:
+            Player.x3 = 0
+            Player.y3 = 700
 
-
-            if player_sequence == 4 and Player.x4 < 1000 and Player.y4 == 0:
+        if player_sequence == 4 and not Player.player4_in_jail:
+            if Player.x4 < 1000 and Player.y4 == 0:
                 Player.x4 += step * 100
                 if Player.x4 >= 1000:
                     second_step = Player.x4 - 1000
                     Player.x4 = 900
                     Player.y4 += second_step + 100
 
-            elif player_sequence == 4 and Player.x4 == 900 and Player.y4 != 0:
+            elif Player.x4 == 900 and Player.y4 != 0:
                 Player.y4 += step * 100
                 if Player.y4 >= 800:
                     second_step = Player.y4 - 800
                     Player.y4 = 700
                     Player.x4 -= second_step
-                    Player.x4 -= 100 
+                    Player.x4 -= 100
 
-            elif player_sequence == 4 and Player.x4 < 1000 and Player.y4 == 700:
+            elif Player.x4 < 1000 and Player.y4 == 700:
                 Player.x4 -= step * 100
                 if Player.x4 <= 0:
-                    second_step = 0 - Player.x4 
+                    second_step = 0 - Player.x4
                     Player.x4 = 0
-                    Player.y4 = 700 - second_step 
-                    
-            elif player_sequence == 4 and Player.x4 == 0 and Player.y4 <= 700:
+                    Player.y4 = 700 - second_step
+
+            elif Player.x4 == 0 and Player.y4 <= 700:
                 Player.y4 -= step * 100
                 if Player.y4 <= 0:
                     second_step = 0 - Player.y4
                     Player.y4 = 0
                     Player.x4 = second_step
+        elif Player.player4_in_jail:
+            Player.x4 = 0
+            Player.y4 = 700
 
-    def show_players(): 
-        screen.blit(Player.p1, (Player.x1, Player.y1))
-        screen.blit(Player.p2, (Player.x2, Player.y2))
-        screen.blit(Player.p3, (Player.x3, Player.y3))
-        screen.blit(Player.p4, (Player.x4, Player.y4))  
-
-
+    def show_players():
+        global player_num2, player_num3
+        if not player1_broke:
+            screen.blit(Player.p1, (Player.x1, Player.y1))
+        if not player2_broke:
+            screen.blit(Player.p2, (Player.x2, Player.y2))
+        if not player_num2 and not player3_broke:
+            screen.blit(Player.p3, (Player.x3, Player.y3))
+        if not player_num3 and not player_num2 and not player4_broke:
+            screen.blit(Player.p4, (Player.x4, Player.y4))
 
     def player_movement(dice_num):
         global dice_rolled,  player1_pos, player2_pos, player3_pos, player4_pos, player_sequence, changing_round, round_num
         player_sequence += 1
-
-        if dice_con and dice_rolled and player_sequence == 1:
+        if dice_con and dice_rolled and player_sequence == 1 and not Player.player1_in_jail:
             dice_rolled = False
             print(f"dice is {dice_num}")
             player1_pos = player1_pos + dice_num
             changing_round = False
-            if player1_pos < 32:
+            # detecting if a player is in jail tile
+            if player1_pos == 16:
+                Player.player_jail1()
+            # detecting if a player is in tax tile
+            if player1_pos == 4 or player1_pos == 20:
+                economic.tax()
+            # a player position is less than a new round
+            elif player1_pos < 32:
                 print(f"Player 1 is now at:{player1_pos}")
+            # a player position goes back on the origin and reset it to 0
             elif player1_pos == 32:
                 player1_pos = 0
-                print(f"Player 1 is now at: {player1_pos}")
-            else:
-                player1_pos -= 32
+                player_dict_m['p1_money'] += 2000
+                print_m(message_chat, f"player 1 passes go and get 2000")
                 print(f"Player 1 is now at: {player1_pos}")
 
-        if dice_con and dice_rolled and player_sequence == 2:
+            else:
+                # a player position exceed total tile of a round , therefore -32 to adjust to new lapse
+                player1_pos -= 32
+                player_dict_m['p1_money'] += 2000
+                print_m(message_chat, f"player 1 passes go and get 2000")
+                print(f"Player 1 is now at: {player1_pos}")
+
+        if dice_con and dice_rolled and player_sequence == 2 and not Player.player2_in_jail:
             dice_rolled = False
             print(f"dice is {dice_num}")
             player2_pos = player2_pos + dice_num
-            if player2_pos < 32:
+            if player2_pos == 16:
+                Player.player_jail2()
+            if player2_pos == 4 or player2_pos == 20:
+                economic.tax()
+            elif player2_pos < 32:
                 print(f"Player 2 is now at:{player2_pos}")
             elif player2_pos == 32:
                 player2_pos = 0
+                player_dict_m['p2_money'] += 2000
+                print_m(message_chat, f"player 2 passes go and get 2000")
                 print(f"Player 2 is now at: {player2_pos}")
+
             else:
                 player2_pos -= 32
+                player_dict_m['p2_money'] += 2000
+                print_m(message_chat, f"player 2 passes go and get 2000")
                 print(f"Player 2 is now at: {player2_pos}")
-        if dice_con and dice_rolled and player_sequence == 3:
+        if dice_con and dice_rolled and player_sequence == 3 and not Player.player3_in_jail:
             dice_rolled = False
             print(f"dice is {dice_num}")
             player3_pos = player3_pos + dice_num
-            if player3_pos < 32:
+            if player3_pos == 16:
+                Player.player_jail3()
+            if player3_pos == 4 or player3_pos == 20:
+                economic.tax()
+            elif player3_pos < 32:
                 print(f"Player 3 is now at:{player3_pos}")
             elif player3_pos == 32:
                 player3_pos = 0
+                player_dict_m['p3_money'] += 2000
+                print_m(message_chat,  f"player 3 passes go and added 2000")
                 print(f"Player 3 is now at: {player3_pos}")
             else:
                 player3_pos -= 32
+                player_dict_m['p3_money'] += 2000
+                print_m(message_chat,  f"player 3 passes go and added 2000")
                 print(f"Player 3 is now at: {player3_pos}")
 
-        if dice_con and dice_rolled and player_sequence == 4:
+        if dice_con and dice_rolled and player_sequence == 4 and not Player.player4_in_jail:
             dice_rolled = False
             print(f"dice is {dice_num}")
-
             player4_pos = player4_pos + dice_num
-            if player4_pos < 32:
+            if player4_pos == 16:
+                Player.player_jail4()
+            if player4_pos == 4 or player4_pos == 20:
+                economic.tax()
+            elif player4_pos < 32:
                 print(f"Player 4 is now at:{player4_pos}")
             elif player4_pos == 32:
                 player4_pos = 0
+                player_dict_m['p4_money'] += 2000
+                print_m(message_chat, f"player 4 passes go and added 2000")
                 print(f"Player 4 is now at: {player4_pos}")
             else:
                 player4_pos -= 32
+                player_dict_m['p4_money'] += 2000
+                print_m(message_chat, f"player 4 passes go and added 2000")
                 print(f"Player 4 is now at: {player4_pos}")
 
         elif player_sequence == 5:
@@ -1102,8 +1257,154 @@ class Player:
             round_num += 1
             print(f'{round_num} round started')
             player_sequence -= 5
-            
 
+            # if a new round started check whether if a player is in jail and count a round for his sentences
+            if Player.player1_in_jail:
+                Player.player1_jail_sentences()
+            if Player.player2_in_jail:
+                Player.player2_jail_sentences()
+            if Player.player3_in_jail:
+                Player.player3_jail_sentences()
+            if Player.player4_in_jail:
+                Player.player4_jail_sentences()
+
+    def player_jail1():
+        global player1_pos
+        # run a def and switch a bool to true and stop moving a certain player
+        print_m(message_chat, 'player 1 in jail')
+        # adjusting position of a player
+        player1_pos = 25
+        Player.player1_in_jail = True
+
+    def player_jail2():
+        global player2_pos
+        print_m(message_chat, 'player 2 in jail')
+        player2_pos = 25
+        Player.player2_in_jail = True
+
+    def player_jail3():
+        global player3_pos
+        print_m(message_chat, 'player 3 in jail')
+        player3_pos = 25
+        Player.player3_in_jail = True
+
+    def player_jail4():
+        global player4_pos
+        print_m(message_chat, 'player 4 in jail')
+        player4_pos = 25
+        Player.player4_in_jail = True
+
+    def player1_jail_sentences():
+        # checking if the player has passed two round since being jailed and set the player free
+        if Player.player1_jail_round == 1:
+            Player.player1_in_jail = False
+            Player.player1_jail_round -= 1
+        else:
+            Player.player1_jail_round += 1
+            print_m(message_chat, 'Player1 is 1 more round from freedom')
+
+    def player2_jail_sentences():
+        if Player.player2_jail_round == 1:
+            Player.player2_in_jail = False
+            Player.player2_jail_round -= 1
+        else:
+            Player.player2_jail_round += 1
+            print_m(message_chat, 'Player2 is 1 more round from freedom')
+
+    def player3_jail_sentences():
+        if Player.player3_jail_round == 1:
+            Player.player3_in_jail = False
+            Player.player3_jail_round -= 1
+        else:
+            Player.player3_jail_round += 1
+            print_m(message_chat, 'Player3 is 1 more round from freedom')
+
+    def player4_jail_sentences():
+        if Player.player4_jail_round == 1:
+            Player.player4_in_jail = False
+            Player.player4_jail_round -= 1
+        else:
+            Player.player4_jail_round += 1
+            print_m(message_chat, 'Player4 is 1 more round from freedom')
+
+    def player_check_broke():
+        global player1_broke, player2_broke, player3_broke, player4_broke, p1_broked, p2_broked, p3_broked, p4_broked
+        if player_dict_m["p1_money"] < 0 and not p1_broked:
+            player1_broke = True
+            p1_broked = True
+            print('Player 1 is broke')
+            print_m(message_chat, f'Player 1 is broke')
+        if player_dict_m["p2_money"] < 0 and not p2_broked:
+            player2_broke = True
+            p2_broked = True
+            print('Player 2 is broke')
+            print_m(message_chat, f'Player 2 is broke')
+        if player_dict_m["p3_money"] < 0 and not p3_broked:
+            player3_broke = True
+            p3_broked = True
+            print('Player 3 is broke')
+            print_m(message_chat, f'Player 3 is broke')
+        if player_dict_m["p4_money"] < 0 and not p4_broked:
+            player4_broke = True
+            p4_broked = True
+            print('Player 4 is broke')
+            print_m(message_chat, f'Player 4 is broke')
+
+    def player_check_win():
+        if not player_num2 and not player_num3:
+            Player.player_check_win_4()
+        if player_num3:
+            Player.player_check_win_3()
+        if player_num2:
+            Player.player_check_win_2()
+
+    def player_check_win_4():
+        if player1_broke:
+            if 'Player1' in Player.playerlist_4:
+                Player.playerlist_4.remove('Player1')
+        if player2_broke:
+            if 'Player2' in Player.playerlist_4:
+                Player.playerlist_4.remove('Player2')
+        if player3_broke:
+            if 'Player3' in Player.playerlist_4:
+                Player.playerlist_4.remove('Player3')
+        if player4_broke:
+            if 'Player4' in Player.playerlist_4:
+                Player.playerlist_4.remove('Player4')
+
+        if len(Player.playerlist_4) == 1:
+            winner = Player.playerlist_4[0]
+            print(f"The winner is {winner}")
+            print_m(message_chat, f'The winner is {winner} !!')
+
+    def player_check_win_3():
+        if player1_broke:
+            if 'Player1' in Player.playerlist_3:
+                Player.playerlist_3.remove('Player1')
+        if player2_broke:
+            if 'Player2' in Player.playerlist_3:
+                Player.playerlist_3.remove('Player2')
+        if player3_broke:
+            if 'Player3' in Player.playerlist_3:
+                Player.playerlist_3.remove('Player3')
+
+        if len(Player.playerlist_3) == 1:
+            winner = Player.playerlist_3[0]
+            print(f"The winner is {winner}")
+            print_m(message_chat, f'The winner is {winner} !!')
+
+    def player_check_win_2():
+        if player1_broke:
+            if 'Player1' in Player.playerlist_2:
+                Player.playerlist_2.remove('Player1')
+        if player2_broke:
+            if 'Player2' in Player.playerlist_2:
+                Player.playerlist_2.remove('Player2')
+
+        if len(Player.playerlist_2) == 1:
+            winner = Player.playerlist_2[0]
+            print(f"The winner is {winner}")
+            print_m(message_chat, f'The winner is {winner} !!')
 
 
 player_names = ["player1", "player2", "player3", "player4"]
@@ -1117,96 +1418,105 @@ player4 = (Player.p4, "Player 4", 4)
 players = [player1, player2, player3, player4]
 
 chance_rarities = {
-    "Common":[
+    "Common": [
         "Advance to GO. Collect $300",
         "It is your birthday. Collect $100 from each player",
         "Go back to B.Ramly"
     ],
-     "Rare": [
-        "Advance to Free parking. If you pass Go, collect $200.",
-        "Bank pays you dividend of $300.",
-        "Go to jail, move directly to jail,do not collect $200",
+    "Rare": [
+        "Advance to Free parking. If you pass Go, collect $300.",
+        "Bank pays you dividend of $500.",
+        "Go to jail, move directly to jail,do not collect $300",
     ],
     "Epic": [
-        "Advance one step forward and rest. If the property is owned, no payment is required. If unclaimed, you have the option to purchase it from the bank. ",
-        "Seize any property of your choosing.",
         "hired hacker cunningly snatches $200 from each player.",
-        "Experience the unexpected tremors of an earthquake, resulting in each player losing $1500.",
     ]
 }
 
-# Define player numbers
-p1 = 1
-p2 = 2
-p3 = 3
+p1 = 1 
+p2 = 2 
+p3 = 3 
 p4 = 4
 
 class Chance:
     showing_chance = False
     chance_done = False
-    player1_c= False
-    player2_c =False
-    player3_c =False
-    player4_c =False
+    player1_c = False
+    player2_c = False
+    player3_c = False
+    player4_c = False
+
     def determine_chance_rarity(second_roll):
-            if second_roll >= 5:
-                return "Epic"
-            elif second_roll >= 3:
-                return "Rare"
-            else:
-                return "Common" 
-            
+        if second_roll >= 5:
+            return "Epic"
+        elif second_roll >= 3:
+            return "Rare"
+        else:
+            return "Common"
+
+    def handle_chance():
+        if player_sequence == 0:
+            if player1_pos == 12 or player1_pos == 28:
+                second_roll = random.randint(1, 6)
+                chance_rarity = Chance.determine_chance_rarity(second_roll)
+
+    def determine_chance_rarity(second_roll):
+        if second_roll >= 5:
+            return "Epic"
+        elif second_roll >= 3:
+            return "Rare"
+        else:
+            return "Common"
+
     def check_chance_valid():
+
         if not Chance.chance_done:
-            if player1_pos == 12 or player1_pos == 28 :
+            if player1_pos == 12 or player1_pos == 28:
                 Chance.showing_chance = True
-                Chance.player1_c =True
-            if player2_pos == 12 or player2_pos == 28 :
+                Chance.player1_c = True
+            if player2_pos == 12 or player2_pos == 28:
                 Chance.showing_chance = True
-                Chance.player2_c =True
-            if player3_pos == 12 or player3_pos == 28 :
+                Chance.player2_c = True
+            if player3_pos == 12 or player3_pos == 28:
                 Chance.showing_chance = True
-                Chance.player3_c =True
-            if player4_pos == 12 or player4_pos == 28 :
+                Chance.player3_c = True
+            if player4_pos == 12 or player4_pos == 28:
                 Chance.showing_chance = True
-                Chance.player4_c =True  
+                Chance.player4_c = True
         else:
             Chance.showing_chance = False
         Chance.player_leave_chance()
     # detect whether a player who get chance leave the position and reset to make button disappear
 
     def player_leave_chance():
-        if Chance.player1_c :
-            if player1_pos !=12 and player1_pos !=28:
-                    Chance.chance_done = False
-                    Chance.player1_c = False
-        if Chance.player2_c :                
-            if player2_pos !=12 and player2_pos !=28:
-                    Chance.chance_done = False
-                    Chance.player2_c = False
-        if Chance.player3_c :
-            if player3_pos !=12 and player3_pos !=28:
-                    Chance.chance_done = False
-                    Chance.player3_c = False
-        if Chance.player4_c :
-            if player4_pos !=12 and player4_pos !=28:
-                    Chance.chance_done = False
-                    Chance.player4_c = False
-        
-
+        if Chance.player1_c:
+            if player1_pos != 12 and player1_pos != 28:
+                Chance.chance_done = False
+                Chance.player1_c = False
+        if Chance.player2_c:
+            if player2_pos != 12 and player2_pos != 28:
+                Chance.chance_done = False
+                Chance.player2_c = False
+        if Chance.player3_c:
+            if player3_pos != 12 and player3_pos != 28:
+                Chance.chance_done = False
+                Chance.player3_c = False
+        if Chance.player4_c:
+            if player4_pos != 12 and player4_pos != 28:
+                Chance.chance_done = False
+                Chance.player4_c = False
 
     def chance_button1(player1_pos):
-        if player_sequence == 1 :
-            second_roll = random.randint(1,6)
+        if player_sequence == 1:
+            second_roll = random.randint(1, 6)
             chance_rarity = Chance.determine_chance_rarity(second_roll)
             chance_card = random.choice(chance_rarities[chance_rarity])
-            print_m(message_chat, f"Player1 draws a {chance_rarity} chance card: {chance_card}")
-
+            print_m(message_chat, f"Player 1 draws a {chance_rarity} chance card: {chance_card}")
             if "Advance to GO" in chance_card:
                 Player.x1 = 0
                 Player.y1 = 0
-                player1_pos = 0
-                economic.update_money(p1, 200)
+                player1_pos = 0 
+                economic.update_money(p1, 300)
             elif "Collect $100 from each player" in chance_card:
                 economic.update_money(p1, 300) 
                 economic.update_money(p2, -100)
@@ -1219,55 +1529,36 @@ class Chance:
             elif "Advance to Free parking" in chance_card:
                 Player.x1 = 900
                 Player.y1 = 0
-                player1_pos = 10
-            elif "Bank pays you dividend of $300" in chance_card:
-                economic.update_money(p1, 300)
+                player1_pos = 10 
+            elif "Bank pays you dividend of $500" in chance_card:
+                economic.update_money(p1, 500) 
             elif "Go to jail" in chance_card:
                 Player.x1 = 0
                 Player.y1 = 700
                 player1_pos = 25
-            elif "Advance one step forward and rest" in chance_card:
-                if Player.x1 < 1000 and Player.y1 == 0:
-                    Player.x1 + 100      
-                elif Player.x1 == 900 and Player.y1 != 0:
-                    Player.y1 +  100
-                elif Player.x1 < 1000 and Player.y1 == 700:
-                    Player.x1 - 100
-                elif Player.x1 == 0 and Player.y1 <= 700:
-                    Player.y1 - 100
-                player1_pos += 1 
-            elif "Seize any property" in chance_card:
-                pass  
             elif "snatches $200 from each player" in chance_card:
                 economic.update_money(p1, 600) 
                 economic.update_money(p2, -200)
                 economic.update_money(p3, -200)
                 economic.update_money(p4, -200)
-            elif "earthquake" in chance_card:
-                economic.update_money(p1, -1000)
-                economic.update_money(p2, -1000)
-                economic.update_money(p3, -1000)
-                economic.update_money(p4, -1000)
             Chance.chance_done = True
 
-     
     def chance_button2(player2_pos):
-        if player_sequence == 2 :
-            second_roll = random.randint(1,6)
+        if player_sequence == 2:
+            second_roll = random.randint(1, 6)
             chance_rarity = Chance.determine_chance_rarity(second_roll)
             chance_card = random.choice(chance_rarities[chance_rarity])
-            print_m(message_chat, f"Player2draws a {chance_rarity} chance card: {chance_card}")
-
+            print_m(message_chat, f"Player 2  draws a {chance_rarity} chance card: {chance_card}")
             if "Advance to GO" in chance_card:
                 Player.x2 = 0
                 Player.y2 = 0
-                player2_pos = 0
+                player2_pos = 0  
                 economic.update_money(p2, 300)
             elif "Collect $100 from each player" in chance_card:
                 economic.update_money(p1, -100) 
                 economic.update_money(p2, 300)
                 economic.update_money(p3, -100)
-                economic.update_money(p4, -100) 
+                economic.update_money(p4, -100)
             elif "Go back to B.Ramly" in chance_card:
                 Player.x2 = 100
                 Player.y2 = 0
@@ -1275,153 +1566,96 @@ class Chance:
             elif "Advance to Free parking" in chance_card:
                 Player.x2 = 900
                 Player.y2 = 0
-                player2_pos = 10 
-            elif "Bank pays you dividend of $300" in chance_card:
-                economic.update_money(p2, 300) 
+                player2_pos = 10
+            elif "Bank pays you dividend of $500" in chance_card:
+                economic.update_money(p2, 500)
             elif "Go to jail" in chance_card:
                 Player.x2 = 0
                 Player.y2 = 700
                 player2_pos = 25
-            elif "Advance one step forward and rest" in chance_card:
-                if Player.x2 < 1000 and Player.y2 == 0:
-                    Player.x2 + 100      
-                elif Player.x2 == 900 and Player.y2 != 0:
-                    Player.y2 +  100
-                elif Player.x2 < 1000 and Player.y2 == 700:
-                    Player.x2 - 100
-                elif Player.x2 == 0 and Player.y2 <= 700:
-                    Player.y2 - 100
-                player2_pos += 1 
-            elif "Seize any property" in chance_card:
-                pass  
             elif "snatches $200 from each player" in chance_card:
                 economic.update_money(p1, -200) 
                 economic.update_money(p2, 600)
                 economic.update_money(p3, -200)
                 economic.update_money(p4, -200)
-            elif "earthquake" in chance_card:
-                economic.update_money(p1, -1000)
-                economic.update_money(p2, -1000)
-                economic.update_money(p3, -1000)
-                economic.update_money(p4, -1000)
             Chance.chance_done = True
-    
-
 
     def chance_button3(player3_pos):
-        if player_sequence == 3 :
-            second_roll = random.randint(1,6)
+        if player_sequence == 3:
+            second_roll = random.randint(1, 6)
             chance_rarity = Chance.determine_chance_rarity(second_roll)
             chance_card = random.choice(chance_rarities[chance_rarity])
-            print_m(message_chat, f"Player3 draws a {chance_rarity} chance card: {chance_card}")
-
+            print_m(message_chat, f"Player 3 draws a {chance_rarity} chance card: {chance_card}")
             if "Advance to GO" in chance_card:
                 Player.x3 = 0
                 Player.y3 = 0
-                player3_pos = 0
-                economic.update_money(p3, 200) 
+                player3_pos = 0 
+                economic.update_money(p3, 300)
             elif "Collect $100 from each player" in chance_card:
                 economic.update_money(p1, -100) 
                 economic.update_money(p2, -100)
                 economic.update_money(p3, 300)
-                economic.update_money(p4, -100) 
+                economic.update_money(p4, -100)
             elif "Go back to B.Ramly" in chance_card:
                 Player.x3 = 100
                 Player.y3 = 0
-                player3_pos = 1
+                player3_pos = 1 
             elif "Advance to Free parking" in chance_card:
                 Player.x3 = 900
                 Player.y3 = 0
                 player3_pos = 10
-            elif "Bank pays you dividend of $300" in chance_card:
-                economic.update_money(p3, 300) 
+            elif "Bank pays you dividend of $500" in chance_card:
+                economic.update_money(p3, 500)
             elif "Go to jail" in chance_card:
                 Player.x3 = 0
                 Player.y3 = 700
                 player3_pos = 25
-            elif "Advance one step forward and rest" in chance_card:
-                if Player.x3 < 1000 and Player.y3 == 0:
-                    Player.x3 + 100      
-                elif Player.x3 == 900 and Player.y3 != 0:
-                    Player.y3 +  100
-                elif Player.x3 < 1000 and Player.y3 == 700:
-                    Player.x3 - 100
-                elif Player.x3 == 0 and Player.y3 <= 700:
-                    Player.y3 - 100
-                player3_pos += 1 
-            elif "Seize any property" in chance_card:
-                pass  
             elif "snatches $200 from each player" in chance_card:
                 economic.update_money(p1, -200) 
                 economic.update_money(p2, -200)
                 economic.update_money(p3, 600)
                 economic.update_money(p4, -200)
-            elif "earthquake" in chance_card:
-                economic.update_money(p1, -1000)
-                economic.update_money(p2, -1000)
-                economic.update_money(p3, -1000)
-                economic.update_money(p4, -1000)
             Chance.chance_done = True
 
-           
-
     def chance_button4(player4_pos):
-        if player_sequence == 4 :
-            second_roll = random.randint(1,6)
+        if player_sequence == 4:
+            second_roll = random.randint(1, 6)
             chance_rarity = Chance.determine_chance_rarity(second_roll)
             chance_card = random.choice(chance_rarities[chance_rarity])
-            print_m(message_chat, f"Player4 draws a {chance_rarity} chance card: {chance_card}")
-
+            print_m(message_chat, f"Player 4  draws a {chance_rarity} chance card: {chance_card}")
             if "Advance to GO" in chance_card:
                 Player.x4 = 0
                 Player.y4 = 0
-                player4_pos = 0 
-                economic.update_money(p4, 200) 
+                player4_pos = 0
+                economic.update_money(p4, 300)
             elif "Collect $100 from each player" in chance_card:
                 economic.update_money(p1, -100) 
                 economic.update_money(p2, -100)
                 economic.update_money(p3, -100)
-                economic.update_money(p4, 300) 
+                economic.update_money(p4, 300)
             elif "Go back to B.Ramly" in chance_card:
                 Player.x4 = 100
                 Player.y4 = 0
-                player4_pos = 1
+                player4_pos = 1 
             elif "Advance to Free parking" in chance_card:
                 Player.x4 = 900
                 Player.y4 = 0
                 player4_pos = 10
-            elif "Bank pays you dividend of $300" in chance_card:
-                economic.update_money(p4, 300)  
+            elif "Bank pays you dividend of $500" in chance_card:
+                economic.update_money(p4, 500)
             elif "Go to jail" in chance_card:
                 Player.x4 = 0
                 Player.y4 = 700
                 player4_pos = 25
-            elif "Advance one step forward and rest" in chance_card:
-                if Player.x4 < 1000 and Player.y4 == 0:
-                    Player.x4 + 100      
-                elif Player.x4 == 900 and Player.y4 != 0:
-                    Player.y4 +  100
-                elif Player.x4 < 1000 and Player.y4 == 700:
-                    Player.x4 - 100
-                elif Player.x4 == 0 and Player.y4 <= 700:
-                    Player.y4 - 100
-                player4_pos += 1
-            elif "Seize any property" in chance_card:
-                pass  
             elif "snatches $200 from each player" in chance_card:
                 economic.update_money(p1, -200) 
                 economic.update_money(p2, -200)
                 economic.update_money(p3, -200)
-                economic.update_money(p4, 600) 
-            elif "earthquake" in chance_card:
-                economic.update_money(p1, -1000)
-                economic.update_money(p2, -1000)
-                economic.update_money(p3, -1000)
-                economic.update_money(p4, -1000)
+                economic.update_money(p4, 600)
             Chance.chance_done = True
 
-font = pygame.font.SysFont(None, 24)
-   
+
+font = pygame.font.Font("HelveticaNeue.ttf", 20)
 class Messagebox:
     def __init__(self, font, max_lines = 10):
         self.font = font
@@ -1447,18 +1681,22 @@ def print_m(log, message):
 
 # Create message log
 message_chat = Messagebox(font, max_lines = 10)
-# message_log.draw(screen, 200, 500)
+
 
 # settings for the property
 price = 0
+# price list is for player to buy property according to their price
 Pricelist = [0, 500, 600, 700, 0, 2100, 800, 900, 1000, 0, 1200, 1300, 0, 1400, 1500, 1600,
              0, 1800, 1900, 2000, 0, 2150, 2200, 2400, 2500, 0, 2600, 2800, 0, 3000, 3500, 4000]
+# List for property level
+Property_level = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 name_list = ['Passngo', 'Ramly Burger', '99 Speedmarket', 'Aeon Big', 'tax', 'TNB', 'Batu Caves', 'Pulau Langkawi', 'Cameron Highland', 'parking', 'Gunung Mulu', 'Mount Kinabalu', 'chance', 'Johor Bahru', 'George Town',
              'Melaka', 'jail', 'KL Sentral', 'Port Dickson', 'MMU Cyberjaya', 'tax', 'Indah water', 'Genting Highland', 'Putrajaya', 'KLIA', 'injail', 'TRX', 'Pavilion KL', 'chance', 'KL Tower', 'Merdeka 118', 'KLCC']
 
 b_property = str()
-
+# Buying , rent price and upgrade price for all property
 Property_with_price = {
     "Ramly Burger": 500,
     "99 Speedmarket": 600,
@@ -1511,9 +1749,33 @@ Property_with_rent = {
     'Merdeka 118': 350,
     'KLCC': 500
 }
-
+Property_upgrade_cost = {
+    'Ramly Burger': 250,
+    '99 Speedmarket': 300,
+    'Aeon Big': 350,
+    'TNB': 370,
+    'Batu Caves': 400,
+    'Pulau Langkawi': 450,
+    'Cameron Highland': 500,
+    'Gunung Mulu': 600,
+    'Mount Kinabalu': 650,
+    'Johor Bahru': 700,
+    'George Town': 750,
+    'Melaka': 800,
+    'KL Sentral': 900,
+    'Port Dickson': 950,
+    'MMU Cyberjaya': 1000,
+    'Genting Highland': 1100,
+    'Putrajaya': 1200,
+    'KLIA': 1250,
+    'TRX': 1300,
+    'Pavilion KL': 1400,
+    'KL Tower': 1500,
+    'Merdeka 118': 1750,
+    'KLCC': 2000
+}
 # setting for player
-initial_money = int(15000)
+initial_money = int(1111200)
 player_dict_m = {'p1_money': initial_money, 'p2_money': initial_money,
                  'p3_money': initial_money, 'p4_money': initial_money}
 p1_list_p = []
@@ -1524,13 +1786,12 @@ player1_broke = False
 player2_broke = False
 player3_broke = False
 player4_broke = False
+# added a boolean condition to make the message only trigger one times
+p1_broked = p2_broked = p3_broked = p4_broked = False
 
 
 class economic:
-    eco_dis1 = str()
-    eco_dis2 = str()
-    eco_dis3 = str()
-    eco_dis4 = str()
+    buy_clicked = False
     leco_dis1 = str()
     leco_dis2 = str()
     leco_dis3 = str()
@@ -1539,74 +1800,103 @@ class economic:
     L_eco_dis2 = str()
     L_eco_dis3 = str()
     L_eco_dis4 = str()
-    
+    rent_display = str()
+    rent_value = str()
+    # checking for validity in buying property
+    # player will not be able to click buy button if tile is not available to sell
+    showing_pay_button = False
+
+    # upgrade controlling bool
+    showing_upgrade_button = False
+    upgrading = False
+    showing_buy_button = False
+    # checking for price is 0 for validity of buying
+
     def update_money(player, amount):
         player_key = f'p{player}_money'
         player_dict_m[player_key] += amount
         print_m(message_chat, f"Player {player}'s new balance: ${player_dict_m[player_key]}")
 
-    # checking for validity in buying property
-    # player will not be able to click buy button if tile is not available to sell
-    showing_pay_button = False
 
     def check_buying_valid():
         if player_sequence == 1 and player1_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
             if Pricelist[player1_pos] != 0:
-                button_buy.update()
+                economic.showing_buy_button = True
+            else:
+                economic.showing_buy_button = False
 
         elif player_sequence == 2 and player2_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
             if Pricelist[player2_pos] != 0:
-                button_buy.update()
+                economic.showing_buy_button = True
+            else:
+                economic.showing_buy_button = False
 
         elif player_sequence == 3 and player3_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
             if Pricelist[player3_pos] != 0:
-                button_buy.update()
+                economic.showing_buy_button = True
+            else:
+                economic.showing_buy_button = False
 
         elif player_sequence == 4 and player4_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
             if Pricelist[player4_pos] != 0:
-                button_buy.update()
+                economic.showing_buy_button = True
+            else:
+                economic.showing_buy_button = False
 
         else:
-            pass
+            economic.showing_buy_button = False
 
     def buying_property():
-        if player_sequence == 1 and player1_broke == False:
+        if player_sequence == 1 and player1_broke == False and not economic.buy_clicked:
             price = Pricelist[player1_pos]
-            print_m(message_chat, f"price ={price}")
+            print(f"price ={price}")
             before_buy_p1 = player_dict_m['p1_money']
             player_dict_m['p1_money'] = before_buy_p1 - price
             after_buy_p1 = player_dict_m['p1_money']
-            print_m(message_chat, f'Player1 now have {after_buy_p1}$')
+            print(f'Player1 now have {after_buy_p1}$')
+            economic.buy_clicked = True
+            Button.is_buying_properties = True
 
-        elif player_sequence == 2 and player2_broke == False:
+        elif player_sequence == 2 and player2_broke == False and not economic.buy_clicked:
             price = Pricelist[player2_pos]
-            print_m(message_chat, f"price ={price}")
+            print(f"price ={price}")
             before_buy_p2 = player_dict_m['p2_money']
             player_dict_m['p2_money'] = before_buy_p2 - price
             after_buy_p2 = player_dict_m['p2_money']
-            print_m(message_chat, f'Player2 now have {after_buy_p2}$')
+            print(f'Player2 now have {after_buy_p2}$')
+            economic.buy_clicked = True
+            Button.is_buying_properties = True
 
-        elif player_sequence == 3 and player3_broke == False:
+        elif player_sequence == 3 and player3_broke == False and not economic.buy_clicked:
             price = Pricelist[player3_pos]
-            print_m(message_chat, f"price ={price}")
+            print(f"price ={price}")
             before_buy_p3 = player_dict_m['p3_money']
             player_dict_m['p3_money'] = before_buy_p3 - price
             after_buy_p3 = player_dict_m['p3_money']
-            print_m(message_chat, f'Player3 now have {after_buy_p3}$')
+            print( f'Player3 now have {after_buy_p3}$')
+            economic.buy_clicked = True
+            Button.is_buying_properties = True
 
-        elif player_sequence == 4 and player4_broke == False:
+        elif player_sequence == 4 and player4_broke == False and not economic.buy_clicked:
             price = Pricelist[player4_pos]
-            print_m(message_chat, f"price ={price}")
+            print(f"price ={price}")
             before_buy_p4 = player_dict_m['p4_money']
             player_dict_m['p4_money'] = before_buy_p4 - price
             after_buy_p4 = player_dict_m['p4_money']
-            print_m(message_chat, f'Player4 now have {after_buy_p4}$')
+            print(f'Player4 now have {after_buy_p4}$')
+            economic.buy_clicked = True
+            Button.is_buying_properties = True
 
         else:
             price = 0
             pass
-
+        Player.player_check_broke()
         economic.owning_property(price)
+
+    def check_buy_button():
+        if economic.showing_buy_button:
+            if not Button.is_buying_properties:
+                button_buy.update()
 
     def owning_property(price):
         middle = 0
@@ -1615,61 +1905,56 @@ class economic:
                 i for i in Property_with_price if Property_with_price[i] == price]
             b_property = ', '.join(b_property)
             p1_list_p.append(b_property)
-            economic.eco_dis1 = print_m(message_chat, f'Player 1 paid {price} for {b_property} ')
-            if len(p1_list_p) > 5:
+            print_m(message_chat, f'P1 purchase {b_property} with {price}')
+            if len(p1_list_p) >= 5:
                 middle = len(p1_list_p)//2
                 economic.leco_dis1 = p1_list_p[:middle]
                 economic.L_eco_dis1 = p1_list_p[middle:]
-                economic.leco_dis1 = print_m(message_chat, f'own {economic.leco_dis1}')
+                economic.leco_dis1 = (f'own {economic.leco_dis1}')
             else:
-                economic.leco_dis1 = print_m(message_chat, f'own {p1_list_p}')
-
-            print(economic.eco_dis1)
+                economic.leco_dis1 = (f'own {p1_list_p}')
             Pricelist[player1_pos] = 0
         elif player_sequence == 2 and Pricelist[player2_pos] != 0:
             b_property = [
                 i for i in Property_with_price if Property_with_price[i] == price]
             b_property = ', '.join(b_property)
             p2_list_p.append(b_property)
-            economic.eco_dis2 = print_m(message_chat, f'player 2 paid {price} for {b_property} ')
-            if len(p2_list_p) > 5:
+            print_m(message_chat, f'P2 purchase {b_property} with {price}')
+            if len(p2_list_p) >= 5:
                 middle = len(p2_list_p)//2
                 economic.leco_dis2 = p2_list_p[:middle]
                 economic.L_eco_dis2 = p2_list_p[middle:]
-                economic.leco_dis2 = print_m(message_chat, f'own {economic.leco_dis2}')
+                economic.leco_dis2 = (f'own {economic.leco_dis2}')
             else:
-                economic.leco_dis2 = print_m(message_chat, f'own {p2_list_p}')
-            print(economic.eco_dis2)
+                economic.leco_dis2 = (f'own {p2_list_p}')
             Pricelist[player2_pos] = 0
         elif player_sequence == 3 and Pricelist[player3_pos] != 0:
             b_property = [
                 i for i in Property_with_price if Property_with_price[i] == price]
             b_property = ', '.join(b_property)
             p3_list_p.append(b_property)
-            economic.eco_dis3 = print_m(message_chat, f'player 3 paid {price} for {b_property} ')
-            if len(p3_list_p) > 5:
+            print_m(message_chat, f'P3 purchase {b_property} with {price}')
+            if len(p3_list_p) >= 5:
                 middle = len(p3_list_p)//2
                 economic.leco_dis3 = p3_list_p[:middle]
                 economic.L_eco_dis3 = p3_list_p[middle:]
-                economic.leco_dis3 = print_m(message_chat, f'own {economic.leco_dis3}')
+                economic.leco_dis3 = (f'own {economic.leco_dis3}')
             else:
-                economic.leco_dis3 = print_m(message_chat, f'own {p3_list_p}')
-            print(economic.eco_dis3)
+                economic.leco_dis3 = (f'own {p3_list_p}')
             Pricelist[player3_pos] = 0
         elif player_sequence == 4 and Pricelist[player4_pos] != 0:
             b_property = [
                 i for i in Property_with_price if Property_with_price[i] == price]
             b_property = ', '.join(b_property)
             p4_list_p.append(b_property)
-            economic.eco_dis4 = print_m(message_chat, f'player 4 paid {price} for {b_property} ')
-            if len(p4_list_p) > 5:
+            print_m(message_chat, f'P4 purchase {b_property} with {price}')
+            if len(p4_list_p) >= 5:
                 middle = len(p4_list_p)//2
                 economic.leco_dis4 = p4_list_p[:middle]
                 economic.L_eco_dis4 = p4_list_p[middle:]
-                economic.leco_dis4 = print_m(message_chat, f'own {economic.leco_dis4}')
+                economic.leco_dis4 = (f'own {economic.leco_dis4}')
             else:
-                economic.leco_dis4 = print_m(message_chat, f'own {p4_list_p}')
-            print(economic.eco_dis4)
+                economic.leco_dis4 = (f'own {p4_list_p}')
             Pricelist[player4_pos] = 0
 
         else:
@@ -1678,10 +1963,7 @@ class economic:
     def update_eco():
         global player_sequence
         title_font = pygame.font.Font("HelveticaNeue.ttf", 18)
-        dis_eco1 = economic.eco_dis1
-        dis_eco2 = economic.eco_dis2
-        dis_eco3 = economic.eco_dis3
-        dis_eco4 = economic.eco_dis4
+        rent_font = pygame.font.Font("HelveticaNeue.ttf", 20)
         ldis_eco1 = economic.leco_dis1
         ldis_eco2 = economic.leco_dis2
         ldis_eco3 = economic.leco_dis3
@@ -1690,34 +1972,31 @@ class economic:
         L_dis_eco2 = economic.L_eco_dis2
         L_dis_eco3 = economic.L_eco_dis3
         L_dis_eco4 = economic.L_eco_dis4
-        dis_eco1 = title_font.render(f"{dis_eco1}", True, black)
+        rent_display = economic.rent_display
         ldis_eco1 = title_font.render(f"{ldis_eco1}", True, black)
         L_dis_eco1 = title_font.render(f"{L_dis_eco1}", True, black)
-        dis_eco2 = title_font.render(f"{dis_eco2}", True, black)
         ldis_eco2 = title_font.render(f"{ldis_eco2}", True, black)
         L_dis_eco2 = title_font.render(f"{L_dis_eco2}", True, black)
-        dis_eco3 = title_font.render(f"{dis_eco3}", True, black)
         ldis_eco3 = title_font.render(f"{ldis_eco3}", True, black)
         L_dis_eco3 = title_font.render(f"{L_dis_eco3}", True, black)
-        dis_eco4 = title_font.render(f"{dis_eco4}", True, black)
         ldis_eco4 = title_font.render(f"{ldis_eco4}", True, black)
         L_dis_eco4 = title_font.render(f"{L_dis_eco4}", True, black)
-        if player_sequence == 1:
-            screen.blit(dis_eco1, (120, 630))
-            screen.blit(ldis_eco1, (120, 650))
-            screen.blit(L_dis_eco1, (120, 670))
-        elif player_sequence == 2:
-            screen.blit(dis_eco2, (120, 630))
-            screen.blit(ldis_eco2, (120, 650))
-            screen.blit(L_dis_eco2, (120, 670))
-        elif player_sequence == 3:
-            screen.blit(dis_eco3, (120, 630))
-            screen.blit(ldis_eco3, (120, 650))
-            screen.blit(L_dis_eco3, (120, 670))
-        elif player_sequence == 4:
-            screen.blit(dis_eco4, (120, 630))
-            screen.blit(ldis_eco4, (120, 650))
-            screen.blit(L_dis_eco4, (120, 670))
+        rent_display = rent_font.render(f"{rent_display}", True, black)
+        # showing player current activity
+        if player_sequence == 1 and not paying:
+            screen.blit(ldis_eco1, (120, 140))
+            screen.blit(L_dis_eco1, (120, 160))
+        elif player_sequence == 2 and not paying:
+            screen.blit(ldis_eco2, (120, 140))
+            screen.blit(L_dis_eco2, (120, 160))
+        elif player_sequence == 3 and not paying:
+            screen.blit(ldis_eco3, (120, 140))
+            screen.blit(L_dis_eco3, (120, 160))
+        elif player_sequence == 4 and not paying:
+            screen.blit(ldis_eco4, (120, 140))
+            screen.blit(L_dis_eco4, (120, 160))
+        elif player_sequence != 0 and paying:
+            screen.blit(rent_display, (100, 140))
 
     def checking_rent_valid():
         global paying
@@ -1738,34 +2017,72 @@ class economic:
         global paying
         # check if player 1 needed to pay another player rent
         if player_sequence == 1 and player1_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
-
             property_rent = name_list[player1_pos]
+            rent_price = Property_with_rent[property_rent]
             rent_in_list = (
                 property_rent in p2_list_p or property_rent in p3_list_p or property_rent in p4_list_p)
             if rent_in_list:
+                if property_rent in p2_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 2 rent")
+                elif property_rent in p3_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 3 rent")
+                elif property_rent in p4_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 4 rent")
                 paying = True
 
         if player_sequence == 2 and player2_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
 
             property_rent = name_list[player2_pos]
+            rent_price = Property_with_rent[property_rent]
             rent_in_list = (
                 property_rent in p1_list_p or property_rent in p3_list_p or property_rent in p4_list_p)
             if rent_in_list:
+                if property_rent in p1_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 1 rent")
+                elif property_rent in p3_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 3 rent")
+                elif property_rent in p4_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 4 rent")
                 paying = True
 
         if player_sequence == 3 and player3_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
-
             property_rent = name_list[player3_pos]
+            rent_price = Property_with_rent[property_rent]
             rent_in_list = (
                 property_rent in p1_list_p or property_rent in p2_list_p or property_rent in p4_list_p)
             if rent_in_list:
+                if property_rent in p1_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 1 rent")
+                elif property_rent in p2_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 2 rent")
+                elif property_rent in p4_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 4 rent")
                 paying = True
         if player_sequence == 4 and player4_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
 
             property_rent = name_list[player4_pos]
+            rent_price = Property_with_rent[property_rent]
             rent_in_list = (
                 property_rent in p1_list_p or property_rent in p3_list_p or property_rent in p2_list_p)
             if rent_in_list:
+                if property_rent in p1_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 1 rent")
+                elif property_rent in p2_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 2 rent")
+                elif property_rent in p3_list_p:
+                    economic.rent_display = (
+                        f"Player {player_sequence} paying {rent_price} for {property_rent} of player 3 rent")
                 paying = True
 
     def rent_button_1():
@@ -1775,36 +2092,43 @@ class economic:
             # checking for a property is not own by player 1
             if property_rent in p2_list_p:
                 rent_price = Property_with_rent[property_rent]
-                print_m(message_chat, f"{property_rent} is own by player 2")
-                print_m(message_chat,f"Player 1 paying {rent_price} for player 2")
+                print(f"{property_rent} is own by player 2")
+                print(f"Player 1 paying {rent_price} for player 2")
+                print_m(message_chat, (
+                    f"Player 1 paying {rent_price} for player 2"))
                 player_dict_m['p1_money'] -= rent_price
                 player_dict_m['p2_money'] += rent_price
-                print_m(message_chat, f"Player 1 now have {player_dict_m['p1_money']}")
-                print_m(message_chat, f"Player 2 now have {player_dict_m['p2_money']}")
+                print(f"Player 1 now have {player_dict_m['p1_money']}")
+                print(f"Player 2 now have {player_dict_m['p2_money']}")
                 paying = False
 
             if property_rent in p3_list_p:
                 rent_price = Property_with_rent[property_rent]
-                print_m(message_chat, f"{property_rent} is own by player 3")
-                print_m(message_chat, f"Player 1 paying {rent_price} for player 3")
+                print(f"{property_rent} is own by player 3")
+                print(f"Player 1 paying {rent_price} for player 3")
+                print_m(message_chat, (
+                    f"Player 1 paying {rent_price} for player 3"))
                 player_dict_m['p1_money'] -= rent_price
                 player_dict_m['p3_money'] += rent_price
-                print_m(message_chat, f"Player 1 now have {player_dict_m['p1_money']}")
-                print_m(message_chat, f"Player 3 now have {player_dict_m['p3_money']}")
+                print(f"Player 1 now have {player_dict_m['p1_money']}")
+                print(f"Player 3 now have {player_dict_m['p3_money']}")
                 paying = False
 
             if property_rent in p4_list_p:
                 rent_price = Property_with_rent[property_rent]
-                print_m(message_chat, f"{property_rent} is own by player 4")
-                print_m(message_chat, f"Player 1 paying {rent_price} for player 4")
+                print(f"{property_rent} is own by player 4")
+                print(f"Player 1 paying {rent_price} for player 4")
+                print_m(message_chat, (
+                    f"Player 1 paying {rent_price} for player 4"))
                 player_dict_m['p1_money'] -= rent_price
                 player_dict_m['p4_money'] += rent_price
-                print_m(message_chat, f"Player 1 now have {player_dict_m['p1_money']}")
-                print_m(message_chat, f"Player 4 now have {player_dict_m['p4_money']}")
+                print(f"Player 1 now have {player_dict_m['p1_money']}")
+                print(f"Player 4 now have {player_dict_m['p4_money']}")
                 paying = False
 
             else:
                 paying == False
+            Player.player_check_broke()
 
     def rent_button_2():
         global paying
@@ -1813,33 +2137,40 @@ class economic:
             # checking for a property is not own by player 2
             if property_rent in p1_list_p:
                 rent_price = Property_with_rent[property_rent]
-                print_m(message_chat, f"{property_rent} is own by player 1")
-                print_m(message_chat, f"Player 2 paying {rent_price} for player 1")
+                print(f"{property_rent} is own by player 1")
+                print(f"Player 2 paying {rent_price} for player 1")
+                print_m(message_chat, (
+                    f"Player 2 paying {rent_price} for player 1"))
                 player_dict_m['p2_money'] -= rent_price
                 player_dict_m['p1_money'] += rent_price
-                print_m(message_chat, f"Player 2 now have {player_dict_m['p2_money']}")
-                print_m(message_chat, f"Player 1 now have {player_dict_m['p1_money']}")
+                print(f"Player 2 now have {player_dict_m['p2_money']}")
+                print(f"Player 1 now have {player_dict_m['p1_money']}")
                 paying = False
             if property_rent in p3_list_p:
                 rent_price = Property_with_rent[property_rent]
-                print_m(message_chat, f"{property_rent} is own by player 3")
-                print_m(message_chat, f"Player 2 paying {rent_price} for player 3")
+                print(f"{property_rent} is own by player 3")
+                print(f"Player 2 paying {rent_price} for player 3")
+                print_m(message_chat, (
+                    f"Player 2 paying {rent_price} for player 3"))
                 player_dict_m['p2_money'] -= rent_price
                 player_dict_m['p3_money'] += rent_price
-                print_m(message_chat, f"Player 2 now have {player_dict_m['p2_money']}")
-                print_m(message_chat, f"Player 2 now have {player_dict_m['p2_money']}")
+                print(f"Player 2 now have {player_dict_m['p2_money']}")
+                print(f"Player 2 now have {player_dict_m['p2_money']}")
                 paying = False
             if property_rent in p4_list_p:
                 rent_price = Property_with_rent[property_rent]
-                print_m(message_chat, f"{property_rent} is own by player 4")
-                print_m(message_chat, f"Player 2 paying {rent_price} for player 4")
+                print(f"{property_rent} is own by player 4")
+                print(f"Player 2 paying {rent_price} for player 4")
+                print_m(message_chat, (
+                    f"Player 2 paying {rent_price} for player 4"))
                 player_dict_m['p2_money'] -= rent_price
                 player_dict_m['p4_money'] += rent_price
-                print_m(message_chat, f"Player 2 now have {player_dict_m['p2_money']}")
-                print_m(message_chat, f"Player 4 now have {player_dict_m['p4_money']}")
+                print(f"Player 2 now have {player_dict_m['p2_money']}")
+                print(f"Player 4 now have {player_dict_m['p4_money']}")
                 paying = False
             else:
                 pass
+            Player.player_check_broke()
 
     def rent_button_3():
         global paying
@@ -1848,33 +2179,40 @@ class economic:
             # checking for a property is not own by player 3
             if property_rent in p1_list_p:
                 rent_price = Property_with_rent[property_rent]
-                print_m(message_chat, f"{property_rent} is own by player 1")
-                print_m(message_chat, f"Player 3 paying {rent_price} for player 1")
+                print(f"{property_rent} is own by player 1")
+                print(f"Player 3 paying {rent_price} for player 1")
+                print_m(message_chat, (
+                    f"Player 3 paying {rent_price} for player 1"))
                 player_dict_m['p3_money'] -= rent_price
                 player_dict_m['p1_money'] += rent_price
-                print_m(message_chat, f"Player 3 now have {player_dict_m['p3_money']}")
-                print_m(message_chat, f"Player 1 now have {player_dict_m['p1_money']}")
+                print(f"Player 3 now have {player_dict_m['p3_money']}")
+                print(f"Player 1 now have {player_dict_m['p1_money']}")
                 paying = False
             if property_rent in p2_list_p:
                 rent_price = Property_with_rent[property_rent]
-                print_m(message_chat, f"{property_rent} is own by player 2")
-                print_m(message_chat, f"Player 3 paying {rent_price} for player 2")
+                print(f"{property_rent} is own by player 2")
+                print(f"Player 3 paying {rent_price} for player 2")
+                print_m(message_chat, (
+                    f"Player 3 paying {rent_price} for player 2"))
                 player_dict_m['p3_money'] -= rent_price
                 player_dict_m['p2_money'] += rent_price
-                print_m(message_chat, f"Player 3 now have {player_dict_m['p3_money']}")
-                print_m(message_chat, f"Player 2 now have {player_dict_m['p2_money']}")
+                print(f"Player 3 now have {player_dict_m['p3_money']}")
+                print(f"Player 2 now have {player_dict_m['p2_money']}")
                 paying = False
             if property_rent in p4_list_p:
                 rent_price = Property_with_rent[property_rent]
-                print_m(message_chat, f"{property_rent} is own by player 4")
-                print_m(message_chat, f"Player 3 paying {rent_price} for player 4")
+                print(f"{property_rent} is own by player 4")
+                print(f"Player 3 paying {rent_price} for player 4")
+                print_m(message_chat, (
+                    f"Player 3 paying {rent_price} for player 4"))
                 player_dict_m['p3_money'] -= rent_price
                 player_dict_m['p4_money'] += rent_price
-                print_m(message_chat, f"Player 3 now have {player_dict_m['p3_money']}")
-                print_m(message_chat, f"Player 4 now have {player_dict_m['p4_money']}")
+                print(f"Player 3 now have {player_dict_m['p3_money']}")
+                print(f"Player 4 now have {player_dict_m['p4_money']}")
                 paying = False
             else:
                 pass
+            Player.player_check_broke()
 
     def rent_button_4():
         global paying
@@ -1883,37 +2221,216 @@ class economic:
             # checking for a property is not own by player 4
             if property_rent in p1_list_p:
                 rent_price = Property_with_rent[property_rent]
-                print_m(message_chat, f"{property_rent} is own by player 1")
-                print_m(message_chat, f"Player 4 paying {rent_price} for player 1")
+                print(f"{property_rent} is own by player 1")
+                print(f"Player 4 paying {rent_price} for player 1")
+                print_m(message_chat, (
+                    f"Player 4 paying {rent_price} for player 1"))
                 player_dict_m['p4_money'] -= rent_price
                 player_dict_m['p1_money'] += rent_price
-                print_m(message_chat, f"Player 4 now have {player_dict_m['p4_money']}")
-                print_m(message_chat, f"Player 1 now have {player_dict_m['p1_money']}")
+                print(f"Player 4 now have {player_dict_m['p4_money']}")
+                print(f"Player 1 now have {player_dict_m['p1_money']}")
                 paying = False
 
             if property_rent in p2_list_p:
                 rent_price = Property_with_rent[property_rent]
-                print_m(message_chat, f"{property_rent} is own by player 2")
-                print_m(message_chat, f"Player 4 paying {rent_price} for player 2")
+                print(f"{property_rent} is own by player 2")
+                print(f"Player 4 paying {rent_price} for player 2")
+                print_m(message_chat, (
+                    f"Player 4 paying {rent_price} for player 2"))
                 player_dict_m['p4_money'] -= rent_price
                 player_dict_m['p2_money'] += rent_price
-                print_m(message_chat, f"Player 4 now have {player_dict_m['p4_money']}")
-                print_m(message_chat, f"Player 2 now have {player_dict_m['p2_money']}")
+                print(f"Player 4 now have {player_dict_m['p4_money']}")
+                print(f"Player 2 now have {player_dict_m['p2_money']}")
                 paying = False
 
             if property_rent in p3_list_p:
                 rent_price = Property_with_rent[property_rent]
-                print_m(message_chat, f"{property_rent} is own by player 3")
-                print_m(message_chat, f"Player 4 paying {rent_price} for player 3")
+                print(f"{property_rent} is own by player 3")
+                print(f"Player 4 paying {rent_price} for player 3")
+                print_m(message_chat, (
+                    f"Player 4 paying {rent_price} for player 3"))
                 player_dict_m['p4_money'] -= rent_price
                 player_dict_m['p3_money'] += rent_price
-                print_m(message_chat, f"Player 4 now have {player_dict_m['p4_money']}")
-                print_m(message_chat, f"Player 3 now have {player_dict_m['p3_money']}")
+                print(f"Player 4 now have {player_dict_m['p4_money']}")
+                print(f"Player 3 now have {player_dict_m['p3_money']}")
                 paying = False
             else:
                 pass
+            Player.player_check_broke()
 
-    print(player_dict_m)
+    def check_upgrade():
+        if player_sequence == 1 and player1_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+            if Pricelist[player1_pos] == 0 and name_list[player1_pos] in p1_list_p:
+                economic.showing_upgrade_button = True
+            else:
+                economic.showing_upgrade_button = False
+
+        elif player_sequence == 2 and player2_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+            if Pricelist[player2_pos] == 0 and name_list[player2_pos] in p2_list_p:
+                economic.showing_upgrade_button = True
+            else:
+                economic.showing_upgrade_button = False
+
+        elif player_sequence == 3 and player3_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+            if Pricelist[player3_pos] == 0 and name_list[player3_pos] in p3_list_p:
+                economic.showing_upgrade_button = True
+            else:
+                economic.showing_upgrade_button = False
+
+        elif player_sequence == 4 and player4_pos not in [0, 4, 9, 12, 16, 20, 25, 28]:
+            if Pricelist[player4_pos] == 0 and name_list[player4_pos] in p4_list_p:
+                economic.showing_upgrade_button = True
+            else:
+                economic.showing_upgrade_button = False
+
+    def check_upgrade_button():
+        if economic.showing_upgrade_button:
+            if not economic.upgrading:
+                button_upgrade.update()
+
+    def upgrade_player1():
+        property_level = Property_level[player1_pos]
+        upgrading_property = name_list[player1_pos]
+        before_upgrade_rent = Property_with_rent[upgrading_property]
+        upgrade_price = Property_upgrade_cost[upgrading_property]
+
+        # if the player has'nt reach maximum level
+        if property_level <= 3 and economic.upgrading and economic.showing_upgrade_button:
+            Property_level[player1_pos] += 1
+            print(f'Player 1 is upgrading {upgrading_property} with {upgrade_price}')
+            player_dict_m["p1_money"] -= upgrade_price
+            after_upgrade_rent = before_upgrade_rent * 1.5
+            print(f'the property level is now{Property_level[player1_pos]}')
+            print(f'new rent price is {after_upgrade_rent}')
+            print_m(message_chat, f'P1 upgrade {upgrading_property} into level {property_level} with {upgrade_price}')
+            Property_with_rent[upgrading_property] = after_upgrade_rent
+            economic.showing_upgrade_button = False
+            # if the player has reach maximum level
+        if property_level == 3 and economic.upgrading and economic.showing_upgrade_button:
+            Property_level[player1_pos] += 1
+            print(f'Player 1 is upgrading {upgrading_property} with {upgrade_price}')
+            player_dict_m["p1_money"] -= upgrade_price
+            print(f'the property level is now {Property_level[player1_pos]} and has reach the maximum level')
+            after_upgrade_rent = before_upgrade_rent * 2
+            print(f'new rent price is {after_upgrade_rent}')
+            Property_with_rent[upgrading_property] = after_upgrade_rent
+            economic.showing_upgrade_button = False
+        elif property_level > 4:
+            print(f'{upgrading_property} have reach the highest level')
+            economic.showing_upgrade_button = False
+
+    def upgrade_player2():
+        property_level = Property_level[player2_pos]
+        upgrading_property = name_list[player2_pos]
+        before_upgrade_rent = Property_with_rent[upgrading_property]
+        upgrade_price = Property_upgrade_cost[upgrading_property]
+
+        # if the player has'nt reach maximum level
+        if property_level <= 3 and economic.upgrading and economic.showing_upgrade_button:
+            Property_level[player2_pos] += 1
+            print(f'Player 2 is upgrading {upgrading_property} with {upgrade_price}')
+            player_dict_m["p2_money"] -= upgrade_price
+            after_upgrade_rent = before_upgrade_rent * 1.5
+            print(f'the property level is now{Property_level[player2_pos]}')
+            print(f'new rent price is {after_upgrade_rent}')
+            print_m(message_chat, f'P2 upgrade {upgrading_property} into level {property_level} with {upgrade_price}')
+            Property_with_rent[upgrading_property] = after_upgrade_rent
+            economic.showing_upgrade_button = False
+            # if the player has reach maximum level
+        if property_level == 3 and economic.upgrading and economic.showing_upgrade_button:
+            Property_level[player2_pos] += 1
+            print(f'Player 2 is upgrading {upgrading_property} with {upgrade_price}')
+            player_dict_m["p2_money"] -= upgrade_price
+            print(f'the property level is now {Property_level[player2_pos]} and has reach the maximum level')
+            after_upgrade_rent = before_upgrade_rent * 2
+            print(f'new rent price is {after_upgrade_rent}')
+            Property_with_rent[upgrading_property] = after_upgrade_rent
+            economic.showing_upgrade_button = False
+
+        elif property_level > 4:
+            print(f'{upgrading_property} have reach the highest level')
+            economic.showing_upgrade_button = False
+
+    def upgrade_player3():
+        property_level = Property_level[player3_pos]
+        upgrading_property = name_list[player3_pos]
+        before_upgrade_rent = Property_with_rent[upgrading_property]
+        upgrade_price = Property_upgrade_cost[upgrading_property]
+
+        # if the player has'nt reach maximum level
+        if property_level <= 3 and economic.upgrading and economic.showing_upgrade_button:
+            Property_level[player3_pos] += 1
+            print(f'Player 3 is upgrading {upgrading_property} with {upgrade_price}')
+            player_dict_m["p3_money"] -= upgrade_price
+            after_upgrade_rent = before_upgrade_rent * 1.5
+            print(f'the property level is now{Property_level[player3_pos]}')
+            print(f'new rent price is {after_upgrade_rent}')
+            print_m(message_chat, f'P3 upgrade {upgrading_property} into level {property_level} with {upgrade_price}')
+            Property_with_rent[upgrading_property] = after_upgrade_rent
+            economic.showing_upgrade_button = False
+            # if the player has reach maximum level
+        if property_level == 3 and economic.upgrading and economic.showing_upgrade_button:
+            Property_level[player3_pos] += 1
+            print(f'Player 3 is upgrading {upgrading_property} with {upgrade_price}')
+            player_dict_m["p3_money"] -= upgrade_price
+            print(f'the property level is now {Property_level[player3_pos]} and has reach the maximum level')
+            after_upgrade_rent = before_upgrade_rent * 2
+            print(f'new rent price is {after_upgrade_rent}')
+            Property_with_rent[upgrading_property] = after_upgrade_rent
+            economic.showing_upgrade_button = False
+        elif property_level > 4:
+            print(f'{upgrading_property} have reach the highest level')
+            economic.showing_upgrade_button = False
+
+    def upgrade_player4():
+        property_level = Property_level[player4_pos]
+        upgrading_property = name_list[player4_pos]
+        before_upgrade_rent = Property_with_rent[upgrading_property]
+        upgrade_price = Property_upgrade_cost[upgrading_property]
+
+        # if the player has'nt reach maximum level
+        if property_level <= 3 and economic.upgrading and economic.showing_upgrade_button:
+            Property_level[player4_pos] += 1
+            print(f'Player 4 is upgrading {upgrading_property} with {upgrade_price}')
+            player_dict_m["p4_money"] -= upgrade_price
+            after_upgrade_rent = before_upgrade_rent * 1.5
+            print(f'the property level is now{Property_level[player3_pos]}')
+            print(f'new rent price is {after_upgrade_rent}')
+            print_m(message_chat, f'P1 upgrade {upgrading_property} into level {property_level} with {upgrade_price}')
+            Property_with_rent[upgrading_property] = after_upgrade_rent
+            economic.showing_upgrade_button = False
+            # if the player has reach maximum level
+        if property_level == 3 and economic.upgrading and economic.showing_upgrade_button:
+            Property_level[player4_pos] += 1
+            print(f'Player 4 is upgrading {upgrading_property} with {upgrade_price}')
+            player_dict_m["p4_money"] -= upgrade_price
+            print(f'the property level is now {Property_level[player4_pos]} and has reach the maximum level')
+            after_upgrade_rent = before_upgrade_rent * 2
+            print(f'new rent price is {after_upgrade_rent}')
+            Property_with_rent[upgrading_property] = after_upgrade_rent
+            economic.showing_upgrade_button = False
+        elif property_level > 4:
+            print(f'{upgrading_property} have reach the highest level')
+            economic.showing_upgrade_button = False
+
+    def tax():
+        if player_sequence == 1:
+            print('player1 paying tax')
+            print_m(message_chat, f'Player 1 is paying 1500 tax')
+            player_dict_m['p1_money'] -= 1500
+        if player_sequence == 2:
+            print('player2 paying tax')
+            print_m(message_chat, f'Player 2 is paying 1500 tax')
+            player_dict_m["p2_money"] -= 1500
+        if player_sequence == 3:
+            print('player3 paying tax')
+            print_m(message_chat, f'Player 3 is paying 1500 tax')
+            player_dict_m["p3_money"] -= 1500
+        if player_sequence == 4:
+            print('player4 paying tax')
+            print_m(message_chat, f'Player 4 is paying 1500 tax')
+            player_dict_m["p4_money"] -= 1500
+        Player.player_check_broke()
 
 
 class starting_menu:
@@ -1933,7 +2450,7 @@ class starting_menu:
     rules_1 = "This is a monopoly game"
     snip_rule1 = rule_font.render(
         'HelveticaNeue.ttf', True, white)
-    rules_2 = "Game is played by 4 players"
+    rules_2 = "Game is played by 2-4 players"
     snip_rule2 = rule_font.render(
         'HelveticaNeue.ttf', True, white)
     rules_3 = "You'll need to expand and monopolized the whole game"
@@ -2020,9 +2537,10 @@ class starting_menu:
 
 map = Map(map_data)
 
+mouse_click = pygame.mixer.Sound('Sound/mouse_click1.mp3')
 
 button_functions = [button_music.checkmusic, button_roll.checkroll, button_pay.check_pay, button_chance.check_chance,
-                    button_play.check_play, button_buy.check_buy, button_next.checkload_finish, button_exit.check_exit]
+                    button_play.check_play, button_buy.check_buy, button_next.checkload_finish, button_exit.check_exit, button_upgrade.check_upgrade, button_2p.player_num_2, button_3p.player_num_3, button_4p.player_num_4]
 
 
 def handle_button_events(pos):
@@ -2049,7 +2567,91 @@ def display_description_block(pos):
         description_display_timer = time.time()
 
 
+def disaster_eartquake():
+    # adjusting another value after 1 can change it's possibilities
+    possibilities = random.randint(1, 80)
+    if round_num >= 1:
+        if possibilities == 1:
+            print("oh no a earthquake happen")
+            print('player 1 donate 500')
+            player_dict_m['p1_money'] -= 500
+        if possibilities == 2:
+            print("oh no a earthquake happen")
+            print('player 2 donate 500')
+            player_dict_m['p2_money'] -= 500
+        if possibilities == 3:
+            print("oh no a earthquake happen")
+            print('player 3 donate 500')
+            player_dict_m['p3_money'] -= 500
+        if possibilities == 4:
+            print("oh no a earthquake happen")
+            print('player 4 donate 500')
+            player_dict_m['p4_money'] -= 500
+        Player.player_check_broke()
+
+
+def disaster_tornado():
+    possibilities = random.randint(1, 100)
+    if round_num >= 1:
+        if possibilities == 1:
+            print("oh no a tornoda hit player 1")
+            print('player 1 loss 1000')
+            player_dict_m['p1_money'] -= 1000
+        if possibilities == 2:
+            print("oh no a tornado hit player 2")
+            print('player 2 loss 1000')
+            player_dict_m['p2_money'] -= 1000
+        if possibilities == 3:
+            print("oh no a tornado hit player 3")
+            print('player 3 donate 1000')
+            player_dict_m['p3_money'] -= 1000
+        if possibilities == 4:
+            print("oh no a tornado happen")
+            print('player 4 donate 1000')
+            player_dict_m['p4_money'] -= 1000
+        Player.player_check_broke()
+
+
+# variable to control and skip player
+
+player_num2 = False
+player_num3 = False
+
+
+def skipping_player():
+    global player_sequence
+    if player_num2:
+        if player_sequence == 2:
+            player_sequence += 1
+        if player_sequence == 3:
+            player_sequence += 1
+
+    elif player_num3:
+        if player_sequence == 3:
+            player_sequence += 1
+    if player1_broke:
+        if player_sequence == 0:
+            player_sequence += 1
+    if player2_broke:
+        if player_sequence == 1:
+            player_sequence += 1
+    if player3_broke:
+        if player_sequence == 2:
+            player_sequence += 1
+    if player4_broke:
+        if player_sequence == 3:
+            player_sequence += 1
+
+
+def choose_player_num():
+    screen.blit(Display.players_num_image, Display.players_num_image_rect)
+    button_2p.update()
+    button_3p.update()
+    button_4p.update()
+
+
 run = True
+
 # main loop for python
 while run:
     clock.tick(fps)
@@ -2068,11 +2670,20 @@ while run:
         starting_menu.loading_screen()
         starting_menu.showing_rule()
 
-    if not Button.menu and not Button.loading:
-        # starting_menu.loading_screen()
+    if not Display.show_loading_done and not Button.loading:
+        pass
+        # remember change show_loading_done back to false when activate this def
+        Display.show_player_explain()
+    if Display.show_loading_done and not Button.player_choose:
+        choose_player_num()
+
+    if Button.player_choose:
         map.draw()
         Display.middle()
+        Display.showing_dim_button()
+        Display.showing_player_round()
         Display.showing_player_money()
+        Display.showing_activity()
         Display.showing_properties_name()
         economic.update_eco()
         button_music.update()
@@ -2082,15 +2693,23 @@ while run:
         moving_sprites.draw(screen)
         moving_sprites.update()
         economic.check_buying_valid()
+        economic.check_buy_button()
+        economic.check_upgrade_button()
         message_chat.draw(screen, 120, 400)
 
         if paying:
             button_pay.update()
         if Chance.showing_chance:
             button_chance.update()
+        economic.check_buying_valid()
+        Player.show_players()
+        moving_sprites.draw(screen)
+        moving_sprites.update()
+        if paying:
+            button_pay.update()
 
         if show_description and time.time() - description_display_timer < description_display_duration:
-            display_descriptions(description)
+            display_descriptions()
         else:
             show_description = False
 
@@ -2103,34 +2722,35 @@ while run:
             pygame.quit()
             sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            mouse_click.play()
             handle_button_events(pygame.mouse.get_pos())
             display_description_block(pygame.mouse.get_pos())
 
-
         # if roll dice randomize a num
-            if Button.rolling_con:
+            if Button.rolling_con and Display.show_loading_done:
                 Dice.rand_a_dice()
-                if not paying :
+                if not paying:
+                    skipping_player()
+                    # disaster_eartquake()
+                    # disaster_tornado()
                     dice_num = (random.randint(1, 6))
-                    # dice animating
-                    dice.animate(dice_num)
                     Player.player_movement(dice_num)
+                    Player.move(dice_num)
+                    Player.player_check_win()
+                    economic.upgrading = False
+                    economic.buy_clicked = False
+                    Button.is_buying_properties = False
+
+                if not changing_round and not paying:
+                    # dice animating preventing player move again when changing round
+                    dice.animate(dice_num)
                     Button.rolling_con = False
                     buy_clicked = False
-
-                if player_sequence != 5 and not changing_round and not paying :
-                    Player.move(dice_num)
                     economic.checking_rent_valid()
-
-            elif Button.is_buying_properties and not buy_clicked:
-                economic.buying_property()
-                buy_clicked = True
-                Button.is_buying_properties == False
-            
+                    economic.check_upgrade()
 
             else:
                 pass
-
 
     pygame.display.update()
 pygame.quit()
