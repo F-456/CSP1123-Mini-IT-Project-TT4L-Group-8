@@ -44,75 +44,55 @@ map_data = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
             [26, 25, 24, 23, 22, 21, 20, 19, 18, 17],
             ]
 
-block_desctiptions = {
-    2:pygame.image.load('pic/klcc.png').convert_alpha,
-    3:pygame.image.load('pic/klcc.png').convert_alpha,
-    4:pygame.image.load('pic/klcc.png').convert_alpha,
-    6:pygame.image.load('pic/klcc.png').convert_alpha,
-    7:pygame.image.load('pic/klcc.png').convert_alpha,
-    8:pygame.image.load('pic/klcc.png').convert_alpha,
-    9:pygame.image.load('pic/klcc.png').convert_alpha,
-    11:pygame.image.load('pic/klcc.png').convert_alpha,
-    12:pygame.image.load('pic/klcc.png').convert_alpha,
-    14:pygame.image.load('pic/klcc.png').convert_alpha,
-    15:pygame.image.load('pic/klcc.png').convert_alpha,
-    16:pygame.image.load('pic/klcc.png').convert_alpha,
-    18:pygame.image.load('pic/klcc.png').convert_alpha,
-    19:pygame.image.load('pic/klcc.png').convert_alpha,
-    20:pygame.image.load('pic/klcc.png').convert_alpha,
-    22:pygame.image.load('pic/klcc.png').convert_alpha,
-    23:pygame.image.load('pic/klcc.png').convert_alpha,
-    24:pygame.image.load('pic/klcc.png').convert_alpha,
-    25:pygame.image.load('pic/klcc.png').convert_alpha,
-    27:pygame.image.load('pic/klcc.png').convert_alpha,
-    28:pygame.image.load('pic/klcc.png').convert_alpha,
-    30:pygame.image.load('pic/klcc.png').convert_alpha,
-    31:pygame.image.load('pic/klcc.png').convert_alpha,
-    32:pygame.image.load('pic/klcc.png').convert_alpha
+block_descriptions = {
+    2: 'pic/ramly.png',
+    3: 'pic/99speed.png',
+    4: 'pic/Aeon.png',
+    6: 'pic/TNB.png',
+    7: 'pic/batucaves.png',
+    8: 'pic/pulaulangkawi.png',
+    9: 'pic/cameronhighland.png',
+    11: 'pic/gunungmulu.png',
+    12: 'pic/mountkinabalu.png',
+    14: 'pic/johorbahru.png',
+    15: 'pic/georgetown.png',
+    16: 'pic/melaka.png',
+    18: 'pic/klsentral.png',
+    19: 'pic/portdickson.png',
+    20: 'pic/mmucyberjaya.png',
+    22: 'pic/indahwater.png',
+    23: 'pic/gentinghighland.png',
+    24: 'pic/putrajaya.png',
+    25: 'pic/klia.png',
+    27: 'pic/trx.png',
+    28: 'pic/pavilionkl.png',
+    30: 'pic/kltower.png',
+    31: 'pic/merdeka118.png',
+    32: 'pic/klcc.png'
 }
 
-
-def display_descriptions():
+def display_descriptions(block_id):
     max_width = 500
-    max_height = 350
+    max_height = 600
 
     # Create a surface to render text
     description_surface = pygame.Surface((max_width, max_height))
     description_surface.fill(grey)
 
-    image = pygame.image.load('pic/klcc.png')
-    image_rect = image.get_rect()
-    image_rect.top = 0
-    image_rect.left = 0
-    description_surface.blit(image, image_rect)
+    image_path = block_descriptions.get(block_id)
+    print(f"Block ID: {block_id}, Image Path: {image_path}")
 
-    # font = pygame.font.Font("HelveticaNeue.ttf", 24)
-    # text_lines = wrap_text(description, font, max_width)
-    # y_offset = 0
-    # for line in text_lines:
-    #     text_surface = font.render(line, True, black)
-    #     description_surface.blit(text_surface, (0, y_offset))
-    #     y_offset += font.get_height()
+    if image_path:        
+        # Load the image
+        image = pygame.image.load(image_path)
+        image = pygame.transform.scale(image,(500,600))
+        image_rect = image.get_rect()
+        image_rect.top = 0
+        image_rect.left = 0
+        # Blit the image onto the surface
+        description_surface.blit(image, image_rect)
 
-    screen.blit(description_surface, (180, 150))
-    pygame.display.flip()
-
-
-# def wrap_text(text, font, max_width):
-#     words = text.split(' ')
-#     lines = []
-#     current_line = ''
-#     for word in words:
-#         test_line = current_line + word + ' '
-#         test_line_surface = font.render(test_line, True, white)
-#         if test_line_surface.get_width() <= max_width:
-#             current_line = test_line
-#         else:
-#             lines.append(current_line)
-#             current_line = word + ' '
-#     if current_line:
-#         lines.append(current_line)
-#     return lines
+    return description_surface
 
 
 class Display:
@@ -1723,10 +1703,10 @@ Property_with_rent = {
     'Melaka': 120,
     'KL Sentral': 140,
     'Port Dickson': 160,
-    'MMU Cyberjaya': 160,
-    'Indah water': 180,
-    'Genting Highland': 180,
-    'Putrajaya': 200,
+    'MMU Cyberjaya': 180,
+    'Indah water': 190,
+    'Genting Highland': 200,
+    'Putrajaya': 210,
     'KLIA': 220,
     'TRX': 230,
     'Pavilion KL': 240,
@@ -1760,7 +1740,7 @@ Property_upgrade_cost = {
     'KLCC': 2000
 }
 # setting for player
-initial_money = int(200)
+initial_money = int(15000)
 player_dict_m = {'p1_money': initial_money, 'p2_money': initial_money,
                  'p3_money': initial_money, 'p4_money': initial_money}
 p1_list_p = []
@@ -2281,7 +2261,7 @@ class economic:
             print(f'Player 1 is upgrading {
                 upgrading_property} with {upgrade_price}')
             player_dict_m["p1_money"] -= upgrade_price
-            after_upgrade_rent = before_upgrade_rent * 1.5
+            after_upgrade_rent = before_upgrade_rent * 3
             print(f'the property level is now{Property_level[player1_pos]}')
             print(f'new rent price is {after_upgrade_rent}')
             Display.activity = (f'P1 upgrade {upgrading_property} into level{
@@ -2316,7 +2296,7 @@ class economic:
             print(f'Player 2 is upgrading {
                 upgrading_property} with {upgrade_price}')
             player_dict_m["p2_money"] -= upgrade_price
-            after_upgrade_rent = before_upgrade_rent * 1.5
+            after_upgrade_rent = before_upgrade_rent * 3
             print(f'the property level is now{Property_level[player2_pos]}')
             print(f'new rent price is {after_upgrade_rent}')
             Display.activity = (f'P2 upgrade {upgrading_property} into level{
@@ -2351,7 +2331,7 @@ class economic:
             Property_level[player3_pos] += 1
             print(f'Player 3 is upgrading {upgrading_property} with {upgrade_price}')
             player_dict_m["p3_money"] -= upgrade_price
-            after_upgrade_rent = before_upgrade_rent * 1.5
+            after_upgrade_rent = before_upgrade_rent * 3
             print(f'the property level is now{Property_level[player3_pos]}')
             print(f'new rent price is {after_upgrade_rent}')
             Display.activity = (f'P3 upgrade {upgrading_property} into level{
@@ -2384,7 +2364,7 @@ class economic:
             print(f'Player 4 is upgrading {
                 upgrading_property} with {upgrade_price}')
             player_dict_m["p4_money"] -= upgrade_price
-            after_upgrade_rent = before_upgrade_rent * 1.5
+            after_upgrade_rent = before_upgrade_rent * 3
             print(f'the property level is now{Property_level[player3_pos]}')
             print(f'new rent price is {after_upgrade_rent}')
             Display.activity = (f'P1 upgrade {upgrading_property} into level{
@@ -2540,26 +2520,23 @@ button_functions = [button_music.checkmusic, button_roll.checkroll, button_pay.c
 def handle_button_events(pos):
     for button_function in button_functions:
         button_function(pos)
+        mouse_click.play()
 
 
 show_description = False
-description = ""
+current_block_id = 0
 description_display_duration = 20
 description_display_timer = 0
 
-# Modify the display_description_block function
-
-
 def display_description_block(pos):
-    global show_description, description, description_display_timer
+    global show_description, description_display_timer, current_block_id
     x, y = pos
     block_x, block_y = x // 100, y // 100
     block = map_data[block_y][block_x]
-    if block in block_desctiptions:
-        description = block_desctiptions[block]
+    if block in block_descriptions:
+        current_block_id = block
         show_description = True
         description_display_timer = time.time()
-
 
 def disaster_eartquake():
     # adjusting another value after 1 can change it's possibilities
@@ -2702,7 +2679,9 @@ while run:
             button_pay.update()
 
         if show_description and time.time() - description_display_timer < description_display_duration:
-            display_descriptions()
+            if current_block_id:
+                description_surface = display_descriptions(current_block_id)
+                screen.blit(description_surface,(250, 100))
         else:
             show_description = False
 
@@ -2715,7 +2694,6 @@ while run:
             pygame.quit()
             sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            mouse_click.play()
             handle_button_events(pygame.mouse.get_pos())
             display_description_block(pygame.mouse.get_pos())
             
