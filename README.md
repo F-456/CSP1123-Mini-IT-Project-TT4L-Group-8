@@ -1,5 +1,5 @@
 <h1 >Mini IT project by TT4L group 8</h1>
-<h2>Current Version- 0.2.5 </h2>
+<h2>Current Version- 0.2.6 </h2>
 <h2>Will be using pygame to create a playable monopoly game with python</h2>
 <p align="left">Game, pygame, same lang? </p>
 <img alt="CJ" src="https://media1.tenor.com/m/cJRcMyUAiMcAAAAd/ah-shit-here-we-go-again-ah-shit.gif">
@@ -42,4 +42,6 @@
 <h2>-V 0.2.5</h2>
 <p>-Completing the history message system</p>
 <p>added more image to start of the game for aesthetic purpose</p>
-
+<h2>-V 0.2.6 </h2>
+<p>-Added a card to display info about the property</p>
+<p>-Continue to debug more error such as missing message for activity in game</p>

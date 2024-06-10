@@ -71,6 +71,7 @@ block_descriptions = {
     32: 'pic/klcc.png'
 }
 
+
 def display_descriptions(block_id):
     max_width = 500
     max_height = 600
@@ -80,12 +81,11 @@ def display_descriptions(block_id):
     description_surface.fill(grey)
 
     image_path = block_descriptions.get(block_id)
-    print(f"Block ID: {block_id}, Image Path: {image_path}")
 
-    if image_path:        
+    if image_path:
         # Load the image
         image = pygame.image.load(image_path)
-        image = pygame.transform.scale(image,(500,600))
+        image = pygame.transform.scale(image, (500, 600))
         image_rect = image.get_rect()
         image_rect.top = 0
         image_rect.left = 0
@@ -1155,6 +1155,7 @@ class Player:
                 player1_pos = 0
                 player_dict_m['p1_money'] += 2000
                 print(f"player 1 passes go and get 2000")
+                print_m(message_chat, f"player 1 passes go and get 2000")
                 print(f"Player 1 is now at: {player1_pos}")
 
             else:
@@ -1162,6 +1163,7 @@ class Player:
                 player1_pos -= 32
                 player_dict_m['p1_money'] += 2000
                 print(f"player 1 passes go and get 2000")
+                print_m(message_chat, f"player 1 passes go and get 2000")
                 print(f"Player 1 is now at: {player1_pos}")
 
         if dice_con and dice_rolled and player_sequence == 2 and not Player.player2_in_jail:
@@ -1178,12 +1180,14 @@ class Player:
                 player2_pos = 0
                 player_dict_m['p2_money'] += 2000
                 print(f"player 2 passes go and get 2000")
+                print_m(message_chat, f"player 2 passes go and get 2000")
                 print(f"Player 2 is now at: {player2_pos}")
 
             else:
                 player2_pos -= 32
                 player_dict_m['p2_money'] += 2000
                 print(f"player 2 passes go and get 2000")
+                print_m(message_chat, f"player 2 passes go and get 2000")
                 print(f"Player 2 is now at: {player2_pos}")
         if dice_con and dice_rolled and player_sequence == 3 and not Player.player3_in_jail:
             dice_rolled = False
@@ -1199,11 +1203,13 @@ class Player:
                 player3_pos = 0
                 player_dict_m['p3_money'] += 2000
                 print(f"player 3 passes go and added 2000")
+                print_m(message_chat, f"player 3 passes go and get 2000")
                 print(f"Player 3 is now at: {player3_pos}")
             else:
                 player3_pos -= 32
                 player_dict_m['p3_money'] += 2000
                 print(f"player 3 passes go and added 2000")
+                print_m(message_chat, f"player 3 passes go and get 2000")
                 print(f"Player 3 is now at: {player3_pos}")
 
         if dice_con and dice_rolled and player_sequence == 4 and not Player.player4_in_jail:
@@ -1220,11 +1226,13 @@ class Player:
                 player4_pos = 0
                 player_dict_m['p4_money'] += 2000
                 print(f"player 4 passes go and added 2000")
+                print_m(message_chat, f"player 4 passes go and get 2000")
                 print(f"Player 4 is now at: {player4_pos}")
             else:
                 player4_pos -= 32
                 player_dict_m['p4_money'] += 2000
                 print(f"player 4 passes go and added 2000")
+                print_m(message_chat, f"player 4 passes go and get 2000")
                 print(f"Player 4 is now at: {player4_pos}")
 
         elif player_sequence == 5:
@@ -1247,29 +1255,37 @@ class Player:
         global player1_pos
         # run a def and switch a bool to true and stop moving a certain player
         print('player 1 in jail')
-        print(message_chat, 'player 1 in jail')
+        print_m(message_chat, 'player 1 in jail')
         # adjusting position of a player
+        Player.x1 = 0
+        Player.y1 = 700
         player1_pos = 25
         Player.player1_in_jail = True
 
     def player_jail2():
         global player2_pos
         print('player 2 in jail')
-        print(message_chat, 'player 2 in jail')
+        print_m(message_chat, 'player 2 in jail')
+        Player.x2 = 0
+        Player.y2 = 700
         player2_pos = 25
         Player.player2_in_jail = True
 
     def player_jail3():
         global player3_pos
         print('player 3 in jail')
-        print(message_chat, 'player 3 in jail')
+        print_m(message_chat, 'player 3 in jail')
+        Player.x3 = 0
+        Player.y3 = 700
         player3_pos = 25
         Player.player3_in_jail = True
 
     def player_jail4():
         global player4_pos
         print('player 4 in jail')
-        print(message_chat, 'player 4 in jail')
+        print_m(message_chat, 'player 4 in jail')
+        Player.x4 = 0
+        Player.y4 = 700
         player4_pos = 25
         Player.player4_in_jail = True
 
@@ -1402,18 +1418,18 @@ players = [player1, player2, player3, player4]
 
 chance_rarities = {
     "Common": [
-        "Advance to GO. Collect $300",
+        "Advance to GO. Collect $2000",
         "It is your birthday. Collect $100 from each player",
         "Go back to B.Ramly"
     ],
     "Rare": [
-        "Advance to Free parking. If you pass Go, collect $200.",
+        "Advance to Free parking. If you pass Go, collect $2000.",
         "Bank pays you dividend of $300.",
         "Go to jail, move directly to jail,do not collect $200",
     ],
     "Epic": [
         "hired hacker cunningly snatches $200 from each player.",
-        "Experience the unexpected tremors of an earthquake, resulting in each player losing $1500.",
+        "Experience an earthquake, resulting in each player losing $1500.",
     ]
 }
 
@@ -1452,17 +1468,18 @@ class Chance:
 
     def check_chance_valid():
 
-        if player_sequence == 1 and player1_pos == 12 or player1_pos == 28:
-            Chance.doing_chance = True
-        elif player_sequence == 2 and player2_pos == 12 or player2_pos == 28:
-            Chance.doing_chance = True
-        elif player_sequence == 3 and player3_pos == 12 or player3_pos == 28:
-            Chance.doing_chance = True
-        elif player_sequence == 4 and player4_pos == 12 or player4_pos == 28:
-            Chance.doing_chance = True
-
-        else:
-            Chance.doing_chance = False
+        if player_sequence == 1:
+            if player1_pos == 12 or player1_pos == 28:
+                Chance.doing_chance = True
+        if player_sequence == 2:
+            if player2_pos == 12 or player2_pos == 28:
+                Chance.doing_chance = True
+        if player_sequence == 3:
+            if player3_pos == 12 or player3_pos == 28:
+                Chance.doing_chance = True
+        if player_sequence == 4:
+            if player4_pos == 12 or player4_pos == 28:
+                Chance.doing_chance = True
 
     def chance_button1():
         global player1_pos
@@ -1475,10 +1492,12 @@ class Chance:
                     chance_rarity} chance card: {chance_card}")
 
             if "Advance to GO" in chance_card:
+                player_dict_m['p1_money'] += 2000
+                print(f"player 1 passes go and get 2000")
+                print_m(message_chat, f"player 1 passes go and get 2000")
                 Player.x1 = 0
                 Player.y1 = 0
                 player1_pos = 0
-                economic.update_money(p1, 200)
             elif "Collect $100 from each player" in chance_card:
                 economic.update_money(p1, 300)
                 economic.update_money(p2, -100)
@@ -1489,15 +1508,16 @@ class Chance:
                 Player.y1 = 0
                 player1_pos = 1
             elif "Advance to Free parking" in chance_card:
+                player_dict_m['p1_money'] += 2000
+                print(f"player 1 passes go and get 2000")
+                print_m(message_chat, f"player 1 passes go and get 2000")
                 Player.x1 = 900
                 Player.y1 = 0
                 player1_pos = 10
             elif "Bank pays you dividend of $300" in chance_card:
                 economic.update_money(p1, 300)
             elif "Go to jail" in chance_card:
-                Player.x1 = 0
-                Player.y1 = 700
-                player1_pos = 25
+                Player.player_jail1()
             elif "Advance one step forward and rest" in chance_card:
                 if Player.x1 < 1000 and Player.y1 == 0:
                     Player.x1 + 100
@@ -1532,10 +1552,12 @@ class Chance:
                     chance_rarity} chance card: {chance_card}")
 
             if "Advance to GO" in chance_card:
+                player_dict_m['p2_money'] += 2000
+                print(f"player 2 passes go and get 2000")
+                print_m(message_chat, f"player 2 passes go and get 2000")
                 Player.x2 = 0
                 Player.y2 = 0
                 player2_pos = 0
-                economic.update_money(p2, 300)
             elif "Collect $100 from each player" in chance_card:
                 economic.update_money(p1, -100)
                 economic.update_money(p2, 300)
@@ -1546,15 +1568,16 @@ class Chance:
                 Player.y2 = 0
                 player2_pos = 1
             elif "Advance to Free parking" in chance_card:
+                player_dict_m['p2_money'] += 2000
+                print(f"player 2 passes go and get 2000")
+                print_m(message_chat, f"player 2 passes go and get 2000")
                 Player.x2 = 900
                 Player.y2 = 0
                 player2_pos = 10
             elif "Bank pays you dividend of $300" in chance_card:
                 economic.update_money(p2, 300)
             elif "Go to jail" in chance_card:
-                Player.x2 = 0
-                Player.y2 = 700
-                player2_pos = 25
+                Player.player_jail2()
             elif "Advance one step forward and rest" in chance_card:
                 if Player.x2 < 1000 and Player.y2 == 0:
                     Player.x2 + 100
@@ -1589,10 +1612,12 @@ class Chance:
                     chance_rarity} chance card: {chance_card}")
 
             if "Advance to GO" in chance_card:
+                player_dict_m['p3_money'] += 2000
+                print(f"player 3 passes go and get 2000")
+                print_m(message_chat, f"player 3 passes go and get 2000")
                 Player.x3 = 0
                 Player.y3 = 0
                 player3_pos = 0
-                economic.update_money(p3, 200)
             elif "Collect $100 from each player" in chance_card:
                 economic.update_money(p1, -100)
                 economic.update_money(p2, -100)
@@ -1603,15 +1628,16 @@ class Chance:
                 Player.y3 = 0
                 player3_pos = 1
             elif "Advance to Free parking" in chance_card:
+                player_dict_m['p3_money'] += 2000
+                print(f"player 3 passes go and get 2000")
+                print_m(message_chat, f"player 3 passes go and get 2000")
                 Player.x3 = 900
                 Player.y3 = 0
                 player3_pos = 10
             elif "Bank pays you dividend of $300" in chance_card:
                 economic.update_money(p3, 300)
             elif "Go to jail" in chance_card:
-                Player.x3 = 0
-                Player.y3 = 700
-                player3_pos = 25
+                Player.player_jail3()
             elif "Advance one step forward and rest" in chance_card:
                 if Player.x3 < 1000 and Player.y3 == 0:
                     Player.x3 + 100
@@ -1646,10 +1672,12 @@ class Chance:
                     chance_rarity} chance card: {chance_card}")
 
             if "Advance to GO" in chance_card:
+                player_dict_m['p4_money'] += 2000
+                print(f"player 4 passes go and get 2000")
+                print_m(message_chat, f"player 4 passes go and get 2000")
                 Player.x4 = 0
                 Player.y4 = 0
                 player4_pos = 0
-                economic.update_money(p4, 200)
             elif "Collect $100 from each player" in chance_card:
                 economic.update_money(p1, -100)
                 economic.update_money(p2, -100)
@@ -1660,15 +1688,16 @@ class Chance:
                 Player.y4 = 0
                 player4_pos = 1
             elif "Advance to Free parking" in chance_card:
+                player_dict_m['p4_money'] += 2000
+                print(f"player 4 passes go and get 2000")
+                print_m(message_chat, f"player 4 passes go and get 2000")
                 Player.x4 = 900
                 Player.y4 = 0
                 player4_pos = 10
             elif "Bank pays you dividend of $300" in chance_card:
                 economic.update_money(p4, 300)
             elif "Go to jail" in chance_card:
-                Player.x4 = 0
-                Player.y4 = 700
-                player4_pos = 25
+                Player.player_jail4()
             elif "Advance one step forward and rest" in chance_card:
                 if Player.x4 < 1000 and Player.y4 == 0:
                     Player.x4 + 100
@@ -1845,8 +1874,6 @@ class economic:
     def update_money(player, amount):
         player_key = f'p{player}_money'
         player_dict_m[player_key] += amount
-        print_m(message_chat, f"Player {player}'s new balance: ${
-                player_dict_m[player_key]}")
     # checking for validity in buying property
     # player will not be able to click buy button if tile is not available to sell
     showing_pay_button = False
@@ -2614,13 +2641,13 @@ button_functions = [button_music.checkmusic, button_roll.checkroll, button_pay.c
 def handle_button_events(pos):
     for button_function in button_functions:
         button_function(pos)
-        mouse_click.play()
 
 
 show_description = False
 current_block_id = 0
-description_display_duration = 20
+description_display_duration = 15
 description_display_timer = 0
+
 
 def display_description_block(pos):
     global show_description, description_display_timer, current_block_id
@@ -2631,6 +2658,7 @@ def display_description_block(pos):
         current_block_id = block
         show_description = True
         description_display_timer = time.time()
+
 
 def disaster_eartquake():
     # adjusting another value after 1 can change it's possibilities
@@ -2781,7 +2809,7 @@ while run:
         if show_description and time.time() - description_display_timer < description_display_duration:
             if current_block_id:
                 description_surface = display_descriptions(current_block_id)
-                screen.blit(description_surface,(250, 100))
+                screen.blit(description_surface, (250, 100))
         else:
             show_description = False
 
