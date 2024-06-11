@@ -37,11 +37,14 @@
 <h2>V 0.2.3</h2>
 <p>-Added features to choose number of players</p>
 <p>-Added more information in game for the player</p>
-<h2>-V 0.2.4</h2>
+<h2>V 0.2.4</h2>
 <p>-Added winner for the game if one player is left</p>
-<h2>-V 0.2.5</h2>
+<h2>V 0.2.5</h2>
 <p>-Completing the history message system</p>
 <p>added more image to start of the game for aesthetic purpose</p>
-<h2>-V 0.2.6 </h2>
+<h2>V 0.2.6 </h2>
 <p>-Added a card to display info about the property</p>
 <p>-Continue to debug more error such as missing message for activity in game</p>
+<h2>V 0.2.7</h2>
+<p>--Reworking of the dice number</p>
+<p>-Added another end button for ending a turn of layer</p>
