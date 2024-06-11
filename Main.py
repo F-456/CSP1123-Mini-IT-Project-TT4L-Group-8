@@ -2645,7 +2645,7 @@ def handle_button_events(pos):
 
 show_description = False
 current_block_id = 0
-description_display_duration = 15
+description_display_duration = 5
 description_display_timer = 0
 
 
@@ -2809,7 +2809,7 @@ while run:
         if show_description and time.time() - description_display_timer < description_display_duration:
             if current_block_id:
                 description_surface = display_descriptions(current_block_id)
-                screen.blit(description_surface, (250, 100))
+                screen.blit(description_surface, (100, 100))
         else:
             show_description = False
 
