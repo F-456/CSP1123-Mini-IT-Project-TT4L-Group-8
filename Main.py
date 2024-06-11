@@ -327,9 +327,9 @@ class Display:
 
     def showing_player_round():
         text_font = pygame.font.Font("HelveticaNeue.ttf", 22)
-        if player_sequence != 0:
+        if player_sequence != 0 and player_sequence != 5 and Dice.player_turn != 5:
             current_player = text_font.render(
-                f"Player {player_sequence} turn", True, black)
+                f"Player {Dice.player_turn} turn", True, black)
             screen.blit(current_player, (100, 110))
             # showing which round of current when player sequence is 0
         elif player_sequence == 0:
@@ -429,7 +429,7 @@ class Button():
 
     def checkroll(self, position):
         if self.rect.collidepoint(position):
-            Button.rolling_con = True
+            Dice.end_turn()
 
     def check_play(self, position):
         if self.rect.collidepoint(position):
@@ -518,6 +518,7 @@ class Button():
 button_surface_on = pygame.image.load('pic/musicon.png')
 button_surface_off = pygame.image.load('pic/musicoff.png')
 button_roll = pygame.image.load('pic/Roll.png')
+button_end = pygame.image.load('pic/end.png')
 button_play = pygame.image.load('pic/play.png')
 button_exit = pygame.image.load('pic/exit.png')
 button_next = pygame.image.load('pic/next.png')
@@ -538,6 +539,7 @@ button_4p = pygame.image.load('pic/4P.png')
 button_surface_on = pygame.transform.scale(button_surface_on, (40, 40))
 button_surface_off = pygame.transform.scale(button_surface_off, (40, 40))
 button_roll = pygame.transform.scale(button_roll, (84, 56))
+button_end = pygame.transform.scale(button_end, (84, 56))
 button_play = pygame.transform.scale(button_play, (240, 150))
 button_pay = pygame.transform.scale(button_pay, (84, 56))
 button_pay_dim = pygame.transform.scale(button_pay_dim, (84, 56))
@@ -556,6 +558,7 @@ button_4p = pygame.transform.scale(button_4p, (300, 200))
 # adjust location
 button_music = Button(button_surface_on, button_surface_off, 880, 120)
 button_roll = Button(button_roll, button_roll, 660, 650)
+button_end = Button(button_end, button_end, 660, 650)
 button_play = Button(button_play, button_play, 700, 600)
 button_exit = Button(button_exit, button_exit, 300, 600)
 button_next = Button(button_next, button_next, 800, 600)
@@ -898,6 +901,9 @@ player_sequence = 0
 
 
 class Dice(pygame.sprite.Sprite):
+    clicked = 0
+    player_turn = 0
+
     def __init__(self, pos_x, pos_y):
         super().__init__()
         self.sprites = []
@@ -912,6 +918,28 @@ class Dice(pygame.sprite.Sprite):
         self.animation_speed = 3
         self.animation_count = 0
         self.animation_max_count = 20
+
+    def end_turn():
+        global player_sequence
+        print(f"player_sequence = {player_sequence}")
+        print(f"Player turn = {Dice.player_turn}")
+        if not paying and not Chance.doing_chance:
+            Dice.clicked += 1
+            Dice.player_turn = player_sequence + 1
+            print(f'Dice clicked = {Dice.clicked}')
+            if Dice.clicked == 2:
+                Button.rolling_con = True
+                Dice.clicked = 0
+            else:
+                Button.rolling_con = False
+
+        # preventing changing round state player need to click too many times
+        if player_sequence == 4 and Dice.player_turn == 4:
+            player_sequence += 1
+            Dice.clicked += 1
+
+        if Dice.player_turn == 5 and player_sequence == 5:
+            Button.rolling_con = True
 
     def rand_a_dice():
         global dice_con, dice_rolled
@@ -982,6 +1010,17 @@ class Player:
         self.dice_num = dice_num
         self.player_name = player_name
         self.index = index
+
+    def displaying_player_turn():
+        if not changing_round:
+            if Dice.player_turn == 1 and player_sequence == 1:
+                screen.blit(Player.p1, (250, 100))
+            elif Dice.player_turn == 2:
+                screen.blit(Player.p2, (250, 100))
+            elif Dice.player_turn == 3:
+                screen.blit(Player.p3, (250, 100))
+            elif Dice.player_turn == 4:
+                screen.blit(Player.p4, (250, 105))
 
     def move(dice_num):
         step = int(0)
@@ -2785,8 +2824,8 @@ while run:
         Display.showing_properties_name()
         economic.update_eco()
         button_music.update()
-        button_roll.update()
         Player.show_players()
+        Player.displaying_player_turn()
         moving_sprites.draw(screen)
         moving_sprites.update()
         message_chat.draw(screen, 120, 500)
@@ -2794,6 +2833,10 @@ while run:
         economic.check_buy_button()
         economic.check_upgrade_button()
 
+        if Dice.clicked == 1:
+            button_roll.update()
+        elif Dice.clicked == 0:
+            button_end.update()
         if paying:
             button_pay.update()
         if Chance.doing_chance:
