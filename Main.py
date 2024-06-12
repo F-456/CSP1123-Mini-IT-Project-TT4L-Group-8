@@ -80,7 +80,6 @@ def display_descriptions(block_id):
     description_surface.fill(grey)
 
     image_path = block_descriptions.get(block_id)
-    print(f"Block ID: {block_id}, Image Path: {image_path}")
 
     if image_path:        
         # Load the image
@@ -407,6 +406,7 @@ class Button():
     loading = True
     rolling_con = False
     is_buying_properties = False
+    closing_descriptions = False
     # is_upgrade_properties = False
 
     def __init__(self, image_on, image_off,  x_pos, y_pos):
@@ -442,6 +442,12 @@ class Button():
     def check_exit(self, position):
         if self.rect.collidepoint(position):
             Button.exit_game = True
+    
+    def close(self, position):
+        global show_description
+        if self.rect.collidepoint(position):
+            Button.closing_descriptions = True
+            show_description = False
 
     def check_buy(self, position):
         if self.rect.collidepoint(position) and economic.showing_buy_button:
@@ -458,10 +464,6 @@ class Button():
                 economic.rent_button_3()
             if player_sequence == 4:
                 economic.rent_button_4()
-
-    # def check_upgrade(self, position):
-    #     if self.rect.collidepoint(position):
-    #         Button.is_upgrade_properties = True
 
     def check_chance(self, position):
         if self.rect.collidepoint(position) and Chance.doing_chance:
@@ -517,6 +519,7 @@ class Button():
 # Load button images
 button_surface_on = pygame.image.load('pic/musicon.png')
 button_surface_off = pygame.image.load('pic/musicoff.png')
+button_close = pygame.image.load('pic/closebut.png')
 button_roll = pygame.image.load('pic/Roll.png')
 button_play = pygame.image.load('pic/play.png')
 button_exit = pygame.image.load('pic/exit.png')
@@ -537,6 +540,7 @@ button_4p = pygame.image.load('pic/4P.png')
 # adjust size
 button_surface_on = pygame.transform.scale(button_surface_on, (40, 40))
 button_surface_off = pygame.transform.scale(button_surface_off, (40, 40))
+button_close = pygame.transform.scale(button_close, (40, 40))
 button_roll = pygame.transform.scale(button_roll, (84, 56))
 button_play = pygame.transform.scale(button_play, (240, 150))
 button_pay = pygame.transform.scale(button_pay, (84, 56))
@@ -555,6 +559,7 @@ button_4p = pygame.transform.scale(button_4p, (300, 200))
 
 # adjust location
 button_music = Button(button_surface_on, button_surface_off, 880, 120)
+button_close = Button(button_close, button_close, 700, 120)
 button_roll = Button(button_roll, button_roll, 660, 650)
 button_play = Button(button_play, button_play, 700, 600)
 button_exit = Button(button_exit, button_exit, 300, 600)
@@ -2605,7 +2610,7 @@ class starting_menu:
 
 map = Map(map_data)
 
-mouse_click = pygame.mixer.Sound('Sound/mouse_click1.mp3')
+# mouse_click = pygame.mixer.Sound('Sound/mouse_click1.mp3')
 
 button_functions = [button_music.checkmusic, button_roll.checkroll, button_pay.check_pay, button_chance.check_chance,
                     button_play.check_play, button_buy.check_buy, button_next.checkload_finish, button_exit.check_exit, button_upgrade.check_upgrade, button_2p.player_num_2, button_3p.player_num_3, button_4p.player_num_4]
@@ -2614,13 +2619,13 @@ button_functions = [button_music.checkmusic, button_roll.checkroll, button_pay.c
 def handle_button_events(pos):
     for button_function in button_functions:
         button_function(pos)
-        mouse_click.play()
 
 
 show_description = False
 current_block_id = 0
 description_display_duration = 20
 description_display_timer = 0
+closing_descriptions = False
 
 def display_description_block(pos):
     global show_description, description_display_timer, current_block_id
@@ -2782,8 +2787,17 @@ while run:
             if current_block_id:
                 description_surface = display_descriptions(current_block_id)
                 screen.blit(description_surface,(250, 100))
+                button_close.update()
         else:
             show_description = False
+        
+        if show_description:
+            button_close.update()
+            if Button.close:
+                button_close.update()
+                show_description = False
+
+            
 
         # Display.drawing_grid(100)
     else:
