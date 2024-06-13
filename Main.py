@@ -445,7 +445,7 @@ class Button():
     def check_exit(self, position):
         if self.rect.collidepoint(position):
             Button.exit_game = True
-    
+
     def close(self, position):
         global show_description
         if self.rect.collidepoint(position):
@@ -564,7 +564,7 @@ button_4p = pygame.transform.scale(button_4p, (300, 200))
 
 # adjust location
 button_music = Button(button_surface_on, button_surface_off, 880, 120)
-button_close = Button(button_close, button_close, 700, 120)
+button_close = Button(button_close, button_close, 575, 120)
 button_roll = Button(button_roll, button_roll, 660, 650)
 button_end = Button(button_end, button_end, 660, 650)
 button_play = Button(button_play, button_play, 700, 600)
@@ -2701,7 +2701,7 @@ map = Map(map_data)
 
 # mouse_click = pygame.mixer.Sound('Sound/mouse_click1.mp3')
 
-button_functions = [button_music.checkmusic, button_roll.checkroll, button_pay.check_pay, button_chance.check_chance,
+button_functions = [button_music.checkmusic, button_roll.checkroll, button_pay.check_pay, button_chance.check_chance, button_close.close,
                     button_play.check_play, button_buy.check_buy, button_next.checkload_finish, button_exit.check_exit, button_upgrade.check_upgrade, button_2p.player_num_2, button_3p.player_num_3, button_4p.player_num_4]
 
 
@@ -2712,7 +2712,7 @@ def handle_button_events(pos):
 
 show_description = False
 current_block_id = 0
-description_display_duration = 5
+description_display_duration = 10
 description_display_timer = 0
 closing_descriptions = False
 
@@ -2726,6 +2726,16 @@ def display_description_block(pos):
         current_block_id = block
         show_description = True
         description_display_timer = time.time()
+
+
+def Close_description():
+    global show_description, description_display_timer, current_block_id
+    if show_description and time.time() - description_display_timer < description_display_duration:
+        if current_block_id:
+            description_surface = display_descriptions(current_block_id)
+            screen.blit(description_surface, (100, 100))
+    else:
+        show_description = False
 
 
 def disaster_eartquake():
@@ -2875,23 +2885,12 @@ while run:
         Player.show_players()
         moving_sprites.draw(screen)
         moving_sprites.update()
+        Close_description()
         if paying:
             button_pay.update()
 
-        if show_description and time.time() - description_display_timer < description_display_duration:
-            if current_block_id:
-                description_surface = display_descriptions(current_block_id)
-                screen.blit(description_surface, (100, 100))
-        else:
-            show_description = False
-        
         if show_description:
             button_close.update()
-            if Button.close:
-                button_close.update()
-                show_description = False
-
-            
 
         # Display.drawing_grid(100)
     else:
