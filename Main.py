@@ -445,7 +445,7 @@ class Button():
     def check_exit(self, position):
         if self.rect.collidepoint(position):
             Button.exit_game = True
-
+    
     def close(self, position):
         global show_description
         if self.rect.collidepoint(position):
@@ -2712,7 +2712,7 @@ def handle_button_events(pos):
 
 show_description = False
 current_block_id = 0
-description_display_duration = 10
+description_display_duration = 5
 description_display_timer = 0
 closing_descriptions = False
 
@@ -2727,15 +2727,15 @@ def display_description_block(pos):
         show_description = True
         description_display_timer = time.time()
 
-
-def Close_description():
+def close_descriptions():
     global show_description, description_display_timer, current_block_id
     if show_description and time.time() - description_display_timer < description_display_duration:
         if current_block_id:
             description_surface = display_descriptions(current_block_id)
             screen.blit(description_surface, (100, 100))
-    else:
-        show_description = False
+        else:
+            show_description = False    
+
 
 
 def disaster_eartquake():
@@ -2885,12 +2885,12 @@ while run:
         Player.show_players()
         moving_sprites.draw(screen)
         moving_sprites.update()
-        Close_description()
+        close_descriptions()
         if paying:
             button_pay.update()
-
         if show_description:
             button_close.update()
+
 
         # Display.drawing_grid(100)
     else:
