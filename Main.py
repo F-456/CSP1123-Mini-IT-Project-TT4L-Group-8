@@ -31,6 +31,8 @@ text_font = pygame.font.Font("HelveticaNeue.ttf", 20)
 smaller_font = pygame.font.Font("HelveticaNeue.ttf", 20)
 Specia_font = pygame.font.SysFont(
     "ComicSansMS.ttf", 25, bold=False, italic=False)
+winner_cheer = pygame.mixer.Sound('Sound/winningsound.wav')
+loser_boo = pygame.mixer.Sound('Sound/boo.mp3')
 
 
 # Maps control for monopoly
@@ -443,7 +445,7 @@ class Button():
     def check_exit(self, position):
         if self.rect.collidepoint(position):
             Button.exit_game = True
-
+    
     def close(self, position):
         global show_description
         if self.rect.collidepoint(position):
@@ -1378,22 +1380,25 @@ class Player:
             p1_broked = True
             print('Player 1 is broke')
             print_m(message_chat, 'Player 1 is broke')
+            loser_boo.play()
         if player_dict_m["p2_money"] < 0 and not p2_broked:
             player2_broke = True
             p2_broked = True
             print('Player 2 is broke')
             print_m(message_chat, 'Player 2 is broke')
+            loser_boo.play()
         if player_dict_m["p3_money"] < 0 and not p3_broked:
             player3_broke = True
             p3_broked = True
             print('Player 3 is broke')
             print_m(message_chat, f'Player 3 is broke')
+            loser_boo.play()
         if player_dict_m["p4_money"] < 0 and not p4_broked:
             player4_broke = True
             p4_broked = True
             print('Player 4 is broke')
             print_m(message_chat, 'Player 4 is broke')
-
+            loser_boo.play()
     def player_check_win():
         if not player_num2 and not player_num3:
             Player.player_check_win_4()
@@ -1420,6 +1425,7 @@ class Player:
             winner = Player.playerlist_4[0]
             print(f"The winner is {winner}")
             print_m(message_chat, f'The winner is {winner} !!')
+            winner_cheer.play()
 
     def player_check_win_3():
         if player1_broke:
@@ -1436,6 +1442,7 @@ class Player:
             winner = Player.playerlist_3[0]
             print(f"The winner is {winner}")
             print_m(message_chat, f'The winner is {winner} !!')
+            winner_cheer.play()
 
     def player_check_win_2():
         if player1_broke:
@@ -1449,6 +1456,7 @@ class Player:
             winner = Player.playerlist_2[0]
             print(f"The winner is {winner}")
             print_m(message_chat, f'The winner is {winner} !!')
+            winner_cheer.play()
 
 
 player_names = ["player1", "player2", "player3", "player4"]
@@ -1802,7 +1810,7 @@ price = 0
 Pricelist = [0, 500, 600, 700, 0, 2100, 800, 900, 1000, 0, 1200, 1300, 0, 1400, 1500, 1600,
              0, 1800, 1900, 2000, 0, 2150, 2200, 2400, 2500, 0, 2600, 2800, 0, 3000, 3500, 4000]
 # List for property level
-Property_level = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+Property_level = [0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 name_list = ['Passngo', 'Ramly Burger', '99 Speedmarket', 'Aeon Big', 'tax', 'TNB', 'Batu Caves', 'Pulau Langkawi', 'Cameron Highland', 'parking', 'Gunung Mulu', 'Mount Kinabalu', 'chance', 'Johor Bahru', 'George Town',
@@ -1888,7 +1896,7 @@ Property_upgrade_cost = {
     'KLCC': 2000
 }
 # setting for player
-initial_money = int(15000)
+initial_money = int(1000)
 player_dict_m = {'p1_money': initial_money, 'p2_money': initial_money,
                  'p3_money': initial_money, 'p4_money': initial_money}
 p1_list_p = []
@@ -2552,6 +2560,20 @@ class economic:
             print_m(message_chat, f'{
                     upgrading_property} have reach the highest level')
             economic.showing_upgrade_button = False
+            
+def showing_property_level(block_id):
+    # Assuming you have a property level array or list
+    level = Property_level[block_id]
+    if level >= 1:
+        font = pygame.font.Font(None, 36)  # Use appropriate font and size
+        text_surface = font.render(f"Level: {level}", True, (0, 0, 0))  # Render the text
+        text_rect = text_surface.get_rect(topright=(110, 200))  # Position of the text
+        screen.blit(text_surface, text_rect)  # Blit the text surface onto the screen
+
+    # def showing_property_level():
+    #     if Property_level[1] >= 1:
+    #         screen.blit(Property_level[1], (110,200))
+        
 
     def tax():
         if player_sequence == 1:
@@ -2690,7 +2712,7 @@ def handle_button_events(pos):
 
 show_description = False
 current_block_id = 0
-description_display_duration = 10
+description_display_duration = 5
 description_display_timer = 0
 closing_descriptions = False
 
@@ -2705,15 +2727,15 @@ def display_description_block(pos):
         show_description = True
         description_display_timer = time.time()
 
-
-def Close_description():
+def close_descriptions():
     global show_description, description_display_timer, current_block_id
     if show_description and time.time() - description_display_timer < description_display_duration:
         if current_block_id:
             description_surface = display_descriptions(current_block_id)
             screen.blit(description_surface, (100, 100))
-    else:
-        show_description = False
+        else:
+            show_description = False    
+
 
 
 def disaster_eartquake():
@@ -2863,12 +2885,12 @@ while run:
         Player.show_players()
         moving_sprites.draw(screen)
         moving_sprites.update()
-        Close_description()
+        close_descriptions()
         if paying:
             button_pay.update()
-
         if show_description:
             button_close.update()
+
 
         # Display.drawing_grid(100)
     else:
