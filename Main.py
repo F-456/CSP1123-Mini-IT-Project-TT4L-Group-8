@@ -96,6 +96,17 @@ def display_descriptions(block_id):
 
     return description_surface
 
+def showing_property_level():
+    font = pygame.font.Font(None, 18)
+    for block_id, level in enumerate(Property_level):
+        if level >= 1:
+            text_surface = font.render(str(level), True, (0, 0, 0))
+            positions = [
+                (0, 0), (188, 5), (288, 5) ,(388, 5), (488, 5), (588, 5), (688, 5), (788,5), (888, 5), (0, 0), (988, 105), (988, 205), (0, 0), (988, 405), (988, 505), (988, 605), (0, 0),
+                (888, 705), (788, 705), (688, 705), (0, 0), (488, 705), (388, 705), (288, 705), (188, 705), (0, 0), (88, 605), (88, 505), (0, 0), (88, 305), (88, 205), (88, 105)
+            ]
+            if block_id < len(positions):
+                screen.blit(text_surface, positions[block_id])
 
 class Display:
     text_font = pygame.font.Font("HelveticaNeue.ttf", 18)
@@ -103,8 +114,6 @@ class Display:
     Specia_font = pygame.font.SysFont(
         "ComicSansMS.ttf", 25, bold=False, italic=False)
     # text used in all the tile
-    Go_t = text_font.render("Go", True, (white))
-    collect_t = smaller_font.render("Pass & Go", True, (white))
     money_t = smaller_font.render("$", True, (black))
     klia_t = text_font.render("KLIA", True, (black))
     indah_t = smaller_font.render("Indah", True, (black))
@@ -191,8 +200,6 @@ class Display:
         return rotated_text
 
     def showing_properties_name():
-        screen.blit(Display.Go_t, (20, 20))
-        screen.blit(Display.collect_t, (20, 50))
         klcc_rotated = Display.render_rotate_text(
             Display.text_font, "KLCC", (black), 270)
         screen.blit(klcc_rotated, (60, 125))
@@ -610,17 +617,26 @@ class Map:
         blue_box = pygame.image.load("pic/lightblue.png")
         purple_box = pygame.image.load("pic/lightpurple.png")
         red_box = pygame.image.load("pic/lightred.png")
-        go_to_jail = pygame.image.load("pic/gotojail.webp")
-        free_parking = pygame.image.load("pic/freeparking.png")
+        go_to_jail = pygame.image.load("pic/gotojail.png")
+        free_parking = pygame.image.load("pic/freepark.jpg")
         tax = pygame.image.load("pic/LHDN.png")
         injail = pygame.image.load("pic/injail.png")
         chance = pygame.image.load("pic/chance.png")
+        start = pygame.image.load('pic/start.jpg')
 
         row_count = 0
         for row in data:
             col_count = 0
             for tile in row:
-                if tile == 2:
+                if tile == 1:
+                    img = pygame.transform.scale(
+                        start, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+                elif tile == 2:
                     img = pygame.transform.scale(
                         white_box, (tile_size, tile_size))
                     img_rect = img.get_rect()
@@ -1810,7 +1826,7 @@ price = 0
 Pricelist = [0, 500, 600, 700, 0, 2100, 800, 900, 1000, 0, 1200, 1300, 0, 1400, 1500, 1600,
              0, 1800, 1900, 2000, 0, 2150, 2200, 2400, 2500, 0, 2600, 2800, 0, 3000, 3500, 4000]
 # List for property level
-Property_level = [0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+Property_level = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 name_list = ['Passngo', 'Ramly Burger', '99 Speedmarket', 'Aeon Big', 'tax', 'TNB', 'Batu Caves', 'Pulau Langkawi', 'Cameron Highland', 'parking', 'Gunung Mulu', 'Mount Kinabalu', 'chance', 'Johor Bahru', 'George Town',
@@ -1896,7 +1912,7 @@ Property_upgrade_cost = {
     'KLCC': 2000
 }
 # setting for player
-initial_money = int(1000)
+initial_money = int(15000)
 player_dict_m = {'p1_money': initial_money, 'p2_money': initial_money,
                  'p3_money': initial_money, 'p4_money': initial_money}
 p1_list_p = []
@@ -2561,19 +2577,11 @@ class economic:
                     upgrading_property} have reach the highest level')
             economic.showing_upgrade_button = False
             
-def showing_property_level(block_id):
-    # Assuming you have a property level array or list
-    level = Property_level[block_id]
-    if level >= 1:
-        font = pygame.font.Font(None, 36)  # Use appropriate font and size
-        text_surface = font.render(f"Level: {level}", True, (0, 0, 0))  # Render the text
-        text_rect = text_surface.get_rect(topright=(110, 200))  # Position of the text
-        screen.blit(text_surface, text_rect)  # Blit the text surface onto the screen
-
     # def showing_property_level():
     #     if Property_level[1] >= 1:
-    #         screen.blit(Property_level[1], (110,200))
-        
+    #         font = pygame.font.Font(None, 24)
+    #         text_surface = font.render(Property_level[1], True, (255, 255, 255))
+    #         screen.blit(text_surface, (110,200)) 
 
     def tax():
         if player_sequence == 1:
@@ -2699,8 +2707,6 @@ class starting_menu:
 
 map = Map(map_data)
 
-# mouse_click = pygame.mixer.Sound('Sound/mouse_click1.mp3')
-
 button_functions = [button_music.checkmusic, button_roll.checkroll, button_pay.check_pay, button_chance.check_chance, button_close.close,
                     button_play.check_play, button_buy.check_buy, button_next.checkload_finish, button_exit.check_exit, button_upgrade.check_upgrade, button_2p.player_num_2, button_3p.player_num_3, button_4p.player_num_4]
 
@@ -2712,7 +2718,7 @@ def handle_button_events(pos):
 
 show_description = False
 current_block_id = 0
-description_display_duration = 5
+description_display_duration = 10
 description_display_timer = 0
 closing_descriptions = False
 
@@ -2886,6 +2892,7 @@ while run:
         moving_sprites.draw(screen)
         moving_sprites.update()
         close_descriptions()
+        showing_property_level()
         if paying:
             button_pay.update()
         if show_description:
