@@ -4,6 +4,7 @@
 <p align="left">Game, pygame, same lang? </p>
 <img alt="CJ" src="https://media1.tenor.com/m/cJRcMyUAiMcAAAAd/ah-shit-here-we-go-again-ah-shit.gif">
 <p>-Click the link to itch.io and our game page</p>
+
 [<img src="pic/logo.jpg">](https://f456.itch.io/pynopoly)
 
 <h1>V 1.0.1 Official launch</h1>
