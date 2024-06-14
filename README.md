@@ -1,12 +1,15 @@
 <h1 >Mini IT project by TT4L group 8</h1>
-<h2>Current Version- 0.2.8 </h2>
+<h2>Current Version- 1.0 </h2>
 <h2>Will be using pygame to create a playable monopoly game with python</h2>
 <p align="left">Game, pygame, same lang? </p>
 <img alt="CJ" src="https://media1.tenor.com/m/cJRcMyUAiMcAAAAd/ah-shit-here-we-go-again-ah-shit.gif">
 <h2>Support these poor students here🥺: </h2>
 
 [<img src="pic/Patreon.png">](https://youtu.be/dQw4w9WgXcQ/)
-
+<h1>V 1.0 Official launch</h1>
+<h2>Pynopoly 1.0 release !</h2>
+<p>-Released at 14 June 2024 after nearly two month of developing </p>
+<p>It's not perfect but we managed to create a working monopoly game in python language without following a complete tutorial </p>
 <h1>Developing Update log </h1>
 <h2>V 0.1.1</h2>
 <p>-Created a dice animation (not really a animation..) and simple player movement</p>
@@ -51,3 +54,6 @@
 <h2>V 0.2.8 </h2>
 <p>-Update for a new displaying upgrade level</p>
 <p>-Update graphic tiles</p>
+<h2>V 0.2.9 </h2>
+<p>-Added a trophy and winning screen for player</p>
+<p>-Fixing bug such as after clicking end turn button, last player cannot proceed to taking chance </p>

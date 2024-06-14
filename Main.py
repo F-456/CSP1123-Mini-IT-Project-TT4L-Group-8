@@ -17,6 +17,10 @@ screen_height = 800
 pygame.display.set_caption("Pynopoly")
 screen = pygame.display.set_mode((screen_width, screen_height))
 
+# setting pynopoly icon
+icon = pygame.image.load('pic/logo.jpg')
+pygame.display.set_icon(icon)
+
 # universal settings
 tile_size = 100
 round_num = 1
@@ -26,12 +30,15 @@ num_col = 10
 white = 255, 255, 255
 black = 0, 0, 0
 grey = 179, 179, 179
+winner = str()
+Game_over = False
 
 text_font = pygame.font.Font("HelveticaNeue.ttf", 20)
 smaller_font = pygame.font.Font("HelveticaNeue.ttf", 20)
 Specia_font = pygame.font.SysFont(
     "ComicSansMS.ttf", 25, bold=False, italic=False)
-winner_cheer = pygame.mixer.Sound('Sound/winningsound.wav')
+winner_cheer = pygame.mixer.Sound('Sound/victory.mp3')
+winner_clap = pygame.mixer.Sound('Sound/clap.mp3')
 loser_boo = pygame.mixer.Sound('Sound/boo.mp3')
 
 
@@ -96,17 +103,21 @@ def display_descriptions(block_id):
 
     return description_surface
 
+
 def showing_property_level():
     font = pygame.font.Font(None, 18)
     for block_id, level in enumerate(Property_level):
         if level >= 1:
             text_surface = font.render(str(level), True, (0, 0, 0))
             positions = [
-                (0, 0), (188, 5), (288, 5) ,(388, 5), (488, 5), (588, 5), (688, 5), (788,5), (888, 5), (0, 0), (988, 105), (988, 205), (0, 0), (988, 405), (988, 505), (988, 605), (0, 0),
-                (888, 705), (788, 705), (688, 705), (0, 0), (488, 705), (388, 705), (288, 705), (188, 705), (0, 0), (88, 605), (88, 505), (0, 0), (88, 305), (88, 205), (88, 105)
+                (0, 0), (188, 5), (288, 5), (388, 5), (488, 5), (588, 5), (688, 5), (788, 5), (888,
+                                                                                               5), (0, 0), (988, 105), (988, 205), (0, 0), (988, 405), (988, 505), (988, 605), (0, 0),
+                (888, 705), (788, 705), (688, 705), (0, 0), (488, 705), (388, 705), (288, 705), (
+                    188, 705), (0, 0), (88, 605), (88, 505), (0, 0), (88, 305), (88, 205), (88, 105)
             ]
             if block_id < len(positions):
                 screen.blit(text_surface, positions[block_id])
+
 
 class Display:
     text_font = pygame.font.Font("HelveticaNeue.ttf", 18)
@@ -159,18 +170,24 @@ class Display:
         'pic/chooseplayer.png').convert_alpha(), (1000, 800))
     players_num_image_rect = players_num_image.get_rect(
         center=(screen_width//2, screen_height//2))
-    players_num_image = pygame.transform.scale(pygame.image.load(
-        'pic/chooseplayer.png').convert_alpha(), (1000, 800))
-    players_num_image_rect = players_num_image.get_rect(
-        center=(screen_width//2, screen_height//2))
+
     show_players_image = pygame.transform.scale(pygame.image.load(
         'pic/loading background.png').convert_alpha(), (1000, 800))
     show_players_image_rect = show_players_image.get_rect(
         center=(screen_width//2, screen_height//2))
+    show_warning_image = pygame.transform.scale(pygame.image.load(
+        'pic/warning.png').convert_alpha(), (1000, 800))
+    show_warning_image_rect = show_warning_image.get_rect(
+        center=(screen_width//2, screen_height//2)
+    )
     show_load_bool = True
+    show_warning_bool = True
     limit = 0
+    limit_1 = 0
     alpha = 0
+    alpha_1 = 0
     show_loading_done = False
+    show_warning_done = False
     # adding a boolean to control the function to loop one times
 
     def show_player_explain():
@@ -190,6 +207,23 @@ class Display:
         Display.show_players_image.set_alpha(Display.alpha)
         screen.blit(Display.show_players_image,
                     Display.show_players_image_rect)
+
+    def show_warning():
+        Display.limit_1 += 1
+        if Display.show_warning_bool:
+            # adjusting the value to adjust the appear speed
+            Display.alpha_1 += 1.2
+            print(Display.limit_1)
+            if Display.limit_1 >= 450:
+                Display.show_warning_bool = False
+        if not Display.show_warning_bool and not Display.show_warning_done:
+            # adjusting the value to adjust the disappear speed
+            Display.alpha_1 -= 3
+        if Display.alpha_1 <= 0:
+            Display.show_warning_done = True
+        Display.show_warning_image.set_alpha(Display.alpha_1)
+        screen.blit(Display.show_warning_image,
+                    Display.show_warning_image_rect)
 
     def rotate_text(text, angle):
         return pygame.transform.rotate(text, angle)
@@ -351,7 +385,7 @@ class Display:
                 f"Player {Dice.player_turn} turn", True, black)
             screen.blit(current_player, (100, 110))
 
-        elif Dice.player_turn == 3 and not player_num2 and not player_num3:
+        elif Dice.player_turn == 4 and not player_num2 and not player_num3:
             current_player = text_font.render(
                 f"Player {Dice.player_turn} turn", True, black)
             screen.blit(current_player, (100, 110))
@@ -423,7 +457,7 @@ pay_clicked = False
 paying = False
 
 
-class Button():
+class Button:
     global paying
     menu = True
     player_choose = False
@@ -457,17 +491,17 @@ class Button():
             Dice.end_turn()
 
     def check_play(self, position):
-        if self.rect.collidepoint(position):
+        if self.rect.collidepoint(position) and Display.show_warning_done:
             Button.menu = False
 
     def checkload_finish(self, position):
-        if self.rect.collidepoint(position):
+        if self.rect.collidepoint(position) and not Button.menu:
             Button.loading = False
 
     def check_exit(self, position):
-        if self.rect.collidepoint(position):
+        if self.rect.collidepoint(position) and Display.show_warning_done:
             Button.exit_game = True
-    
+
     def close(self, position):
         global show_description
         if self.rect.collidepoint(position):
@@ -495,11 +529,11 @@ class Button():
             print('taking chance')
             if player_sequence == 1:
                 Chance.chance_button1()
-            if player_sequence == 2:
+            elif player_sequence == 2:
                 Chance.chance_button2()
-            if player_sequence == 3:
+            elif player_sequence == 3:
                 Chance.chance_button3()
-            if player_sequence == 4:
+            elif player_sequence == 4:
                 Chance.chance_button4()
 
     def check_upgrade(self, position):
@@ -516,20 +550,20 @@ class Button():
 
     def player_num_2(self, position):
         global player_num2
-        if self.rect.collidepoint(position) and not Button.player_choose and not Button.loading:
+        if self.rect.collidepoint(position) and not Button.player_choose and Display.show_loading_done:
             print('Select player number 2')
             Button.player_choose = True
             player_num2 = True
 
     def player_num_3(self, position):
         global player_num3
-        if self.rect.collidepoint(position) and not Button.player_choose and not Button.loading:
+        if self.rect.collidepoint(position) and not Button.player_choose and Display.show_loading_done:
             print('Select player number 3')
             Button.player_choose = True
             player_num3 = True
 
     def player_num_4(self, position):
-        if self.rect.collidepoint(position) and not Button.player_choose and not Button.loading:
+        if self.rect.collidepoint(position) and not Button.player_choose and Display.show_loading_done:
             print('Select player number 4')
             Button.player_choose = True
 
@@ -606,21 +640,11 @@ button_4p = Button(button_4p, button_4p, 500, 300)
 
 # add background music
 pygame.mixer.music.load('Sound/BGM.mp3')
-pygame.mixer.music.set_volume(0.2)
-pygame.mixer.music.play(loops=-1, fade_ms=5000)
+pygame.mixer.music.set_volume(0.3)
 
-# Variable to track fade-in progress
-fade_in_progress = True
 
-# Check if the fade-in effect is complete
-while fade_in_progress:
-    if pygame.mixer.music.get_busy():
-        current_volume = pygame.mixer.music.get_volume()
-        if current_volume < 0.01:
-            new_volume = min(current_volume + 0.01, 0.001)
-            pygame.mixer.music.set_volume(new_volume)
-        else:
-            fade_in_progress = False
+def play_music():
+    pygame.mixer.music.play(loops=-1, fade_ms=5000)
 
 
 class Map:
@@ -633,11 +657,11 @@ class Map:
         purple_box = pygame.image.load("pic/lightpurple.png")
         red_box = pygame.image.load("pic/lightred.png")
         go_to_jail = pygame.image.load("pic/gotojail.png")
-        free_parking = pygame.image.load("pic/freepark.jpg")
+        free_parking = pygame.image.load("pic/freepark.png")
         tax = pygame.image.load("pic/LHDN.png")
         injail = pygame.image.load("pic/injail.png")
         chance = pygame.image.load("pic/chance.png")
-        start = pygame.image.load('pic/start.jpg')
+        start = pygame.image.load('pic/start.png')
 
         row_count = 0
         for row in data:
@@ -960,25 +984,16 @@ class Dice(pygame.sprite.Sprite):
 
     def end_turn():
         global player_sequence
-        print(f"player_sequence = {player_sequence}")
-        print(f"Player turn = {Dice.player_turn}")
         if not paying and not Chance.doing_chance:
             Dice.clicked += 1
             Dice.player_turn = player_sequence + 1
-            print(f'Dice clicked = {Dice.clicked}')
             if Dice.clicked == 2:
                 Button.rolling_con = True
                 Dice.clicked = 0
             else:
                 Button.rolling_con = False
-
-        # preventing changing round state player need to click too many times
-        if player_sequence == 4 and Dice.player_turn == 4:
-            player_sequence += 1
-            Dice.clicked += 1
-
-        if Dice.player_turn == 5 and player_sequence == 5:
-            Button.rolling_con = True
+        if Chance.doing_chance:
+            Dice.clicked = 0
 
     def rand_a_dice():
         global dice_con, dice_rolled
@@ -1037,6 +1052,8 @@ class Player:
     player3_jail_round = 0
     player4_in_jail = False
     player4_jail_round = 0
+    game_win_timer = 0
+    show_winner_done = False
 
     p1 = pygame.transform.scale(pic1, (int(w1 * 0.35), int(h1 * 0.35)))
     p2 = pygame.transform.scale(pic2, (int(w2 * 0.35), int(h2 * 0.35)))
@@ -1051,15 +1068,15 @@ class Player:
         self.index = index
 
     def displaying_player_turn():
-        if not changing_round:
-            if Dice.player_turn == 1 and player_sequence == 1:
-                screen.blit(Player.p1, (250, 100))
-            elif Dice.player_turn == 2:
-                screen.blit(Player.p2, (250, 100))
-            elif Dice.player_turn == 3 and not player_num2:
-                screen.blit(Player.p3, (250, 100))
-            elif Dice.player_turn == 4 and not player_num3:
-                screen.blit(Player.p4, (250, 105))
+        global player_sequence
+        if Dice.player_turn == 1 or player_sequence == 5:
+            screen.blit(Player.p1, (250, 100))
+        elif Dice.player_turn == 2:
+            screen.blit(Player.p2, (250, 100))
+        elif Dice.player_turn == 3 and not player_num2:
+            screen.blit(Player.p3, (250, 100))
+        elif Dice.player_turn == 4 and not player_num3:
+            screen.blit(Player.p4, (250, 105))
 
     def move(dice_num):
         step = int(0)
@@ -1430,6 +1447,7 @@ class Player:
             print('Player 4 is broke')
             print_m(message_chat, 'Player 4 is broke')
             loser_boo.play()
+
     def player_check_win():
         if not player_num2 and not player_num3:
             Player.player_check_win_4()
@@ -1439,6 +1457,7 @@ class Player:
             Player.player_check_win_2()
 
     def player_check_win_4():
+        global winner, Game_over
         if player1_broke:
             if 'Player1' in Player.playerlist_4:
                 Player.playerlist_4.remove('Player1')
@@ -1457,8 +1476,11 @@ class Player:
             print(f"The winner is {winner}")
             print_m(message_chat, f'The winner is {winner} !!')
             winner_cheer.play()
+            winner_clap.play()
+            Game_over = True
 
     def player_check_win_3():
+        global winner, Game_over
         if player1_broke:
             if 'Player1' in Player.playerlist_3:
                 Player.playerlist_3.remove('Player1')
@@ -1474,8 +1496,11 @@ class Player:
             print(f"The winner is {winner}")
             print_m(message_chat, f'The winner is {winner} !!')
             winner_cheer.play()
+            winner_clap.play()
+            Game_over = True
 
     def player_check_win_2():
+        global winner, Game_over
         if player1_broke:
             if 'Player1' in Player.playerlist_2:
                 Player.playerlist_2.remove('Player1')
@@ -1488,6 +1513,31 @@ class Player:
             print(f"The winner is {winner}")
             print_m(message_chat, f'The winner is {winner} !!')
             winner_cheer.play()
+            winner_clap.play()
+            Game_over = True
+
+    def show_winner():
+        if Game_over == True and not Player.show_winner_done:
+            Player.game_win_timer += 1
+            if winner == 'Player1':
+                winner_image = pygame.transform.scale(pygame.image.load(
+                    'pic/player1_victory.png').convert_alpha(), (500, 300))
+            if winner == 'Player2':
+                winner_image = pygame.transform.scale(pygame.image.load(
+                    'pic/player2_victory.png').convert_alpha(), (500, 300))
+            if winner == 'Player3':
+                winner_image = pygame.transform.scale(pygame.image.load(
+                    'pic/player3_victory.png').convert_alpha(), (500, 300))
+            if winner == 'Player4':
+                winner_image = pygame.transform.scale(pygame.image.load(
+                    'pic/player4_victory.png').convert_alpha(), (500, 300))
+            screen.blit(winner_image, (220, 220))
+            if Player.game_win_timer > 400:
+                Player.show_winner_done = True
+        if Player.show_winner_done:
+            game_gg_image = pygame.transform.scale(pygame.image.load(
+                'pic/game_over.png').convert_alpha(), (1000, 800))
+            screen.blit(game_gg_image, (0, 0))
 
 
 player_names = ["player1", "player2", "player3", "player4"]
@@ -1503,16 +1553,18 @@ players = [player1, player2, player3, player4]
 chance_rarities = {
     "Common": [
         "Advance to GO. Collect $2000",
-        "It is your birthday. Collect $100 from each player",
+        "It is your birthday. Collect $200 from each player",
         "Go back to B.Ramly"
     ],
     "Rare": [
         "Bank pays you dividend of $300.",
-        "Go to jail, move directly to jail,do not collect $200",
+        "Go to jail, move directly to jail",
+        "Paying fine for JPJ cost 1000$"
     ],
     "Epic": [
-        "hired hacker cunningly snatches $200 from each player.",
-        "Experience an earthquake, resulting in each player losing $1500.",
+        "hired hacker cunningly snatches $500 from each player.",
+        "Experience an earthquake, in each player losing $1500.",
+        "You have won a 2000$ lottery !"
     ]
 }
 
@@ -1528,39 +1580,25 @@ class Chance:
     doing_chance = False
 
     def determine_chance_rarity(second_roll):
-        if second_roll >= 5:
+        if second_roll == 8 or second_roll == 7:
             return "Epic"
-        elif second_roll >= 3:
-            return "Rare"
-        else:
-            return "Common"
-
-    def handle_chance():
-        if player_sequence == 0:
-            if player1_pos == 12 or player1_pos == 28:
-                second_roll = random.randint(1, 6)
-                chance_rarity = Chance.determine_chance_rarity(second_roll)
-
-    def determine_chance_rarity(second_roll):
-        if second_roll >= 5:
-            return "Epic"
-        elif second_roll >= 3:
+        elif second_roll > 4:
             return "Rare"
         else:
             return "Common"
 
     def check_chance_valid():
-
+        global player_sequence
         if player_sequence == 1:
             if player1_pos == 12 or player1_pos == 28:
                 Chance.doing_chance = True
-        if player_sequence == 2:
+        elif player_sequence == 2:
             if player2_pos == 12 or player2_pos == 28:
                 Chance.doing_chance = True
-        if player_sequence == 3:
+        elif player_sequence == 3:
             if player3_pos == 12 or player3_pos == 28:
                 Chance.doing_chance = True
-        if player_sequence == 4:
+        elif player_sequence == 4:
             if player4_pos == 12 or player4_pos == 28:
                 Chance.doing_chance = True
 
@@ -1568,7 +1606,7 @@ class Chance:
         global player1_pos
         Chance.doing_chance = False
         if player_sequence == 1:
-            second_roll = random.randint(1, 6)
+            second_roll = random.randint(1, 8)
             chance_rarity = Chance.determine_chance_rarity(second_roll)
             chance_card = random.choice(chance_rarities[chance_rarity])
             print_m(message_chat, f"Player1 draws a {
@@ -1581,54 +1619,43 @@ class Chance:
                 Player.x1 = 0
                 Player.y1 = 0
                 player1_pos = 0
-            elif "Collect $100 from each player" in chance_card:
-                economic.update_money(p1, 300)
-                economic.update_money(p2, -100)
-                economic.update_money(p3, -100)
-                economic.update_money(p4, -100)
-            elif "Go back to B.Ramly" in chance_card:
-                Player.x1 = 100
-                Player.y1 = 0
-                player1_pos = 1
-            elif "Advance to Free parking" in chance_card:
-                player_dict_m['p1_money'] += 2000
-                print(f"player 1 passes go and get 2000")
-                print_m(message_chat, f"player 1 passes go and get 2000")
-                Player.x1 = 899
-                Player.y1 = 0
-                player1_pos = 10
-            elif "Bank pays you dividend of $300" in chance_card:
-                economic.update_money(p1, 300)
-            elif "Go to jail" in chance_card:
-                Player.player_jail1()
-            elif "Advance one step forward and rest" in chance_card:
-                if Player.x1 < 1000 and Player.y1 == 0:
-                    Player.x1 + 100
-                elif Player.x1 == 900 and Player.y1 != 0:
-                    Player.y1 + 100
-                elif Player.x1 < 1000 and Player.y1 == 700:
-                    Player.x1 - 100
-                elif Player.x1 == 0 and Player.y1 <= 700:
-                    Player.y1 - 100
-                player1_pos += 1
-            elif "Seize any property" in chance_card:
-                pass
-            elif "snatches $200 from each player" in chance_card:
+            elif "Collect $200 from each player" in chance_card:
                 economic.update_money(p1, 600)
                 economic.update_money(p2, -200)
                 economic.update_money(p3, -200)
                 economic.update_money(p4, -200)
+            elif "Go back to B.Ramly" in chance_card:
+                Player.x1 = 100
+                Player.y1 = 0
+                player1_pos = 1
+            elif "fine" in chance_card:
+                player_dict_m['p1_money'] -= 1000
+                print('Player 1 paying 1000')
+                print_m(message_chat, 'Player 1 paying 1000 fine for JPJ')
+            elif "Bank pays you dividend of $300" in chance_card:
+                economic.update_money(p1, 300)
+            elif "Go to jail" in chance_card:
+                Player.player_jail1()
+            elif "snatches $500 from each player" in chance_card:
+                economic.update_money(p1, 1500)
+                economic.update_money(p2, -500)
+                economic.update_money(p3, -500)
+                economic.update_money(p4, -500)
             elif "earthquake" in chance_card:
                 economic.update_money(p1, -1000)
                 economic.update_money(p2, -1000)
                 economic.update_money(p3, -1000)
                 economic.update_money(p4, -1000)
+            elif "lottery" in chance_card:
+                player_dict_m['p1_money'] += 2000
+                print('Player 1 won a 2000 lottery')
+                print_m(message_chat, 'Player 1 won a 2000 lottery')
 
     def chance_button2():
         global player2_pos
         Chance.doing_chance = False
         if player_sequence == 2:
-            second_roll = random.randint(1, 6)
+            second_roll = random.randint(1, 8)
             chance_rarity = Chance.determine_chance_rarity(second_roll)
             chance_card = random.choice(chance_rarities[chance_rarity])
             print_m(message_chat, f"Player2draws a {
@@ -1641,54 +1668,43 @@ class Chance:
                 Player.x2 = 0
                 Player.y2 = 0
                 player2_pos = 0
-            elif "Collect $100 from each player" in chance_card:
-                economic.update_money(p1, -100)
-                economic.update_money(p2, 300)
-                economic.update_money(p3, -100)
-                economic.update_money(p4, -100)
-            elif "Go back to B.Ramly" in chance_card:
-                Player.x2 = 100
-                Player.y2 = 0
-                player2_pos = 1
-            elif "Advance to Free parking" in chance_card:
-                player_dict_m['p2_money'] += 2000
-                print(f"player 2 passes go and get 2000")
-                print_m(message_chat, f"player 2 passes go and get 2000")
-                Player.x2 = 899
-                Player.y2 = 0
-                player2_pos = 10
-            elif "Bank pays you dividend of $300" in chance_card:
-                economic.update_money(p2, 300)
-            elif "Go to jail" in chance_card:
-                Player.player_jail2()
-            elif "Advance one step forward and rest" in chance_card:
-                if Player.x2 < 1000 and Player.y2 == 0:
-                    Player.x2 + 100
-                elif Player.x2 == 900 and Player.y2 != 0:
-                    Player.y2 + 100
-                elif Player.x2 < 1000 and Player.y2 == 700:
-                    Player.x2 - 100
-                elif Player.x2 == 0 and Player.y2 <= 700:
-                    Player.y2 - 100
-                player2_pos += 1
-            elif "Seize any property" in chance_card:
-                pass
-            elif "snatches $200 from each player" in chance_card:
+            elif "Collect $200 from each player" in chance_card:
                 economic.update_money(p1, -200)
                 economic.update_money(p2, 600)
                 economic.update_money(p3, -200)
                 economic.update_money(p4, -200)
+            elif "Go back to B.Ramly" in chance_card:
+                Player.x2 = 100
+                Player.y2 = 0
+                player2_pos = 1
+            elif "fine" in chance_card:
+                player_dict_m['p2_money'] -= 1000
+                print('Player 2 paying 1000')
+                print_m(message_chat, 'Player 2 paying 1000 fine for JPJ')
+            elif "Bank pays you dividend of $300" in chance_card:
+                economic.update_money(p2, 300)
+            elif "Go to jail" in chance_card:
+                Player.player_jail2()
+            elif "snatches $500 from each player" in chance_card:
+                economic.update_money(p1, -500)
+                economic.update_money(p2, 1500)
+                economic.update_money(p3, -500)
+                economic.update_money(p4, -500)
             elif "earthquake" in chance_card:
                 economic.update_money(p1, -1000)
                 economic.update_money(p2, -1000)
                 economic.update_money(p3, -1000)
                 economic.update_money(p4, -1000)
+            elif "lottery" in chance_card:
+                player_dict_m['p2_money'] += 2000
+                print('Player 2 won a 2000 lottery')
+                print_m(message_chat, 'Player 2 won a 2000 lottery')
 
     def chance_button3():
         global player3_pos
         Chance.doing_chance = False
         if player_sequence == 3:
-            second_roll = random.randint(1, 6)
+            second_roll = random.randint(1, 8)
             chance_rarity = Chance.determine_chance_rarity(second_roll)
             chance_card = random.choice(chance_rarities[chance_rarity])
             print_m(message_chat, f"Player3 draws a {
@@ -1701,54 +1717,43 @@ class Chance:
                 Player.x3 = 0
                 Player.y3 = 0
                 player3_pos = 0
-            elif "Collect $100 from each player" in chance_card:
-                economic.update_money(p1, -100)
-                economic.update_money(p2, -100)
-                economic.update_money(p3, 300)
-                economic.update_money(p4, -100)
-            elif "Go back to B.Ramly" in chance_card:
-                Player.x3 = 100
-                Player.y3 = 0
-                player3_pos = 1
-            elif "Advance to Free parking" in chance_card:
-                player_dict_m['p3_money'] += 2000
-                print(f"player 3 passes go and get 2000")
-                print_m(message_chat, f"player 3 passes go and get 2000")
-                Player.x3 = 899
-                Player.y3 = 0
-                player3_pos = 10
-            elif "Bank pays you dividend of $300" in chance_card:
-                economic.update_money(p3, 300)
-            elif "Go to jail" in chance_card:
-                Player.player_jail3()
-            elif "Advance one step forward and rest" in chance_card:
-                if Player.x3 < 1000 and Player.y3 == 0:
-                    Player.x3 + 100
-                elif Player.x3 == 900 and Player.y3 != 0:
-                    Player.y3 + 100
-                elif Player.x3 < 1000 and Player.y3 == 700:
-                    Player.x3 - 100
-                elif Player.x3 == 0 and Player.y3 <= 700:
-                    Player.y3 - 100
-                player3_pos += 1
-            elif "Seize any property" in chance_card:
-                pass
-            elif "snatches $200 from each player" in chance_card:
+            elif "Collect $200 from each player" in chance_card:
                 economic.update_money(p1, -200)
                 economic.update_money(p2, -200)
                 economic.update_money(p3, 600)
                 economic.update_money(p4, -200)
+            elif "Go back to B.Ramly" in chance_card:
+                Player.x3 = 100
+                Player.y3 = 0
+                player3_pos = 1
+            elif "fine" in chance_card:
+                player_dict_m['p3_money'] -= 1000
+                print('Player 3 paying 1000')
+                print_m(message_chat, 'Player 3 paying 1000 fine for JPJ')
+            elif "Bank pays you dividend of $300" in chance_card:
+                economic.update_money(p3, 300)
+            elif "Go to jail" in chance_card:
+                Player.player_jail3()
+            elif "snatches $200 from each player" in chance_card:
+                economic.update_money(p1, -500)
+                economic.update_money(p2, -500)
+                economic.update_money(p3, 1500)
+                economic.update_money(p4, -500)
             elif "earthquake" in chance_card:
                 economic.update_money(p1, -1000)
                 economic.update_money(p2, -1000)
                 economic.update_money(p3, -1000)
                 economic.update_money(p4, -1000)
+            elif "lottery" in chance_card:
+                player_dict_m['p3_money'] += 2000
+                print('Player 3 won a 2000 lottery')
+                print_m(message_chat, 'Player 3 won a 2000 lottery')
 
     def chance_button4():
         global player4_pos
         Chance.doing_chance = False
         if player_sequence == 4:
-            second_roll = random.randint(1, 6)
+            second_roll = random.randint(1, 8)
             chance_rarity = Chance.determine_chance_rarity(second_roll)
             chance_card = random.choice(chance_rarities[chance_rarity])
             print_m(message_chat, f"Player4 draws a {
@@ -1761,22 +1766,19 @@ class Chance:
                 Player.x4 = 0
                 Player.y4 = 0
                 player4_pos = 0
-            elif "Collect $100 from each player" in chance_card:
-                economic.update_money(p1, -100)
-                economic.update_money(p2, -100)
-                economic.update_money(p3, -100)
-                economic.update_money(p4, 300)
+            elif "Collect $200 from each player" in chance_card:
+                economic.update_money(p1, -200)
+                economic.update_money(p2, -200)
+                economic.update_money(p3, -200)
+                economic.update_money(p4, 600)
             elif "Go back to B.Ramly" in chance_card:
                 Player.x4 = 100
                 Player.y4 = 0
                 player4_pos = 1
-            elif "Advance to Free parking" in chance_card:
-                player_dict_m['p4_money'] += 2000
-                print(f"player 4 passes go and get 2000")
-                print_m(message_chat, f"player 4 passes go and get 2000")
-                Player.x4 = 899
-                Player.y4 = 0
-                player4_pos = 10
+            elif "fine" in chance_card:
+                player_dict_m['p4_money'] -= 1000
+                print('Player 4 paying 1000')
+                print_m(message_chat, 'Player 4 paying 1000 fine for JPJ')
             elif "Bank pays you dividend of $300" in chance_card:
                 economic.update_money(p4, 300)
             elif "Go to jail" in chance_card:
@@ -1794,15 +1796,19 @@ class Chance:
             elif "Seize any property" in chance_card:
                 pass
             elif "snatches $200 from each player" in chance_card:
-                economic.update_money(p1, -200)
-                economic.update_money(p2, -200)
-                economic.update_money(p3, -200)
-                economic.update_money(p4, 600)
+                economic.update_money(p1, -500)
+                economic.update_money(p2, -500)
+                economic.update_money(p3, -500)
+                economic.update_money(p4, 1500)
             elif "earthquake" in chance_card:
                 economic.update_money(p1, -1000)
                 economic.update_money(p2, -1000)
                 economic.update_money(p3, -1000)
                 economic.update_money(p4, -1000)
+            elif "lottery" in chance_card:
+                player_dict_m['p4_money'] += 2000
+                print('Player 4 won a 2000 lottery')
+                print_m(message_chat, 'Player 4 won a 2000 lottery')
 
 
 class Messagebox:
@@ -2134,17 +2140,17 @@ class economic:
         rent_display = rent_font.render(f"{rent_display}", True, black)
         # showing player current possesion of property
         if player_sequence == 1 and not paying:
-            screen.blit(ldis_eco1, (120, 140))
-            screen.blit(L_dis_eco1, (120, 160))
+            screen.blit(ldis_eco1, (110, 140))
+            screen.blit(L_dis_eco1, (110, 160))
         elif player_sequence == 2 and not paying:
-            screen.blit(ldis_eco2, (120, 140))
-            screen.blit(L_dis_eco2, (120, 160))
+            screen.blit(ldis_eco2, (110, 140))
+            screen.blit(L_dis_eco2, (110, 160))
         elif player_sequence == 3 and not paying:
-            screen.blit(ldis_eco3, (120, 140))
-            screen.blit(L_dis_eco3, (120, 160))
+            screen.blit(ldis_eco3, (110, 140))
+            screen.blit(L_dis_eco3, (110, 160))
         elif player_sequence == 4 and not paying:
-            screen.blit(ldis_eco4, (120, 140))
-            screen.blit(L_dis_eco4, (120, 160))
+            screen.blit(ldis_eco4, (110, 140))
+            screen.blit(L_dis_eco4, (110, 160))
         elif player_sequence != 0 and paying:
             screen.blit(rent_display, (100, 140))
 
@@ -2590,12 +2596,12 @@ class economic:
             print_m(message_chat, f'{
                     upgrading_property} have reach the highest level')
             economic.showing_upgrade_button = False
-            
+
     # def showing_property_level():
     #     if Property_level[1] >= 1:
     #         font = pygame.font.Font(None, 24)
     #         text_surface = font.render(Property_level[1], True, (255, 255, 255))
-    #         screen.blit(text_surface, (110,200)) 
+    #         screen.blit(text_surface, (110,200))
 
     def tax():
         if player_sequence == 1:
@@ -2721,8 +2727,9 @@ class starting_menu:
 
 map = Map(map_data)
 
-button_functions = [button_music.checkmusic, button_roll.checkroll, button_pay.check_pay, button_chance.check_chance, button_close.close,
-                    button_play.check_play, button_buy.check_buy, button_next.checkload_finish, button_exit.check_exit, button_upgrade.check_upgrade, button_2p.player_num_2, button_3p.player_num_3, button_4p.player_num_4]
+if not Game_over:
+    button_functions = [button_music.checkmusic, button_roll.checkroll, button_pay.check_pay, button_chance.check_chance, button_close.close,
+                        button_play.check_play, button_buy.check_buy, button_next.checkload_finish, button_exit.check_exit, button_upgrade.check_upgrade, button_2p.player_num_2, button_3p.player_num_3, button_4p.player_num_4]
 
 
 def handle_button_events(pos):
@@ -2747,6 +2754,7 @@ def display_description_block(pos):
         show_description = True
         description_display_timer = time.time()
 
+
 def close_descriptions():
     global show_description, description_display_timer, current_block_id
     if show_description and time.time() - description_display_timer < description_display_duration:
@@ -2754,8 +2762,7 @@ def close_descriptions():
             description_surface = display_descriptions(current_block_id)
             screen.blit(description_surface, (100, 100))
         else:
-            show_description = False    
-
+            show_description = False
 
 
 def disaster_eartquake():
@@ -2815,12 +2822,13 @@ player_num3 = False
 
 def skipping_player():
     global player_sequence
+    # skip player 3 and 4 if option of 2 player is selected
     if player_num2:
         if player_sequence == 2:
             player_sequence += 1
         if player_sequence == 3:
             player_sequence += 1
-
+    # skip player 4 if option of 3 player is selected
     elif player_num3:
         if player_sequence == 3:
             player_sequence += 1
@@ -2855,7 +2863,9 @@ while run:
     if Button.exit_game and Button.menu:
         run = False
 
-    if Button.menu:
+    Display.show_warning()
+
+    if Button.menu and Display.show_warning_done:
         Display.showing_menu_background()
         button_play.update()
         button_exit.update()
@@ -2868,10 +2878,14 @@ while run:
         starting_menu.loading_screen()
         starting_menu.showing_rule()
 
+    if Button.loading:
+        play_music()
+
     if not Display.show_loading_done and not Button.loading:
         # remember change show_loading_done back to false when activate this def
         Display.show_player_explain()
-    if Display.show_loading_done and not Button.player_choose:
+
+    if Display.show_loading_done:
         choose_player_num()
 
     if Button.player_choose:
@@ -2894,7 +2908,7 @@ while run:
 
         if Dice.clicked == 1:
             button_roll.update()
-        elif Dice.clicked == 0:
+        if Dice.clicked == 0:
             button_end.update()
         if paying:
             button_pay.update()
@@ -2912,6 +2926,8 @@ while run:
         if show_description:
             button_close.update()
 
+        if Game_over:
+            Player.show_winner()
 
         # Display.drawing_grid(100)
     else:
