@@ -327,11 +327,26 @@ class Display:
 
     def showing_player_round():
         text_font = pygame.font.Font("HelveticaNeue.ttf", 22)
-        if player_sequence != 0 and player_sequence != 5 and Dice.player_turn != 5:
+        if Dice.player_turn == 1:
             current_player = text_font.render(
                 f"Player {Dice.player_turn} turn", True, black)
             screen.blit(current_player, (100, 110))
             # showing which round of current when player sequence is 0
+        elif Dice.player_turn == 2:
+            current_player = text_font.render(
+                f"Player {Dice.player_turn} turn", True, black)
+            screen.blit(current_player, (100, 110))
+
+        elif Dice.player_turn == 3 and not player_num2:
+            current_player = text_font.render(
+                f"Player {Dice.player_turn} turn", True, black)
+            screen.blit(current_player, (100, 110))
+
+        elif Dice.player_turn == 3 and not player_num2 and not player_num3:
+            current_player = text_font.render(
+                f"Player {Dice.player_turn} turn", True, black)
+            screen.blit(current_player, (100, 110))
+
         elif player_sequence == 0:
             Display.current_round = round_num
             current_player = text_font.render(
@@ -1017,9 +1032,9 @@ class Player:
                 screen.blit(Player.p1, (250, 100))
             elif Dice.player_turn == 2:
                 screen.blit(Player.p2, (250, 100))
-            elif Dice.player_turn == 3:
+            elif Dice.player_turn == 3 and not player_num2:
                 screen.blit(Player.p3, (250, 100))
-            elif Dice.player_turn == 4:
+            elif Dice.player_turn == 4 and not player_num3:
                 screen.blit(Player.p4, (250, 105))
 
     def move(dice_num):
@@ -1462,7 +1477,6 @@ chance_rarities = {
         "Go back to B.Ramly"
     ],
     "Rare": [
-        "Advance to Free parking. If you pass Go, collect $2000.",
         "Bank pays you dividend of $300.",
         "Go to jail, move directly to jail,do not collect $200",
     ],
@@ -1550,7 +1564,7 @@ class Chance:
                 player_dict_m['p1_money'] += 2000
                 print(f"player 1 passes go and get 2000")
                 print_m(message_chat, f"player 1 passes go and get 2000")
-                Player.x1 = 900
+                Player.x1 = 899
                 Player.y1 = 0
                 player1_pos = 10
             elif "Bank pays you dividend of $300" in chance_card:
@@ -1610,7 +1624,7 @@ class Chance:
                 player_dict_m['p2_money'] += 2000
                 print(f"player 2 passes go and get 2000")
                 print_m(message_chat, f"player 2 passes go and get 2000")
-                Player.x2 = 900
+                Player.x2 = 899
                 Player.y2 = 0
                 player2_pos = 10
             elif "Bank pays you dividend of $300" in chance_card:
@@ -1670,7 +1684,7 @@ class Chance:
                 player_dict_m['p3_money'] += 2000
                 print(f"player 3 passes go and get 2000")
                 print_m(message_chat, f"player 3 passes go and get 2000")
-                Player.x3 = 900
+                Player.x3 = 899
                 Player.y3 = 0
                 player3_pos = 10
             elif "Bank pays you dividend of $300" in chance_card:
@@ -1730,7 +1744,7 @@ class Chance:
                 player_dict_m['p4_money'] += 2000
                 print(f"player 4 passes go and get 2000")
                 print_m(message_chat, f"player 4 passes go and get 2000")
-                Player.x4 = 900
+                Player.x4 = 899
                 Player.y4 = 0
                 player4_pos = 10
             elif "Bank pays you dividend of $300" in chance_card:
