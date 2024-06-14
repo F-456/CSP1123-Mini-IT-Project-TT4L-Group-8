@@ -514,7 +514,7 @@ class Button:
                 economic.buying_property()
 
     def check_pay(self, position):
-        if self.rect.collidepoint(position):
+        if self.rect.collidepoint(position) and paying:
             if player_sequence == 1:
                 economic.rent_button_1()
             if player_sequence == 2:
