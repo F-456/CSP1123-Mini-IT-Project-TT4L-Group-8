@@ -31,6 +31,8 @@ text_font = pygame.font.Font("HelveticaNeue.ttf", 20)
 smaller_font = pygame.font.Font("HelveticaNeue.ttf", 20)
 Specia_font = pygame.font.SysFont(
     "ComicSansMS.ttf", 25, bold=False, italic=False)
+winner_cheer = pygame.mixer.Sound('Sound/winningsound.wav')
+loser_boo = pygame.mixer.Sound('Sound/boo.mp3')
 
 
 # Maps control for monopoly
@@ -94,6 +96,17 @@ def display_descriptions(block_id):
 
     return description_surface
 
+def showing_property_level():
+    font = pygame.font.Font(None, 18)
+    for block_id, level in enumerate(Property_level):
+        if level >= 1:
+            text_surface = font.render(str(level), True, (0, 0, 0))
+            positions = [
+                (0, 0), (188, 5), (288, 5) ,(388, 5), (488, 5), (588, 5), (688, 5), (788,5), (888, 5), (0, 0), (988, 105), (988, 205), (0, 0), (988, 405), (988, 505), (988, 605), (0, 0),
+                (888, 705), (788, 705), (688, 705), (0, 0), (488, 705), (388, 705), (288, 705), (188, 705), (0, 0), (88, 605), (88, 505), (0, 0), (88, 305), (88, 205), (88, 105)
+            ]
+            if block_id < len(positions):
+                screen.blit(text_surface, positions[block_id])
 
 class Display:
     text_font = pygame.font.Font("HelveticaNeue.ttf", 18)
@@ -101,8 +114,6 @@ class Display:
     Specia_font = pygame.font.SysFont(
         "ComicSansMS.ttf", 25, bold=False, italic=False)
     # text used in all the tile
-    Go_t = text_font.render("Go", True, (white))
-    collect_t = smaller_font.render("Pass & Go", True, (white))
     money_t = smaller_font.render("$", True, (black))
     klia_t = text_font.render("KLIA", True, (black))
     indah_t = smaller_font.render("Indah", True, (black))
@@ -189,8 +200,6 @@ class Display:
         return rotated_text
 
     def showing_properties_name():
-        screen.blit(Display.Go_t, (20, 20))
-        screen.blit(Display.collect_t, (20, 50))
         klcc_rotated = Display.render_rotate_text(
             Display.text_font, "KLCC", (black), 270)
         screen.blit(klcc_rotated, (60, 125))
@@ -422,6 +431,7 @@ class Button():
     loading = True
     rolling_con = False
     is_buying_properties = False
+    closing_descriptions = False
     # is_upgrade_properties = False
 
     def __init__(self, image_on, image_off,  x_pos, y_pos):
@@ -457,6 +467,12 @@ class Button():
     def check_exit(self, position):
         if self.rect.collidepoint(position):
             Button.exit_game = True
+    
+    def close(self, position):
+        global show_description
+        if self.rect.collidepoint(position):
+            Button.closing_descriptions = True
+            show_description = False
 
     def check_buy(self, position):
         if self.rect.collidepoint(position) and economic.showing_buy_button:
@@ -473,10 +489,6 @@ class Button():
                 economic.rent_button_3()
             if player_sequence == 4:
                 economic.rent_button_4()
-
-    # def check_upgrade(self, position):
-    #     if self.rect.collidepoint(position):
-    #         Button.is_upgrade_properties = True
 
     def check_chance(self, position):
         if self.rect.collidepoint(position) and Chance.doing_chance:
@@ -532,6 +544,7 @@ class Button():
 # Load button images
 button_surface_on = pygame.image.load('pic/musicon.png')
 button_surface_off = pygame.image.load('pic/musicoff.png')
+button_close = pygame.image.load('pic/closebut.png')
 button_roll = pygame.image.load('pic/Roll.png')
 button_end = pygame.image.load('pic/end.png')
 button_play = pygame.image.load('pic/play.png')
@@ -553,6 +566,7 @@ button_4p = pygame.image.load('pic/4P.png')
 # adjust size
 button_surface_on = pygame.transform.scale(button_surface_on, (40, 40))
 button_surface_off = pygame.transform.scale(button_surface_off, (40, 40))
+button_close = pygame.transform.scale(button_close, (40, 40))
 button_roll = pygame.transform.scale(button_roll, (84, 56))
 button_end = pygame.transform.scale(button_end, (84, 56))
 button_play = pygame.transform.scale(button_play, (240, 150))
@@ -572,6 +586,7 @@ button_4p = pygame.transform.scale(button_4p, (300, 200))
 
 # adjust location
 button_music = Button(button_surface_on, button_surface_off, 880, 120)
+button_close = Button(button_close, button_close, 575, 120)
 button_roll = Button(button_roll, button_roll, 660, 650)
 button_end = Button(button_end, button_end, 660, 650)
 button_play = Button(button_play, button_play, 700, 600)
@@ -617,17 +632,26 @@ class Map:
         blue_box = pygame.image.load("pic/lightblue.png")
         purple_box = pygame.image.load("pic/lightpurple.png")
         red_box = pygame.image.load("pic/lightred.png")
-        go_to_jail = pygame.image.load("pic/gotojail.webp")
-        free_parking = pygame.image.load("pic/freeparking.png")
+        go_to_jail = pygame.image.load("pic/gotojail.png")
+        free_parking = pygame.image.load("pic/freepark.jpg")
         tax = pygame.image.load("pic/LHDN.png")
         injail = pygame.image.load("pic/injail.png")
         chance = pygame.image.load("pic/chance.png")
+        start = pygame.image.load('pic/start.jpg')
 
         row_count = 0
         for row in data:
             col_count = 0
             for tile in row:
-                if tile == 2:
+                if tile == 1:
+                    img = pygame.transform.scale(
+                        start, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+                elif tile == 2:
                     img = pygame.transform.scale(
                         white_box, (tile_size, tile_size))
                     img_rect = img.get_rect()
@@ -1387,22 +1411,25 @@ class Player:
             p1_broked = True
             print('Player 1 is broke')
             print_m(message_chat, 'Player 1 is broke')
+            loser_boo.play()
         if player_dict_m["p2_money"] < 0 and not p2_broked:
             player2_broke = True
             p2_broked = True
             print('Player 2 is broke')
             print_m(message_chat, 'Player 2 is broke')
+            loser_boo.play()
         if player_dict_m["p3_money"] < 0 and not p3_broked:
             player3_broke = True
             p3_broked = True
             print('Player 3 is broke')
             print_m(message_chat, f'Player 3 is broke')
+            loser_boo.play()
         if player_dict_m["p4_money"] < 0 and not p4_broked:
             player4_broke = True
             p4_broked = True
             print('Player 4 is broke')
             print_m(message_chat, 'Player 4 is broke')
-
+            loser_boo.play()
     def player_check_win():
         if not player_num2 and not player_num3:
             Player.player_check_win_4()
@@ -1429,6 +1456,7 @@ class Player:
             winner = Player.playerlist_4[0]
             print(f"The winner is {winner}")
             print_m(message_chat, f'The winner is {winner} !!')
+            winner_cheer.play()
 
     def player_check_win_3():
         if player1_broke:
@@ -1445,6 +1473,7 @@ class Player:
             winner = Player.playerlist_3[0]
             print(f"The winner is {winner}")
             print_m(message_chat, f'The winner is {winner} !!')
+            winner_cheer.play()
 
     def player_check_win_2():
         if player1_broke:
@@ -1458,6 +1487,7 @@ class Player:
             winner = Player.playerlist_2[0]
             print(f"The winner is {winner}")
             print_m(message_chat, f'The winner is {winner} !!')
+            winner_cheer.play()
 
 
 player_names = ["player1", "player2", "player3", "player4"]
@@ -2560,6 +2590,12 @@ class economic:
             print_m(message_chat, f'{
                     upgrading_property} have reach the highest level')
             economic.showing_upgrade_button = False
+            
+    # def showing_property_level():
+    #     if Property_level[1] >= 1:
+    #         font = pygame.font.Font(None, 24)
+    #         text_surface = font.render(Property_level[1], True, (255, 255, 255))
+    #         screen.blit(text_surface, (110,200)) 
 
     def tax():
         if player_sequence == 1:
@@ -2685,9 +2721,7 @@ class starting_menu:
 
 map = Map(map_data)
 
-mouse_click = pygame.mixer.Sound('Sound/mouse_click1.mp3')
-
-button_functions = [button_music.checkmusic, button_roll.checkroll, button_pay.check_pay, button_chance.check_chance,
+button_functions = [button_music.checkmusic, button_roll.checkroll, button_pay.check_pay, button_chance.check_chance, button_close.close,
                     button_play.check_play, button_buy.check_buy, button_next.checkload_finish, button_exit.check_exit, button_upgrade.check_upgrade, button_2p.player_num_2, button_3p.player_num_3, button_4p.player_num_4]
 
 
@@ -2698,8 +2732,9 @@ def handle_button_events(pos):
 
 show_description = False
 current_block_id = 0
-description_display_duration = 15
+description_display_duration = 10
 description_display_timer = 0
+closing_descriptions = False
 
 
 def display_description_block(pos):
@@ -2711,6 +2746,16 @@ def display_description_block(pos):
         current_block_id = block
         show_description = True
         description_display_timer = time.time()
+
+def close_descriptions():
+    global show_description, description_display_timer, current_block_id
+    if show_description and time.time() - description_display_timer < description_display_duration:
+        if current_block_id:
+            description_surface = display_descriptions(current_block_id)
+            screen.blit(description_surface, (100, 100))
+        else:
+            show_description = False    
+
 
 
 def disaster_eartquake():
@@ -2860,15 +2905,13 @@ while run:
         Player.show_players()
         moving_sprites.draw(screen)
         moving_sprites.update()
+        close_descriptions()
+        showing_property_level()
         if paying:
             button_pay.update()
+        if show_description:
+            button_close.update()
 
-        if show_description and time.time() - description_display_timer < description_display_duration:
-            if current_block_id:
-                description_surface = display_descriptions(current_block_id)
-                screen.blit(description_surface, (250, 100))
-        else:
-            show_description = False
 
         # Display.drawing_grid(100)
     else:
