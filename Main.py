@@ -371,24 +371,56 @@ class Display:
     def showing_player_round():
         text_font = pygame.font.Font("HelveticaNeue.ttf", 22)
         if Dice.player_turn == 1:
-            current_player = text_font.render(
-                f"Player {Dice.player_turn} turn", True, black)
-            screen.blit(current_player, (100, 110))
+            # skipping a the previous number if he is broke
+            if player1_broke and not player2_broke:
+                current_player = text_font.render(
+                    f"Player 2 turn", True, black)
+                screen.blit(current_player, (100, 110))
+            elif player1_broke and player2_broke and not player3_broke:
+                current_player = text_font.render(
+                    f"Player 3 turn", True, black)
+                screen.blit(current_player, (100, 110))
+            elif not player1_broke:
+                current_player = text_font.render(
+                    f"Player 1 turn", True, black)
+                screen.blit(current_player, (100, 110))
+
             # showing which round of current when player sequence is 0
         elif Dice.player_turn == 2:
-            current_player = text_font.render(
-                f"Player {Dice.player_turn} turn", True, black)
-            screen.blit(current_player, (100, 110))
+            if player2_broke and not player3_broke and not player_num2:
+                current_player = text_font.render(
+                    f"Player 3 turn", True, black)
+                screen.blit(current_player, (100, 110))
+            if player2_broke and player3_broke and not player_num3:
+                current_player = text_font.render(
+                    f"Player 4 turn", True, black)
+                screen.blit(current_player, (100, 110))
+            elif not player2_broke:
+                current_player = text_font.render(
+                    f"Player 2 turn", True, black)
+                screen.blit(current_player, (100, 110))
 
-        elif Dice.player_turn == 3 and not player_num2:
-            current_player = text_font.render(
-                f"Player {Dice.player_turn} turn", True, black)
-            screen.blit(current_player, (100, 110))
+        elif Dice.player_turn == 3:
+            if player3_broke and not player_num3:
+                current_player = text_font.render(
+                    f"Player 4 turn", True, black)
+                screen.blit(current_player, (100, 110))
+            elif not player3_broke:
+                current_player = text_font.render(
+                    f"Player 3 turn", True, black)
+                screen.blit(current_player, (100, 110))
+            else:
+                current_player = text_font.render(
+                    f"Player {Dice.player_turn} turn", True, black)
+                screen.blit(current_player, (100, 110))
 
-        elif Dice.player_turn == 4 and not player_num2 and not player_num3:
-            current_player = text_font.render(
-                f"Player {Dice.player_turn} turn", True, black)
-            screen.blit(current_player, (100, 110))
+        elif Dice.player_turn == 4:
+            if not player4_broke and not player_num2 and not player_num3:
+                current_player = text_font.render(
+                    f"Player {Dice.player_turn} turn", True, black)
+                screen.blit(current_player, (100, 110))
+            elif player4_broke:
+                pass
 
         elif player_sequence == 0:
             Display.current_round = round_num
@@ -458,7 +490,7 @@ paying = False
 
 
 class Button:
-    global paying
+    global paying, dice_rolled
     menu = True
     player_choose = False
     exit_game = False
@@ -487,8 +519,11 @@ class Button:
             self.toggleMusicState()
 
     def checkroll(self, position):
+        global dice_rolled
         if self.rect.collidepoint(position):
             Dice.end_turn()
+            if Dice.clicked == 1:
+                dice_rolled = True
 
     def check_play(self, position):
         if self.rect.collidepoint(position) and Display.show_warning_done:
@@ -529,16 +564,17 @@ class Button:
             print('taking chance')
             if player_sequence == 1:
                 Chance.chance_button1()
-            elif player_sequence == 2:
+            if player_sequence == 2:
                 Chance.chance_button2()
-            elif player_sequence == 3:
+            if player_sequence == 3:
                 Chance.chance_button3()
-            elif player_sequence == 4:
+            if player_sequence == 4:
                 Chance.chance_button4()
 
     def check_upgrade(self, position):
         if self.rect.collidepoint(position):
-            print('upgrade property')
+            print(f'pt ={Dice.player_turn}')
+            print(f'ps ={player_sequence}')
             if player_sequence == 1 and economic.upgrading:
                 economic.upgrade_player1()
             if player_sequence == 2 and economic.upgrading:
@@ -997,10 +1033,9 @@ class Dice(pygame.sprite.Sprite):
 
     def rand_a_dice():
         global dice_con, dice_rolled
-        dice_rolled = True
         if not dice_con and not paying and not Chance.doing_chance:
             dice_con = True
-        return dice_rolled and dice_con == True
+        return dice_con == True
 
     def animate(self, dice_num):
         self.animating = True
@@ -1070,13 +1105,29 @@ class Player:
     def displaying_player_turn():
         global player_sequence
         if Dice.player_turn == 1 or player_sequence == 5:
-            screen.blit(Player.p1, (250, 100))
+            if player1_broke and not player2_broke:
+                screen.blit(Player.p2, (250, 100))
+            elif player1_broke and player2_broke and not player3_broke and not player_num2:
+                screen.blit(Player.p3, (250, 100))
+            elif not player1_broke:
+                screen.blit(Player.p1, (250, 100))
         elif Dice.player_turn == 2:
-            screen.blit(Player.p2, (250, 100))
+            if player2_broke and not player3_broke and not player_num2:
+                screen.blit(Player.p3, (250, 100))
+            elif player2_broke and player3_broke and not player_num3:
+                screen.blit(Player.p4, (250, 100))
+            elif not player2_broke:
+                screen.blit(Player.p2, (250, 100))
         elif Dice.player_turn == 3 and not player_num2:
-            screen.blit(Player.p3, (250, 100))
-        elif Dice.player_turn == 4 and not player_num3:
-            screen.blit(Player.p4, (250, 105))
+            if player3_broke and not player_num3:
+                screen.blit(Player.p4, (250, 100))
+            elif not player3_broke:
+                screen.blit(Player.p3, (250, 100))
+        elif Dice.player_turn == 4 and not player_num3 and not player_num2:
+            if player4_broke:
+                pass
+            else:
+                screen.blit(Player.p4, (250, 105))
 
     def move(dice_num):
         step = int(0)
@@ -1231,7 +1282,7 @@ class Player:
     def player_movement(dice_num):
         global dice_rolled,  player1_pos, player2_pos, player3_pos, player4_pos, player_sequence, changing_round, round_num
         player_sequence += 1
-        if dice_con and dice_rolled and player_sequence == 1 and not Player.player1_in_jail:
+        if dice_con and player_sequence == 1 and not Player.player1_in_jail:
             dice_rolled = False
             print(f"dice is {dice_num}")
             player1_pos = player1_pos + dice_num
@@ -1592,13 +1643,13 @@ class Chance:
         if player_sequence == 1:
             if player1_pos == 12 or player1_pos == 28:
                 Chance.doing_chance = True
-        elif player_sequence == 2:
+        if player_sequence == 2:
             if player2_pos == 12 or player2_pos == 28:
                 Chance.doing_chance = True
-        elif player_sequence == 3:
+        if player_sequence == 3:
             if player3_pos == 12 or player3_pos == 28:
                 Chance.doing_chance = True
-        elif player_sequence == 4:
+        if player_sequence == 4:
             if player4_pos == 12 or player4_pos == 28:
                 Chance.doing_chance = True
 
@@ -1620,10 +1671,18 @@ class Chance:
                 Player.y1 = 0
                 player1_pos = 0
             elif "Collect $200 from each player" in chance_card:
-                economic.update_money(p1, 600)
-                economic.update_money(p2, -200)
-                economic.update_money(p3, -200)
-                economic.update_money(p4, -200)
+                if player_num2:
+                    economic.update_money(p1, 200)
+                    economic.update_money(p2, -200)
+                if player_num3:
+                    economic.update_money(p1, 400)
+                    economic.update_money(p2, -200)
+                    economic.update_money(p3, -200)
+                else:
+                    economic.update_money(p1, 600)
+                    economic.update_money(p2, -200)
+                    economic.update_money(p3, -200)
+                    economic.update_money(p4, -200)
             elif "Go back to B.Ramly" in chance_card:
                 Player.x1 = 100
                 Player.y1 = 0
@@ -1637,10 +1696,18 @@ class Chance:
             elif "Go to jail" in chance_card:
                 Player.player_jail1()
             elif "snatches $500 from each player" in chance_card:
-                economic.update_money(p1, 1500)
-                economic.update_money(p2, -500)
-                economic.update_money(p3, -500)
-                economic.update_money(p4, -500)
+                if player_num2:
+                    economic.update_money(p1, 500)
+                    economic.update_money(p2, -500)
+                if player_num3:
+                    economic.update_money(p1, 1000)
+                    economic.update_money(p2, -500)
+                    economic.update_money(p3, -500)
+                else:
+                    economic.update_money(p1, 1500)
+                    economic.update_money(p2, -500)
+                    economic.update_money(p3, -500)
+                    economic.update_money(p4, -500)
             elif "earthquake" in chance_card:
                 economic.update_money(p1, -1000)
                 economic.update_money(p2, -1000)
@@ -1669,10 +1736,18 @@ class Chance:
                 Player.y2 = 0
                 player2_pos = 0
             elif "Collect $200 from each player" in chance_card:
-                economic.update_money(p1, -200)
-                economic.update_money(p2, 600)
-                economic.update_money(p3, -200)
-                economic.update_money(p4, -200)
+                if player_num2:
+                    economic.update_money(p2, 200)
+                    economic.update_money(p1, -200)
+                if player_num3:
+                    economic.update_money(p2, 400)
+                    economic.update_money(p1, -200)
+                    economic.update_money(p3, -200)
+                else:
+                    economic.update_money(p2, 600)
+                    economic.update_money(p1, -200)
+                    economic.update_money(p3, -200)
+                    economic.update_money(p4, -200)
             elif "Go back to B.Ramly" in chance_card:
                 Player.x2 = 100
                 Player.y2 = 0
@@ -1686,10 +1761,18 @@ class Chance:
             elif "Go to jail" in chance_card:
                 Player.player_jail2()
             elif "snatches $500 from each player" in chance_card:
-                economic.update_money(p1, -500)
-                economic.update_money(p2, 1500)
-                economic.update_money(p3, -500)
-                economic.update_money(p4, -500)
+                if player_num2:
+                    economic.update_money(p2, 500)
+                    economic.update_money(p1, -500)
+                if player_num3:
+                    economic.update_money(p2, 1000)
+                    economic.update_money(p1, -500)
+                    economic.update_money(p3, -500)
+                else:
+                    economic.update_money(p2, 1500)
+                    economic.update_money(p1, -500)
+                    economic.update_money(p3, -500)
+                    economic.update_money(p4, -500)
             elif "earthquake" in chance_card:
                 economic.update_money(p1, -1000)
                 economic.update_money(p2, -1000)
@@ -1718,10 +1801,15 @@ class Chance:
                 Player.y3 = 0
                 player3_pos = 0
             elif "Collect $200 from each player" in chance_card:
-                economic.update_money(p1, -200)
-                economic.update_money(p2, -200)
-                economic.update_money(p3, 600)
-                economic.update_money(p4, -200)
+                if player_num3:
+                    economic.update_money(p3, 400)
+                    economic.update_money(p2, -200)
+                    economic.update_money(p1, -200)
+                else:
+                    economic.update_money(p1, -200)
+                    economic.update_money(p2, -200)
+                    economic.update_money(p3, 600)
+                    economic.update_money(p4, -200)
             elif "Go back to B.Ramly" in chance_card:
                 Player.x3 = 100
                 Player.y3 = 0
@@ -1734,11 +1822,16 @@ class Chance:
                 economic.update_money(p3, 300)
             elif "Go to jail" in chance_card:
                 Player.player_jail3()
-            elif "snatches $200 from each player" in chance_card:
-                economic.update_money(p1, -500)
-                economic.update_money(p2, -500)
-                economic.update_money(p3, 1500)
-                economic.update_money(p4, -500)
+            elif "snatches $500 from each player" in chance_card:
+                if player_num3:
+                    economic.update_money(p3, 1000)
+                    economic.update_money(p2, -500)
+                    economic.update_money(p1, -500)
+                else:
+                    economic.update_money(p1, -500)
+                    economic.update_money(p2, -500)
+                    economic.update_money(p3, 1500)
+                    economic.update_money(p4, -500)
             elif "earthquake" in chance_card:
                 economic.update_money(p1, -1000)
                 economic.update_money(p2, -1000)
@@ -1795,7 +1888,7 @@ class Chance:
                 player4_pos += 1
             elif "Seize any property" in chance_card:
                 pass
-            elif "snatches $200 from each player" in chance_card:
+            elif "snatches $500 from each player" in chance_card:
                 economic.update_money(p1, -500)
                 economic.update_money(p2, -500)
                 economic.update_money(p3, -500)
@@ -1932,7 +2025,7 @@ Property_upgrade_cost = {
     'KLCC': 2000
 }
 # setting for player
-initial_money = int(15000)
+initial_money = int(120000)
 player_dict_m = {'p1_money': initial_money, 'p2_money': initial_money,
                  'p3_money': initial_money, 'p4_money': initial_money}
 p1_list_p = []
@@ -2247,39 +2340,50 @@ class economic:
             property_rent = name_list[player1_pos]
             # checking for a property is not own by player 1
             if property_rent in p2_list_p:
-                rent_price = Property_with_rent[property_rent]
-                print(f"{property_rent} is own by player 2")
-                print(f"Player 1 paying {rent_price} for player 2")
-                print_m(message_chat, f"Player 1 paying {
-                    rent_price} for player 2")
-                player_dict_m['p1_money'] -= rent_price
-                player_dict_m['p2_money'] += rent_price
-                print(f"Player 1 now have {player_dict_m['p1_money']}")
-                print(f"Player 2 now have {player_dict_m['p2_money']}")
+                # pass and not collecting any rent if a player is broke
+                if player2_broke:
+                    pass
+                else:
+                    rent_price = Property_with_rent[property_rent]
+                    print(f"{property_rent} is own by player 2")
+                    print(f"Player 1 paying {rent_price} for player 2")
+                    print_m(message_chat, f"Player 1 paying {
+                        rent_price} for player 2")
+                    player_dict_m['p1_money'] -= rent_price
+                    player_dict_m['p2_money'] += rent_price
+                    print(f"Player 1 now have {player_dict_m['p1_money']}")
+                    print(f"Player 2 now have {player_dict_m['p2_money']}")
                 paying = False
 
             if property_rent in p3_list_p:
-                rent_price = Property_with_rent[property_rent]
-                print(f"{property_rent} is own by player 3")
-                print(f"Player 1 paying {rent_price} for player 3")
-                print_m(message_chat, f"Player 1 paying {
-                    rent_price} for player 3")
-                player_dict_m['p1_money'] -= rent_price
-                player_dict_m['p3_money'] += rent_price
-                print(f"Player 1 now have {player_dict_m['p1_money']}")
-                print(f"Player 3 now have {player_dict_m['p3_money']}")
+                if player3_broke:
+                    pass
+                else:
+                    rent_price = Property_with_rent[property_rent]
+                    print(f"{property_rent} is own by player 3")
+                    print(f"Player 1 paying {rent_price} for player 3")
+                    print_m(message_chat, f"Player 1 paying {
+                        rent_price} for player 3")
+                    player_dict_m['p1_money'] -= rent_price
+                    player_dict_m['p3_money'] += rent_price
+                    print(f"Player 1 now have {player_dict_m['p1_money']}")
+                    print(f"Player 3 now have {player_dict_m['p3_money']}")
                 paying = False
 
             if property_rent in p4_list_p:
-                rent_price = Property_with_rent[property_rent]
-                print(f"{property_rent} is own by player 4")
-                print(f"Player 1 paying {rent_price} for player 4")
-                print_m(message_chat, f"Player 1 paying {
-                    rent_price} for player 4")
-                player_dict_m['p1_money'] -= rent_price
-                player_dict_m['p4_money'] += rent_price
-                print(f"Player 1 now have {player_dict_m['p1_money']}")
-                print(f"Player 4 now have {player_dict_m['p4_money']}")
+                if player4_broke:
+                    pass
+                else:
+
+                    rent_price = Property_with_rent[property_rent]
+                    print(f"{property_rent} is own by player 4")
+                    print(f"Player 1 paying {rent_price} for player 4")
+                    print_m(message_chat, f"Player 1 paying {
+                        rent_price} for player 4")
+                    player_dict_m['p1_money'] -= rent_price
+                    player_dict_m['p4_money'] += rent_price
+                    print(f"Player 1 now have {player_dict_m['p1_money']}")
+                    print(f"Player 4 now have {player_dict_m['p4_money']}")
                 paying = False
 
             else:
@@ -2292,37 +2396,46 @@ class economic:
             property_rent = name_list[player2_pos]
             # checking for a property is not own by player 2
             if property_rent in p1_list_p:
-                rent_price = Property_with_rent[property_rent]
-                print(f"{property_rent} is own by player 1")
-                print(f"Player 2 paying {rent_price} for player 1")
-                print_m(message_chat, f"Player 2 paying {
-                    rent_price} for player 1")
-                player_dict_m['p2_money'] -= rent_price
-                player_dict_m['p1_money'] += rent_price
-                print(f"Player 2 now have {player_dict_m['p2_money']}")
-                print(f"Player 1 now have {player_dict_m['p1_money']}")
+                if player1_broke:
+                    pass
+                else:
+                    rent_price = Property_with_rent[property_rent]
+                    print(f"{property_rent} is own by player 1")
+                    print(f"Player 2 paying {rent_price} for player 1")
+                    print_m(message_chat, f"Player 2 paying {
+                        rent_price} for player 1")
+                    player_dict_m['p2_money'] -= rent_price
+                    player_dict_m['p1_money'] += rent_price
+                    print(f"Player 2 now have {player_dict_m['p2_money']}")
+                    print(f"Player 1 now have {player_dict_m['p1_money']}")
                 paying = False
             if property_rent in p3_list_p:
-                rent_price = Property_with_rent[property_rent]
-                print(f"{property_rent} is own by player 3")
-                print(f"Player 2 paying {rent_price} for player 3")
-                print_m(message_chat, f"Player 2 paying {
-                    rent_price} for player 3")
-                player_dict_m['p2_money'] -= rent_price
-                player_dict_m['p3_money'] += rent_price
-                print(f"Player 2 now have {player_dict_m['p2_money']}")
-                print(f"Player 2 now have {player_dict_m['p2_money']}")
+                if player3_broke:
+                    pass
+                else:
+                    rent_price = Property_with_rent[property_rent]
+                    print(f"{property_rent} is own by player 3")
+                    print(f"Player 2 paying {rent_price} for player 3")
+                    print_m(message_chat, f"Player 2 paying {
+                        rent_price} for player 3")
+                    player_dict_m['p2_money'] -= rent_price
+                    player_dict_m['p3_money'] += rent_price
+                    print(f"Player 2 now have {player_dict_m['p2_money']}")
+                    print(f"Player 2 now have {player_dict_m['p2_money']}")
                 paying = False
             if property_rent in p4_list_p:
-                rent_price = Property_with_rent[property_rent]
-                print(f"{property_rent} is own by player 4")
-                print(f"Player 2 paying {rent_price} for player 4")
-                print_m(message_chat, f"Player 2 paying {
-                    rent_price} for player 4")
-                player_dict_m['p2_money'] -= rent_price
-                player_dict_m['p4_money'] += rent_price
-                print(f"Player 2 now have {player_dict_m['p2_money']}")
-                print(f"Player 4 now have {player_dict_m['p4_money']}")
+                if player4_broke:
+                    pass
+                else:
+                    rent_price = Property_with_rent[property_rent]
+                    print(f"{property_rent} is own by player 4")
+                    print(f"Player 2 paying {rent_price} for player 4")
+                    print_m(message_chat, f"Player 2 paying {
+                        rent_price} for player 4")
+                    player_dict_m['p2_money'] -= rent_price
+                    player_dict_m['p4_money'] += rent_price
+                    print(f"Player 2 now have {player_dict_m['p2_money']}")
+                    print(f"Player 4 now have {player_dict_m['p4_money']}")
                 paying = False
             else:
                 pass
@@ -2334,37 +2447,46 @@ class economic:
             property_rent = name_list[player3_pos]
             # checking for a property is not own by player 3
             if property_rent in p1_list_p:
-                rent_price = Property_with_rent[property_rent]
-                print(f"{property_rent} is own by player 1")
-                print(f"Player 3 paying {rent_price} for player 1")
-                print_m(message_chat, f"Player 3 paying {
-                    rent_price} for player 1")
-                player_dict_m['p3_money'] -= rent_price
-                player_dict_m['p1_money'] += rent_price
-                print(f"Player 3 now have {player_dict_m['p3_money']}")
-                print(f"Player 1 now have {player_dict_m['p1_money']}")
+                if player1_broke:
+                    pass
+                else:
+                    rent_price = Property_with_rent[property_rent]
+                    print(f"{property_rent} is own by player 1")
+                    print(f"Player 3 paying {rent_price} for player 1")
+                    print_m(message_chat, f"Player 3 paying {
+                        rent_price} for player 1")
+                    player_dict_m['p3_money'] -= rent_price
+                    player_dict_m['p1_money'] += rent_price
+                    print(f"Player 3 now have {player_dict_m['p3_money']}")
+                    print(f"Player 1 now have {player_dict_m['p1_money']}")
                 paying = False
             if property_rent in p2_list_p:
-                rent_price = Property_with_rent[property_rent]
-                print(f"{property_rent} is own by player 2")
-                print(f"Player 3 paying {rent_price} for player 2")
-                print_m(message_chat, f"Player 3 paying {
-                    rent_price} for player 2")
-                player_dict_m['p3_money'] -= rent_price
-                player_dict_m['p2_money'] += rent_price
-                print(f"Player 3 now have {player_dict_m['p3_money']}")
-                print(f"Player 2 now have {player_dict_m['p2_money']}")
+                if player2_broke:
+                    pass
+                else:
+                    rent_price = Property_with_rent[property_rent]
+                    print(f"{property_rent} is own by player 2")
+                    print(f"Player 3 paying {rent_price} for player 2")
+                    print_m(message_chat, f"Player 3 paying {
+                        rent_price} for player 2")
+                    player_dict_m['p3_money'] -= rent_price
+                    player_dict_m['p2_money'] += rent_price
+                    print(f"Player 3 now have {player_dict_m['p3_money']}")
+                    print(f"Player 2 now have {player_dict_m['p2_money']}")
                 paying = False
             if property_rent in p4_list_p:
-                rent_price = Property_with_rent[property_rent]
-                print(f"{property_rent} is own by player 4")
-                print(f"Player 3 paying {rent_price} for player 4")
-                print_m(message_chat, f"Player 3 paying {
-                    rent_price} for player 4")
-                player_dict_m['p3_money'] -= rent_price
-                player_dict_m['p4_money'] += rent_price
-                print(f"Player 3 now have {player_dict_m['p3_money']}")
-                print(f"Player 4 now have {player_dict_m['p4_money']}")
+                if player4_broke:
+                    pass
+                else:
+                    rent_price = Property_with_rent[property_rent]
+                    print(f"{property_rent} is own by player 4")
+                    print(f"Player 3 paying {rent_price} for player 4")
+                    print_m(message_chat, f"Player 3 paying {
+                        rent_price} for player 4")
+                    player_dict_m['p3_money'] -= rent_price
+                    player_dict_m['p4_money'] += rent_price
+                    print(f"Player 3 now have {player_dict_m['p3_money']}")
+                    print(f"Player 4 now have {player_dict_m['p4_money']}")
                 paying = False
             else:
                 pass
@@ -2376,39 +2498,48 @@ class economic:
             property_rent = name_list[player4_pos]
             # checking for a property is not own by player 4
             if property_rent in p1_list_p:
-                rent_price = Property_with_rent[property_rent]
-                print(f"{property_rent} is own by player 1")
-                print(f"Player 4 paying {rent_price} for player 1")
-                print_m(message_chat, f"Player 4 paying {
-                    rent_price} for player 1")
-                player_dict_m['p4_money'] -= rent_price
-                player_dict_m['p1_money'] += rent_price
-                print(f"Player 4 now have {player_dict_m['p4_money']}")
-                print(f"Player 1 now have {player_dict_m['p1_money']}")
+                if player1_broke:
+                    pass
+                else:
+                    rent_price = Property_with_rent[property_rent]
+                    print(f"{property_rent} is own by player 1")
+                    print(f"Player 4 paying {rent_price} for player 1")
+                    print_m(message_chat, f"Player 4 paying {
+                        rent_price} for player 1")
+                    player_dict_m['p4_money'] -= rent_price
+                    player_dict_m['p1_money'] += rent_price
+                    print(f"Player 4 now have {player_dict_m['p4_money']}")
+                    print(f"Player 1 now have {player_dict_m['p1_money']}")
                 paying = False
 
             if property_rent in p2_list_p:
-                rent_price = Property_with_rent[property_rent]
-                print(f"{property_rent} is own by player 2")
-                print(f"Player 4 paying {rent_price} for player 2")
-                print_m(message_chat, f"Player 4 paying {
-                    rent_price} for player 2")
-                player_dict_m['p4_money'] -= rent_price
-                player_dict_m['p2_money'] += rent_price
-                print(f"Player 4 now have {player_dict_m['p4_money']}")
-                print(f"Player 2 now have {player_dict_m['p2_money']}")
+                if player2_broke:
+                    pass
+                else:
+                    rent_price = Property_with_rent[property_rent]
+                    print(f"{property_rent} is own by player 2")
+                    print(f"Player 4 paying {rent_price} for player 2")
+                    print_m(message_chat, f"Player 4 paying {
+                        rent_price} for player 2")
+                    player_dict_m['p4_money'] -= rent_price
+                    player_dict_m['p2_money'] += rent_price
+                    print(f"Player 4 now have {player_dict_m['p4_money']}")
+                    print(f"Player 2 now have {player_dict_m['p2_money']}")
                 paying = False
 
             if property_rent in p3_list_p:
-                rent_price = Property_with_rent[property_rent]
-                print(f"{property_rent} is own by player 3")
-                print(f"Player 4 paying {rent_price} for player 3")
-                print_m(message_chat, f"Player 4 paying {
-                    rent_price} for player 3")
-                player_dict_m['p4_money'] -= rent_price
-                player_dict_m['p3_money'] += rent_price
-                print(f"Player 4 now have {player_dict_m['p4_money']}")
-                print(f"Player 3 now have {player_dict_m['p3_money']}")
+                if player3_broke:
+                    pass
+                else:
+                    rent_price = Property_with_rent[property_rent]
+                    print(f"{property_rent} is own by player 3")
+                    print(f"Player 4 paying {rent_price} for player 3")
+                    print_m(message_chat, f"Player 4 paying {
+                        rent_price} for player 3")
+                    player_dict_m['p4_money'] -= rent_price
+                    player_dict_m['p3_money'] += rent_price
+                    print(f"Player 4 now have {player_dict_m['p4_money']}")
+                    print(f"Player 3 now have {player_dict_m['p3_money']}")
                 paying = False
             else:
                 pass
@@ -2769,24 +2900,24 @@ def disaster_eartquake():
     # adjusting another value after 1 can change it's possibilities
     possibilities = random.randint(1, 80)
     if round_num >= 1:
-        if possibilities == 1:
+        if possibilities == 1 and not player1_broke:
             print("oh no a earthquake happen")
             print_m(message_chat, "oh no a earthquake happen")
             print_m(message_chat, 'player 1 donate 500')
             player_dict_m['p1_money'] -= 500
-        if possibilities == 2:
+        if possibilities == 2 and not player2_broke:
             print("oh no a earthquake happen")
-            print_m("oh no a earthquake happen")
+            print_m(message_chat, "oh no a earthquake happen")
             print_m(message_chat, 'player 2 donate 500')
             player_dict_m['p2_money'] -= 500
-        if possibilities == 3:
+        if possibilities == 3 and not player_num2 and not player3_broke:
             print("oh no a earthquake happen")
-            print_m("oh no a earthquake happen")
+            print_m(message_chat, "oh no a earthquake happen")
             print_m(message_chat, 'player 3 donate 500')
             player_dict_m['p3_money'] -= 500
-        if possibilities == 4:
+        if possibilities == 4 and not player_num3 and not player_num2 and not player4_broke:
             print("oh no a earthquake happen")
-            print_m("oh no a earthquake happen")
+            print_m(message_chat, "oh no a earthquake happen")
             print_m(message_chat, 'player 4 donate 500')
             player_dict_m['p4_money'] -= 500
         Player.player_check_broke()
@@ -2795,27 +2926,33 @@ def disaster_eartquake():
 def disaster_tornado():
     possibilities = random.randint(1, 100)
     if round_num >= 1:
-        if possibilities == 1:
+        if possibilities == 1 and not player1_broke:
             print("oh no a tornoda hit player 1")
             print('player 1 loss 1000')
+            print_m(message_chat, "oh no a tornoda hit player 1")
+            print_m(message_chat, 'player 1 loss 1000')
             player_dict_m['p1_money'] -= 1000
-        if possibilities == 2:
+        if possibilities == 2 and not player2_broke:
             print("oh no a tornado hit player 2")
             print('player 2 loss 1000')
+            print_m(message_chat, "oh no a tornoda hit player 2")
+            print_m(message_chat, 'player 2 loss 1000')
             player_dict_m['p2_money'] -= 1000
-        if possibilities == 3:
+        if possibilities == 3 and not player_num2 and not player3_broke:
             print("oh no a tornado hit player 3")
             print('player 3 donate 1000')
+            print_m(message_chat, "oh no a tornoda hit player 3")
+            print_m(message_chat, 'player 3 loss 1000')
             player_dict_m['p3_money'] -= 1000
-        if possibilities == 4:
+        if possibilities == 4 and not player_num3 and not player_num2 and not player4_broke:
             print("oh no a tornado happen")
             print('player 4 donate 1000')
+            print_m(message_chat, "oh no a tornoda hit player 4")
+            print_m(message_chat, 'player 4 loss 1000')
             player_dict_m['p4_money'] -= 1000
-        Player.player_check_broke()
 
 
 # variable to control and skip player
-
 player_num2 = False
 player_num3 = False
 
@@ -2829,18 +2966,24 @@ def skipping_player():
         if player_sequence == 3:
             player_sequence += 1
     # skip player 4 if option of 3 player is selected
-    elif player_num3:
+    if player_num3:
+        if player3_broke and player_sequence == 2:
+            player_sequence += 1
         if player_sequence == 3:
             player_sequence += 1
+
     if player1_broke:
         if player_sequence == 0:
             player_sequence += 1
+
     if player2_broke:
         if player_sequence == 1:
             player_sequence += 1
+
     if player3_broke:
         if player_sequence == 2:
             player_sequence += 1
+
     if player4_broke:
         if player_sequence == 3:
             player_sequence += 1
@@ -2942,31 +3085,34 @@ while run:
             display_description_block(pygame.mouse.get_pos())
 
         # if roll dice randomize a num
-            if Button.rolling_con and Display.show_loading_done:
+            if Button.rolling_con and Display.show_loading_done and dice_rolled:
                 Dice.rand_a_dice()
                 if not paying and not Chance.doing_chance:
                     skipping_player()
-                    # disaster_eartquake()
-                    # disaster_tornado()
                     dice_num = (random.randint(1, 6))
                     Player.player_movement(dice_num)
+                    disaster_eartquake()
+                    disaster_tornado()
                     Player.move(dice_num)
                     Player.player_check_win()
                     economic.upgrading = False
                     economic.buy_clicked = False
                     Button.is_buying_properties = False
-
-                if not changing_round and not paying and not Chance.doing_chance:
-                    # dice animating preventing player move again when changing round
-                    dice.animate(dice_num)
-                    Button.rolling_con = False
-                    buy_clicked = False
                     economic.checking_rent_valid()
                     Chance.check_chance_valid()
                     economic.check_upgrade()
+                    Player.player_check_broke()
+                    dice.animate(dice_num)
+
+                if not changing_round and not paying and not Chance.doing_chance:
+                    # dice animating preventing player move again when changing round
+
+                    Button.rolling_con = False
+                    buy_clicked = False
 
             else:
                 pass
 
     pygame.display.update()
 pygame.quit()
+# Congratulations you have reach the end!
