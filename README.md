@@ -1,5 +1,5 @@
 <h1 >Mini IT project by TT4L group 8</h1>
-<h2>Current Version- 1.0.1 </h2>
+<h2>Current Version- 1.0.2 </h2>
 <h2>Will be using pygame to create a playable monopoly game with python</h2>
 <p align="left">Game, pygame, same lang? </p>
 <img alt="CJ" src="https://media1.tenor.com/m/cJRcMyUAiMcAAAAd/ah-shit-here-we-go-again-ah-shit.gif">
@@ -59,8 +59,11 @@
 <p>-Added a trophy and winning screen for player</p>
 <p>-Fixing bug such as after clicking end turn button, last player cannot proceed to taking chance </p>
 <p>-Rework of the placer icon</p>
-<h2>-1.0.1</h2>
+<h2>V-1.0.1</h2>
 <p>-Fixing infinite paying bug</p>
+<h2>V 1.0.2</h2>
+<p>-Fixing bug about abnormal display of player turn and icon after some player is declared of broke</p>
+<p>-Fixing chance  scenario if 2 player mode is select 4 player of money is collected for 1 player</p>
 
 <h2>Further developing and update is uncertain for now</h2>
 <p>Any bug reporting or suggestion do contact the below email</p>
