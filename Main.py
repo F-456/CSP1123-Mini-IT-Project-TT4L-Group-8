@@ -203,7 +203,6 @@ class Display:
             Display.alpha -= 3
         if Display.alpha <= 0:
             Display.show_loading_done = True
-        print(Display.alpha)
         Display.show_players_image.set_alpha(Display.alpha)
         screen.blit(Display.show_players_image,
                     Display.show_players_image_rect)
@@ -216,6 +215,7 @@ class Display:
             print(Display.limit_1)
             if Display.limit_1 >= 450:
                 Display.show_warning_bool = False
+                print("Loading Completed")
         if not Display.show_warning_bool and not Display.show_warning_done:
             # adjusting the value to adjust the disappear speed
             Display.alpha_1 -= 3
@@ -573,8 +573,7 @@ class Button:
 
     def check_upgrade(self, position):
         if self.rect.collidepoint(position):
-            print(f'pt ={Dice.player_turn}')
-            print(f'ps ={player_sequence}')
+            print("Upgrading")
             if player_sequence == 1 and economic.upgrading:
                 economic.upgrade_player1()
             if player_sequence == 2 and economic.upgrading:
@@ -2924,7 +2923,7 @@ def disaster_eartquake():
 
 
 def disaster_tornado():
-    possibilities = random.randint(1, 100)
+    possibilities = random.randint(1, 120)
     if round_num >= 1:
         if possibilities == 1 and not player1_broke:
             print("oh no a tornoda hit player 1")

@@ -1,5 +1,5 @@
 <h1 >Mini IT project by TT4L group 8</h1>
-<h2>Current Version- 1.0.2 </h2>
+<h2>Current Version- 1.0.3 </h2>
 <h2>Will be using pygame to create a playable monopoly game with python</h2>
 <p align="left">Game, pygame, same lang? </p>
 <img alt="CJ" src="https://media1.tenor.com/m/cJRcMyUAiMcAAAAd/ah-shit-here-we-go-again-ah-shit.gif">
@@ -7,7 +7,7 @@
 
 [<img src="pic/logo.jpg">](https://f456.itch.io/pynopoly)
 
-<h1>V 1.0.1 Official launch</h1>
+<h1>V 1.0 Official launch</h1>
 <h2>Pynopoly 1.0 release !</h2>
 <p>-Released at 14 June 2024 after nearly two month of developing </p>
 <p>It's not perfect but we managed to create a working monopoly game in python language without following a complete tutorial </p>
@@ -64,6 +64,8 @@
 <h2>V 1.0.2</h2>
 <p>-Fixing bug about abnormal display of player turn and icon after some player is declared of broke</p>
 <p>-Fixing chance  scenario if 2 player mode is select 4 player of money is collected for 1 player</p>
+<h2>V 1.0.3</h2>
+<p>Minor adjustment and balancing</p>
 
 <h2>Further developing and update is uncertain for now</h2>
 <p>Any bug reporting or suggestion do contact the below email</p>
