@@ -68,5 +68,5 @@
 <p>Minor adjustment and balancing</p>
 
 <h2>Further developing and update is uncertain for now</h2>
-<p>Any bug reporting or suggestion do contact the below email</p>
+<p>Any bug reporting or suggestion do contact the email below</p>
 <p>the owner of this repo: fstiew@gmail.com</p>
